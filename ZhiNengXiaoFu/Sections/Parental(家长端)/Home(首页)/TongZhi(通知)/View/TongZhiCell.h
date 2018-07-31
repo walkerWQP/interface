@@ -14,4 +14,6 @@
 @property (nonatomic, strong) UILabel      *titleLabel;
 @property (nonatomic, strong) UILabel      *subjectsLabel;
 @property (nonatomic, strong) UILabel      *timeLabel;
+@property (nonatomic, strong) UIView       *lineView;
+
 @end

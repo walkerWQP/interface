@@ -33,6 +33,7 @@
     self.playBtn.layer.cornerRadius = 30;
     self.playBtn.layer.borderColor = [UIColor whiteColor].CGColor;
     self.playBtn.layer.borderWidth = 1.0f;
+    [self.playBtn setImage:[UIImage imageNamed:@"播放按钮"] forState:UIControlStateNormal];
     [self.bgView addSubview:self.playBtn];
     
     self.contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.bgView.frame.size.height + 10, APP_WIDTH * 0.6, 30)];

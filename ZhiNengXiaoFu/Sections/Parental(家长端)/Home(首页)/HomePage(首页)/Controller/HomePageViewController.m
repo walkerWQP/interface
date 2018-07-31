@@ -19,6 +19,8 @@
 #import "CommonProblemViewController.h"
 #import "ClassroomCoursewareViewController.h"
 #import "TongZhiViewController.h"
+#import "TeacherZaiXianViewController.h"
+#import "ParentXueTangViewController.h"
 @interface HomePageViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView * HomePageCollectionView;
@@ -142,10 +144,11 @@
             
         }else if (indexPath.row == 4)
         {
-          
+            TeacherZaiXianViewController * teacherZaiXianVC = [[TeacherZaiXianViewController alloc] init];
+            [self.navigationController pushViewController:teacherZaiXianVC animated:YES];
         }else if (indexPath.row == 5) {
-            SchoolTongZhiViewController * schoolTongZhiVC = [[SchoolTongZhiViewController alloc] init];
-            [self.navigationController pushViewController:schoolTongZhiVC animated:YES];
+           ParentXueTangViewController * parentXueTangVC = [[ParentXueTangViewController alloc] init];
+            [self.navigationController pushViewController:parentXueTangVC animated:YES];
         }else if (indexPath.row == 6)
         {
             CommonProblemViewController * commonProblemVC = [[CommonProblemViewController alloc] init];

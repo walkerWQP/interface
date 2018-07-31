@@ -9,6 +9,7 @@
 #import "SchoolTongZhiViewController.h"
 #import "TeacherTongZhiCell.h"
 #import "TongZhiCell.h"
+#import "TongZhiDetailsViewController.h"
 @interface SchoolTongZhiViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) NSMutableArray * schoolTongZhiAry;
@@ -112,17 +113,13 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 70;
+    return 80;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        
-    }else
-    {
-        
-    }
+    TongZhiDetailsViewController * tongZhiDetails  = [[TongZhiDetailsViewController alloc] init];
+    [self.navigationController pushViewController:tongZhiDetails animated:YES];
 }
 
 

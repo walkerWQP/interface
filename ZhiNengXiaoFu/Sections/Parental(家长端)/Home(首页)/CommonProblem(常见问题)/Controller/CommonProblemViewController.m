@@ -44,9 +44,6 @@
     }
     
     [self.view addSubview:self.CommonProblemsTableView];
-    
-    
-    
     self.CommonProblemsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
 }

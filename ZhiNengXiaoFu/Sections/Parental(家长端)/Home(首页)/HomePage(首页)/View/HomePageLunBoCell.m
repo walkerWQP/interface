@@ -49,13 +49,13 @@
     self.cycleScrollView2.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
     self.cycleScrollView2.delegate = self;
     
-    self.cycleScrollView2.dotColor = [UIColor whiteColor]; // 自定义分页控件小圆标颜色
+//    self.cycleScrollView2.dotColor = [UIColor whiteColor]; // 自定义分页控件小圆标颜色
     self.cycleScrollView2.placeholderImage = [UIImage imageNamed:@"placeholder"];
     [self addSubview:self.cycleScrollView2];
     
     //             --- 模拟加载延迟
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.cycleScrollView2.localizationImagesGroup = self.dataHeaderSourceAryImg;
+        self.cycleScrollView2.localizationImageNamesGroup = self.dataHeaderSourceAryImg;
         
     });
     

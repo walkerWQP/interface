@@ -34,7 +34,8 @@
 #define backTitleColor RGB(158,158,158)
 //背景透明状
 #define touMColor [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.6]
-
+//白色透明
+#define whiteTMColor [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.5]
 
 
 
