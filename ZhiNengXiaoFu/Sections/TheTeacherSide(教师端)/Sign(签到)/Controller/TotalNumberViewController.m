@@ -8,6 +8,7 @@
 
 #import "TotalNumberViewController.h"
 #import "TotalNumberCell.h"
+#import "QianDaoViewController.h"
 
 @interface TotalNumberViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -43,7 +44,7 @@
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
-    self.totalNumberCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH - 40) collectionViewLayout:layout];
+    self.totalNumberCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH - 90) collectionViewLayout:layout];
     self.totalNumberCollectionView.backgroundColor = backColor;
     self.totalNumberCollectionView.delegate = self;
     self.totalNumberCollectionView.dataSource = self;
@@ -93,7 +94,8 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"%ld",indexPath.row);
-    
+    QianDaoViewController *qianDaoVC = [[QianDaoViewController alloc] init];
+    [self.navigationController pushViewController:qianDaoVC animated:YES];
 }
 
 @end

@@ -18,7 +18,7 @@
 #import "CourseManagementViewController.h"
 #import "JobManagementViewController.h"
 #import "TeacherNotifiedViewController.h"
-
+#import "TongZhiViewController.h"
 
 @interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -138,8 +138,10 @@
             case 3:
             {
                 NSLog(@"点击成长相册");
-                GrowthAlbumViewController *growthAlbumVC = [[GrowthAlbumViewController alloc] init];
-                [self.navigationController pushViewController:growthAlbumVC animated:YES];
+                BusinessDetailController *businessDetailC = [[BusinessDetailController alloc] init];
+                businessDetailC.urlStr = @"http://d.ksznxt.com/xc.html";
+                businessDetailC.webTitle = @"成长相册";
+                [self.navigationController pushViewController:businessDetailC animated:YES];
             }
                 break;
             case 4:
@@ -170,8 +172,10 @@
             case 7:
             {
                 NSLog(@"点击学校通知");
-                SchoolNoticeViewController *schoolNoticeVC = [[SchoolNoticeViewController alloc] init];
-                [self.navigationController pushViewController:schoolNoticeVC animated:YES];
+//                SchoolNoticeViewController *schoolNoticeVC = [[SchoolNoticeViewController alloc] init];
+//                [self.navigationController pushViewController:schoolNoticeVC animated:YES];
+                TongZhiViewController *tongZhiVC = [[TongZhiViewController alloc] init];
+                [self.navigationController pushViewController:tongZhiVC animated:YES];
                
             }
                 break;

@@ -76,9 +76,12 @@
 		043F398A2101CFCB00115A55 /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 043F39802101CFCB00115A55 /* MASViewConstraint.m */; };
 		043F398B2101CFCB00115A55 /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 043F39812101CFCB00115A55 /* MASViewAttribute.m */; };
 		043F398E2101D02600115A55 /* UIView+CLSetRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 043F398C2101D02600115A55 /* UIView+CLSetRect.m */; };
+		045216FE211072FC009C2A8C /* DingWeiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045216FD211072FC009C2A8C /* DingWeiViewController.m */; };
 		9813959D2105E61E00CDE2BA /* SignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 981395842105E61E00CDE2BA /* SignViewController.m */; };
 		9813959E2105E61E00CDE2BA /* MyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9813958B2105E61E00CDE2BA /* MyViewController.m */; };
 		9813959F2105E61E00CDE2BA /* ClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 981395902105E61E00CDE2BA /* ClassViewController.m */; };
+		983CD955211152130050508C /* BusinessDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 983CD954211152130050508C /* BusinessDetailController.m */; };
+		983CD95D211162F50050508C /* DateTimePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 983CD95C211162F50050508C /* DateTimePickerView.m */; };
 		989BFDF82108112E007A69A5 /* MainNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFDF72108112E007A69A5 /* MainNavigationController.m */; };
 		989BFDFE210813D5007A69A5 /* UIImage+ColorImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFDFD210813D5007A69A5 /* UIImage+ColorImage.m */; };
 		989BFE0121081493007A69A5 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE0021081493007A69A5 /* BaseViewController.m */; };
@@ -86,11 +89,6 @@
 		989BFE1521088D4B007A69A5 /* HomeWorkPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE0F21088D4A007A69A5 /* HomeWorkPViewController.m */; };
 		989BFE1921088D6C007A69A5 /* SchoolDongTaiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE1821088D6C007A69A5 /* SchoolDongTaiViewController.m */; };
 		989BFE1C21088DA2007A69A5 /* JohnTopTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE1A21088DA2007A69A5 /* JohnTopTitleView.m */; };
-		989BFE1F21088DC4007A69A5 /* CommonProblemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE1E21088DC4007A69A5 /* CommonProblemViewController.m */; };
-		989BFE2821088DD9007A69A5 /* SchoolInCoursewareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE2021088DD8007A69A5 /* SchoolInCoursewareViewController.m */; };
-		989BFE2921088DD9007A69A5 /* ClassroomCoursewareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE2321088DD8007A69A5 /* ClassroomCoursewareViewController.m */; };
-		989BFE2A21088DD9007A69A5 /* ClassInCoursewareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE2521088DD8007A69A5 /* ClassInCoursewareViewController.m */; };
-		989BFE2B21088DD9007A69A5 /* SchoolOutCoursewareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE2721088DD9007A69A5 /* SchoolOutCoursewareViewController.m */; };
 		989BFE3121088E04007A69A5 /* CompetitiveActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE2F21088E04007A69A5 /* CompetitiveActivityViewController.m */; };
 		98AD7EA5210F11BD00641231 /* HaveToReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AD7E3A210F11BC00641231 /* HaveToReplyViewController.m */; };
 		98AD7EA6210F11BD00641231 /* DidNotReturnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AD7E3B210F11BC00641231 /* DidNotReturnViewController.m */; };
@@ -140,6 +138,26 @@
 		98D89DBE2110058600355626 /* NotToViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DBD2110058600355626 /* NotToViewController.m */; };
 		98D89DC1211005AA00355626 /* AskLeaveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DC0211005AA00355626 /* AskLeaveViewController.m */; };
 		98D89DC421100A1C00355626 /* TotalNumberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DC321100A1C00355626 /* TotalNumberCell.m */; };
+		98D89DC72110357500355626 /* HelpCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DC52110357500355626 /* HelpCenterViewController.m */; };
+		98D89DE221103C7800355626 /* HttpRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DCA21103C7300355626 /* HttpRequestManager.m */; };
+		98D89DE321103C7800355626 /* EasyShowTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DCC21103C7800355626 /* EasyShowTextView.m */; };
+		98D89DE421103C7800355626 /* EasyShowUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DD121103C7800355626 /* EasyShowUtils.m */; };
+		98D89DE521103C7800355626 /* EasyShowLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DD221103C7800355626 /* EasyShowLabel.m */; };
+		98D89DE621103C7800355626 /* EasyShowTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DD421103C7800355626 /* EasyShowTypes.m */; };
+		98D89DE721103C7800355626 /* UIView+EasyShowExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DD521103C7800355626 /* UIView+EasyShowExt.m */; };
+		98D89DE821103C7800355626 /* EasyShowLodingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DD721103C7800355626 /* EasyShowLodingView.m */; };
+		98D89DE921103C7800355626 /* EasyShowTextBgView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DD821103C7800355626 /* EasyShowTextBgView.m */; };
+		98D89DEA21103C7800355626 /* EasyShowOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DD921103C7800355626 /* EasyShowOptions.m */; };
+		98D89DEB21103C7800355626 /* EasyShowAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DDE21103C7800355626 /* EasyShowAlertView.m */; };
+		98D89DEC21103C7800355626 /* Encryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DE121103C7800355626 /* Encryption.m */; };
+		98D89DEF21103C8E00355626 /* SingletonHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DED21103C8E00355626 /* SingletonHelper.m */; };
+		98D89DF221103CAA00355626 /* PersonInformationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DF021103CAA00355626 /* PersonInformationModel.m */; };
+		98D89DFE21105CA000355626 /* WenTiZiXunListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DFC21105CA000355626 /* WenTiZiXunListCell.m */; };
+		98D89E0521105CC000355626 /* HuoDongIngViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89E0121105CC000355626 /* HuoDongIngViewController.m */; };
+		98D89E0621105CC000355626 /* HuoDongYiJieShuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89E0321105CC000355626 /* HuoDongYiJieShuViewController.m */; };
+		98D89E0721105CC000355626 /* HuoDongWeiKaiShiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89E0421105CC000355626 /* HuoDongWeiKaiShiViewController.m */; };
+		98D89E0A2110674200355626 /* AdviceFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89E092110674200355626 /* AdviceFeedbackViewController.m */; };
+		98D89E0D21106D4D00355626 /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89E0C21106D4D00355626 /* ChangePasswordViewController.m */; };
 		AB9AE7EF90ECD4FF56ADE6CC /* libPods-ZhiNengXiaoFu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DEA638256AADE5C8E411ACF /* libPods-ZhiNengXiaoFu.a */; };
 /* End PBXBuildFile section */
 
@@ -303,6 +321,8 @@
 		043F39812101CFCB00115A55 /* MASViewAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewAttribute.m; sourceTree = "<group>"; };
 		043F398C2101D02600115A55 /* UIView+CLSetRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CLSetRect.m"; sourceTree = "<group>"; };
 		043F398D2101D02600115A55 /* UIView+CLSetRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CLSetRect.h"; sourceTree = "<group>"; };
+		045216FC211072FC009C2A8C /* DingWeiViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DingWeiViewController.h; sourceTree = "<group>"; };
+		045216FD211072FC009C2A8C /* DingWeiViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DingWeiViewController.m; sourceTree = "<group>"; };
 		6DEA638256AADE5C8E411ACF /* libPods-ZhiNengXiaoFu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZhiNengXiaoFu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		97E480AB68F52C70A0E84853 /* Pods-ZhiNengXiaoFu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhiNengXiaoFu.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZhiNengXiaoFu/Pods-ZhiNengXiaoFu.release.xcconfig"; sourceTree = "<group>"; };
 		9813955E2105E41B00CDE2BA /* MaceColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaceColor.h; sourceTree = "<group>"; };
@@ -313,6 +333,10 @@
 		981395902105E61E00CDE2BA /* ClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassViewController.m; sourceTree = "<group>"; };
 		981395912105E61E00CDE2BA /* ClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassViewController.h; sourceTree = "<group>"; };
 		981395A22105EBE100CDE2BA /* WMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMarco.h; sourceTree = "<group>"; };
+		983CD953211152130050508C /* BusinessDetailController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BusinessDetailController.h; sourceTree = "<group>"; };
+		983CD954211152130050508C /* BusinessDetailController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BusinessDetailController.m; sourceTree = "<group>"; };
+		983CD95B211162F50050508C /* DateTimePickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DateTimePickerView.h; sourceTree = "<group>"; };
+		983CD95C211162F50050508C /* DateTimePickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DateTimePickerView.m; sourceTree = "<group>"; };
 		989BFDF62108112E007A69A5 /* MainNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainNavigationController.h; sourceTree = "<group>"; };
 		989BFDF72108112E007A69A5 /* MainNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainNavigationController.m; sourceTree = "<group>"; };
 		989BFDFC210813D5007A69A5 /* UIImage+ColorImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ColorImage.h"; sourceTree = "<group>"; };
@@ -328,16 +352,6 @@
 		989BFE1821088D6C007A69A5 /* SchoolDongTaiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SchoolDongTaiViewController.m; sourceTree = "<group>"; };
 		989BFE1A21088DA2007A69A5 /* JohnTopTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JohnTopTitleView.m; sourceTree = "<group>"; };
 		989BFE1B21088DA2007A69A5 /* JohnTopTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JohnTopTitleView.h; sourceTree = "<group>"; };
-		989BFE1D21088DC4007A69A5 /* CommonProblemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProblemViewController.h; sourceTree = "<group>"; };
-		989BFE1E21088DC4007A69A5 /* CommonProblemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonProblemViewController.m; sourceTree = "<group>"; };
-		989BFE2021088DD8007A69A5 /* SchoolInCoursewareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SchoolInCoursewareViewController.m; sourceTree = "<group>"; };
-		989BFE2121088DD8007A69A5 /* ClassInCoursewareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassInCoursewareViewController.h; sourceTree = "<group>"; };
-		989BFE2221088DD8007A69A5 /* ClassroomCoursewareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassroomCoursewareViewController.h; sourceTree = "<group>"; };
-		989BFE2321088DD8007A69A5 /* ClassroomCoursewareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassroomCoursewareViewController.m; sourceTree = "<group>"; };
-		989BFE2421088DD8007A69A5 /* SchoolOutCoursewareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SchoolOutCoursewareViewController.h; sourceTree = "<group>"; };
-		989BFE2521088DD8007A69A5 /* ClassInCoursewareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassInCoursewareViewController.m; sourceTree = "<group>"; };
-		989BFE2621088DD9007A69A5 /* SchoolInCoursewareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SchoolInCoursewareViewController.h; sourceTree = "<group>"; };
-		989BFE2721088DD9007A69A5 /* SchoolOutCoursewareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SchoolOutCoursewareViewController.m; sourceTree = "<group>"; };
 		989BFE2F21088E04007A69A5 /* CompetitiveActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompetitiveActivityViewController.m; sourceTree = "<group>"; };
 		989BFE3021088E04007A69A5 /* CompetitiveActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompetitiveActivityViewController.h; sourceTree = "<group>"; };
 		98AD7E3A210F11BC00641231 /* HaveToReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HaveToReplyViewController.m; sourceTree = "<group>"; };
@@ -436,6 +450,47 @@
 		98D89DC0211005AA00355626 /* AskLeaveViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AskLeaveViewController.m; sourceTree = "<group>"; };
 		98D89DC221100A1C00355626 /* TotalNumberCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TotalNumberCell.h; sourceTree = "<group>"; };
 		98D89DC321100A1C00355626 /* TotalNumberCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TotalNumberCell.m; sourceTree = "<group>"; };
+		98D89DC52110357500355626 /* HelpCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpCenterViewController.m; sourceTree = "<group>"; };
+		98D89DC62110357500355626 /* HelpCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpCenterViewController.h; sourceTree = "<group>"; };
+		98D89DC921103C7300355626 /* HttpRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpRequestManager.h; sourceTree = "<group>"; };
+		98D89DCA21103C7300355626 /* HttpRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpRequestManager.m; sourceTree = "<group>"; };
+		98D89DCC21103C7800355626 /* EasyShowTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyShowTextView.m; sourceTree = "<group>"; };
+		98D89DCD21103C7800355626 /* UIView+EasyShowExt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+EasyShowExt.h"; sourceTree = "<group>"; };
+		98D89DCE21103C7800355626 /* EasyShowOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyShowOptions.h; sourceTree = "<group>"; };
+		98D89DCF21103C7800355626 /* EasyShowTextBgView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyShowTextBgView.h; sourceTree = "<group>"; };
+		98D89DD021103C7800355626 /* EasyShowLodingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyShowLodingView.h; sourceTree = "<group>"; };
+		98D89DD121103C7800355626 /* EasyShowUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyShowUtils.m; sourceTree = "<group>"; };
+		98D89DD221103C7800355626 /* EasyShowLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyShowLabel.m; sourceTree = "<group>"; };
+		98D89DD321103C7800355626 /* EasyShowAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyShowAlertView.h; sourceTree = "<group>"; };
+		98D89DD421103C7800355626 /* EasyShowTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyShowTypes.m; sourceTree = "<group>"; };
+		98D89DD521103C7800355626 /* UIView+EasyShowExt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+EasyShowExt.m"; sourceTree = "<group>"; };
+		98D89DD621103C7800355626 /* EasyShowTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyShowTextView.h; sourceTree = "<group>"; };
+		98D89DD721103C7800355626 /* EasyShowLodingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyShowLodingView.m; sourceTree = "<group>"; };
+		98D89DD821103C7800355626 /* EasyShowTextBgView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyShowTextBgView.m; sourceTree = "<group>"; };
+		98D89DD921103C7800355626 /* EasyShowOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyShowOptions.m; sourceTree = "<group>"; };
+		98D89DDA21103C7800355626 /* EasyShowLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyShowLabel.h; sourceTree = "<group>"; };
+		98D89DDB21103C7800355626 /* EasyShowUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyShowUtils.h; sourceTree = "<group>"; };
+		98D89DDC21103C7800355626 /* EasyShowTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyShowTypes.h; sourceTree = "<group>"; };
+		98D89DDD21103C7800355626 /* EasyShowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyShowView.h; sourceTree = "<group>"; };
+		98D89DDE21103C7800355626 /* EasyShowAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyShowAlertView.m; sourceTree = "<group>"; };
+		98D89DE021103C7800355626 /* Encryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Encryption.h; sourceTree = "<group>"; };
+		98D89DE121103C7800355626 /* Encryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Encryption.m; sourceTree = "<group>"; };
+		98D89DED21103C8E00355626 /* SingletonHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingletonHelper.m; sourceTree = "<group>"; };
+		98D89DEE21103C8E00355626 /* SingletonHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingletonHelper.h; sourceTree = "<group>"; };
+		98D89DF021103CAA00355626 /* PersonInformationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonInformationModel.m; sourceTree = "<group>"; };
+		98D89DF121103CAA00355626 /* PersonInformationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonInformationModel.h; sourceTree = "<group>"; };
+		98D89DFC21105CA000355626 /* WenTiZiXunListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WenTiZiXunListCell.m; sourceTree = "<group>"; };
+		98D89DFD21105CA000355626 /* WenTiZiXunListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WenTiZiXunListCell.h; sourceTree = "<group>"; };
+		98D89DFF21105CBF00355626 /* HuoDongWeiKaiShiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HuoDongWeiKaiShiViewController.h; sourceTree = "<group>"; };
+		98D89E0021105CC000355626 /* HuoDongIngViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HuoDongIngViewController.h; sourceTree = "<group>"; };
+		98D89E0121105CC000355626 /* HuoDongIngViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HuoDongIngViewController.m; sourceTree = "<group>"; };
+		98D89E0221105CC000355626 /* HuoDongYiJieShuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HuoDongYiJieShuViewController.h; sourceTree = "<group>"; };
+		98D89E0321105CC000355626 /* HuoDongYiJieShuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HuoDongYiJieShuViewController.m; sourceTree = "<group>"; };
+		98D89E0421105CC000355626 /* HuoDongWeiKaiShiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HuoDongWeiKaiShiViewController.m; sourceTree = "<group>"; };
+		98D89E082110674100355626 /* AdviceFeedbackViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdviceFeedbackViewController.h; sourceTree = "<group>"; };
+		98D89E092110674200355626 /* AdviceFeedbackViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdviceFeedbackViewController.m; sourceTree = "<group>"; };
+		98D89E0B21106D4D00355626 /* ChangePasswordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
+		98D89E0C21106D4D00355626 /* ChangePasswordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
 		E9EF48CA703F38D41C8D8940 /* Pods-ZhiNengXiaoFu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhiNengXiaoFu.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZhiNengXiaoFu/Pods-ZhiNengXiaoFu.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -609,6 +664,8 @@
 		0413D6C1210F18F500CB34A6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				98D89DFD21105CA000355626 /* WenTiZiXunListCell.h */,
+				98D89DFC21105CA000355626 /* WenTiZiXunListCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -803,8 +860,8 @@
 		042810582108070F00E2CA14 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				042810592108070F00E2CA14 /* HelperCenterViewController.m */,
 				0428105A2108070F00E2CA14 /* HelperCenterViewController.h */,
+				042810592108070F00E2CA14 /* HelperCenterViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -831,6 +888,8 @@
 			children = (
 				0428105E2108070F00E2CA14 /* QianDaoViewController.h */,
 				0428105F2108070F00E2CA14 /* QianDaoViewController.m */,
+				045216FC211072FC009C2A8C /* DingWeiViewController.h */,
+				045216FD211072FC009C2A8C /* DingWeiViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -838,9 +897,9 @@
 		042810602108070F00E2CA14 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				042810632108070F00E2CA14 /* QianDaoItemCell.h */,
 				042810612108070F00E2CA14 /* QianDaoItemCell.m */,
 				042810622108070F00E2CA14 /* QianDaoPsersonCell.h */,
-				042810632108070F00E2CA14 /* QianDaoItemCell.h */,
 				042810642108070F00E2CA14 /* QianDaoPsersonCell.m */,
 			);
 			path = View;
@@ -858,9 +917,6 @@
 				0429F5F9210C618D00C32957 /* JingJiActivityDetails(竞技活动详情) */,
 				0429F5EF210C4EF700C32957 /* SchoolDongTaiDetails(学校动态详情) */,
 				042810662108070F00E2CA14 /* Work(作业) */,
-				0428106A2108070F00E2CA14 /* CommonProblem(常见问题) */,
-				042810722108070F00E2CA14 /* ClassroomCourseware(随堂课件) */,
-				0428107A2108070F00E2CA14 /* HomeClassInfo(首页班级信息) */,
 				0428107E2108070F00E2CA14 /* HomePage(首页) */,
 				042810872108070F00E2CA14 /* CompetitiveActivity(竞技活动) */,
 				0428108B2108070F00E2CA14 /* SchoolDongTai(学校动态) */,
@@ -899,109 +955,6 @@
 			children = (
 				989BFE1B21088DA2007A69A5 /* JohnTopTitleView.h */,
 				989BFE1A21088DA2007A69A5 /* JohnTopTitleView.m */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		0428106A2108070F00E2CA14 /* CommonProblem(常见问题) */ = {
-			isa = PBXGroup;
-			children = (
-				0428106B2108070F00E2CA14 /* Controller */,
-				0428106C2108070F00E2CA14 /* Model */,
-				0428106D2108070F00E2CA14 /* View */,
-			);
-			path = "CommonProblem(常见问题)";
-			sourceTree = "<group>";
-		};
-		0428106B2108070F00E2CA14 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				989BFE1D21088DC4007A69A5 /* CommonProblemViewController.h */,
-				989BFE1E21088DC4007A69A5 /* CommonProblemViewController.m */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		0428106C2108070F00E2CA14 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		0428106D2108070F00E2CA14 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		042810722108070F00E2CA14 /* ClassroomCourseware(随堂课件) */ = {
-			isa = PBXGroup;
-			children = (
-				042810732108070F00E2CA14 /* Controller */,
-				042810742108070F00E2CA14 /* Model */,
-				042810752108070F00E2CA14 /* View */,
-			);
-			path = "ClassroomCourseware(随堂课件)";
-			sourceTree = "<group>";
-		};
-		042810732108070F00E2CA14 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				989BFE2121088DD8007A69A5 /* ClassInCoursewareViewController.h */,
-				989BFE2521088DD8007A69A5 /* ClassInCoursewareViewController.m */,
-				989BFE2221088DD8007A69A5 /* ClassroomCoursewareViewController.h */,
-				989BFE2321088DD8007A69A5 /* ClassroomCoursewareViewController.m */,
-				989BFE2621088DD9007A69A5 /* SchoolInCoursewareViewController.h */,
-				989BFE2021088DD8007A69A5 /* SchoolInCoursewareViewController.m */,
-				989BFE2421088DD8007A69A5 /* SchoolOutCoursewareViewController.h */,
-				989BFE2721088DD9007A69A5 /* SchoolOutCoursewareViewController.m */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		042810742108070F00E2CA14 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		042810752108070F00E2CA14 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		0428107A2108070F00E2CA14 /* HomeClassInfo(首页班级信息) */ = {
-			isa = PBXGroup;
-			children = (
-				0428107B2108070F00E2CA14 /* Controller */,
-				0428107C2108070F00E2CA14 /* Model */,
-				0428107D2108070F00E2CA14 /* View */,
-			);
-			path = "HomeClassInfo(首页班级信息)";
-			sourceTree = "<group>";
-		};
-		0428107B2108070F00E2CA14 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		0428107C2108070F00E2CA14 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		0428107D2108070F00E2CA14 /* View */ = {
-			isa = PBXGroup;
-			children = (
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1048,6 +1001,12 @@
 		042810882108070F00E2CA14 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				98D89E0021105CC000355626 /* HuoDongIngViewController.h */,
+				98D89E0121105CC000355626 /* HuoDongIngViewController.m */,
+				98D89DFF21105CBF00355626 /* HuoDongWeiKaiShiViewController.h */,
+				98D89E0421105CC000355626 /* HuoDongWeiKaiShiViewController.m */,
+				98D89E0221105CC000355626 /* HuoDongYiJieShuViewController.h */,
+				98D89E0321105CC000355626 /* HuoDongYiJieShuViewController.m */,
 				989BFE3021088E04007A69A5 /* CompetitiveActivityViewController.h */,
 				989BFE2F21088E04007A69A5 /* CompetitiveActivityViewController.m */,
 			);
@@ -1295,6 +1254,8 @@
 		04324DB621056712003789D7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				98D89DF121103CAA00355626 /* PersonInformationModel.h */,
+				98D89DF021103CAA00355626 /* PersonInformationModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1466,6 +1427,8 @@
 		043F391021016F8C00115A55 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				98D89DEE21103C8E00355626 /* SingletonHelper.h */,
+				98D89DED21103C8E00355626 /* SingletonHelper.m */,
 				989BFDFC210813D5007A69A5 /* UIImage+ColorImage.h */,
 				989BFDFD210813D5007A69A5 /* UIImage+ColorImage.m */,
 				989BFE0321081583007A69A5 /* UIBarButtonItem+WExtension.h */,
@@ -1474,6 +1437,10 @@
 				98BBCF50210C074E00AC00CD /* UIButton+WCustomIcon.m */,
 				98BBCF52210C116600AC00CD /* WTextView.h */,
 				98BBCF53210C116600AC00CD /* WTextView.m */,
+				983CD953211152130050508C /* BusinessDetailController.h */,
+				983CD954211152130050508C /* BusinessDetailController.m */,
+				983CD95B211162F50050508C /* DateTimePickerView.h */,
+				983CD95C211162F50050508C /* DateTimePickerView.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1481,6 +1448,9 @@
 		043F391121016F8C00115A55 /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
+				98D89DCB21103C7800355626 /* EasyShowView */,
+				98D89DC821103C7300355626 /* HttpRequestManager */,
+				98D89DDF21103C7800355626 /* MD5 */,
 				043F39682101CFCB00115A55 /* Masonry */,
 			);
 			path = Vendors;
@@ -1647,7 +1617,6 @@
 		981395882105E61E00CDE2BA /* Mine(我) */ = {
 			isa = PBXGroup;
 			children = (
-				989BFDEF2108052D007A69A5 /* HelpCenter(帮助) */,
 				981395892105E61E00CDE2BA /* Controller */,
 				9813958C2105E61E00CDE2BA /* Model */,
 				9813958D2105E61E00CDE2BA /* View */,
@@ -1662,6 +1631,12 @@
 				9813958B2105E61E00CDE2BA /* MyViewController.m */,
 				98B6B6D12106BC4000146DFD /* PersonalDataViewController.h */,
 				98B6B6D22106BC4000146DFD /* PersonalDataViewController.m */,
+				98D89DC62110357500355626 /* HelpCenterViewController.h */,
+				98D89DC52110357500355626 /* HelpCenterViewController.m */,
+				98D89E082110674100355626 /* AdviceFeedbackViewController.h */,
+				98D89E092110674200355626 /* AdviceFeedbackViewController.m */,
+				98D89E0B21106D4D00355626 /* ChangePasswordViewController.h */,
+				98D89E0C21106D4D00355626 /* ChangePasswordViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1719,37 +1694,6 @@
 			children = (
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		989BFDEF2108052D007A69A5 /* HelpCenter(帮助) */ = {
-			isa = PBXGroup;
-			children = (
-				989BFDF221080556007A69A5 /* Controller */,
-				989BFDF12108054E007A69A5 /* View */,
-				989BFDF021080545007A69A5 /* Model */,
-			);
-			path = "HelpCenter(帮助)";
-			sourceTree = "<group>";
-		};
-		989BFDF021080545007A69A5 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		989BFDF12108054E007A69A5 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		989BFDF221080556007A69A5 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Controller;
 			sourceTree = "<group>";
 		};
 		98AD7E38210F11BC00641231 /* Consulting(问题咨询) */ = {
@@ -1849,8 +1793,8 @@
 		98AD7E57210F11BC00641231 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				98AD7E58210F11BC00641231 /* GrowthAlbumViewController.m */,
 				98AD7E59210F11BC00641231 /* GrowthAlbumViewController.h */,
+				98AD7E58210F11BC00641231 /* GrowthAlbumViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1915,16 +1859,16 @@
 		98AD7E63210F11BC00641231 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				98AD7E64210F11BC00641231 /* OngoingViewController.h */,
-				98AD7E65210F11BC00641231 /* TomorrowViewController.m */,
-				98AD7E66210F11BC00641231 /* LaunchEventViewController.m */,
-				98AD7E67210F11BC00641231 /* ActivityManagementViewController.m */,
-				98AD7E68210F11BC00641231 /* IsAboutToBeginViewController.m */,
-				98AD7E69210F11BC00641231 /* OngoingViewController.m */,
-				98AD7E6A210F11BC00641231 /* LaunchEventViewController.h */,
-				98AD7E6B210F11BC00641231 /* TomorrowViewController.h */,
-				98AD7E6C210F11BC00641231 /* IsAboutToBeginViewController.h */,
 				98AD7E6D210F11BC00641231 /* ActivityManagementViewController.h */,
+				98AD7E67210F11BC00641231 /* ActivityManagementViewController.m */,
+				98AD7E6B210F11BC00641231 /* TomorrowViewController.h */,
+				98AD7E65210F11BC00641231 /* TomorrowViewController.m */,
+				98AD7E64210F11BC00641231 /* OngoingViewController.h */,
+				98AD7E69210F11BC00641231 /* OngoingViewController.m */,
+				98AD7E6C210F11BC00641231 /* IsAboutToBeginViewController.h */,
+				98AD7E68210F11BC00641231 /* IsAboutToBeginViewController.m */,
+				98AD7E66210F11BC00641231 /* LaunchEventViewController.m */,
+				98AD7E6A210F11BC00641231 /* LaunchEventViewController.h */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2122,6 +2066,50 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		98D89DC821103C7300355626 /* HttpRequestManager */ = {
+			isa = PBXGroup;
+			children = (
+				98D89DC921103C7300355626 /* HttpRequestManager.h */,
+				98D89DCA21103C7300355626 /* HttpRequestManager.m */,
+			);
+			path = HttpRequestManager;
+			sourceTree = "<group>";
+		};
+		98D89DCB21103C7800355626 /* EasyShowView */ = {
+			isa = PBXGroup;
+			children = (
+				98D89DCC21103C7800355626 /* EasyShowTextView.m */,
+				98D89DCD21103C7800355626 /* UIView+EasyShowExt.h */,
+				98D89DCE21103C7800355626 /* EasyShowOptions.h */,
+				98D89DCF21103C7800355626 /* EasyShowTextBgView.h */,
+				98D89DD021103C7800355626 /* EasyShowLodingView.h */,
+				98D89DD121103C7800355626 /* EasyShowUtils.m */,
+				98D89DD221103C7800355626 /* EasyShowLabel.m */,
+				98D89DD321103C7800355626 /* EasyShowAlertView.h */,
+				98D89DD421103C7800355626 /* EasyShowTypes.m */,
+				98D89DD521103C7800355626 /* UIView+EasyShowExt.m */,
+				98D89DD621103C7800355626 /* EasyShowTextView.h */,
+				98D89DD721103C7800355626 /* EasyShowLodingView.m */,
+				98D89DD821103C7800355626 /* EasyShowTextBgView.m */,
+				98D89DD921103C7800355626 /* EasyShowOptions.m */,
+				98D89DDA21103C7800355626 /* EasyShowLabel.h */,
+				98D89DDB21103C7800355626 /* EasyShowUtils.h */,
+				98D89DDC21103C7800355626 /* EasyShowTypes.h */,
+				98D89DDD21103C7800355626 /* EasyShowView.h */,
+				98D89DDE21103C7800355626 /* EasyShowAlertView.m */,
+			);
+			path = EasyShowView;
+			sourceTree = "<group>";
+		};
+		98D89DDF21103C7800355626 /* MD5 */ = {
+			isa = PBXGroup;
+			children = (
+				98D89DE021103C7800355626 /* Encryption.h */,
+				98D89DE121103C7800355626 /* Encryption.m */,
+			);
+			path = MD5;
+			sourceTree = "<group>";
+		};
 		EBEBC5C2152B8D055D4D320E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -2292,13 +2280,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				989BFE2921088DD9007A69A5 /* ClassroomCoursewareViewController.m in Sources */,
 				0429F612210C6BEC00C32957 /* TongZhiCell.m in Sources */,
+				045216FE211072FC009C2A8C /* DingWeiViewController.m in Sources */,
 				98AD7EC2210F11BD00641231 /* ClassDetailsViewController.m in Sources */,
+				98D89E0621105CC000355626 /* HuoDongYiJieShuViewController.m in Sources */,
 				042810982108070F00E2CA14 /* SystemInfomationViewController.m in Sources */,
 				989BFE3121088E04007A69A5 /* CompetitiveActivityViewController.m in Sources */,
 				0413D694210EA53A00CB34A6 /* TeacherZaiXianViewController.m in Sources */,
 				042810A12108070F00E2CA14 /* QianDaoViewController.m in Sources */,
+				98D89DEA21103C7800355626 /* EasyShowOptions.m in Sources */,
 				98AD7EB2210F11BD00641231 /* TomorrowViewController.m in Sources */,
 				0413D6A4210EE74900CB34A6 /* ShiPinListViewController.m in Sources */,
 				0429F60A210C696A00C32957 /* TeacherTongZhiCell.m in Sources */,
@@ -2306,15 +2296,19 @@
 				0413D6BA210F05B200CB34A6 /* HeartHealtyViewController.m in Sources */,
 				0429F5F8210C517C00C32957 /* JingJiActivityCell.m in Sources */,
 				0437ACE9210B12B3008DAC39 /* LeaveRequestViewController.m in Sources */,
+				98D89DE221103C7800355626 /* HttpRequestManager.m in Sources */,
 				0428109F2108070F00E2CA14 /* PersonIconCell.m in Sources */,
 				98AD7EBB210F11BD00641231 /* HomeWorkViewController.m in Sources */,
+				98D89DE521103C7800355626 /* EasyShowLabel.m in Sources */,
 				98AD7EAE210F11BD00641231 /* ForClassViewController.m in Sources */,
 				0413D6A1210EE73900CB34A6 /* KeChengJieShaoViewController.m in Sources */,
 				98AD7EA8210F11BD00641231 /* ConsultingViewController.m in Sources */,
 				9813959D2105E61E00CDE2BA /* SignViewController.m in Sources */,
 				98AD7EA5210F11BD00641231 /* HaveToReplyViewController.m in Sources */,
 				98D89DC421100A1C00355626 /* TotalNumberCell.m in Sources */,
+				98D89DFE21105CA000355626 /* WenTiZiXunListCell.m in Sources */,
 				98AD7EAB210F11BD00641231 /* PublicClassViewController.m in Sources */,
+				98D89DE721103C7800355626 /* UIView+EasyShowExt.m in Sources */,
 				0413D69E210EE67400CB34A6 /* TeacherZaiXianDetailsViewController.m in Sources */,
 				0429F5E6210C000A00C32957 /* LeaveDetailsViewController.m in Sources */,
 				043F398E2101D02600115A55 /* UIView+CLSetRect.m in Sources */,
@@ -2328,6 +2322,7 @@
 				9813959E2105E61E00CDE2BA /* MyViewController.m in Sources */,
 				043F393E2101852500115A55 /* TotalTabBarController.m in Sources */,
 				043F38DE21016DB600115A55 /* ViewController.m in Sources */,
+				98D89DE421103C7800355626 /* EasyShowUtils.m in Sources */,
 				989BFE0521081583007A69A5 /* UIBarButtonItem+WExtension.m in Sources */,
 				04324DBE21056EE6003789D7 /* ChooseHomeViewController.m in Sources */,
 				0429F5FF210C626400C32957 /* JingJiActivityDetailsViewController.m in Sources */,
@@ -2335,10 +2330,16 @@
 				98AD7EAF210F11BD00641231 /* PublicClassCell.m in Sources */,
 				0429F5F5210C4F1C00C32957 /* SchoolDongTaiDetailsViewController.m in Sources */,
 				989BFDFE210813D5007A69A5 /* UIImage+ColorImage.m in Sources */,
+				98D89DEB21103C7800355626 /* EasyShowAlertView.m in Sources */,
+				98D89DE321103C7800355626 /* EasyShowTextView.m in Sources */,
 				98B6B6D32106BC4000146DFD /* PersonalDataViewController.m in Sources */,
+				983CD955211152130050508C /* BusinessDetailController.m in Sources */,
+				98D89DEC21103C7800355626 /* Encryption.m in Sources */,
 				0413D6BD210F06C900CB34A6 /* ParentXueTangCell.m in Sources */,
+				98D89E0A2110674200355626 /* AdviceFeedbackViewController.m in Sources */,
 				043F38EC21016DB700115A55 /* main.m in Sources */,
 				98AD7EA9210F11BD00641231 /* HaveToReplyCell.m in Sources */,
+				98D89DEF21103C8E00355626 /* SingletonHelper.m in Sources */,
 				98AD7EC7210F11BD00641231 /* TeacherNotifiedCell.m in Sources */,
 				0413D6B7210F05A000CB34A6 /* ChildJiaoYuViewController.m in Sources */,
 				042810A02108070F00E2CA14 /* HelperCenterViewController.m in Sources */,
@@ -2352,9 +2353,9 @@
 				98D89DB82110054100355626 /* TotalNumberViewController.m in Sources */,
 				042810942108070F00E2CA14 /* ClassHomeViewController.m in Sources */,
 				98BBCF54210C116600AC00CD /* WTextView.m in Sources */,
-				989BFE2B21088DD9007A69A5 /* SchoolOutCoursewareViewController.m in Sources */,
 				042810962108070F00E2CA14 /* LeaveListViewController.m in Sources */,
 				042810A62108070F00E2CA14 /* HomePageItemCell.m in Sources */,
+				98D89DE821103C7800355626 /* EasyShowLodingView.m in Sources */,
 				042810A22108070F00E2CA14 /* QianDaoItemCell.m in Sources */,
 				0429F60F210C697900C32957 /* TongZhiViewController.m in Sources */,
 				042810A72108070F00E2CA14 /* HomePageLunBoCell.m in Sources */,
@@ -2364,17 +2365,16 @@
 				043F398B2101CFCB00115A55 /* MASViewAttribute.m in Sources */,
 				042810A32108070F00E2CA14 /* QianDaoPsersonCell.m in Sources */,
 				0413D6B4210F04F000CB34A6 /* ParentXueTangViewController.m in Sources */,
-				989BFE2821088DD9007A69A5 /* SchoolInCoursewareViewController.m in Sources */,
 				989BFE0121081493007A69A5 /* BaseViewController.m in Sources */,
 				98B6B6D02106B7BB00146DFD /* MyInformationCell.m in Sources */,
 				0413D6AA210EEAE200CB34A6 /* KeChengJieShaoCell.m in Sources */,
 				043F39822101CFCB00115A55 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				98AD7EA7210F11BD00641231 /* ReplyViewController.m in Sources */,
+				98D89DE621103C7800355626 /* EasyShowTypes.m in Sources */,
 				98AD7EA6210F11BD00641231 /* DidNotReturnViewController.m in Sources */,
 				98AD7EB4210F11BD00641231 /* ActivityManagementViewController.m in Sources */,
 				98D89DBB2110055D00355626 /* HasBeenViewController.m in Sources */,
 				98AD7EBC210F11BD00641231 /* SchoolInformationViewController.m in Sources */,
-				989BFE1F21088DC4007A69A5 /* CommonProblemViewController.m in Sources */,
 				043F39852101CFCB00115A55 /* MASConstraintMaker.m in Sources */,
 				98AD7EB7210F11BD00641231 /* OngoingCell.m in Sources */,
 				98AD7EC6210F11BD00641231 /* ClassDetailsCell.m in Sources */,
@@ -2386,6 +2386,8 @@
 				0413D6AD210EF9C800CB34A6 /* ShiPinListCell.m in Sources */,
 				98AD7EB8210F11BD00641231 /* HomeViewController.m in Sources */,
 				98AD7EBD210F11BD00641231 /* SchoolDynamicViewController.m in Sources */,
+				98D89E0D21106D4D00355626 /* ChangePasswordViewController.m in Sources */,
+				98D89DC72110357500355626 /* HelpCenterViewController.m in Sources */,
 				98AD7EBF210F11BD00641231 /* HomeLunBoCell.m in Sources */,
 				0429F5ED210C113400C32957 /* LeaveDetailsDownCell.m in Sources */,
 				98AD7ECA210F163000641231 /* TheClassInformationViewController.m in Sources */,
@@ -2400,16 +2402,19 @@
 				989BFE1521088D4B007A69A5 /* HomeWorkPViewController.m in Sources */,
 				043F39862101CFCB00115A55 /* MASLayoutConstraint.m in Sources */,
 				98AD7EAD210F11BD00641231 /* VideoSettingsViewController.m in Sources */,
+				98D89DF221103CAA00355626 /* PersonInformationModel.m in Sources */,
 				98D89DB5211002C200355626 /* SignClassViewController.m in Sources */,
 				0428109E2108070F00E2CA14 /* PersonInfomationCell.m in Sources */,
 				98AD7EAA210F11BD00641231 /* DidNotReturnCell.m in Sources */,
 				042810A52108070F00E2CA14 /* HomePageViewController.m in Sources */,
-				989BFE2A21088DD9007A69A5 /* ClassInCoursewareViewController.m in Sources */,
 				042810972108070F00E2CA14 /* LeaveListItemCell.m in Sources */,
+				98D89E0721105CC000355626 /* HuoDongWeiKaiShiViewController.m in Sources */,
 				0429F60C210C696A00C32957 /* SchoolTongZhiViewController.m in Sources */,
+				98D89DE921103C7800355626 /* EasyShowTextBgView.m in Sources */,
 				042810932108070F00E2CA14 /* ClassInformationViewController.m in Sources */,
 				04324DC12105A6C7003789D7 /* LoginHomePageViewController.m in Sources */,
 				043F39882101CFCB00115A55 /* View+MASAdditions.m in Sources */,
+				98D89E0521105CC000355626 /* HuoDongIngViewController.m in Sources */,
 				98AD7EB5210F11BD00641231 /* IsAboutToBeginViewController.m in Sources */,
 				0413D697210EAE9400CB34A6 /* TeacherZhuanLanCell.m in Sources */,
 				98AD7EC4210F11BD00641231 /* NoticeViewController.m in Sources */,
@@ -2418,6 +2423,7 @@
 				98D89DBE2110058600355626 /* NotToViewController.m in Sources */,
 				989BFE1921088D6C007A69A5 /* SchoolDongTaiViewController.m in Sources */,
 				0429F60B210C696A00C32957 /* TeacherTongZhiViewController.m in Sources */,
+				983CD95D211162F50050508C /* DateTimePickerView.m in Sources */,
 				043F38DB21016DB600115A55 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
