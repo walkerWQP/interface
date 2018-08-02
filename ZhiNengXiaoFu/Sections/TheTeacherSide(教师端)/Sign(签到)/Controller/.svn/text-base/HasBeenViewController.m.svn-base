@@ -8,6 +8,7 @@
 
 #import "HasBeenViewController.h"
 #import "TotalNumberCell.h"
+#import "QianDaoViewController.h"
 
 @interface HasBeenViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -93,7 +94,8 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"%ld",indexPath.row);
-    
+    QianDaoViewController *qianDaoVC = [[QianDaoViewController alloc] init];
+    [self.navigationController pushViewController:qianDaoVC animated:YES];
 }
 
 @end

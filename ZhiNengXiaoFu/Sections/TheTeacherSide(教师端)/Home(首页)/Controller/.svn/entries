@@ -1,14 +1,14 @@
 10
 
 dir
-73
+79
 http://ios1@61.132.226.224:8081/svn/ios/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/TheTeacherSide(%E6%95%99%E5%B8%88%E7%AB%AF)/Home(%E9%A6%96%E9%A1%B5)/Controller
 http://ios1@61.132.226.224:8081/svn/ios
 
 
 
-2018-08-01T02:33:09.566406Z
-71
+2018-08-01T09:24:19.148437Z
+74
 ios1
 
 
@@ -32,10 +32,10 @@ file
 
 
 
-2018-08-01T02:31:25.000000Z
-a5b3d9342ae4186719b9d0cd08a63368
-2018-08-01T02:33:09.566406Z
-71
+2018-08-01T06:11:57.000000Z
+115d011fac4f08b1638f6ef07c8e5668
+2018-08-01T09:24:19.148437Z
+74
 ios1
 
 
@@ -58,7 +58,7 @@ ios1
 
 
 
-7590
+7803
 
 HomeViewController.h
 file

@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 176
-/svn/ios/!svn/ver/55/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/Parental(%E5%AE%B6%E9%95%BF%E7%AB%AF)/Mine(%E6%88%91)/MineHome(%E6%88%91)/View
+/svn/ios/!svn/ver/75/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/Parental(%E5%AE%B6%E9%95%BF%E7%AB%AF)/Mine(%E6%88%91)/MineHome(%E6%88%91)/View
 END
 TuiChuLoginCell.h
 K 25
@@ -25,5 +25,5 @@ MinePersonXiXinCell.m
 K 25
 svn:wc:ra_dav:version-url
 V 198
-/svn/ios/!svn/ver/55/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/Parental(%E5%AE%B6%E9%95%BF%E7%AB%AF)/Mine(%E6%88%91)/MineHome(%E6%88%91)/View/MinePersonXiXinCell.m
+/svn/ios/!svn/ver/75/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/Parental(%E5%AE%B6%E9%95%BF%E7%AB%AF)/Mine(%E6%88%91)/MineHome(%E6%88%91)/View/MinePersonXiXinCell.m
 END

@@ -22,6 +22,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = COLOR(246, 246, 246, 1);
+    self.title = @"名师在线";
+    
+    UIImageView * back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
+    back.image = [UIImage imageNamed:@"banner"];
+    [self.view addSubview:back];
     [self createUI];
 }
 

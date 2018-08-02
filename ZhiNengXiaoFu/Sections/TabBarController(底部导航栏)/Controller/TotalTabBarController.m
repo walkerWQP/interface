@@ -33,7 +33,7 @@
 {
     [super viewDidLoad];
     
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"1"]) {
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"2"]) {
         [[UITabBar appearance] setTintColor:THEMECOLOR];
 
     }else
@@ -43,7 +43,7 @@
     }
 
     
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"1"]) {
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"2"]) {
         [self setupChildViewController:@"首页" viewController:[HomeViewController new] image:@"首页图标" selectedImage:@"首页图标拷贝"];
         
         [self setupChildViewController:@"班级管理" viewController:[ClassViewController new] image:@"班级管理" selectedImage:@"班级管理1"];
@@ -55,7 +55,7 @@
     } else {
         [self setupChildViewController:@"首页" viewController:[HomePageViewController new] image:@"首页图标" selectedImage:@"首页图标拷贝"];
         
-        [self setupChildViewController:@"班级信息" viewController:[ClassViewController new] image:@"班级管理" selectedImage:@"班级管理1"];
+        [self setupChildViewController:@"班级信息" viewController:[ClassHomeViewController new] image:@"班级管理" selectedImage:@"班级管理1"];
         
         [self setupChildViewController:@"进出安全" viewController:[QianDaoViewController new] image:@"到校情况2" selectedImage:@"到校情况"];
         

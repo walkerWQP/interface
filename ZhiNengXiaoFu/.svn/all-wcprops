@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 88
-/svn/ios/!svn/ver/73/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu
+/svn/ios/!svn/ver/79/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu
 END
 main.m
 K 25
@@ -13,7 +13,7 @@ AppDelegate.h
 K 25
 svn:wc:ra_dav:version-url
 V 102
-/svn/ios/!svn/ver/55/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/AppDelegate.h
+/svn/ios/!svn/ver/79/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/AppDelegate.h
 END
 ViewController.h
 K 25
@@ -25,13 +25,13 @@ Info.plist
 K 25
 svn:wc:ra_dav:version-url
 V 99
-/svn/ios/!svn/ver/61/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Info.plist
+/svn/ios/!svn/ver/79/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Info.plist
 END
 AppDelegate.m
 K 25
 svn:wc:ra_dav:version-url
 V 102
-/svn/ios/!svn/ver/55/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/AppDelegate.m
+/svn/ios/!svn/ver/79/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/AppDelegate.m
 END
 ViewController.m
 K 25

@@ -133,6 +133,7 @@
     }else
     {
         TeacherZhuanLanCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TeacherZhuanLanCellId" forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.UserIcon.image = [UIImage imageNamed:@"头像"];
         cell.UserName.text = @"安娜";
         cell.titleLabel.text = @"物理复习课程";

@@ -7,9 +7,12 @@
 //
 
 #import "TongZhiDetailsViewController.h"
+#import "TongZhiDetailsCell.h"
+#import "TongZhiDetailsModel.h"
+@interface TongZhiDetailsViewController ()<UITableViewDelegate, UITableViewDataSource>
 
-@interface TongZhiDetailsViewController ()
-
+@property (nonatomic, strong) UITableView * tongZhiDetailsTableView;
+@property (nonatomic, strong) TongZhiDetailsModel * tongZhiDetailsModel;
 @end
 
 @implementation TongZhiDetailsViewController
@@ -19,6 +22,82 @@
     // Do any additional setup after loading the view.
     self.title = @"通知详情";
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    [self setNetWork];
+    [self.view addSubview:self.tongZhiDetailsTableView];
+    
+    [self.tongZhiDetailsTableView registerNib:[UINib nibWithNibName:@"TongZhiDetailsCell" bundle:nil] forCellReuseIdentifier:@"TongZhiDetailsCellId"];
+    
+}
+
+- (UITableView *)tongZhiDetailsTableView
+{
+    if (!_tongZhiDetailsTableView) {
+        self.tongZhiDetailsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.tongZhiDetailsTableView.delegate = self;
+        self.tongZhiDetailsTableView.dataSource = self;
+    }
+    return _tongZhiDetailsTableView;
+}
+
+- (void)setNetWork
+{
+    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
+    NSDictionary * dic = @{@"key":key, @"id":self.tongZhiId};
+    [[HttpRequestManager sharedSingleton] POST:JIAOSHIJIAZHANGCHAKANXIANGQING parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        
+        self.tongZhiDetailsModel = [TongZhiDetailsModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+        [self.tongZhiDetailsTableView reloadData];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    return nil;
+}
+
+//有时候tableview的底部视图也会出现此现象对应的修改就好了
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    return nil;
+}
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+    
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    TongZhiDetailsCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TongZhiDetailsCellId" forIndexPath:indexPath];
+    cell.TongZhiDetailsTitleLabel.text = self.tongZhiDetailsModel.title;
+    cell.TongZhiDetailsConnectLabel.text = self.tongZhiDetailsModel.content;
+    cell.TongZhiDetailsTimeLabel.text = self.tongZhiDetailsModel.create_time;
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 400;
 }
 
 - (void)didReceiveMemoryWarning {

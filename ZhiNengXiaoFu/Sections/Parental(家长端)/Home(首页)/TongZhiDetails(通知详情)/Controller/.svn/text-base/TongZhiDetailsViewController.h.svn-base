@@ -10,4 +10,5 @@
 
 @interface TongZhiDetailsViewController : UIViewController
 
+@property (nonatomic, copy) NSString * tongZhiId;
 @end

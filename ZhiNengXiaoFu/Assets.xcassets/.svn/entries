@@ -1,15 +1,15 @@
 10
 
 dir
-73
+79
 http://ios1@61.132.226.224:8081/svn/ios/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Assets.xcassets
 http://ios1@61.132.226.224:8081/svn/ios
 
 
 
-2018-08-01T02:37:04.207031Z
-73
-ios2
+2018-08-02T02:35:58.863281Z
+77
+ios1
 
 
 
@@ -70,6 +70,9 @@ ios2
 62
 
 Teacher(教师端)
+dir
+
+LaunchImage.launchimage
 dir
 
 Login(登录)

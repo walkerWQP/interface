@@ -19,4 +19,6 @@
 
 
 @property (nonatomic, strong) PersonInformationModel * personInfoModel;
+
+
 @end

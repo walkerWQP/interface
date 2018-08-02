@@ -24,7 +24,7 @@
     // 只影响当前类下面的导航条
     // 获取当前类下面的导航条
     UINavigationBar *navbar = [UINavigationBar appearanceWhenContainedIn:self, nil];
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"1"]) {
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"2"]) {
         [navbar setBackgroundImage:[UIImage imageWithColor:THEMECOLOR] forBarMetrics:UIBarMetricsDefault];
         [[UITabBar appearance] setTintColor:THEMECOLOR];
 

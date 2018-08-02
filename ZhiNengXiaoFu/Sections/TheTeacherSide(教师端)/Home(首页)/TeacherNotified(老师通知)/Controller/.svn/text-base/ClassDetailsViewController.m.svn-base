@@ -8,6 +8,7 @@
 
 #import "ClassDetailsViewController.h"
 #import "ClassDetailsCell.h"
+#import "NoticeViewController.h"
 
 @interface ClassDetailsViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -104,7 +105,9 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"%ld",indexPath.row);
+    NoticeViewController *noticeVC = [NoticeViewController new];
+    [self.navigationController pushViewController:noticeVC animated:YES];
     
-}
+ }
 
 @end

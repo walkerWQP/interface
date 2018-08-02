@@ -10,13 +10,19 @@
 
 @interface ForClassViewController ()
 
+@property (nonatomic, strong) UIImageView    *noDataImgView;
+
 @end
 
 @implementation ForClassViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.noDataImgView = [[UIImageView alloc] initWithFrame:CGRectMake(APP_WIDTH / 2 - 105 / 2, 200, 105, 111)];
+    self.noDataImgView.image = [UIImage imageNamed:@"暂无数据家长端"];
+    //    self.noDataImgView.alpha = 0;
+    
+    [self.view addSubview:self.noDataImgView];
 }
 
 - (void)didReceiveMemoryWarning {

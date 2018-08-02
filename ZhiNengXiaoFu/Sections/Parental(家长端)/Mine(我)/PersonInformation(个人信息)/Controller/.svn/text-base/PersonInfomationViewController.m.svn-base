@@ -9,10 +9,13 @@
 #import "PersonInfomationViewController.h"
 #import "PersonInfomationCell.h"
 #import "PersonIconCell.h"
+#import "PersonInformationModel.h"
 @interface PersonInfomationViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * personInfomationTableView;
 @property (nonatomic, strong) NSMutableArray * nameAry;
+@property (nonatomic, strong) PersonInformationModel * personInfo;
+
 @end
 
 @implementation PersonInfomationViewController
@@ -26,10 +29,16 @@
 
     
     self.personInfomationTableView.separatorStyle =  UITableViewCellSeparatorStyleNone;
-    self.nameAry = [NSMutableArray arrayWithObjects:@"头像",@"名字",@"手机",@"亲属账号",@"修改密码", @"学生类型",@"账号", @"学校", @"年级", @"班级", nil];
+    self.nameAry = [NSMutableArray arrayWithObjects:@"头像",@"名字",@"手机", @"学生类型",@"账号", @"学校", @"所在班级", nil];
     [self.view addSubview:self.personInfomationTableView];
     [self.personInfomationTableView registerClass:[PersonInfomationCell class] forCellReuseIdentifier:@"PersonInfomationCellId"];
     [self.personInfomationTableView registerClass:[PersonIconCell class] forCellReuseIdentifier:@"PersonIconCellId"];
+    
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"personInfo"];
+    self.personInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    
+    
 }
 
 
@@ -45,7 +54,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return 7;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -58,44 +67,40 @@
     if (indexPath.row == 0) {
         PersonIconCell * cell = [tableView dequeueReusableCellWithIdentifier:@"PersonIconCellId" forIndexPath:indexPath];
         cell.nameLabel.text = @"头像";
+        [cell.iConImg sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:nil];
         return cell;
     }else
     {
         PersonInfomationCell * cell = [tableView dequeueReusableCellWithIdentifier:@"PersonInfomationCellId" forIndexPath:indexPath];
         cell.nameLabel.text = [self.nameAry objectAtIndex:indexPath.row];
         cell.selectionStyle =  UITableViewCellSelectionStyleNone;
-        if (indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3 || indexPath.row == 4) {
-            cell.moreImg.alpha = 1;
-        }else
-        {
-            cell.moreImg.alpha = 0;
 
-        }
         if (indexPath.row == 1) {
-            cell.titleLabel.text = @"赵子龙";
+            cell.titleLabel.text = self.personInfo.name;
         }else if (indexPath.row == 2)
         {
-            cell.titleLabel.text = @"18873090308";
+            cell.titleLabel.text = self.personInfo.mobile;
 
+        }else if (indexPath.row == 3)
+        {
+            if (self.personInfo.nature == 1) {
+                cell.titleLabel.text = @"走读生";
+            }else
+            {
+                cell.titleLabel.text = @"在校生";
+            }
+            
+        }else if (indexPath.row == 4)
+        {
+            cell.titleLabel.text = self.personInfo.usernum;
+            
         }else if (indexPath.row == 5)
         {
-            cell.titleLabel.text = @"在校生";
+            cell.titleLabel.text = @"";
             
         }else if (indexPath.row == 6)
         {
-            cell.titleLabel.text = @"12347";
-            
-        }else if (indexPath.row == 7)
-        {
-            cell.titleLabel.text = @"赤水一中";
-            
-        }else if (indexPath.row == 8)
-        {
             cell.titleLabel.text = @"高一年级";
-            
-        }else if (indexPath.row == 9)
-        {
-            cell.titleLabel.text = @"高一(8)班";
             
         }
         return cell;

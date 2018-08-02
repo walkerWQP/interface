@@ -26,7 +26,7 @@
 }
 
 - (void)createUI{
-    NSArray *titleArray = [NSArray arrayWithObjects:@"学校通知",@"老师通知", nil];
+    NSArray *titleArray = [NSArray arrayWithObjects:@"学校通知",@"班级通知", nil];
     self.titleView.title = titleArray;
     [self.titleView setupViewControllerWithFatherVC:self childVC:[self setChildVC]];
     [self.view addSubview:self.titleView];

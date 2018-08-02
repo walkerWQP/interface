@@ -24,6 +24,11 @@
     
 //    TotalTabBarController * totalTabBarVC = [[TotalTabBarController alloc] init];
 //    self.window.rootViewController = totalTabBarVC;
+    
+     [NSThread sleepForTimeInterval:2];
+
+    [AMapServices sharedServices].apiKey = @"0a06fef6aaa158c44f0d88f5728b4c6c";
+
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] == nil) {
         LoginHomePageViewController * loginHomePageVC = [[LoginHomePageViewController alloc] init];
         self.window.rootViewController = loginHomePageVC;

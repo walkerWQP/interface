@@ -27,8 +27,16 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Location Always and When In Use Usage Description</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Location Always Usage Description</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location When In Use Usage Description</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

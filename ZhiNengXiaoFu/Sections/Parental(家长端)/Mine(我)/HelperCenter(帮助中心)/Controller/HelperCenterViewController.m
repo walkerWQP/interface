@@ -139,7 +139,7 @@
         [headerView addSubview:titleImg];
         
         UILabel * titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(titleImg.frame.origin.x + titleImg.frame.size.width + 10, 10, 100, 20)];
-        titleLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:16];
+        titleLabel.font = [UIFont systemFontOfSize: 16];
         titleLabel.textColor = COLOR(51, 51, 51, 1);
         [headerView addSubview:titleLabel];
         if (section == 1) {

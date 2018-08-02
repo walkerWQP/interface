@@ -10,11 +10,12 @@
 #import "TeacherTongZhiCell.h"
 #import "TongZhiCell.h"
 #import "TongZhiDetailsViewController.h"
+#import "TongZhiModel.h"
 @interface SchoolTongZhiViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) NSMutableArray * schoolTongZhiAry;
 @property (nonatomic, strong) UITableView * schoolTongZhiTableView;
-
+@property (nonatomic, strong) UIImageView * zanwushuju;
 @end
 
 @implementation SchoolTongZhiViewController
@@ -23,23 +24,37 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"学校通知";
+    //网络请求
+    [self getNetWork];
     
-    NSMutableArray *imgArr = [NSMutableArray arrayWithObjects:@"通知图标",@"通知图标",@"通知图标",@"通知图标", nil];
-    NSMutableArray *titleArr = [NSMutableArray arrayWithObjects:@"七年级通知",@"九年级通知",@"六年级通知",@"四年级八班通知", nil];
-    NSMutableArray *contentArr = [NSMutableArray arrayWithObjects:@"英语作业通知",@"英语",@"数学成绩查询",@"春游计划通知", nil];
-    NSMutableArray *timeArr       = [NSMutableArray arrayWithObjects:@"2018-09-01",@"2018-09-02",@"2018-09-03",@"2018-09-04", nil];
-    for (int i = 0; i < imgArr.count; i++) {
-        NSString *img     = [imgArr objectAtIndex:i];
-        NSString *title   = [titleArr objectAtIndex:i];
-        NSString *content = [contentArr objectAtIndex:i];
-        NSString *time    = [timeArr objectAtIndex:i];
-        NSDictionary *dic = @{@"img":img,@"title":title,@"content":content,@"time":time};
-        [self.schoolTongZhiAry addObject:dic];
-    }
+   
     
     [self.view addSubview:self.schoolTongZhiTableView];
     [self.schoolTongZhiTableView registerClass:[TongZhiCell class] forCellReuseIdentifier:@"TongZhiCellId"];
     self.schoolTongZhiTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.view addSubview:self.zanwushuju];
+}
+
+- (void)getNetWork
+{
+    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
+    NSDictionary * dic = @{@"key":key, @"is_school":@1};
+    [[HttpRequestManager sharedSingleton] POST:JIAZHANGCHAKANTONGZHILIEBIAO parameters:dic success:^(NSURLSessionDataTask *task, id responseObject)
+    {
+        self.schoolTongZhiAry = [TongZhiModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+        if (self.schoolTongZhiAry.count == 0) {
+            self.zanwushuju.alpha = 1;
+
+        }
+        [self.schoolTongZhiTableView reloadData];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
 }
 
 - (NSMutableArray *)schoolTongZhiAry
@@ -86,7 +101,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return self.schoolTongZhiAry.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -96,13 +111,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    
+    
     TongZhiCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TongZhiCellId" forIndexPath:indexPath];
-    NSDictionary * dic = [self.schoolTongZhiAry objectAtIndex:indexPath.row];
-  
-    cell.headImgView.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
-    cell.titleLabel.text = [dic objectForKey:@"title"];
-    cell.subjectsLabel.text = [dic objectForKey:@"content"];
-    cell.timeLabel.text = [dic objectForKey:@"time"];
+    TongZhiModel * model = [self.schoolTongZhiAry objectAtIndex:indexPath.row];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.headImgView.image = [UIImage imageNamed:@"通知图标"];
+    cell.titleLabel.text = model.title;
+    cell.subjectsLabel.text = model.abstract;
+    cell.timeLabel.text = model.create_time;
     
     
     
@@ -119,6 +137,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TongZhiDetailsViewController * tongZhiDetails  = [[TongZhiDetailsViewController alloc] init];
+    TongZhiModel * model = [self.schoolTongZhiAry objectAtIndex:indexPath.row];
+    tongZhiDetails.tongZhiId = model.ID;
     [self.navigationController pushViewController:tongZhiDetails animated:YES];
 }
 

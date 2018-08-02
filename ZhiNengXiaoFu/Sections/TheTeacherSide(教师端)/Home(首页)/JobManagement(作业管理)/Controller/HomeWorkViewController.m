@@ -9,6 +9,7 @@
 #import "HomeWorkViewController.h"
 #import "ClassDetailsCell.h"
 #import "PublishJobViewController.h"
+#import "JobDetailsViewController.h"
 
 @interface HomeWorkViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -110,7 +111,8 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"%ld",indexPath.row);
-    
+    JobDetailsViewController *jobDetailsVC = [[JobDetailsViewController alloc] init];
+    [self.navigationController pushViewController:jobDetailsVC animated:YES];
 }
 
 - (void)rightBtn:(UIButton *)sender {

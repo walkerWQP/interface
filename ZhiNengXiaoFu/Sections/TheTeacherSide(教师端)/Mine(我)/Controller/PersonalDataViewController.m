@@ -61,12 +61,7 @@
         PersonInfomationCell * cell = [tableView dequeueReusableCellWithIdentifier:@"PersonInfomationCellId" forIndexPath:indexPath];
         cell.nameLabel.text = [self.nameArr objectAtIndex:indexPath.row];
         cell.selectionStyle =  UITableViewCellSelectionStyleNone;
-        if (indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3 || indexPath.row == 4) {
-            cell.moreImg.alpha = 1;
-        } else {
-            cell.moreImg.alpha = 0;
-            
-        }
+    
         if (indexPath.row == 1) {
             cell.titleLabel.text = @"赵婷韵";
         }else if (indexPath.row == 2) {

@@ -49,12 +49,11 @@
 
 - (UIWebView *)myWebView {
     if (_myWebView == nil) {
-        _myWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT-APP_NAVH-APP_BottomH)];
+        _myWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH - APP_BottomH)];
         _myWebView.delegate = self;
         [self.view addSubview:_myWebView];
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _myWebView.frame.size.width, 30)];
-        //label.text = [NSString stringWithFormat:@"网页由http://www.kbird.top提供"];
         label.textColor = RGB(111, 116, 117);
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont systemFontOfSize:12];

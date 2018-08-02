@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PersonInformationModel : NSObject
+@interface PersonInformationModel : NSObject<NSCoding>
 
 //班级id
 @property (nonatomic, assign) NSInteger class_id;

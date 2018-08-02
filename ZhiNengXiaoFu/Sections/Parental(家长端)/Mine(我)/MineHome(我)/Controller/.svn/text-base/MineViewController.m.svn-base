@@ -21,7 +21,7 @@
 
 @property (nonatomic, strong) UITableView * mineTabelView;
 @property (nonatomic, strong) NSMutableArray * mineAry;
-
+@property (nonatomic, strong) PersonInformationModel * personInfo;
 
 @end
 
@@ -54,10 +54,8 @@
     [self.mineTabelView registerClass:[MinePersonXiXinCell class] forCellReuseIdentifier:@"MinePersonXiXinCellId"];
     [self.mineTabelView registerClass:[TuiChuLoginCell class] forCellReuseIdentifier:@"TuiChuLoginCellId"];
     
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSData *data = [user objectForKey:@"personInfo"];
-    PersonInformationModel * personInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"personInfo"];
+    self.personInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     
     self.mineTabelView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
@@ -133,8 +131,9 @@
 {
     if (indexPath.section == 0) {
         MinePersonXiXinCell * cell = [tableView dequeueReusableCellWithIdentifier:@"MinePersonXiXinCellId" forIndexPath:indexPath];
-        cell.userName.text = @"小明";
+        cell.userName.text = self.personInfo.name;
         cell.userZiLiao.text = @"我的资料";
+        [cell.userImg sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:nil];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }else if (indexPath.section == 1)
@@ -197,11 +196,32 @@
 
 - (void)tuichuLoginBtn:(UIButton *)sender
 {
-    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"chooseLoginState"];
-    LoginHomePageViewController * loginHomepage = [[LoginHomePageViewController alloc] init];
-    //        [DreamHeroHelper manager].guessHomepageFanhuiId = 3;
-    [self presentViewController:loginHomepage animated:YES completion:NULL];
-//    [[HttpRequestManager sharedSingleton] POST:TUICHULOGIN parameters:<#(id)#> success:<#^(NSURLSessionDataTask *task, id responseObject)success#> failure:<#^(NSURLSessionDataTask *task, NSError *error)failure#>]
+   
+    
+    NSString * chooseLoginState = [[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"];
+    NSDictionary * dic = @{@"uid":self.personInfo.ID, @"school_id":[NSString stringWithFormat:@"%ld", self.personInfo.school_id], @"identity":chooseLoginState, @"token":self.personInfo.token};
+    [[HttpRequestManager sharedSingleton] POST:TUICHULOGIN parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
+
+            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"chooseLoginState"];
+            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"personInfo"];
+            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"key"];
+
+            
+            LoginHomePageViewController * loginHomepage = [[LoginHomePageViewController alloc] init];
+            [self presentViewController:loginHomepage animated:YES completion:NULL];
+
+        }else
+        {
+            [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

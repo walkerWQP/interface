@@ -16,7 +16,7 @@
     if (self) {
         [self addSubview:self.nameLabel];
         [self addSubview:self.iConImg];
-        [self addSubview:self.moreImg];
+//        [self addSubview:self.moreImg];
         [self addSubview:self.lineView];
     }
     return self;
@@ -32,20 +32,21 @@
     return _nameLabel;
 }
 
-- (UIImageView *)moreImg
-{
-    if (!_moreImg) {
-        self.moreImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 15 - 11.5, 70 / 2 - 8, 11.5, 16)];
-        self.moreImg.image = [UIImage imageNamed:@"more"];
-    }
-    return _moreImg;
-}
+//- (UIImageView *)moreImg
+//{
+//    if (!_moreImg) {
+//        self.moreImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 15 - 11.5, 70 / 2 - 8, 11.5, 16)];
+//        self.moreImg.image = [UIImage imageNamed:@"more"];
+//    }
+//    return _moreImg;
+//}
 
 - (UIImageView *)iConImg
 {
     if (!_iConImg) {
-        self.iConImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 15 - 11.5 - 5 - 50, 10 , 50, 50)];
-        self.iConImg.image = [UIImage imageNamed:@"user"];
+        self.iConImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 15 - 50, 10 , 50, 50)];
+        self.iConImg.layer.cornerRadius = 25;
+        self.iConImg.layer.masksToBounds = YES;
     }
     return _iConImg;
 }

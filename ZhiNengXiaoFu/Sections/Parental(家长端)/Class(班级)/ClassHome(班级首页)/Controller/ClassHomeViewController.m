@@ -7,12 +7,13 @@
 //
 
 #import "ClassHomeViewController.h"
-#import "ClassHomePageItemCell.h"
-#import "ClassInformationViewController.h"
-@interface ClassHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
+#import "TeacherNotifiedCell.h"
+#import "TheClassInformationViewController.h"
+@interface ClassHomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
-@property (nonatomic, strong) UITableView * classHomePageTableView;
-@property (nonatomic, strong) NSMutableArray * classHomePageAry;
+@property (nonatomic, strong) NSMutableArray *classArr;
+@property (nonatomic, strong) UICollectionView *classCollectionView;
+@property (nonatomic, strong) UIImageView  *headImgView;
 @end
 
 @implementation ClassHomeViewController
@@ -20,146 +21,94 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (@available(iOS 11.0, *)) {
-        self.classHomePageTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    } else {
-        self.automaticallyAdjustsScrollViewInsets = NO;
-    }
-    
-
-    self.view.backgroundColor = [UIColor colorWithRed:245 / 255.0 green:245 / 255.0 blue:245 /255.0 alpha:1];
-    self.navigationItem.title = @"班级信息";
-    [self.navigationController.navigationBar setTitleTextAttributes:
-     @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:18],NSForegroundColorAttributeName:[UIColor whiteColor]}];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:173/ 255.0 green:228 / 255.0 blue: 211 / 255.0 alpha:1];
-    self.navigationController.navigationBar.translucent = NO;
-    
-    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"c4",@"c1",@"c2", nil];
-    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"班级信息",@"考试成绩",@"班内消息", nil];
-    
-    for (int i = 0; i < imgAry.count; i++) {
-        NSString * img  = [imgAry objectAtIndex:i];
-        NSString * title = [TitleAry objectAtIndex:i];
-        NSDictionary * dic = @{@"img":img, @"title":title};
-        [self.classHomePageAry addObject:dic];
-    }
-    
-    [self.view addSubview:self.classHomePageTableView];
+    self.view.backgroundColor = backColor;
+    self.title = @"班级信息";
     
     
+    NSMutableArray *imgArr = [NSMutableArray arrayWithObjects:@"头像", nil];
+    NSMutableArray *titleArr = [NSMutableArray arrayWithObjects:@"四年级八班", nil];
     
-    [self.classHomePageTableView registerClass:[ClassHomePageItemCell class] forCellReuseIdentifier:@"ClassHomePageItemCellId"];
-    self.classHomePageTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-}
-
-- (NSMutableArray *)classHomePageAry
-{
-    if (!_classHomePageAry) {
-        self.classHomePageAry = [@[]mutableCopy];
-    }
-    return _classHomePageAry;
-}
-
-
-- (UITableView *)classHomePageTableView
-{
-    if (!_classHomePageTableView) {
-        self.classHomePageTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
-        self.classHomePageTableView.delegate = self;
-        self.classHomePageTableView.dataSource = self;
-    }
-    return _classHomePageTableView;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 0;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 0;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    return nil;
-}
-
-//有时候tableview的底部视图也会出现此现象对应的修改就好了
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    return nil;
-}
-
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if (section == 0) {
-        return 1;
-    }else
-    {
-        return 3;
-    }
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 2;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 0) {
-        static NSString *CellIdentifier = @"TableViewCell";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-        }else{
-            //删除cell中的子对象,刷新覆盖问题。
-            while ([cell.contentView.subviews lastObject] != nil) {
-                [(UIView*)[cell.contentView.subviews lastObject] removeFromSuperview];
-            }
-        }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
-        imgs.image = [UIImage imageNamed:@"homepagelunbo2"];
-        [cell addSubview:imgs];
-        return cell;
-    }else
-    {
-        ClassHomePageItemCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ClassHomePageItemCellId" forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-        NSDictionary * dic = [self.classHomePageAry objectAtIndex:indexPath.row];
-        cell.itemImg.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
-        cell.itemLabel.text = [dic objectForKey:@"title"];
-        return cell;
-    }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 0) {
-        return 170;
-    }else
-    {
-        return 50;
-    }
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row == 0) {
-        ClassInformationViewController * classInfomationVC = [[ClassInformationViewController alloc] init];
-        [self.navigationController pushViewController:classInfomationVC animated:YES];
-    }else if (indexPath.row == 1)
-    {
+    for (int i = 0; i < imgArr.count; i++) {
+        NSString *img     = [imgArr objectAtIndex:i];
+        NSString *title   = [titleArr objectAtIndex:i];
         
-    }else
-    {
-        
+        NSDictionary *dic = @{@"img":img,@"title":title};
+        [self.classArr addObject:dic];
     }
+    
+    [self makeClassViewControllerUI];
 }
+
+- (NSMutableArray *)classArr {
+    if (!_classArr) {
+        self.classArr = [@[]mutableCopy];
+    }
+    return _classArr;
+}
+
+- (void)makeClassViewControllerUI {
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    layout.sectionInset = UIEdgeInsetsMake(190, 0, 0, 0);
+    self.classCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT) collectionViewLayout:layout];
+    self.classCollectionView.backgroundColor = backColor;
+    self.classCollectionView.delegate = self;
+    self.classCollectionView.dataSource = self;
+    [self.view addSubview:self.classCollectionView];
+    
+    [self.classCollectionView registerClass:[TeacherNotifiedCell class] forCellWithReuseIdentifier:TeacherNotifiedCell_CollectionView];
+    
+    self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
+    self.headImgView.backgroundColor = [UIColor clearColor];
+    [self.classCollectionView addSubview:self.headImgView];
+    self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
+}
+
+#pragma mark - <UICollectionViewDelegate, UICollectionViewDataSource>
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.classArr.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSDictionary * dic = [self.classArr objectAtIndex:indexPath.row];
+    UICollectionViewCell *gridcell = nil;
+    TeacherNotifiedCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TeacherNotifiedCell_CollectionView forIndexPath:indexPath];
+    cell.headImgView.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
+    cell.classLabel.text = [dic objectForKey:@"title"];
+    gridcell = cell;
+    return gridcell;
+    
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    
+    return 20;
+    
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    CGSize itemSize = CGSizeZero;
+    
+    itemSize = CGSizeMake(APP_WIDTH, 70);
+    
+    return itemSize;
+}
+
+
+//点击响应方法
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSLog(@"%ld",(long)indexPath.row);
+    TheClassInformationViewController *theClassInformationVC = [TheClassInformationViewController new];
+    [self.navigationController pushViewController:theClassInformationVC animated:YES];
+    
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -208,17 +208,17 @@
             chooseLoginState = @"1";
         }
         
-        if ([self.zhangHaoTextField.text isEqualToString:@""] ) {
-            [EasyShowTextView showImageText:@"请输入用户名" imageName:@"icon_sym_toast_warning_56_w100"];
-
-        }else if ([self.miMaTextfield.text isEqualToString:@""])
-        {
-            [EasyShowTextView showImageText:@"请输入密码" imageName:@"icon_sym_toast_warning_56_w100"];
-
-        }else
-        {
+//        if ([self.zhangHaoTextField.text isEqualToString:@""] ) {
+//            [EasyShowTextView showImageText:@"请输入用户名" imageName:@"icon_sym_toast_warning_56_w100"];
+//
+//        }else if ([self.miMaTextfield.text isEqualToString:@""])
+//        {
+//            [EasyShowTextView showImageText:@"请输入密码" imageName:@"icon_sym_toast_warning_56_w100"];
+//
+//        }else
+//        {
             NSString * newstr = [Encryption MD5ForLower32Bate:@"iosduxiu2018"];
-            NSString * passwordStr = [Encryption MD5ForLower32Bate:self.miMaTextfield.text];
+            NSString * passwordStr = [Encryption MD5ForLower32Bate:@"123456"];
             NSString * system = [[SingletonHelper manager] encode:@"ios"];
 
             NSDictionary * dic = @{@"usernum":@"aa012", @"password":passwordStr, @"identity":chooseLoginState, @"system":system, @"sign":newstr};
@@ -227,20 +227,25 @@
                 
                 if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
                     if (self.teacherChooseState == 1) {
-                        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"chooseLoginState"];
+                        [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:@"chooseLoginState"];
                     }else if (self.parentChooseState == 1)
                     {
-                        [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:@"chooseLoginState"];
+                        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"chooseLoginState"];
                     }
                     
                     
                     self.personInfoModel = [PersonInformationModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
                     
-//                    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.personInfoModel];
-//                    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-//                    [user setObject:data forKey:@"personInfo"];
-//                    //同步到本地
-//                    [user synchronize];
+                    //存储学生和家长信息
+                    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.personInfoModel];
+                    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+                    [user setObject:data forKey:@"personInfo"];
+                    //同步到本地
+                    [user synchronize];
+                    
+                    NSString * keyDic = [NSString stringWithFormat:@"%ld:%@:%@:%@", self.personInfoModel.school_id, self.personInfoModel.ID, chooseLoginState, self.personInfoModel.token];
+                    NSString * key = [[SingletonHelper manager] encode:keyDic];
+                    [[NSUserDefaults standardUserDefaults] setObject:key forKey:@"key"];
                   
                     
                     [SingletonHelper manager].personInfoModel = self.personInfoModel;
@@ -262,7 +267,7 @@
             } failure:^(NSURLSessionDataTask *task, NSError *error) {
                 NSLog(@"%@", error);
             }];
-        }
+//        }
         
         
        

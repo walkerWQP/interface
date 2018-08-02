@@ -81,6 +81,11 @@
 		9813959E2105E61E00CDE2BA /* MyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9813958B2105E61E00CDE2BA /* MyViewController.m */; };
 		9813959F2105E61E00CDE2BA /* ClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 981395902105E61E00CDE2BA /* ClassViewController.m */; };
 		983CD955211152130050508C /* BusinessDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 983CD954211152130050508C /* BusinessDetailController.m */; };
+		983CD95D211162F50050508C /* DateTimePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 983CD95C211162F50050508C /* DateTimePickerView.m */; };
+		983CD9612111B6E20050508C /* TongZhiModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 983CD9602111B6DF0050508C /* TongZhiModel.m */; };
+		983CD9652111B70D0050508C /* TongZhiDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 983CD9632111B70D0050508C /* TongZhiDetailsCell.m */; };
+		983CD9662111B70D0050508C /* TongZhiDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 983CD9642111B70D0050508C /* TongZhiDetailsCell.xib */; };
+		983CD9692111B7210050508C /* TongZhiDetailsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 983CD9682111B7210050508C /* TongZhiDetailsModel.m */; };
 		989BFDF82108112E007A69A5 /* MainNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFDF72108112E007A69A5 /* MainNavigationController.m */; };
 		989BFDFE210813D5007A69A5 /* UIImage+ColorImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFDFD210813D5007A69A5 /* UIImage+ColorImage.m */; };
 		989BFE0121081493007A69A5 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE0021081493007A69A5 /* BaseViewController.m */; };
@@ -131,6 +136,7 @@
 		98B6B6D32106BC4000146DFD /* PersonalDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B6B6D22106BC4000146DFD /* PersonalDataViewController.m */; };
 		98BBCF51210C074E00AC00CD /* UIButton+WCustomIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BBCF50210C074E00AC00CD /* UIButton+WCustomIcon.m */; };
 		98BBCF54210C116600AC00CD /* WTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BBCF53210C116600AC00CD /* WTextView.m */; };
+		98C0E4A921129B5600832DF4 /* JobDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C0E4A821129B5600832DF4 /* JobDetailsViewController.m */; };
 		98D89DB5211002C200355626 /* SignClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DB4211002C200355626 /* SignClassViewController.m */; };
 		98D89DB82110054100355626 /* TotalNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DB72110054100355626 /* TotalNumberViewController.m */; };
 		98D89DBB2110055D00355626 /* HasBeenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DBA2110055D00355626 /* HasBeenViewController.m */; };
@@ -334,6 +340,15 @@
 		981395A22105EBE100CDE2BA /* WMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMarco.h; sourceTree = "<group>"; };
 		983CD953211152130050508C /* BusinessDetailController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BusinessDetailController.h; sourceTree = "<group>"; };
 		983CD954211152130050508C /* BusinessDetailController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BusinessDetailController.m; sourceTree = "<group>"; };
+		983CD95B211162F50050508C /* DateTimePickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DateTimePickerView.h; sourceTree = "<group>"; };
+		983CD95C211162F50050508C /* DateTimePickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DateTimePickerView.m; sourceTree = "<group>"; };
+		983CD95F2111B6DF0050508C /* TongZhiModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TongZhiModel.h; sourceTree = "<group>"; };
+		983CD9602111B6DF0050508C /* TongZhiModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TongZhiModel.m; sourceTree = "<group>"; };
+		983CD9622111B70C0050508C /* TongZhiDetailsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TongZhiDetailsCell.h; sourceTree = "<group>"; };
+		983CD9632111B70D0050508C /* TongZhiDetailsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TongZhiDetailsCell.m; sourceTree = "<group>"; };
+		983CD9642111B70D0050508C /* TongZhiDetailsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TongZhiDetailsCell.xib; sourceTree = "<group>"; };
+		983CD9672111B7210050508C /* TongZhiDetailsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TongZhiDetailsModel.h; sourceTree = "<group>"; };
+		983CD9682111B7210050508C /* TongZhiDetailsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TongZhiDetailsModel.m; sourceTree = "<group>"; };
 		989BFDF62108112E007A69A5 /* MainNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainNavigationController.h; sourceTree = "<group>"; };
 		989BFDF72108112E007A69A5 /* MainNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainNavigationController.m; sourceTree = "<group>"; };
 		989BFDFC210813D5007A69A5 /* UIImage+ColorImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ColorImage.h"; sourceTree = "<group>"; };
@@ -435,6 +450,8 @@
 		98BBCF50210C074E00AC00CD /* UIButton+WCustomIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+WCustomIcon.m"; sourceTree = "<group>"; };
 		98BBCF52210C116600AC00CD /* WTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WTextView.h; sourceTree = "<group>"; };
 		98BBCF53210C116600AC00CD /* WTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WTextView.m; sourceTree = "<group>"; };
+		98C0E4A721129B5600832DF4 /* JobDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JobDetailsViewController.h; sourceTree = "<group>"; };
+		98C0E4A821129B5600832DF4 /* JobDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JobDetailsViewController.m; sourceTree = "<group>"; };
 		98D89DB3211002C200355626 /* SignClassViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignClassViewController.h; sourceTree = "<group>"; };
 		98D89DB4211002C200355626 /* SignClassViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignClassViewController.m; sourceTree = "<group>"; };
 		98D89DB62110054100355626 /* TotalNumberViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TotalNumberViewController.h; sourceTree = "<group>"; };
@@ -1166,6 +1183,7 @@
 		0429F600210C68DE00C32957 /* TongZhi(通知) */ = {
 			isa = PBXGroup;
 			children = (
+				983CD95E2111B6DF0050508C /* Model */,
 				0429F605210C696A00C32957 /* Controller */,
 				0429F602210C696900C32957 /* View */,
 			);
@@ -1218,6 +1236,8 @@
 		0429F615210C770800C32957 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				983CD9672111B7210050508C /* TongZhiDetailsModel.h */,
+				983CD9682111B7210050508C /* TongZhiDetailsModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1225,6 +1245,9 @@
 		0429F616210C770800C32957 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				983CD9622111B70C0050508C /* TongZhiDetailsCell.h */,
+				983CD9632111B70D0050508C /* TongZhiDetailsCell.m */,
+				983CD9642111B70D0050508C /* TongZhiDetailsCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1436,6 +1459,8 @@
 				98BBCF53210C116600AC00CD /* WTextView.m */,
 				983CD953211152130050508C /* BusinessDetailController.h */,
 				983CD954211152130050508C /* BusinessDetailController.m */,
+				983CD95B211162F50050508C /* DateTimePickerView.h */,
+				983CD95C211162F50050508C /* DateTimePickerView.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1691,6 +1716,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		983CD95E2111B6DF0050508C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				983CD95F2111B6DF0050508C /* TongZhiModel.h */,
+				983CD9602111B6DF0050508C /* TongZhiModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		98AD7E38210F11BC00641231 /* Consulting(问题咨询) */ = {
 			isa = PBXGroup;
 			children = (
@@ -1887,8 +1921,8 @@
 		98AD7E72210F11BD00641231 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				98AD7E73210F11BD00641231 /* HomeViewController.m */,
 				98AD7E74210F11BD00641231 /* HomeViewController.h */,
+				98AD7E73210F11BD00641231 /* HomeViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1912,6 +1946,8 @@
 				98AD7E79210F11BD00641231 /* HomeWorkViewController.m */,
 				98AD7E7A210F11BD00641231 /* PublishJobViewController.h */,
 				98AD7E77210F11BD00641231 /* PublishJobViewController.m */,
+				98C0E4A721129B5600832DF4 /* JobDetailsViewController.h */,
+				98C0E4A821129B5600832DF4 /* JobDetailsViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1944,8 +1980,8 @@
 			isa = PBXGroup;
 			children = (
 				98AD7E81210F11BD00641231 /* SchoolInformationViewController.h */,
-				98AD7E82210F11BD00641231 /* SchoolDynamicViewController.h */,
 				98AD7E83210F11BD00641231 /* SchoolInformationViewController.m */,
+				98AD7E82210F11BD00641231 /* SchoolDynamicViewController.h */,
 				98AD7E84210F11BD00641231 /* SchoolDynamicViewController.m */,
 			);
 			path = Controller;
@@ -2031,11 +2067,11 @@
 		98AD7E96210F11BD00641231 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				98AD7E97210F11BD00641231 /* ClassDetailsViewController.m */,
 				98AD7E98210F11BD00641231 /* TeacherNotifiedViewController.h */,
-				98AD7E99210F11BD00641231 /* NoticeViewController.h */,
-				98AD7E9A210F11BD00641231 /* ClassDetailsViewController.h */,
 				98AD7E9B210F11BD00641231 /* TeacherNotifiedViewController.m */,
+				98AD7E9A210F11BD00641231 /* ClassDetailsViewController.h */,
+				98AD7E97210F11BD00641231 /* ClassDetailsViewController.m */,
+				98AD7E99210F11BD00641231 /* NoticeViewController.h */,
 				98AD7E9C210F11BD00641231 /* NoticeViewController.m */,
 			);
 			path = Controller;
@@ -2133,6 +2169,7 @@
 				043F38D221016DB600115A55 /* Sources */,
 				043F38D321016DB600115A55 /* Frameworks */,
 				043F38D421016DB600115A55 /* Resources */,
+				796AA49054CDB2D6A6BE99C2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2190,6 +2227,11 @@
 				TargetAttributes = {
 					043F38D521016DB600115A55 = {
 						CreatedOnToolsVersion = 9.4.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					043F38F021016DB800115A55 = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -2228,6 +2270,7 @@
 			files = (
 				0429F5EE210C113400C32957 /* LeaveDetailsDownCell.xib in Resources */,
 				043F38E921016DB700115A55 /* LaunchScreen.storyboard in Resources */,
+				983CD9662111B70D0050508C /* TongZhiDetailsCell.xib in Resources */,
 				043F38E621016DB700115A55 /* Assets.xcassets in Resources */,
 				043F38E121016DB600115A55 /* Main.storyboard in Resources */,
 			);
@@ -2250,6 +2293,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		796AA49054CDB2D6A6BE99C2 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ZhiNengXiaoFu/Pods-ZhiNengXiaoFu-resources.sh",
+				"${PODS_ROOT}/AMap3DMap/MAMapKit.framework/AMap.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AMap.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZhiNengXiaoFu/Pods-ZhiNengXiaoFu-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		EB9A40ADBD743259552F40E4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2300,6 +2361,7 @@
 				98AD7EA8210F11BD00641231 /* ConsultingViewController.m in Sources */,
 				9813959D2105E61E00CDE2BA /* SignViewController.m in Sources */,
 				98AD7EA5210F11BD00641231 /* HaveToReplyViewController.m in Sources */,
+				983CD9612111B6E20050508C /* TongZhiModel.m in Sources */,
 				98D89DC421100A1C00355626 /* TotalNumberCell.m in Sources */,
 				98D89DFE21105CA000355626 /* WenTiZiXunListCell.m in Sources */,
 				98AD7EAB210F11BD00641231 /* PublicClassViewController.m in Sources */,
@@ -2364,6 +2426,7 @@
 				98B6B6D02106B7BB00146DFD /* MyInformationCell.m in Sources */,
 				0413D6AA210EEAE200CB34A6 /* KeChengJieShaoCell.m in Sources */,
 				043F39822101CFCB00115A55 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
+				983CD9652111B70D0050508C /* TongZhiDetailsCell.m in Sources */,
 				98AD7EA7210F11BD00641231 /* ReplyViewController.m in Sources */,
 				98D89DE621103C7800355626 /* EasyShowTypes.m in Sources */,
 				98AD7EA6210F11BD00641231 /* DidNotReturnViewController.m in Sources */,
@@ -2407,6 +2470,7 @@
 				0429F60C210C696A00C32957 /* SchoolTongZhiViewController.m in Sources */,
 				98D89DE921103C7800355626 /* EasyShowTextBgView.m in Sources */,
 				042810932108070F00E2CA14 /* ClassInformationViewController.m in Sources */,
+				983CD9692111B7210050508C /* TongZhiDetailsModel.m in Sources */,
 				04324DC12105A6C7003789D7 /* LoginHomePageViewController.m in Sources */,
 				043F39882101CFCB00115A55 /* View+MASAdditions.m in Sources */,
 				98D89E0521105CC000355626 /* HuoDongIngViewController.m in Sources */,
@@ -2418,7 +2482,9 @@
 				98D89DBE2110058600355626 /* NotToViewController.m in Sources */,
 				989BFE1921088D6C007A69A5 /* SchoolDongTaiViewController.m in Sources */,
 				0429F60B210C696A00C32957 /* TeacherTongZhiViewController.m in Sources */,
+				983CD95D211162F50050508C /* DateTimePickerView.m in Sources */,
 				043F38DB21016DB600115A55 /* AppDelegate.m in Sources */,
+				98C0E4A921129B5600832DF4 /* JobDetailsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2588,6 +2654,7 @@
 			baseConfigurationReference = E9EF48CA703F38D41C8D8940 /* Pods-ZhiNengXiaoFu.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MRPFND3RB4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2609,6 +2676,7 @@
 			baseConfigurationReference = 97E480AB68F52C70A0E84853 /* Pods-ZhiNengXiaoFu.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MRPFND3RB4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

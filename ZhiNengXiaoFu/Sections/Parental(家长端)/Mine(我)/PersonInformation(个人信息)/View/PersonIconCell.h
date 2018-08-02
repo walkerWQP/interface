@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) UIImageView * iConImg;
 @property (nonatomic, strong) UILabel * nameLabel;
-@property (nonatomic, strong) UIImageView * moreImg;
+//@property (nonatomic, strong) UIImageView * moreImg;
 @property (nonatomic, strong) UIView * lineView;
 
 @end

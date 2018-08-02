@@ -16,7 +16,7 @@
     if (self) {
         [self addSubview:self.nameLabel];
         [self addSubview:self.titleLabel];
-        [self addSubview:self.moreImg];
+//        [self addSubview:self.moreImg];
         [self addSubview:self.lineView];
     }
     return self;
@@ -32,20 +32,20 @@
     return _nameLabel;
 }
 
-- (UIImageView *)moreImg
-{
-    if (!_moreImg) {
-        self.moreImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 15 - 11.5, 50 / 2 - 8, 11.5, 16)];
-        self.moreImg.image = [UIImage imageNamed:@"more"];
-    }
-    return _moreImg;
-}
+//- (UIImageView *)moreImg
+//{
+//    if (!_moreImg) {
+//        self.moreImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 15 - 11.5, 50 / 2 - 8, 11.5, 16)];
+//        self.moreImg.image = [UIImage imageNamed:@"more"];
+//    }
+//    return _moreImg;
+//}
 
 
 - (UILabel *)titleLabel
 {
     if (!_titleLabel) {
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 15 - 11.5 - 5 - 100, 50 / 2 - 10, 100, 20)];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 15 - 100, 50 / 2 - 10, 100, 20)];
         self.titleLabel.textColor = COLOR(51, 51, 51, 1);
         self.titleLabel.font = [UIFont systemFontOfSize:15];
         self.titleLabel.textAlignment = NSTextAlignmentRight;
