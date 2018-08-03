@@ -34,8 +34,7 @@
     [self.personInfomationTableView registerClass:[PersonInfomationCell class] forCellReuseIdentifier:@"PersonInfomationCellId"];
     [self.personInfomationTableView registerClass:[PersonIconCell class] forCellReuseIdentifier:@"PersonIconCellId"];
     
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"personInfo"];
-    self.personInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    self.personInfo = [UserManager getUserObject];
     
     
     
@@ -87,7 +86,7 @@
                 cell.titleLabel.text = @"走读生";
             }else
             {
-                cell.titleLabel.text = @"在校生";
+                cell.titleLabel.text = @"住校生";
             }
             
         }else if (indexPath.row == 4)
@@ -96,11 +95,11 @@
             
         }else if (indexPath.row == 5)
         {
-            cell.titleLabel.text = @"";
+            cell.titleLabel.text = self.personInfo.school_name;
             
         }else if (indexPath.row == 6)
         {
-            cell.titleLabel.text = @"高一年级";
+            cell.titleLabel.text = self.personInfo.class_name_s;
             
         }
         return cell;

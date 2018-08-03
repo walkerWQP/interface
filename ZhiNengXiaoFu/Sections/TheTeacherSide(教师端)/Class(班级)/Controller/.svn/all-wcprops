@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 178
-/svn/ios/!svn/ver/66/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/TheTeacherSide(%E6%95%99%E5%B8%88%E7%AB%AF)/Class(%E7%8F%AD%E7%BA%A7)/Controller
+/svn/ios/!svn/ver/81/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/TheTeacherSide(%E6%95%99%E5%B8%88%E7%AB%AF)/Class(%E7%8F%AD%E7%BA%A7)/Controller
 END
 ClassViewController.m
 K 25
@@ -19,7 +19,7 @@ TheClassInformationViewController.m
 K 25
 svn:wc:ra_dav:version-url
 V 214
-/svn/ios/!svn/ver/59/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/TheTeacherSide(%E6%95%99%E5%B8%88%E7%AB%AF)/Class(%E7%8F%AD%E7%BA%A7)/Controller/TheClassInformationViewController.m
+/svn/ios/!svn/ver/81/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/TheTeacherSide(%E6%95%99%E5%B8%88%E7%AB%AF)/Class(%E7%8F%AD%E7%BA%A7)/Controller/TheClassInformationViewController.m
 END
 ClassViewController.h
 K 25

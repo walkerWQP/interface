@@ -32,5 +32,11 @@
 @property (nonatomic, copy) NSString * usernum;
 //性别
 @property (nonatomic, assign) NSInteger sex;
+//学校名字
+@property (nonatomic, copy) NSString * school_name;
+//家长班级名称
+@property (nonatomic, copy) NSString * class_name_s;
+//老师班级名称
+@property (nonatomic, strong) NSMutableArray * class_name_t;
 
 @end

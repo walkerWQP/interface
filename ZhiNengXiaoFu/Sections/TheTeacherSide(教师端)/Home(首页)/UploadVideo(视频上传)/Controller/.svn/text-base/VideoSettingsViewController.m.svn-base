@@ -48,13 +48,13 @@
     
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     [button setTitle:@"删除" forState:UIControlStateNormal];
-    button.titleLabel.font = titleFont;
+    button.titleLabel.font = titFont;
     [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, APP_WIDTH - 20, 30)];
     self.titleLabel.text = @"视频标题";
-    self.titleLabel.font = titleFont;
+    self.titleLabel.font = titFont;
     self.titleLabel.textColor = titlColor;
     [self.view addSubview:self.titleLabel];
     
@@ -72,7 +72,7 @@
     
     self.classificationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height + 20, APP_WIDTH - 20, 30)];
     self.classificationLabel.text = @"视频分类";
-    self.classificationLabel.font = titleFont;
+    self.classificationLabel.font = titFont;
     self.classificationLabel.textColor = titlColor;
     [self.view addSubview:self.classificationLabel];
     
@@ -90,7 +90,7 @@
     
     self.describeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.classificationLabel.frame.size.height + self.classificationField.frame.size.height + 30, APP_WIDTH - 20, 30)];
     self.describeLabel.text = @"视频描述";
-    self.describeLabel.font = titleFont;
+    self.describeLabel.font = titFont;
     self.describeLabel.textColor = titlColor;
     [self.view addSubview:self.describeLabel];
     
@@ -113,7 +113,7 @@
     UILabel *publicLabel = [[UILabel alloc] initWithFrame:CGRectMake((APP_WIDTH - 160) / 3 + self.publicBtn.frame.size.width, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.classificationLabel.frame.size.height + self.classificationField.frame.size.height + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + 40, 60, 20)];
     publicLabel.textColor = titlColor;
     publicLabel.text = @"公开";
-    publicLabel.font = titleFont;
+    publicLabel.font = titFont;
     [self.view addSubview:publicLabel];
     
     self.chargeBtn = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH - (APP_WIDTH - 160) / 3 - 60, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.classificationLabel.frame.size.height + self.classificationField.frame.size.height + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + 40, 20, 20)];
@@ -124,7 +124,7 @@
     UILabel *chargeLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - (APP_WIDTH - 160) / 3 - self.chargeBtn.frame.size.width * 2, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.classificationLabel.frame.size.height + self.classificationField.frame.size.height + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + 40, 60, 20)];
     chargeLabel.textColor = titlColor;
     chargeLabel.text = @"收费";
-    chargeLabel.font = titleFont;
+    chargeLabel.font = titFont;
     [self.view addSubview:chargeLabel];
     
     self.saveBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.classificationLabel.frame.size.height + self.classificationField.frame.size.height + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + self.publicBtn.frame.size.height + 70, APP_WIDTH - 20, 40)];

@@ -44,13 +44,13 @@
     
     self.problemLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + self.headImgView.frame.size.width, 10, self.bgView.frame.size.width - self.headImgView.frame.size.width - 30, 30)];
     self.problemLabel.textColor = titlColor;
-    self.problemLabel.font = titleFont;
+    self.problemLabel.font = titFont;
     self.problemLabel.text = @"八一班黎明问:";
     [self.bgView addSubview:self.problemLabel];
     
     self.problemContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10 + self.headImgView.frame.size.height, self.bgView.frame.size.width - 20, 30)];
     self.problemContentLabel.textColor = titlColor;
-    self.problemContentLabel.font = titleFont;
+    self.problemContentLabel.font = titFont;
     self.problemContentLabel.text = @"学校运动会是什么时候?";
     [self.bgView addSubview:self.problemContentLabel];
     

@@ -26,7 +26,7 @@
     
     
     NSMutableArray *imgArr = [NSMutableArray arrayWithObjects:@"头像", nil];
-    NSMutableArray *titleArr = [NSMutableArray arrayWithObjects:@"四年级八班", nil];
+    NSMutableArray *titleArr = [NSMutableArray arrayWithObjects:[UserManager getUserObject].class_name_s, nil];
     
     for (int i = 0; i < imgArr.count; i++) {
         NSString *img     = [imgArr objectAtIndex:i];
@@ -46,7 +46,8 @@
     return _classArr;
 }
 
-- (void)makeClassViewControllerUI {
+- (void)makeClassViewControllerUI
+{
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.sectionInset = UIEdgeInsetsMake(190, 0, 0, 0);

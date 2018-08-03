@@ -32,7 +32,7 @@
     [self.contentView addSubview:self.headImgView];
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + self.headImgView.frame.size.width,self.lineView.frame.origin.y + self.lineView.frame.size.height + 11, APP_WIDTH * 0.6, 20)];
-    self.titleLabel.font = titleFont;
+    self.titleLabel.font = titFont;
     self.titleLabel.textColor = titlColor;
     [self.contentView addSubview:self.titleLabel];
     

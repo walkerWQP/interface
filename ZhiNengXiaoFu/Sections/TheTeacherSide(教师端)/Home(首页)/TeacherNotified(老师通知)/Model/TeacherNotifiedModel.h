@@ -10,6 +10,8 @@
 
 @interface TeacherNotifiedModel : NSObject
 
-
+@property (nonatomic, strong) NSString   *ID;
+@property (nonatomic, strong) NSString   *name;
+@property (nonatomic, strong) NSString   *head_img;
 
 @end

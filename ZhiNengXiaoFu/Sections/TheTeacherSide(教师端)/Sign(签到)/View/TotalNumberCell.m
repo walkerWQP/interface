@@ -28,7 +28,7 @@
     self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.headImgView.frame.size.height + 20, self.contentView.frame.size.width, 30)];
     self.nameLabel.textColor = titlColor;
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
-    self.nameLabel.font = titleFont;
+    self.nameLabel.font = titFont;
     [self.contentView addSubview:self.nameLabel];
     
 }

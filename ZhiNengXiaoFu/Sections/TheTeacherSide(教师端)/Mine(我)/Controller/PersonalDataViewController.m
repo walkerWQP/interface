@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) UITableView    *personalDataTableView;
 @property (nonatomic, strong) NSMutableArray *nameArr;
+@property (nonatomic, strong) PersonInformationModel * personInfo;
 
 @end
 
@@ -29,6 +30,7 @@
     [self.view addSubview:self.personalDataTableView];
     [self.personalDataTableView registerClass:[PersonInfomationCell class] forCellReuseIdentifier:@"PersonInfomationCellId"];
     [self.personalDataTableView registerClass:[PersonIconCell class] forCellReuseIdentifier:@"PersonIconCellId"];
+    self.personInfo = [UserManager getUserObject];
 }
 
 
@@ -55,7 +57,7 @@
     if (indexPath.row == 0) {
         PersonIconCell * cell = [tableView dequeueReusableCellWithIdentifier:@"PersonIconCellId" forIndexPath:indexPath];
         cell.nameLabel.text = @"头像";
-        cell.iConImg.image = [UIImage imageNamed:@"头像"];
+        [cell.iConImg sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:nil];
         return cell;
     } else {
         PersonInfomationCell * cell = [tableView dequeueReusableCellWithIdentifier:@"PersonInfomationCellId" forIndexPath:indexPath];
@@ -63,14 +65,14 @@
         cell.selectionStyle =  UITableViewCellSelectionStyleNone;
     
         if (indexPath.row == 1) {
-            cell.titleLabel.text = @"赵婷韵";
+            cell.titleLabel.text = self.personInfo.name;
         }else if (indexPath.row == 2) {
-            cell.titleLabel.text = @"18873090308";
+            cell.titleLabel.text = self.personInfo.mobile;
             
         } else if (indexPath.row == 3) {
-            cell.titleLabel.text = @"99999";
+            cell.titleLabel.text = self.personInfo.usernum;
         } else if (indexPath.row == 4) {
-            cell.titleLabel.text = @"赤水一中";
+            cell.titleLabel.text = self.personInfo.school_name;
             
         }
         return cell;

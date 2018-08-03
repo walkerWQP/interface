@@ -195,9 +195,7 @@
 
 //登录
 - (void)login:(UIButton *)sender
-{
-    
-    
+{    
     if (self.teacherChooseState == 1 || self.parentChooseState == 1) {
         
         NSString * chooseLoginState = [[NSString alloc] init];
@@ -221,7 +219,7 @@
             NSString * passwordStr = [Encryption MD5ForLower32Bate:@"123456"];
             NSString * system = [[SingletonHelper manager] encode:@"ios"];
 
-            NSDictionary * dic = @{@"usernum":@"aa012", @"password":passwordStr, @"identity":chooseLoginState, @"system":system, @"sign":newstr};
+            NSDictionary * dic = @{@"usernum":@"aa011", @"password":passwordStr, @"identity":chooseLoginState, @"system":system, @"sign":newstr};
             [[HttpRequestManager sharedSingleton] POST:LOGIN parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
                 NSLog(@"%@",responseObject);
                 
@@ -232,6 +230,8 @@
                     {
                         [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"chooseLoginState"];
                     }
+                    
+
                     
                     
                     self.personInfoModel = [PersonInformationModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
@@ -252,6 +252,10 @@
                     TotalTabBarController * totalTabBarVC = [[TotalTabBarController alloc] init];
                     UIWindow *window = [UIApplication sharedApplication].keyWindow;
                     //把自定义标签视图控制器totalTabBarVC 作为window的rootViewController(根视图控制器)
+                    
+                    [window.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
+                    
                     window.rootViewController = totalTabBarVC;
                     
                     [self.zhangHaoTextField resignFirstResponder];

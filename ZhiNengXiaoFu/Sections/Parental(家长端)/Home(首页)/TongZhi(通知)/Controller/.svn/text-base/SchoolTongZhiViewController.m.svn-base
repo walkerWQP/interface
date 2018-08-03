@@ -45,12 +45,25 @@
     NSDictionary * dic = @{@"key":key, @"is_school":@1};
     [[HttpRequestManager sharedSingleton] POST:JIAZHANGCHAKANTONGZHILIEBIAO parameters:dic success:^(NSURLSessionDataTask *task, id responseObject)
     {
-        self.schoolTongZhiAry = [TongZhiModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
-        if (self.schoolTongZhiAry.count == 0) {
-            self.zanwushuju.alpha = 1;
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200)
+        {
+            self.schoolTongZhiAry = [TongZhiModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            if (self.schoolTongZhiAry.count == 0) {
+                self.zanwushuju.alpha = 1;
+                
+            }
+            [self.schoolTongZhiTableView reloadData];
 
-        }
-        [self.schoolTongZhiTableView reloadData];
+        }else
+        {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            }else
+            {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }        
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         

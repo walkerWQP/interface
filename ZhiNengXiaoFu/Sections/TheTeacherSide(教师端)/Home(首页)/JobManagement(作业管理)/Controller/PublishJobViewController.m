@@ -7,6 +7,7 @@
 //
 
 #import "PublishJobViewController.h"
+#import "PublishJobModel.h"
 
 @interface PublishJobViewController ()<UITextFieldDelegate>
 
@@ -23,19 +24,28 @@
 @property (nonatomic, strong) UILabel      *uploadPicturesLabel;
 @property (nonatomic, strong) UIButton     *uploadPicturesBtn;
 
+@property (nonatomic, strong) NSMutableArray *publishJobArr;
+
 @end
 
 @implementation PublishJobViewController
+
+- (NSMutableArray *)publishJobArr {
+    if (!_publishJobArr) {
+        _publishJobArr = [NSMutableArray array];
+    }
+    return _publishJobArr;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"发布作业";
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     [button setTitle:@"发布" forState:UIControlStateNormal];
-    button.titleLabel.font = titleFont;
+    button.titleLabel.font = titFont;
     [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    
+    [self getUserGetCourse];
     [self makePublishJobViewControllerUI];
     
 }
@@ -45,7 +55,7 @@
     self.subjectsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, APP_WIDTH, 30)];
     self.subjectsLabel.text = @"科目";
     self.subjectsLabel.textColor =titlColor;
-    self.subjectsLabel.font = titleFont;
+    self.subjectsLabel.font = titFont;
     [self.view addSubview:self.subjectsLabel];
     
     self.subjectsBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.subjectsLabel.frame.size.height + 10, APP_WIDTH - 20, 40)];
@@ -67,7 +77,7 @@
     self.jobNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.subjectsLabel.frame.size.height + self.subjectsBtn.frame.size.height + 20, APP_WIDTH - 20, 30)];
     self.jobNameLabel.text = @"作业名称";
     self.jobNameLabel.textColor = titlColor;
-    self.jobNameLabel.font = titleFont;
+    self.jobNameLabel.font = titFont;
     [self.view addSubview:self.jobNameLabel];
     
     self.jobNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, self.subjectsLabel.frame.size.height + self.subjectsBtn.frame.size.height + self.jobNameLabel.frame.size.height + 20, APP_WIDTH - 20, 40)];
@@ -85,7 +95,7 @@
     self.jobContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.subjectsLabel.frame.size.height + self.subjectsBtn.frame.size.height + self.jobNameLabel.frame.size.height + self.jobNameTextField.frame.size.height + 30, APP_WIDTH - 20, 30)];
     self.jobContentLabel.text = @"作业内容";
     self.jobContentLabel.textColor = titlColor;
-    self.jobContentLabel.font = titleFont;
+    self.jobContentLabel.font = titFont;
     [self.view addSubview:self.jobContentLabel];
     
     self.jobContentTextView = [[WTextView alloc] initWithFrame:CGRectMake(10, self.subjectsLabel.frame.size.height + self.subjectsBtn.frame.size.height + self.jobNameLabel.frame.size.height + self.jobNameTextField.frame.size.height + self.jobContentLabel.frame.size.height + 30, APP_WIDTH - 20, APP_HEIGHT * 0.3)];
@@ -102,7 +112,7 @@
     self.uploadPicturesLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.subjectsLabel.frame.size.height + self.subjectsBtn.frame.size.height + self.jobNameLabel.frame.size.height + self.jobNameTextField.frame.size.height + self.jobContentLabel.frame.size.height + self.jobContentTextView.frame.size.height + 40, APP_WIDTH - 20, 30)];
     self.uploadPicturesLabel.text = @"上传图片内容(最多只能上传三张)";
     self.uploadPicturesLabel.textColor = titlColor;
-    self.uploadPicturesLabel.font = titleFont;
+    self.uploadPicturesLabel.font = titFont;
     [self.view addSubview:self.uploadPicturesLabel];
     
     self.uploadPicturesBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.subjectsLabel.frame.size.height + self.subjectsBtn.frame.size.height + self.jobNameLabel.frame.size.height + self.jobNameTextField.frame.size.height + self.jobContentLabel.frame.size.height + self.jobContentTextView.frame.size.height + self.uploadPicturesLabel.frame.size.height + 40, 80, 80)];
@@ -119,6 +129,7 @@
 
 - (void)subjectsBtn : (UIButton *)sender {
     NSLog(@"点击科目类型");
+    
 }
 
 - (void)rightBtn : (UIButton *)sender {
@@ -127,6 +138,33 @@
     
 }
 
+- (void)getUserGetCourse {
+    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
+    NSDictionary *dic = @{@"key":key};
+    [[HttpRequestManager sharedSingleton] POST:userGetCourse parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.publishJobArr = [PublishJobModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            if (self.publishJobArr.count == 0) {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+            } else {
+                
+                
+            }
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
 
 
 

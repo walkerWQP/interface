@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "PrefixHeader.pch"
 @interface TongZhiDetailsModel : NSObject
 
 @property (nonatomic, copy) NSString * content;

@@ -10,4 +10,9 @@
 
 @implementation TongZhiDetailsModel
 
+
++ (NSDictionary *)replacedKeyFromPropertyName {
+    
+    return @{@"ID": @"id"};
+}
 @end

@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *TongZhiDetailsConnectLabel;
 @property (weak, nonatomic) IBOutlet UIView *PicView;
 @property (weak, nonatomic) IBOutlet UILabel *TongZhiDetailsTimeLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *CommunityDetailsImageViewHegit;
 
 @end

@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 193
-/svn/ios/!svn/ver/55/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/Parental(%E5%AE%B6%E9%95%BF%E7%AB%AF)/Home(%E9%A6%96%E9%A1%B5)/TongZhi(%E9%80%9A%E7%9F%A5)/View
+/svn/ios/!svn/ver/81/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/Parental(%E5%AE%B6%E9%95%BF%E7%AB%AF)/Home(%E9%A6%96%E9%A1%B5)/TongZhi(%E9%80%9A%E7%9F%A5)/View
 END
 TeacherTongZhiCell.h
 K 25
@@ -25,5 +25,5 @@ TongZhiCell.m
 K 25
 svn:wc:ra_dav:version-url
 V 207
-/svn/ios/!svn/ver/55/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/Parental(%E5%AE%B6%E9%95%BF%E7%AB%AF)/Home(%E9%A6%96%E9%A1%B5)/TongZhi(%E9%80%9A%E7%9F%A5)/View/TongZhiCell.m
+/svn/ios/!svn/ver/81/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/Parental(%E5%AE%B6%E9%95%BF%E7%AB%AF)/Home(%E9%A6%96%E9%A1%B5)/TongZhi(%E9%80%9A%E7%9F%A5)/View/TongZhiCell.m
 END

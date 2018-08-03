@@ -8,10 +8,14 @@
 
 #import "HomeWorkViewController.h"
 #import "ClassDetailsCell.h"
+#import "HomeWorkModel.h"
 #import "PublishJobViewController.h"
 #import "JobDetailsViewController.h"
 
 @interface HomeWorkViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+
+@property (nonatomic, strong) UIImageView *zanwushuju;
+@property (nonatomic, assign) NSInteger   page;
 
 @end
 
@@ -26,29 +30,52 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"家庭作业";
+    
+    self.title = self.titleStr;
+    self.page = 1;
+    [self getWorkHomeWorkListData];
     
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     [button setTitle:@"发布" forState:UIControlStateNormal];
-    button.titleLabel.font = titleFont;
+    button.titleLabel.font = titFont;
     [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     
-    NSMutableArray *imgArr = [NSMutableArray arrayWithObjects:@"通知图标",@"通知图标",@"通知图标",@"通知图标", nil];
-    NSMutableArray *titleArr = [NSMutableArray arrayWithObjects:@"七年级通知",@"九年级通知",@"六年级通知",@"四年级八班通知", nil];
-    NSMutableArray *contentArr = [NSMutableArray arrayWithObjects:@"英语作业通知",@"英语",@"数学成绩查询",@"春游计划通知", nil];
-    NSMutableArray *timeArr       = [NSMutableArray arrayWithObjects:@"2018-09-01",@"2018-09-02",@"2018-09-03",@"2018-09-04", nil];
-    for (int i = 0; i < imgArr.count; i++) {
-        NSString *img     = [imgArr objectAtIndex:i];
-        NSString *title   = [titleArr objectAtIndex:i];
-        NSString *content = [contentArr objectAtIndex:i];
-        NSString *time    = [timeArr objectAtIndex:i];
-        NSDictionary *dic = @{@"img":img,@"title":title,@"content":content,@"time":time};
-        [self.homeWorkArr addObject:dic];
-    }
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.view addSubview:self.zanwushuju];
     
     [self makeHomeWorkViewControllerUI];
     
+}
+
+- (void)getWorkHomeWorkListData {
+    NSString *key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
+    NSDictionary *dic = @{@"key":key,@"class_id":self.ID,@"page":[NSString stringWithFormat:@"%ld",self.page]};
+    [[HttpRequestManager sharedSingleton] POST:workHomeWorkList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.homeWorkArr = [HomeWorkModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            if (self.homeWorkArr.count == 0) {
+                self.zanwushuju.alpha = 1;
+            } else {
+                
+                [self.homeWorkCollectionView reloadData];
+            }
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
 }
 
 - (void)makeHomeWorkViewControllerUI {
@@ -80,13 +107,14 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSDictionary * dic = [self.homeWorkArr objectAtIndex:indexPath.row];
+    
     UICollectionViewCell *gridcell = nil;
     ClassDetailsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ClassDetailsCell_CollectionView forIndexPath:indexPath];
-    cell.headImgView.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
-    cell.titleLabel.text = [dic objectForKey:@"title"];
-    cell.subjectsLabel.text = [dic objectForKey:@"content"];
-    cell.timeLabel.text = [dic objectForKey:@"time"];
+    HomeWorkModel  *model = [self.homeWorkArr objectAtIndex:indexPath.row];
+    cell.headImgView.image = [UIImage imageNamed:@"通知图标"];
+    cell.titleLabel.text = model.title;
+//    cell.subjectsLabel.text = model.abstract;
+    cell.timeLabel.text = model.create_time;
     gridcell = cell;
     return gridcell;
     
@@ -110,8 +138,10 @@
 //点击响应方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSLog(@"%ld",indexPath.row);
+     HomeWorkModel  *model = [self.homeWorkArr objectAtIndex:indexPath.row];
+    
     JobDetailsViewController *jobDetailsVC = [[JobDetailsViewController alloc] init];
+    jobDetailsVC.classID = model.ID;
     [self.navigationController pushViewController:jobDetailsVC animated:YES];
 }
 
@@ -119,6 +149,7 @@
     
     NSLog(@"点击发布通知");
     PublishJobViewController *publishJobVC = [[PublishJobViewController alloc] init];
+    publishJobVC.classID = self.ID;
     [self.navigationController pushViewController:publishJobVC animated:YES];
     
 }

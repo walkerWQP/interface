@@ -20,6 +20,7 @@
 
 @property (nonatomic, strong) UITableView    *myTabelView;
 @property (nonatomic, strong) NSMutableArray *myArr;
+@property (nonatomic, strong) PersonInformationModel * personInfo;
 
 @end
 
@@ -46,6 +47,9 @@
         NSDictionary * dic = @{@"img":img, @"title":title};
         [self.myArr addObject:dic];
     }
+    
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"personInfo"];
+    self.personInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     
     [self.view addSubview:self.myTabelView];
     [self.myTabelView registerClass:[HomeworkCell class] forCellReuseIdentifier:@"HomeworkCellId"];
@@ -108,8 +112,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         MyInformationCell * cell = [tableView dequeueReusableCellWithIdentifier:@"MyInformationCellId" forIndexPath:indexPath];
-        cell.userName.text = @"小明";
+        cell.userName.text = self.personInfo.name;
         cell.userZiLiao.text = @"我的资料";
+        [cell.userImg sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:nil];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     } else if (indexPath.section == 1) {
@@ -181,10 +186,7 @@
     UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:@"确定要退出登录吗?" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *alertT = [UIAlertAction actionWithTitle:@"退出登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"点击退出登录");
-        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"chooseLoginState"];
-        LoginHomePageViewController * loginHomepage = [[LoginHomePageViewController alloc] init];
-        //        [DreamHeroHelper manager].guessHomepageFanhuiId = 3;
-        [self presentViewController:loginHomepage animated:YES completion:NULL];
+        [self tuichuLogin];
     }];
     UIAlertAction *alertF = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"点击了取消");
@@ -194,6 +196,11 @@
     [actionSheet addAction:alertF];
     [self presentViewController:actionSheet animated:YES completion:nil];
     
+}
+
+- (void)tuichuLogin
+{
+    [UserManager logoOut];
 }
 
 @end

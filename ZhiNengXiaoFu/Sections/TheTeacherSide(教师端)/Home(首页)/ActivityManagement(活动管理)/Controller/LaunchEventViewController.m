@@ -45,7 +45,7 @@
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, APP_WIDTH - 20, 30)];
     self.titleLabel.textColor = titlColor;
-    self.titleLabel.font = titleFont;
+    self.titleLabel.font = titFont;
     self.titleLabel.text = @"活动标题";
     [self.view addSubview:self.titleLabel];
     
@@ -63,7 +63,7 @@
     
     self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + 20, APP_WIDTH - 20, 30)];
     self.timeLabel.textColor = titlColor;
-    self.timeLabel.font = titleFont;
+    self.timeLabel.font = titFont;
     self.timeLabel.text = @"时间";
     [self.view addSubview:self.timeLabel];
     

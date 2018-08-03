@@ -40,7 +40,7 @@
     [self.view addSubview:self.oldPasswordImgView];
     
     self.oldPasswordText = [[UITextField alloc] initWithFrame:CGRectMake(50, 100, APP_WIDTH - 60, 30)];
-    self.oldPasswordText.font = titleFont;
+    self.oldPasswordText.font = titFont;
     self.oldPasswordText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"输入旧密码" attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:157/255.0 green:157/255.0 blue:157/255.0 alpha:1.0]}];
     self.oldPasswordText.delegate = self;
     self.oldPasswordText.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -55,7 +55,7 @@
     [self.view addSubview:self.ImgView];
     
     self.passwordText = [[UITextField alloc] initWithFrame:CGRectMake(50, self.oldPasswordText.frame.size.height + 120, self.oldPasswordText.frame.size.width, 30)];
-    self.passwordText.font = titleFont;
+    self.passwordText.font = titFont;
     self.passwordText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"输入新密码(6-18位字符)" attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:157/255.0 green:157/255.0 blue:157/255.0 alpha:1.0]}];
     self.passwordText.delegate = self;
     self.passwordText.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -70,7 +70,7 @@
     [self.view addSubview:self.ImgView1];
     
     self.againText = [[UITextField alloc] initWithFrame:CGRectMake(50, self.oldPasswordText.frame.size.height + self.passwordText.frame.size.height + 140, APP_WIDTH - 60, 30)];
-    self.againText.font = titleFont;
+    self.againText.font = titFont;
     self.againText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"确认新密码(6-18位字符)" attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:157/255.0 green:157/255.0 blue:157/255.0 alpha:1.0]}];
     self.againText.delegate = self;
     self.againText.clearButtonMode = UITextFieldViewModeWhileEditing;

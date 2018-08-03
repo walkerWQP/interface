@@ -29,12 +29,12 @@
     
     self.problemLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + self.headImgView.frame.size.width, 10, self.contentView.frame.size.width - self.headImgView.frame.size.width - 30, 30)];
     self.problemLabel.textColor = titlColor;
-    self.problemLabel.font = titleFont;
+    self.problemLabel.font = titFont;
     [self.contentView addSubview:self.problemLabel];
     
     self.problemContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10 + self.headImgView.frame.size.height, self.contentView.frame.size.width - 20, 30)];
     self.problemContentLabel.textColor = titlColor;
-    self.problemContentLabel.font = titleFont;
+    self.problemContentLabel.font = titFont;
     [self.contentView addSubview:self.problemContentLabel];
     
     self.lineView = [[UIView alloc] initWithFrame:CGRectMake(10,self.headImgView.frame.size.height + self.problemContentLabel.frame.size.height + 20, self.contentView.frame.size.width - 20, 1)];
@@ -48,12 +48,12 @@
     
     self.replyLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.headImageView.frame.size.width + 20, self.headImgView.frame.size.height + self.problemContentLabel.frame.size.height + self.lineView.frame.size.height + 30, self.contentView.frame.size.width - self.headImageView.frame.size.width - 30, 30)];
     self.replyLabel.textColor = titlColor;
-    self.replyLabel.font = titleFont;
+    self.replyLabel.font = titFont;
     [self.contentView addSubview:self.replyLabel];
     
     self.replyContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.headImgView.frame.size.height + self.problemContentLabel.frame.size.height + self.lineView.frame.size.height + self.headImageView.frame.size.height + 30, self.contentView.frame.size.width - 20, 30)];
     self.replyContentLabel.textColor = titlColor;
-    self.replyContentLabel.font = titleFont;
+    self.replyContentLabel.font = titFont;
     [self.contentView addSubview:self.replyContentLabel];
     
 }

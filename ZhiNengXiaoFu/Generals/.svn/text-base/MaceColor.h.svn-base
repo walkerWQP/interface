@@ -23,7 +23,7 @@
 #define fengeLineColor [UIColor colorWithRed:227/255.0 green:227/255.0 blue:227/255.0 alpha:1.0]
 
 //标题字体
-#define titleFont [UIFont systemFontOfSize:15]
+#define titFont [UIFont systemFontOfSize:15]
 //标题颜色
 #define titlColor RGB(51, 51, 51)
 //内容字体

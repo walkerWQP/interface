@@ -71,6 +71,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
+                <outlet property="CommunityDetailsImageViewHegit" destination="yAk-Va-dfH" id="0MU-32-9K4"/>
                 <outlet property="PicView" destination="7vo-b8-9Wi" id="Sho-R7-I4B"/>
                 <outlet property="TongZhiDetailsConnectLabel" destination="p2q-42-YA0" id="ClO-q4-Jcs"/>
                 <outlet property="TongZhiDetailsTimeLabel" destination="MAM-ZD-iDh" id="dla-a9-EmQ"/>

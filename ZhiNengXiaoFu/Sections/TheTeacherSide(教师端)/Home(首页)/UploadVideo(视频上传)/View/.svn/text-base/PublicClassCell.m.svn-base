@@ -38,7 +38,7 @@
     
     self.contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.bgView.frame.size.height + 10, APP_WIDTH * 0.6, 30)];
     self.contentLabel.textColor = titlColor;
-    self.contentLabel.font = titleFont;
+    self.contentLabel.font = titFont;
     [self.contentView addSubview:self.contentLabel];
     
     self.setUpBtn = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH - 60, self.bgView.frame.size.height + 10, 50, 30)];

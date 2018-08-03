@@ -31,6 +31,10 @@
         self.sex = [aDecoder decodeIntegerForKey:@"sex"];
         self.token = [aDecoder decodeObjectForKey:@"token"];
         self.usernum = [aDecoder decodeObjectForKey:@"usernum"];
+        self.class_name_s = [aDecoder decodeObjectForKey:@"class_name_s"];
+        self.class_name_t = [aDecoder decodeObjectForKey:@"class_name_t"];
+        self.school_name = [aDecoder decodeObjectForKey:@"school_name"];
+
     }
     return self;
 }
@@ -48,6 +52,10 @@
     [aCoder encodeInteger:self.sex forKey:@"sex"];
     [aCoder encodeObject:self.token forKey:@"token"];
     [aCoder encodeObject:self.usernum forKey:@"usernum"];
+    [aCoder encodeObject:self.class_name_s forKey:@"class_name_s"];
+    [aCoder encodeObject:self.school_name forKey:@"school_name"];
+    [aCoder encodeObject:self.class_name_t forKey:@"class_name_t"];
+
 }
 
 @end

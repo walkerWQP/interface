@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) UITableView * tongZhiDetailsTableView;
 @property (nonatomic, strong) TongZhiDetailsModel * tongZhiDetailsModel;
+@property (nonatomic, strong) TongZhiDetailsCell * tongZhiDetailsCell;
 @end
 
 @implementation TongZhiDetailsViewController
@@ -34,6 +35,9 @@
 {
     if (!_tongZhiDetailsTableView) {
         self.tongZhiDetailsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.tongZhiDetailsTableView.backgroundColor = [UIColor whiteColor];
+        self.tongZhiDetailsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
         self.tongZhiDetailsTableView.delegate = self;
         self.tongZhiDetailsTableView.dataSource = self;
     }
@@ -46,13 +50,53 @@
     NSDictionary * dic = @{@"key":key, @"id":self.tongZhiId};
     [[HttpRequestManager sharedSingleton] POST:JIAOSHIJIAZHANGCHAKANXIANGQING parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
-        
-        self.tongZhiDetailsModel = [TongZhiDetailsModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
-        [self.tongZhiDetailsTableView reloadData];
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            self.tongZhiDetailsModel = [TongZhiDetailsModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+            
+            [self configureImage];
+            
+            [self.tongZhiDetailsTableView reloadData];
+        }else
+        {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            }else
+            {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
     }];
+}
+
+- (void)configureImage
+{
+        for (int i = 0; i < self.tongZhiDetailsModel.img.count; i++) {
+            UIImageView * imageViewNew = [[UIImageView alloc] initWithFrame:CGRectMake(0, i * 210, self.tongZhiDetailsCell.PicView.bounds.size.width ,0)];
+            
+            [imageViewNew sd_setImageWithURL:[NSURL URLWithString:[self.tongZhiDetailsModel.img objectAtIndex:i]] placeholderImage:nil options:SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                CGSize size = image.size;
+                CGFloat w = size.width;
+                CGFloat H = size.height;
+                if (w != 0) {
+                    CGFloat newH = H * self.tongZhiDetailsCell.PicView.bounds.size.width / w;
+                    self.tongZhiDetailsCell.CommunityDetailsImageViewHegit.constant += (newH + 10);
+                    imageViewNew.frame =CGRectMake(0, self.tongZhiDetailsCell.CommunityDetailsImageViewHegit.constant - newH,self.tongZhiDetailsCell.PicView.bounds.size.width, H * self.tongZhiDetailsCell.PicView.bounds.size.width / w);
+                }
+                                
+                
+                [self.tongZhiDetailsTableView reloadData];
+                
+            }];
+            
+            [self.tongZhiDetailsCell.PicView addSubview:imageViewNew];
+        }
+        
+        
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -88,16 +132,31 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    TongZhiDetailsCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TongZhiDetailsCellId" forIndexPath:indexPath];
-    cell.TongZhiDetailsTitleLabel.text = self.tongZhiDetailsModel.title;
-    cell.TongZhiDetailsConnectLabel.text = self.tongZhiDetailsModel.content;
-    cell.TongZhiDetailsTimeLabel.text = self.tongZhiDetailsModel.create_time;
-    return cell;
+    self.tongZhiDetailsCell  = [tableView dequeueReusableCellWithIdentifier:@"TongZhiDetailsCellId" forIndexPath:indexPath];
+    self.tongZhiDetailsCell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    self.tongZhiDetailsCell.TongZhiDetailsTitleLabel.text = self.tongZhiDetailsModel.title;
+    self.tongZhiDetailsCell.TongZhiDetailsConnectLabel.text = self.tongZhiDetailsModel.content;
+    self.tongZhiDetailsCell.TongZhiDetailsTimeLabel.text = self.tongZhiDetailsModel.create_time;
+    return self.tongZhiDetailsCell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 400;
+    
+    if (self.tongZhiDetailsModel.img.count == 0) {
+        
+        self.tongZhiDetailsCell.CommunityDetailsImageViewHegit.constant = 0;
+        return 200;
+
+    }else
+    {
+        
+        //            self.communityDetailsCell.CommunityDetailsImageViewHegit.constant = self.communityDetailsModel.images.count * 210;
+        return  self.tongZhiDetailsCell.CommunityDetailsImageViewHegit.constant + 200;
+        //             self.H = 476 + self.communityDetailsCell.communityDetailsHegiht.constant;
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {

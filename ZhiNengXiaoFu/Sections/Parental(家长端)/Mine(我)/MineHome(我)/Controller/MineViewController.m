@@ -197,31 +197,8 @@
 - (void)tuichuLoginBtn:(UIButton *)sender
 {
    
+    [UserManager logoOut];
     
-    NSString * chooseLoginState = [[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"];
-    NSDictionary * dic = @{@"uid":self.personInfo.ID, @"school_id":[NSString stringWithFormat:@"%ld", self.personInfo.school_id], @"identity":chooseLoginState, @"token":self.personInfo.token};
-    [[HttpRequestManager sharedSingleton] POST:TUICHULOGIN parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSLog(@"%@", responseObject);
-        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-            
-            [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
-
-            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"chooseLoginState"];
-            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"personInfo"];
-            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"key"];
-
-            
-            LoginHomePageViewController * loginHomepage = [[LoginHomePageViewController alloc] init];
-            [self presentViewController:loginHomepage animated:YES completion:NULL];
-
-        }else
-        {
-            [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
-
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"%@", error);
-    }];
 }
 
 - (void)didReceiveMemoryWarning {

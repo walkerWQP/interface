@@ -8,6 +8,7 @@
 
 #import "WenTiZiXunViewController.h"
 #import "WenTiZiXunListCell.h"
+#import "MyZiXunViewController.h"
 @interface WenTiZiXunViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView * WenTiZiXunTableView;
 
@@ -27,6 +28,10 @@
     [self.view addSubview:self.WenTiZiXunTableView];
     self.WenTiZiXunTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.WenTiZiXunTableView registerClass:[WenTiZiXunListCell class] forCellReuseIdentifier:@"WenTiZiXunListCellId"];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"咨询" style:UIBarButtonItemStyleDone target:self action:@selector(rightButton:)];
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
+    [self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:15], NSFontAttributeName, nil] forState:UIControlStateNormal];
 }
 
 - (UITableView *)WenTiZiXunTableView
@@ -96,6 +101,13 @@
     return 81;
     
 }
+
+- (void)rightButton:(UIBarButtonItem *)sender
+{
+    MyZiXunViewController * myZiXunVC = [[MyZiXunViewController alloc] init];
+    [self.navigationController pushViewController:myZiXunVC animated:YES];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
