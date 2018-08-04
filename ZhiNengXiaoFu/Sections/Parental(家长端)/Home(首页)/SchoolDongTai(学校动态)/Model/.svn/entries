@@ -1,14 +1,14 @@
 10
 
 dir
-84
+87
 http://ios1@61.132.226.224:8081/svn/ios/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/Parental(%E5%AE%B6%E9%95%BF%E7%AB%AF)/Home(%E9%A6%96%E9%A1%B5)/SchoolDongTai(%E5%AD%A6%E6%A0%A1%E5%8A%A8%E6%80%81)/Model
 http://ios1@61.132.226.224:8081/svn/ios
 
 
 
-2018-07-31T01:27:44.250000Z
-55
+2018-08-03T10:01:52.878906Z
+85
 ios2
 
 
@@ -25,4 +25,72 @@ ios2
 
 
 8c99a1ce-74cd-ae42-b3f1-88a640056dd1
+
+SchoolDongTaiModel.h
+file
+
+
+
+
+2018-08-03T10:07:17.000000Z
+792b67690d525c9ace05bbe7b55aaf19
+2018-08-03T10:01:52.878906Z
+85
+ios2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+411
+
+SchoolDongTaiModel.m
+file
+
+
+
+
+2018-08-03T10:07:17.000000Z
+2785da980bada9e326c38cf1dd84e5d0
+2018-08-03T10:01:52.878906Z
+85
+ios2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+299
 

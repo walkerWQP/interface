@@ -53,7 +53,7 @@
     NSDictionary * dic = @{@"uid":model.ID, @"school_id":[NSString stringWithFormat:@"%ld", model.school_id], @"identity":chooseLoginState, @"token":model.token};
     [[HttpRequestManager sharedSingleton] POST:TUICHULOGIN parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
-        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+//        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
             [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
             
@@ -101,11 +101,8 @@
             
             [result presentViewController:loginHomepage animated:YES completion:NULL];
             
-        }else
-        {
-            [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
-            
-        }
+//        }
+        
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
     }];

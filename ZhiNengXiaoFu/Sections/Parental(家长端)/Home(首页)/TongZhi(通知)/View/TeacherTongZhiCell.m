@@ -26,7 +26,7 @@
 - (UIImageView *)imgView {
     if (!_imgView) {
         self.imgView = [[UIImageView alloc] initWithFrame:CGRectMake(16, 15, 100, 80)];
-        self.imgView.image = [UIImage imageNamed:@"放假通知"];
+//        self.imgView.image = [UIImage imageNamed:@"放假通知"];
     }
     return _imgView;
 }

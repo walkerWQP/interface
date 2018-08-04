@@ -81,6 +81,10 @@
     NSDictionary * dic = @{@"teacher_id":self.userGetStuTeaModel.teacher_id, @"teacher_name":self.userGetStuTeaModel.teacher_name, @"course_name":self.userGetStuTeaModel.course_name, @"key":[UserManager key], @"question":self.myZiXunTextView.text};
     [[HttpRequestManager sharedSingleton] POST:ConsultQuestion parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
+
+        }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
     }];

@@ -30,7 +30,20 @@
         NSDictionary *dic = @{@"img":img,@"title":title,@"time":time};
         [self.ongoingArr addObject:dic];
     }
+    
+    [self setNetWork];
+    
     [self makeOngoingViewControllerUI];
+}
+
+- (void)setNetWork
+{
+    NSDictionary * dic = @{@"key":[UserManager key], @"status":@3};
+    [[HttpRequestManager sharedSingleton] POST:activityActivityList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
 }
 
 - (NSMutableArray *)ongoingArr {

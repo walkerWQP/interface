@@ -1,15 +1,15 @@
 10
 
 dir
-84
+87
 http://ios1@61.132.226.224:8081/svn/ios/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/TheTeacherSide(%E6%95%99%E5%B8%88%E7%AB%AF)/Home(%E9%A6%96%E9%A1%B5)/TeacherNotified(%E8%80%81%E5%B8%88%E9%80%9A%E7%9F%A5)/Model
 http://ios1@61.132.226.224:8081/svn/ios
 
 
 
-2018-07-31T01:27:44.250000Z
-55
-ios2
+2018-08-04T01:37:18.300781Z
+86
+ios1
 
 
 
@@ -26,17 +26,51 @@ ios2
 
 8c99a1ce-74cd-ae42-b3f1-88a640056dd1
 
+ClassDetailsModel.h
+file
+
+
+
+
+2018-08-03T08:06:54.000000Z
+92abc2c7e20e32a14a451ea616631690
+2018-08-04T01:37:18.300781Z
+86
+ios1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+428
+
 TeacherNotifiedModel.h
 file
 
 
 
 
-2018-08-02T07:21:05.000000Z
-10476621e94dd1b86214e73432e4b466
-2018-07-31T01:27:44.250000Z
-55
-ios2
+2018-08-03T07:50:16.000000Z
+bc1844dcbbb4e1797a8fd340fa9a476a
+2018-08-04T01:37:18.300781Z
+86
+ios1
 
 
 
@@ -58,7 +92,41 @@ ios2
 
 
 
-234
+379
+
+ClassDetailsModel.m
+file
+
+
+
+
+2018-08-03T08:06:54.000000Z
+be8082085d1459ef74f22436abad4486
+2018-08-04T01:37:18.300781Z
+86
+ios1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+300
 
 TeacherNotifiedModel.m
 file
@@ -66,11 +134,11 @@ file
 
 
 
-2018-08-02T07:21:05.000000Z
-3484e7bafacfe2ab9a94d341f7c8283c
-2018-07-31T01:27:44.250000Z
-55
-ios2
+2018-08-03T07:50:16.000000Z
+0765dbfa5d1c747ae830bb1b206dc165
+2018-08-04T01:37:18.300781Z
+86
+ios1
 
 
 
@@ -92,5 +160,5 @@ ios2
 
 
 
-225
+309
 

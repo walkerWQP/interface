@@ -19,6 +19,11 @@
 		0413D6BA210F05B200CB34A6 /* HeartHealtyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0413D6B9210F05B200CB34A6 /* HeartHealtyViewController.m */; };
 		0413D6BD210F06C900CB34A6 /* ParentXueTangCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0413D6BC210F06C900CB34A6 /* ParentXueTangCell.m */; };
 		0413D6C4210F198E00CB34A6 /* WenTiZiXunViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0413D6C3210F198E00CB34A6 /* WenTiZiXunViewController.m */; };
+		04251B9421153EE50090CD3C /* YiHuiFuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04251B9321153EE50090CD3C /* YiHuiFuViewController.m */; };
+		04251B9721153EF90090CD3C /* WeiHuiFuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04251B9621153EF90090CD3C /* WeiHuiFuViewController.m */; };
+		04251B9A2115453B0090CD3C /* ConsultListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04251B992115453B0090CD3C /* ConsultListModel.m */; };
+		04251BA121154D5E0090CD3C /* WeiHuiFuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04251B9F21154D5E0090CD3C /* WeiHuiFuCell.m */; };
+		04251BA221154D5E0090CD3C /* WeiHuiFuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04251BA021154D5E0090CD3C /* WeiHuiFuCell.xib */; };
 		042810932108070F00E2CA14 /* ClassInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0428102E2108070F00E2CA14 /* ClassInformationViewController.m */; };
 		042810942108070F00E2CA14 /* ClassHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042810322108070F00E2CA14 /* ClassHomeViewController.m */; };
 		042810952108070F00E2CA14 /* ClassHomePageItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 042810352108070F00E2CA14 /* ClassHomePageItemCell.m */; };
@@ -99,6 +104,7 @@
 		047FB21A2113ECE300AED26D /* MyZiXunViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047FB2192113ECE300AED26D /* MyZiXunViewController.m */; };
 		047FB21E2114009C00AED26D /* HQPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 047FB21D2114009B00AED26D /* HQPickerView.m */; };
 		047FB2212114038400AED26D /* UserGetStuTeaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 047FB2202114038400AED26D /* UserGetStuTeaModel.m */; };
+		047FB224211435E400AED26D /* SchoolDongTaiModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 047FB223211435E400AED26D /* SchoolDongTaiModel.m */; };
 		9813959D2105E61E00CDE2BA /* SignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 981395842105E61E00CDE2BA /* SignViewController.m */; };
 		9813959E2105E61E00CDE2BA /* MyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9813958B2105E61E00CDE2BA /* MyViewController.m */; };
 		9813959F2105E61E00CDE2BA /* ClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 981395902105E61E00CDE2BA /* ClassViewController.m */; };
@@ -158,6 +164,10 @@
 		98B6B6D32106BC4000146DFD /* PersonalDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B6B6D22106BC4000146DFD /* PersonalDataViewController.m */; };
 		98BBCF51210C074E00AC00CD /* UIButton+WCustomIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BBCF50210C074E00AC00CD /* UIButton+WCustomIcon.m */; };
 		98BBCF54210C116600AC00CD /* WTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BBCF53210C116600AC00CD /* WTextView.m */; };
+		98C01EE72114326B00D625DA /* ClassNoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C01EE62114326B00D625DA /* ClassNoticeViewController.m */; };
+		98C01EEA2114442600D625DA /* ClassDetailsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C01EE92114442600D625DA /* ClassDetailsModel.m */; };
+		98C01EED21144F9200D625DA /* HomeWorkModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C01EEC21144F9200D625DA /* HomeWorkModel.m */; };
+		98C01EF02114562200D625DA /* PublishJobModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C01EEF2114562200D625DA /* PublishJobModel.m */; };
 		98C0E4A921129B5600832DF4 /* JobDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C0E4A821129B5600832DF4 /* JobDetailsViewController.m */; };
 		98D89DB5211002C200355626 /* SignClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DB4211002C200355626 /* SignClassViewController.m */; };
 		98D89DB82110054100355626 /* TotalNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DB72110054100355626 /* TotalNumberViewController.m */; };
@@ -230,6 +240,15 @@
 		0413D6BC210F06C900CB34A6 /* ParentXueTangCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParentXueTangCell.m; sourceTree = "<group>"; };
 		0413D6C2210F198E00CB34A6 /* WenTiZiXunViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WenTiZiXunViewController.h; sourceTree = "<group>"; };
 		0413D6C3210F198E00CB34A6 /* WenTiZiXunViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WenTiZiXunViewController.m; sourceTree = "<group>"; };
+		04251B9221153EE50090CD3C /* YiHuiFuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YiHuiFuViewController.h; sourceTree = "<group>"; };
+		04251B9321153EE50090CD3C /* YiHuiFuViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YiHuiFuViewController.m; sourceTree = "<group>"; };
+		04251B9521153EF90090CD3C /* WeiHuiFuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeiHuiFuViewController.h; sourceTree = "<group>"; };
+		04251B9621153EF90090CD3C /* WeiHuiFuViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeiHuiFuViewController.m; sourceTree = "<group>"; };
+		04251B982115453B0090CD3C /* ConsultListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConsultListModel.h; sourceTree = "<group>"; };
+		04251B992115453B0090CD3C /* ConsultListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConsultListModel.m; sourceTree = "<group>"; };
+		04251B9E21154D5E0090CD3C /* WeiHuiFuCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeiHuiFuCell.h; sourceTree = "<group>"; };
+		04251B9F21154D5E0090CD3C /* WeiHuiFuCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeiHuiFuCell.m; sourceTree = "<group>"; };
+		04251BA021154D5E0090CD3C /* WeiHuiFuCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeiHuiFuCell.xib; sourceTree = "<group>"; };
 		0428102D2108070F00E2CA14 /* ClassInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassInformationViewController.h; sourceTree = "<group>"; };
 		0428102E2108070F00E2CA14 /* ClassInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassInformationViewController.m; sourceTree = "<group>"; };
 		042810312108070F00E2CA14 /* ClassHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassHomeViewController.h; sourceTree = "<group>"; };
@@ -396,6 +415,8 @@
 		047FB21D2114009B00AED26D /* HQPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HQPickerView.m; sourceTree = "<group>"; };
 		047FB21F2114038400AED26D /* UserGetStuTeaModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserGetStuTeaModel.h; sourceTree = "<group>"; };
 		047FB2202114038400AED26D /* UserGetStuTeaModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserGetStuTeaModel.m; sourceTree = "<group>"; };
+		047FB222211435E400AED26D /* SchoolDongTaiModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SchoolDongTaiModel.h; sourceTree = "<group>"; };
+		047FB223211435E400AED26D /* SchoolDongTaiModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SchoolDongTaiModel.m; sourceTree = "<group>"; };
 		6DEA638256AADE5C8E411ACF /* libPods-ZhiNengXiaoFu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZhiNengXiaoFu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		97E480AB68F52C70A0E84853 /* Pods-ZhiNengXiaoFu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhiNengXiaoFu.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZhiNengXiaoFu/Pods-ZhiNengXiaoFu.release.xcconfig"; sourceTree = "<group>"; };
 		9813955E2105E41B00CDE2BA /* MaceColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaceColor.h; sourceTree = "<group>"; };
@@ -518,6 +539,14 @@
 		98BBCF50210C074E00AC00CD /* UIButton+WCustomIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+WCustomIcon.m"; sourceTree = "<group>"; };
 		98BBCF52210C116600AC00CD /* WTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WTextView.h; sourceTree = "<group>"; };
 		98BBCF53210C116600AC00CD /* WTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WTextView.m; sourceTree = "<group>"; };
+		98C01EE52114326B00D625DA /* ClassNoticeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClassNoticeViewController.h; sourceTree = "<group>"; };
+		98C01EE62114326B00D625DA /* ClassNoticeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClassNoticeViewController.m; sourceTree = "<group>"; };
+		98C01EE82114442600D625DA /* ClassDetailsModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClassDetailsModel.h; sourceTree = "<group>"; };
+		98C01EE92114442600D625DA /* ClassDetailsModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClassDetailsModel.m; sourceTree = "<group>"; };
+		98C01EEB21144F9200D625DA /* HomeWorkModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeWorkModel.h; sourceTree = "<group>"; };
+		98C01EEC21144F9200D625DA /* HomeWorkModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeWorkModel.m; sourceTree = "<group>"; };
+		98C01EEE2114562200D625DA /* PublishJobModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublishJobModel.h; sourceTree = "<group>"; };
+		98C01EEF2114562200D625DA /* PublishJobModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PublishJobModel.m; sourceTree = "<group>"; };
 		98C0E4A721129B5600832DF4 /* JobDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JobDetailsViewController.h; sourceTree = "<group>"; };
 		98C0E4A821129B5600832DF4 /* JobDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JobDetailsViewController.m; sourceTree = "<group>"; };
 		98D89DB3211002C200355626 /* SignClassViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignClassViewController.h; sourceTree = "<group>"; };
@@ -732,6 +761,10 @@
 			children = (
 				0413D6C2210F198E00CB34A6 /* WenTiZiXunViewController.h */,
 				0413D6C3210F198E00CB34A6 /* WenTiZiXunViewController.m */,
+				04251B9221153EE50090CD3C /* YiHuiFuViewController.h */,
+				04251B9321153EE50090CD3C /* YiHuiFuViewController.m */,
+				04251B9521153EF90090CD3C /* WeiHuiFuViewController.h */,
+				04251B9621153EF90090CD3C /* WeiHuiFuViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -739,6 +772,8 @@
 		0413D6C0210F18F500CB34A6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				04251B982115453B0090CD3C /* ConsultListModel.h */,
+				04251B992115453B0090CD3C /* ConsultListModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -748,6 +783,9 @@
 			children = (
 				98D89DFD21105CA000355626 /* WenTiZiXunListCell.h */,
 				98D89DFC21105CA000355626 /* WenTiZiXunListCell.m */,
+				04251B9E21154D5E0090CD3C /* WeiHuiFuCell.h */,
+				04251B9F21154D5E0090CD3C /* WeiHuiFuCell.m */,
+				04251BA021154D5E0090CD3C /* WeiHuiFuCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1137,6 +1175,8 @@
 		0428108D2108070F00E2CA14 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				047FB222211435E400AED26D /* SchoolDongTaiModel.h */,
+				047FB223211435E400AED26D /* SchoolDongTaiModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2189,6 +2229,10 @@
 		98AD7E7D210F11BD00641231 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				98C01EEB21144F9200D625DA /* HomeWorkModel.h */,
+				98C01EEC21144F9200D625DA /* HomeWorkModel.m */,
+				98C01EEE2114562200D625DA /* PublishJobModel.h */,
+				98C01EEF2114562200D625DA /* PublishJobModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2307,6 +2351,8 @@
 				98AD7E97210F11BD00641231 /* ClassDetailsViewController.m */,
 				98AD7E99210F11BD00641231 /* NoticeViewController.h */,
 				98AD7E9C210F11BD00641231 /* NoticeViewController.m */,
+				98C01EE52114326B00D625DA /* ClassNoticeViewController.h */,
+				98C01EE62114326B00D625DA /* ClassNoticeViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2314,8 +2360,10 @@
 		98AD7E9D210F11BD00641231 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				98AD7E9E210F11BD00641231 /* TeacherNotifiedModel.m */,
 				98AD7E9F210F11BD00641231 /* TeacherNotifiedModel.h */,
+				98AD7E9E210F11BD00641231 /* TeacherNotifiedModel.m */,
+				98C01EE82114442600D625DA /* ClassDetailsModel.h */,
+				98C01EE92114442600D625DA /* ClassDetailsModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2323,10 +2371,10 @@
 		98AD7EA0210F11BD00641231 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				98AD7EA1210F11BD00641231 /* ClassDetailsCell.h */,
 				98AD7EA2210F11BD00641231 /* TeacherNotifiedCell.h */,
-				98AD7EA3210F11BD00641231 /* ClassDetailsCell.m */,
 				98AD7EA4210F11BD00641231 /* TeacherNotifiedCell.m */,
+				98AD7EA1210F11BD00641231 /* ClassDetailsCell.h */,
+				98AD7EA3210F11BD00641231 /* ClassDetailsCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2505,6 +2553,7 @@
 				0429F5EE210C113400C32957 /* LeaveDetailsDownCell.xib in Resources */,
 				043F38E921016DB700115A55 /* LaunchScreen.storyboard in Resources */,
 				045A94F62112E41D00030E56 /* IQKeyboardManager.bundle in Resources */,
+				04251BA221154D5E0090CD3C /* WeiHuiFuCell.xib in Resources */,
 				983CD9662111B70D0050508C /* TongZhiDetailsCell.xib in Resources */,
 				043F38E621016DB700115A55 /* Assets.xcassets in Resources */,
 				043F38E121016DB600115A55 /* Main.storyboard in Resources */,
@@ -2602,6 +2651,7 @@
 				98D89DC421100A1C00355626 /* TotalNumberCell.m in Sources */,
 				98D89DFE21105CA000355626 /* WenTiZiXunListCell.m in Sources */,
 				98AD7EAB210F11BD00641231 /* PublicClassViewController.m in Sources */,
+				98C01EEA2114442600D625DA /* ClassDetailsModel.m in Sources */,
 				98D89DE721103C7800355626 /* UIView+EasyShowExt.m in Sources */,
 				0413D69E210EE67400CB34A6 /* TeacherZaiXianDetailsViewController.m in Sources */,
 				0429F5E6210C000A00C32957 /* LeaveDetailsViewController.m in Sources */,
@@ -2612,6 +2662,7 @@
 				042810952108070F00E2CA14 /* ClassHomePageItemCell.m in Sources */,
 				98AD7EC1210F11BD00641231 /* SchoolNoticeViewController.m in Sources */,
 				0429F619210C772000C32957 /* TongZhiDetailsViewController.m in Sources */,
+				04251B9721153EF90090CD3C /* WeiHuiFuViewController.m in Sources */,
 				043F39842101CFCB00115A55 /* MASCompositeConstraint.m in Sources */,
 				9813959E2105E61E00CDE2BA /* MyViewController.m in Sources */,
 				043F393E2101852500115A55 /* TotalTabBarController.m in Sources */,
@@ -2631,6 +2682,7 @@
 				983CD955211152130050508C /* BusinessDetailController.m in Sources */,
 				045A95082113119700030E56 /* WorkDetailsViewController.m in Sources */,
 				98D89DEC21103C7800355626 /* Encryption.m in Sources */,
+				98C01EF02114562200D625DA /* PublishJobModel.m in Sources */,
 				0413D6BD210F06C900CB34A6 /* ParentXueTangCell.m in Sources */,
 				98D89E0A2110674200355626 /* AdviceFeedbackViewController.m in Sources */,
 				043F38EC21016DB700115A55 /* main.m in Sources */,
@@ -2644,11 +2696,13 @@
 				98AD7EC5210F11BD00641231 /* TeacherNotifiedModel.m in Sources */,
 				0428109A2108070F00E2CA14 /* MineViewController.m in Sources */,
 				045A94FC2112E41D00030E56 /* IQUIView+Hierarchy.m in Sources */,
+				047FB224211435E400AED26D /* SchoolDongTaiModel.m in Sources */,
 				043F39892101CFCB00115A55 /* MASConstraint.m in Sources */,
 				98AD7EC3210F11BD00641231 /* TeacherNotifiedViewController.m in Sources */,
 				98AD7EB3210F11BD00641231 /* LaunchEventViewController.m in Sources */,
 				0428109B2108070F00E2CA14 /* TuiChuLoginCell.m in Sources */,
 				98D89DB82110054100355626 /* TotalNumberViewController.m in Sources */,
+				04251B9A2115453B0090CD3C /* ConsultListModel.m in Sources */,
 				045A94F12112E41D00030E56 /* IQTextView.m in Sources */,
 				042810942108070F00E2CA14 /* ClassHomeViewController.m in Sources */,
 				98BBCF54210C116600AC00CD /* WTextView.m in Sources */,
@@ -2687,6 +2741,7 @@
 				98AD7EB9210F11BD00641231 /* PublishJobViewController.m in Sources */,
 				98AD7EB6210F11BD00641231 /* OngoingViewController.m in Sources */,
 				0413D6AD210EF9C800CB34A6 /* ShiPinListCell.m in Sources */,
+				98C01EE72114326B00D625DA /* ClassNoticeViewController.m in Sources */,
 				98AD7EB8210F11BD00641231 /* HomeViewController.m in Sources */,
 				98AD7EBD210F11BD00641231 /* SchoolDynamicViewController.m in Sources */,
 				98D89E0D21106D4D00355626 /* ChangePasswordViewController.m in Sources */,
@@ -2702,6 +2757,7 @@
 				047FB21E2114009C00AED26D /* HQPickerView.m in Sources */,
 				043F39872101CFCB00115A55 /* NSArray+MASAdditions.m in Sources */,
 				9813959F2105E61E00CDE2BA /* ClassViewController.m in Sources */,
+				98C01EED21144F9200D625DA /* HomeWorkModel.m in Sources */,
 				0428109C2108070F00E2CA14 /* MinePersonXiXinCell.m in Sources */,
 				047FB2132113E5F000AED26D /* WorkDetailsModel.m in Sources */,
 				989BFE1C21088DA2007A69A5 /* JohnTopTitleView.m in Sources */,
@@ -2712,6 +2768,7 @@
 				989BFE1521088D4B007A69A5 /* HomeWorkPViewController.m in Sources */,
 				043F39862101CFCB00115A55 /* MASLayoutConstraint.m in Sources */,
 				98AD7EAD210F11BD00641231 /* VideoSettingsViewController.m in Sources */,
+				04251BA121154D5E0090CD3C /* WeiHuiFuCell.m in Sources */,
 				98D89DF221103CAA00355626 /* PersonInformationModel.m in Sources */,
 				98D89DB5211002C200355626 /* SignClassViewController.m in Sources */,
 				0428109E2108070F00E2CA14 /* PersonInfomationCell.m in Sources */,
@@ -2730,6 +2787,7 @@
 				98D89E0521105CC000355626 /* HuoDongIngViewController.m in Sources */,
 				98AD7EB5210F11BD00641231 /* IsAboutToBeginViewController.m in Sources */,
 				0413D697210EAE9400CB34A6 /* TeacherZhuanLanCell.m in Sources */,
+				04251B9421153EE50090CD3C /* YiHuiFuViewController.m in Sources */,
 				047FB21A2113ECE300AED26D /* MyZiXunViewController.m in Sources */,
 				98AD7EC4210F11BD00641231 /* NoticeViewController.m in Sources */,
 				98BBCF51210C074E00AC00CD /* UIButton+WCustomIcon.m in Sources */,

@@ -172,10 +172,11 @@
             case 7:
             {
                 NSLog(@"点击学校通知");
-//                SchoolNoticeViewController *schoolNoticeVC = [[SchoolNoticeViewController alloc] init];
-//                [self.navigationController pushViewController:schoolNoticeVC animated:YES];
-                TongZhiViewController *tongZhiVC = [[TongZhiViewController alloc] init];
-                [self.navigationController pushViewController:tongZhiVC animated:YES];
+                SchoolNoticeViewController *schoolNoticeVC = [[SchoolNoticeViewController alloc] init];
+                [self.navigationController pushViewController:schoolNoticeVC animated:YES];
+//                TongZhiViewController *tongZhiVC = [[TongZhiViewController alloc] init];
+//                tongZhiVC.teacherID = @"2";
+//                [self.navigationController pushViewController:tongZhiVC animated:YES];
                
             }
                 break;

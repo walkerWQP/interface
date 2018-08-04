@@ -10,4 +10,6 @@
 
 @interface PublishJobViewController : BaseViewController
 
+@property (nonatomic, strong) NSString   *classID;
+
 @end

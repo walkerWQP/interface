@@ -41,6 +41,10 @@
     self.timeLabel.font = contentFont;
     [self.contentView addSubview:self.timeLabel];
     
+//    self.delegateBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.contentView.frame.size.width - 50, 5, 40, 40)];
+//    [self.delegateBtn setImage:[UIImage imageNamed:@"删除"] forState:UIControlStateNormal];
+//    [self.contentView addSubview:self.delegateBtn];
+    
 }
 
 @end

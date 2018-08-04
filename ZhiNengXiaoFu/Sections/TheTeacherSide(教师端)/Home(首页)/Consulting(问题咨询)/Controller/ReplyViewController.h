@@ -10,4 +10,6 @@
 
 @interface ReplyViewController : BaseViewController
 
+@property (nonatomic, strong) NSString     *ID;
+
 @end

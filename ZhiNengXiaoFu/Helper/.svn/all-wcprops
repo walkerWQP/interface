@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 95
-/svn/ios/!svn/ver/84/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Helper
+/svn/ios/!svn/ver/86/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Helper
 END
 DateTimePickerView.m
 K 25
@@ -61,7 +61,7 @@ UserManager.m
 K 25
 svn:wc:ra_dav:version-url
 V 109
-/svn/ios/!svn/ver/84/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Helper/UserManager.m
+/svn/ios/!svn/ver/86/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Helper/UserManager.m
 END
 UIButton+WCustomIcon.h
 K 25

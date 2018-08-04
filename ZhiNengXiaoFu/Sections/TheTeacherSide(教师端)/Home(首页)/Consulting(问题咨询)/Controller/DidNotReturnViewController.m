@@ -8,12 +8,14 @@
 
 #import "DidNotReturnViewController.h"
 #import "DidNotReturnCell.h"
+#import "ConsultListModel.h"
 #import "ReplyViewController.h"
 
 @interface DidNotReturnViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) NSMutableArray  *didNotReturnArr;
 @property (nonatomic, strong) UICollectionView *didNotReturnCollectionView;
+@property (nonatomic, assign) NSInteger    page;
 
 @end
 
@@ -28,17 +30,36 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSMutableArray *headImgArr = [NSMutableArray arrayWithObjects:@"user2",@"user2", nil];
-    NSMutableArray *probleArr = [NSMutableArray arrayWithObjects:@"八一班李敏提问:",@"九一班李敏提问:", nil];
-    NSMutableArray *problemContentArr = [NSMutableArray arrayWithObjects:@"学校本次运动会是什么时间？",@"学校本次运动会是什么时间？", nil];
-    for (int i = 0; i < headImgArr.count; i++) {
-        NSString *headImg = [headImgArr objectAtIndex:i];
-        NSString *proble = [probleArr objectAtIndex:i];
-        NSString *problemContent = [problemContentArr objectAtIndex:i];
-        NSDictionary *dic = @{@"headImg":headImg, @"proble":proble, @"problemContent":problemContent};
-        [self.didNotReturnArr addObject:dic];
-    }
+    self.page = 1;
+    [self getConsultConsultListURLData:self.page];
+    
     [self makeDidNotReturnViewControllerUI];
+}
+
+- (void)getConsultConsultListURLData :(NSInteger )page {
+    NSDictionary * dic = @{@"key":[UserManager key], @"status":@0,@"page":[NSString stringWithFormat:@"%ld",page]};
+    
+    [[HttpRequestManager sharedSingleton] POST:ConsultConsultList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            self.didNotReturnArr = [ConsultListModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            [self.didNotReturnCollectionView reloadData];
+        }else
+        {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            }else
+            {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+        
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
 }
 
 - (void)makeDidNotReturnViewControllerUI {
@@ -65,12 +86,13 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSDictionary * dic = [self.didNotReturnArr objectAtIndex:indexPath.row];
+   
     UICollectionViewCell *gridcell = nil;
     DidNotReturnCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DidNotReturnCell_CollectionView forIndexPath:indexPath];
-    cell.headImgView.image = [UIImage imageNamed:[dic objectForKey:@"headImg"]];
-    cell.problemLabel.text = [dic objectForKey:@"proble"];
-    cell.problemContentLabel.text = [dic objectForKey:@"problemContent"];
+    ConsultListModel *model = [self.didNotReturnArr objectAtIndex:indexPath.row];
+    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:nil];
+    cell.problemLabel.text = [NSString stringWithFormat:@"%@%@问:", model.class_name ,model.student_name];
+    cell.problemContentLabel.text = model.question;
 //    [cell.answerBtn addTarget:self action:@selector(answerBtn:) forControlEvents:UIControlEventTouchUpInside];
     gridcell = cell;
     return gridcell;
@@ -101,8 +123,9 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"%ld",indexPath.row);
-    
+    ConsultListModel *model = [self.didNotReturnArr objectAtIndex:indexPath.row];
     ReplyViewController *replyVC = [[ReplyViewController alloc] init];
+    replyVC.ID = model.ID;
     [self.navigationController pushViewController:replyVC animated:YES];
     
 }

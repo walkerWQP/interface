@@ -13,7 +13,12 @@
 @property (nonatomic, strong) UIImageView * userIcon;
 @property (nonatomic, strong) UILabel * userName;
 @property (nonatomic, strong) UILabel * questionLabel;
-
 @property (nonatomic, strong) UIView * lineView;
+
+
+@property (nonatomic, strong) UIImageView * userIconT;
+@property (nonatomic, strong) UILabel * userNameT;
+@property (nonatomic, strong) UILabel * questionLabelT;
+@property (nonatomic, strong) UIView * lineViewT;
 
 @end

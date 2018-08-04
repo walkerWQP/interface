@@ -86,8 +86,36 @@
 }
 
 - (void)replyBtn : (UIButton *)sender {
-    NSLog(@"点击提交回复");
+    NSLog(@"点击提交回复");  
+    [self postDataForTeacherAnswerURL];
 }
+
+- (void)postDataForTeacherAnswerURL {
+    if ([self.replyTextField.text isEqualToString:@""]) {
+        [EasyShowTextView showImageText:@"回复不能为空" imageName:@"icon_sym_toast_failed_56_w100"];
+        return;
+    } else {
+        NSDictionary * dic = @{@"key":[UserManager key], @"id":self.ID,@"answer":self.replyTextField.text};
+        [[HttpRequestManager sharedSingleton] POST:teacherAnswerURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
+                [self.navigationController popViewControllerAnimated:YES];
+            }else
+            {
+                if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                    [UserManager logoOut];
+                }else
+                {
+                    [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                    
+                }
+            }
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            
+        }];
+    }
+}
+
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     

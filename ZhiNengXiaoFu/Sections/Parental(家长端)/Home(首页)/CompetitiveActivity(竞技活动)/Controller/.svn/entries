@@ -1,14 +1,14 @@
 10
 
 dir
-84
+87
 http://ios1@61.132.226.224:8081/svn/ios/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/Parental(%E5%AE%B6%E9%95%BF%E7%AB%AF)/Home(%E9%A6%96%E9%A1%B5)/CompetitiveActivity(%E7%AB%9E%E6%8A%80%E6%B4%BB%E5%8A%A8)/Controller
 http://ios1@61.132.226.224:8081/svn/ios
 
 
 
-2018-07-31T08:43:10.867187Z
-63
+2018-08-04T07:50:08.265625Z
+87
 ios2
 
 
@@ -236,10 +236,10 @@ file
 
 
 
-2018-08-02T07:21:06.000000Z
-38c946dd6d7891cf45f3cfc1e7c1b28f
-2018-07-31T08:43:10.867187Z
-63
+2018-08-04T07:51:19.000000Z
+e63006cfc0c9f009bae56b941c06935d
+2018-08-04T07:50:08.265625Z
+87
 ios2
 
 
@@ -262,7 +262,7 @@ ios2
 
 
 
-4604
+5008
 
 HuoDongWeiKaiShiViewController.m
 file

@@ -8,11 +8,13 @@
 
 #import "HaveToReplyViewController.h"
 #import "HaveToReplyCell.h"
+#import "ConsultListModel.h"
 
 @interface HaveToReplyViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) NSMutableArray  *haveToReplyArr;
 @property (nonatomic, strong) UICollectionView *haveToReplyCollectionView;
+@property (nonatomic, assign) NSInteger     page;
 
 @end
 
@@ -27,24 +29,39 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSMutableArray *headImgArr = [NSMutableArray arrayWithObjects:@"user2",@"user2", nil];
-    NSMutableArray *probleArr = [NSMutableArray arrayWithObjects:@"八一班李敏提问:",@"九一班李敏提问:", nil];
-    NSMutableArray *problemContentArr = [NSMutableArray arrayWithObjects:@"学校本次运动会是什么时间？",@"学校本次运动会是什么时间？", nil];
-     NSMutableArray *headImageArr = [NSMutableArray arrayWithObjects:@"user",@"user", nil];
-    NSMutableArray *replyArr = [NSMutableArray arrayWithObjects:@"八一班体育老手回复:",@"九一班体育老手回复:", nil];
-    NSMutableArray *replyContentArr = [NSMutableArray arrayWithObjects:@"2018.8.21-2018.8.23",@"2018.8.21-2018.8.23", nil];
+    self.page = 1;
+    [self getConsultListURLData:self.page];
     
-    for (int i = 0; i < headImgArr.count; i++) {
-        NSString *headImg = [headImgArr objectAtIndex:i];
-        NSString *proble = [probleArr objectAtIndex:i];
-        NSString *problemContent = [problemContentArr objectAtIndex:i];
-        NSString *headImage = [headImageArr objectAtIndex:i];
-        NSString *reply = [replyArr objectAtIndex:i];
-        NSString *replyContent = [replyContentArr objectAtIndex:i];
-        NSDictionary *dic = @{@"headImg":headImg, @"proble":proble, @"problemContent":problemContent, @"headImage":headImage, @"reply":reply, @"replyContent":replyContent};
-        [self.haveToReplyArr addObject:dic];
-    }
     [self makeHaveToReplyViewControllerUI];
+}
+
+
+- (void)getConsultListURLData:(NSInteger)page {
+    
+    NSDictionary * dic = @{@"key":[UserManager key], @"status":@1,@"page":[NSString stringWithFormat:@"%ld",page]};
+    
+    [[HttpRequestManager sharedSingleton] POST:ConsultConsultList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            self.haveToReplyArr = [ConsultListModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            [self.haveToReplyCollectionView reloadData];
+        }else
+        {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            }else
+            {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+        
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
+    
 }
 
 - (void)makeHaveToReplyViewControllerUI {
@@ -71,15 +88,15 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSDictionary * dic = [self.haveToReplyArr objectAtIndex:indexPath.row];
     UICollectionViewCell *gridcell = nil;
     HaveToReplyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:HaveToReplyCell_CollectionView forIndexPath:indexPath];
-    cell.headImgView.image = [UIImage imageNamed:[dic objectForKey:@"headImg"]];
-    cell.problemLabel.text = [dic objectForKey:@"proble"];
-    cell.problemContentLabel.text = [dic objectForKey:@"problemContent"];
-    cell.headImageView.image = [UIImage imageNamed:[dic objectForKey:@"headImage"]];
-    cell.replyLabel.text = [dic objectForKey:@"reply"];
-    cell.replyContentLabel.text = [dic objectForKey:@"replyContent"];
+    ConsultListModel *model = [self.haveToReplyArr objectAtIndex:indexPath.row];
+    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.s_headimg]];
+    cell.problemLabel.text = [NSString stringWithFormat:@"%@%@问:", model.class_name ,model.student_name];
+    cell.problemContentLabel.text = model.question;
+    [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:model.t_headimg] placeholderImage:nil];
+    cell.replyLabel.text = [NSString stringWithFormat:@"%@%@老师%@回复:", model.class_name, model.course_name, model.teacher_name];
+    cell.replyContentLabel.text = model.answer;
     gridcell = cell;
     return gridcell;
     

@@ -7,6 +7,7 @@
 //
 
 #import "PublishJobViewController.h"
+#import "PublishJobModel.h"
 
 @interface PublishJobViewController ()<UITextFieldDelegate>
 
@@ -23,9 +24,18 @@
 @property (nonatomic, strong) UILabel      *uploadPicturesLabel;
 @property (nonatomic, strong) UIButton     *uploadPicturesBtn;
 
+@property (nonatomic, strong) NSMutableArray *publishJobArr;
+
 @end
 
 @implementation PublishJobViewController
+
+- (NSMutableArray *)publishJobArr {
+    if (!_publishJobArr) {
+        _publishJobArr = [NSMutableArray array];
+    }
+    return _publishJobArr;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -35,7 +45,7 @@
     button.titleLabel.font = titFont;
     [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    
+    [self getUserGetCourse];
     [self makePublishJobViewControllerUI];
     
 }
@@ -119,6 +129,7 @@
 
 - (void)subjectsBtn : (UIButton *)sender {
     NSLog(@"点击科目类型");
+    
 }
 
 - (void)rightBtn : (UIButton *)sender {
@@ -127,6 +138,33 @@
     
 }
 
+- (void)getUserGetCourse {
+    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
+    NSDictionary *dic = @{@"key":key};
+    [[HttpRequestManager sharedSingleton] POST:userGetCourse parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.publishJobArr = [PublishJobModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            if (self.publishJobArr.count == 0) {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+            } else {
+                
+                
+            }
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
 
 
 

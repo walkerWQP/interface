@@ -10,4 +10,6 @@
 
 @interface SchoolTongZhiViewController : BaseViewController
 
+@property (nonatomic, strong) NSString   *identityID;
+
 @end

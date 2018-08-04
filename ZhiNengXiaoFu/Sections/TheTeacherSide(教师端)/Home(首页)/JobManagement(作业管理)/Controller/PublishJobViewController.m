@@ -25,6 +25,7 @@
 @property (nonatomic, strong) UIButton     *uploadPicturesBtn;
 
 @property (nonatomic, strong) NSMutableArray *publishJobArr;
+@property (nonatomic, strong) NSString    *courseID;
 
 @end
 
@@ -129,14 +130,60 @@
 
 - (void)subjectsBtn : (UIButton *)sender {
     NSLog(@"点击科目类型");
+    NSLog(@"%ld",self.publishJobArr.count);
+    NSLog(@"%@",self.publishJobArr);
+    
     
 }
 
 - (void)rightBtn : (UIButton *)sender {
     
     NSLog(@"点击发布");
+    [self PostWorkPusblishData];
     
 }
+
+- (void)PostWorkPusblishData {
+    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
+    NSLog(@"%@",self.subjectsBtn.titleLabel.text);
+    if ([self.subjectsBtn.titleLabel.text isEqualToString:@"请选择科目类型"]) {
+        [EasyShowTextView showImageText:@"请选择科目类型" imageName:@"icon_sym_toast_succeed_56_w100"];
+        
+        return;
+    }
+    
+    if ([self.jobNameTextField.text isEqualToString:@""]) {
+        [EasyShowTextView showImageText:@"请输入作业名称" imageName:@"icon_sym_toast_succeed_56_w100"];
+        
+        return;
+    }
+    
+    if ([self.jobContentTextView.text isEqualToString:@""]) {
+        [EasyShowTextView showImageText:@"请输入作业内容" imageName:@"icon_sym_toast_succeed_56_w100"];
+        
+        return;
+    }
+    
+    NSDictionary *dic = @{@"key":key,@"class_id":self.classID,@"title":self.jobNameTextField.text,@"content":self.jobContentTextView.text,@"course_id":self.courseID,@"img":@""};
+    [[HttpRequestManager sharedSingleton] POST:workPusblish parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+    
+}
+
 
 - (void)getUserGetCourse {
     NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];

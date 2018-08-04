@@ -1,15 +1,15 @@
 10
 
 dir
-84
+87
 http://ios1@61.132.226.224:8081/svn/ios/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/TheTeacherSide(%E6%95%99%E5%B8%88%E7%AB%AF)/Home(%E9%A6%96%E9%A1%B5)/TeacherNotified(%E8%80%81%E5%B8%88%E9%80%9A%E7%9F%A5)/View
 http://ios1@61.132.226.224:8081/svn/ios
 
 
 
-2018-08-02T07:21:27.449218Z
-81
-ios2
+2018-08-04T01:37:18.300781Z
+86
+ios1
 
 
 
@@ -100,11 +100,11 @@ file
 
 
 
-2018-08-02T07:22:45.000000Z
-433ffd887b88326d9282ece04d70441b
-2018-08-02T07:21:27.449218Z
-81
-ios2
+2018-08-03T08:34:10.000000Z
+d12ca462637020ae36b539162f1180a3
+2018-08-04T01:37:18.300781Z
+86
+ios1
 
 
 
@@ -126,7 +126,7 @@ ios2
 
 
 
-1598
+1650
 
 TeacherNotifiedCell.m
 file

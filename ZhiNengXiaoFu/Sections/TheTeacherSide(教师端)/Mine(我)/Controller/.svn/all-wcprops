@@ -1,13 +1,13 @@
 K 25
 svn:wc:ra_dav:version-url
 V 168
-/svn/ios/!svn/ver/82/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/TheTeacherSide(%E6%95%99%E5%B8%88%E7%AB%AF)/Mine(%E6%88%91)/Controller
+/svn/ios/!svn/ver/86/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/TheTeacherSide(%E6%95%99%E5%B8%88%E7%AB%AF)/Mine(%E6%88%91)/Controller
 END
 MyViewController.m
 K 25
 svn:wc:ra_dav:version-url
 V 187
-/svn/ios/!svn/ver/82/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/TheTeacherSide(%E6%95%99%E5%B8%88%E7%AB%AF)/Mine(%E6%88%91)/Controller/MyViewController.m
+/svn/ios/!svn/ver/86/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/TheTeacherSide(%E6%95%99%E5%B8%88%E7%AB%AF)/Mine(%E6%88%91)/Controller/MyViewController.m
 END
 ChangePasswordViewController.m
 K 25
@@ -37,7 +37,7 @@ PersonalDataViewController.m
 K 25
 svn:wc:ra_dav:version-url
 V 197
-/svn/ios/!svn/ver/75/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/TheTeacherSide(%E6%95%99%E5%B8%88%E7%AB%AF)/Mine(%E6%88%91)/Controller/PersonalDataViewController.m
+/svn/ios/!svn/ver/86/%E6%B2%B3%E5%8D%97%E7%8B%AC%E7%A7%80iOS/ZhiNengXiaoFu/ZhiNengXiaoFu/Sections/TheTeacherSide(%E6%95%99%E5%B8%88%E7%AB%AF)/Mine(%E6%88%91)/Controller/PersonalDataViewController.m
 END
 AdviceFeedbackViewController.m
 K 25

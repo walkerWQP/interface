@@ -33,9 +33,6 @@
 //老师发布通知
 #define publishURL [NSString stringWithFormat:@"%@index/notice/publish",YUMING]
 
-//老师查看通知列表
-#define LAOSHICHAKANTONGZHILIEBIAO [NSString stringWithFormat:@"%@index/notice/notice_list",YUMING]
-
 //家长查看通知列表
 #define JIAZHANGCHAKANTONGZHILIEBIAO [NSString stringWithFormat:@"%@index/notice/get_notice",YUMING]
 
@@ -67,5 +64,28 @@
 
 //家长提问
 #define ConsultQuestion [NSString stringWithFormat:@"%@index/consult/question",YUMING]
+
+//家长、教师获取问题列表信息
+#define ConsultConsultList [NSString stringWithFormat:@"%@/index/consult/consult_list",YUMING]
+//教师回答
+#define teacherAnswerURL [NSString stringWithFormat:@"%@index/consult/answer",YUMING]
+
+//学校动态模块
+//获取学校动态列表
+#define dynamicGetList [NSString stringWithFormat:@"%@index/dynamic/get_list",YUMING]
+
+//获取学校动态详情
+#define dynamicGetDetail [NSString stringWithFormat:@"%@index/dynamic/get_detail",YUMING]
+
+//活动模块
+//教师发布活动
+#define activityPublish [NSString stringWithFormat:@"%@index/activity/publish",YUMING]
+
+//教师、家长查看活动列表
+#define activityActivityList [NSString stringWithFormat:@"%@index/activity/activity_list",YUMING]
+
+//教师、家长查看活动详情
+#define activityDetail [NSString stringWithFormat:@"%@index/activity/detail",YUMING]
+
 
 

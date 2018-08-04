@@ -10,7 +10,7 @@
 #import "ClassDetailsCell.h"
 #import "HomeWorkModel.h"
 #import "PublishJobViewController.h"
-#import "JobDetailsViewController.h"
+#import "WorkDetailsViewController.h"
 
 @interface HomeWorkViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -115,9 +115,19 @@
     cell.titleLabel.text = model.title;
 //    cell.subjectsLabel.text = model.abstract;
     cell.timeLabel.text = model.create_time;
+    [cell.delegateBtn addTarget:self action:@selector(delegateBtn:) forControlEvents:UIControlEventTouchUpInside];
     gridcell = cell;
     return gridcell;
     
+}
+
+- (void)delegateBtn : (UIButton *)sender {
+    NSLog(@"删除"); //workDeleteHomeWork
+    
+}
+
+- (void)deleteItemsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths {
+    NSLog(@"%@",indexPaths);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
@@ -140,9 +150,9 @@
     
      HomeWorkModel  *model = [self.homeWorkArr objectAtIndex:indexPath.row];
     
-    JobDetailsViewController *jobDetailsVC = [[JobDetailsViewController alloc] init];
-    jobDetailsVC.classID = model.ID;
-    [self.navigationController pushViewController:jobDetailsVC animated:YES];
+    WorkDetailsViewController *workDetailsVC = [[WorkDetailsViewController alloc] init];
+    workDetailsVC.workId = model.ID;
+    [self.navigationController pushViewController:workDetailsVC animated:YES];
 }
 
 - (void)rightBtn:(UIButton *)sender {

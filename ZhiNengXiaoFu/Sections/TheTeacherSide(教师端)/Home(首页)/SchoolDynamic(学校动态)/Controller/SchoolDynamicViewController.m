@@ -8,6 +8,7 @@
 
 #import "SchoolDynamicViewController.h"
 #import "SchoolDynamicCellCell.h"
+#import "SchoolDynamicModel.h"
 #import "SchoolInformationViewController.h"
 
 @interface SchoolDynamicViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
@@ -15,6 +16,8 @@
 @property (nonatomic, strong) UICollectionView *schoolDynamicCollectionView;
 @property (nonatomic, strong) NSMutableArray  *schoolDynamicArr;
 @property (nonatomic, strong) UIImageView  *headImgView;
+@property (nonatomic, assign) NSInteger     page;
+@property (nonatomic, strong) UIImageView *zanwushuju;
 
 @end
 
@@ -30,21 +33,41 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"学校动态";
-   
-    NSMutableArray *imgArr = [NSMutableArray arrayWithObjects:@"通知图标",@"通知图标",@"通知图标",@"通知图标", nil];
-    NSMutableArray *titleArr = [NSMutableArray arrayWithObjects:@"七年级通知",@"九年级通知",@"六年级通知",@"四年级八班通知", nil];
-    NSMutableArray *contentArr = [NSMutableArray arrayWithObjects:@"英语作业通知",@"英语",@"数学成绩查询",@"春游计划通知", nil];
-    NSMutableArray *timeArr       = [NSMutableArray arrayWithObjects:@"2018-09-01",@"2018-09-02",@"2018-09-03",@"2018-09-04", nil];
-    for (int i = 0; i < imgArr.count; i++) {
-        NSString *img     = [imgArr objectAtIndex:i];
-        NSString *title   = [titleArr objectAtIndex:i];
-        NSString *content = [contentArr objectAtIndex:i];
-        NSString *time    = [timeArr objectAtIndex:i];
-        NSDictionary *dic = @{@"img":img,@"title":title,@"content":content,@"time":time};
-        [self.schoolDynamicArr addObject:dic];
-    }
+    self.page = 1;
+    [self getDynamicGetListData];
+    
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.view addSubview:self.zanwushuju];
     
     [self makeSchoolDynamicViewControllerUI];
+    
+}
+
+- (void)getDynamicGetListData {
+    
+    NSString *key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
+    NSDictionary *dic = @{@"key":key,@"page":[NSString stringWithFormat:@"%ld",self.page]};
+    [[HttpRequestManager sharedSingleton] POST:dynamicGetList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            self.schoolDynamicArr = [SchoolDynamicModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            if (self.schoolDynamicArr.count == 0) {
+                self.zanwushuju.alpha = 1;
+            } else {
+                [self.schoolDynamicCollectionView reloadData];
+            }
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
     
 }
 
@@ -52,7 +75,7 @@
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.sectionInset = UIEdgeInsetsMake(190, 0, 0, 0);
-    self.schoolDynamicCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT) collectionViewLayout:layout];
+    self.schoolDynamicCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - 70) collectionViewLayout:layout];
     self.schoolDynamicCollectionView.backgroundColor = backColor;
     self.schoolDynamicCollectionView.delegate = self;
     self.schoolDynamicCollectionView.dataSource = self;
@@ -79,13 +102,14 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary * dic = [self.schoolDynamicArr objectAtIndex:indexPath.row];
+    
     UICollectionViewCell *gridcell = nil;
     SchoolDynamicCellCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:SchoolDynamicCellCell_CollectionView forIndexPath:indexPath];
-    cell.headImgView.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
-    cell.titleLabel.text = [dic objectForKey:@"title"];
-    cell.subjectsLabel.text = [dic objectForKey:@"content"];
-    cell.timeLabel.text = [dic objectForKey:@"time"];
+    SchoolDynamicModel *model = [self.schoolDynamicArr objectAtIndex:indexPath.row];
+    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img]];
+    cell.titleLabel.text = model.title;
+//    cell.subjectsLabel.text = [dic objectForKey:@"content"];
+    cell.timeLabel.text = model.create_time;
     
     gridcell = cell;
     
@@ -110,7 +134,9 @@
 //点击响应方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%ld",indexPath.row);
+    SchoolDynamicModel *model = [self.schoolDynamicArr objectAtIndex:indexPath.row];
     SchoolInformationViewController *schoolInformationVC = [[SchoolInformationViewController alloc] init];
+    schoolInformationVC.ID = model.ID;
     [self.navigationController pushViewController:schoolInformationVC animated:YES];
 }
 

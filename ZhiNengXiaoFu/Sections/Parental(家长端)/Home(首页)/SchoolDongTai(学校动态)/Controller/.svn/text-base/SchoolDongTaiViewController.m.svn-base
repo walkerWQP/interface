@@ -9,6 +9,7 @@
 #import "SchoolDongTaiViewController.h"
 #import "TeacherTongZhiCell.h"
 #import "SchoolDongTaiDetailsViewController.h"
+#import "SchoolDongTaiModel.h"
 @interface SchoolDongTaiViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *schoolDynamicTableView;
@@ -35,26 +36,45 @@
     }
     self.title = @"学校动态";
     
+    [self setNetWork];
     
-    NSMutableArray *imgArr = [NSMutableArray arrayWithObjects:@"c4",@"c1",@"c2", nil];
-    NSMutableArray *titleArr = [NSMutableArray arrayWithObjects:@"京东云提供多款云服务器供您选择,您无需为硬件的采购和维护投入精力,可随时创建和释放多",@"京东云提供多款云服务器供您选择,您无需为硬件的采购和维护投入精力,可随时创建和释放多",@"京东云提供多款云服务器供您选择,您无需为硬件的采购和维护投入精力,可随时创建和释放多", nil];
-    NSMutableArray *timeArr = [NSMutableArray arrayWithObjects:@"2018-07-21",@"2018-07-20",@"2018-07-19", nil];
-    for (int i = 0; i < imgArr.count; i ++) {
-        NSString * img  = [imgArr objectAtIndex:i];
-        NSString * title = [titleArr objectAtIndex:i];
-        NSString * time  = [timeArr objectAtIndex:i];
-        NSDictionary * dic = @{@"img":img, @"title":title,@"time":time};
-        [self.schoolDynamicArr addObject:dic];
-    }
     [self.view addSubview:self.schoolDynamicTableView];
     self.schoolDynamicTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self.schoolDynamicTableView registerClass:[TeacherTongZhiCell class] forCellReuseIdentifier:@"TeacherTongZhiCellId"];
 }
 
+- (void)setNetWork
+{
+    NSDictionary * dic = @{@"key":[UserManager key]};
+    [[HttpRequestManager sharedSingleton] POST:dynamicGetList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.schoolDynamicArr = [SchoolDongTaiModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            [self.schoolDynamicTableView reloadData];
+        }else
+        {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            }else
+            {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SchoolDongTaiDetailsViewController * schoolDongTaivc = [[SchoolDongTaiDetailsViewController alloc] init];
+    SchoolDongTaiModel * model = [self.schoolDynamicArr objectAtIndex:indexPath.row];
+    schoolDongTaivc.schoolDongTaiId = model.ID;
     [self.navigationController pushViewController:schoolDongTaivc animated:YES];
     
 }
@@ -62,7 +82,7 @@
 
 - (UITableView *)schoolDynamicTableView {
     if (!_schoolDynamicTableView) {
-        self.schoolDynamicTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.schoolDynamicTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64) style:UITableViewStyleGrouped];
         self.schoolDynamicTableView.delegate = self;
         self.schoolDynamicTableView.dataSource = self;
     }
@@ -92,7 +112,7 @@
         return 1;
     }else
     {
-        return 2;
+        return self.schoolDynamicArr.count;
 
     }
 }
@@ -124,9 +144,11 @@
         TeacherTongZhiCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TeacherTongZhiCellId" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-        cell.titleLabel.text = @"放假通知";
-        cell.contentLabel.text = @"通知: 各位家长请在暑假期间督促孩子们完成假期作业...";
-        cell.timeLabel.text = @"2018-08-25";
+        SchoolDongTaiModel * model = [self.schoolDynamicArr objectAtIndex:indexPath.row];
+        
+        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+        cell.titleLabel.text = model.title;
+        cell.timeLabel.text = model.create_time;
         return cell;
     }
     

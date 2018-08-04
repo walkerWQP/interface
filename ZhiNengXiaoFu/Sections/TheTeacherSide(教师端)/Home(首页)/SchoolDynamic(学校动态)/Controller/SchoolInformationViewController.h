@@ -10,4 +10,6 @@
 
 @interface SchoolInformationViewController : BaseViewController
 
+@property (nonatomic, strong) NSString  *ID;
+
 @end

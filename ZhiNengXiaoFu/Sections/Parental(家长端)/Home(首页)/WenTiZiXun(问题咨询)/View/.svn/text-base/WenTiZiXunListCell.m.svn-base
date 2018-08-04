@@ -21,10 +21,17 @@
 
 - (void)creatUI
 {
-    self.userIcon = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 40, 40)];
+    
+    self.lineViewT = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 10)];
+    self.lineViewT.backgroundColor = COLOR(247, 247, 247, 1);
+    [self addSubview:self.lineViewT];
+    
+    self.userIcon = [[UIImageView alloc] initWithFrame:CGRectMake(15,self.lineViewT.frame.origin.y + self.lineViewT.frame.size.height + 10, 40, 40)];
+    self.userIcon.layer.cornerRadius = 20;
+    self.userIcon.layer.masksToBounds = YES;
     [self addSubview:self.userIcon];
     
-    self.userName = [[UILabel alloc] initWithFrame:CGRectMake(self.userIcon.frame.origin.x + self.userIcon.frame.size.width + 10, 20, 200, 20)];
+    self.userName = [[UILabel alloc] initWithFrame:CGRectMake(self.userIcon.frame.origin.x + self.userIcon.frame.size.width + 10, self.lineViewT.frame.origin.y + self.lineViewT.frame.size.height + 20, 200, 20)];
     self.userName.font = [UIFont systemFontOfSize:14];
     self.userName.textColor = COLOR(147, 147, 147, 1);
     [self addSubview:self.userName];
@@ -37,6 +44,25 @@
     self.lineView = [[UIView alloc] initWithFrame:CGRectMake(15, self.questionLabel.frame.origin.y + self.questionLabel.frame.size.height + 5, kScreenWidth - 15, 1)];
     self.lineView.backgroundColor = COLOR(224, 224, 224, 1);
     [self addSubview:self.lineView];
+    
+    
+    self.userIconT = [[UIImageView alloc] initWithFrame:CGRectMake( 15, self.lineView.frame.origin.y +  self.lineView.frame.size.height + 10, 40, 40)];
+    self.userIconT.layer.cornerRadius = 20;
+    self.userIconT.layer.masksToBounds = YES;
+    [self addSubview:self.userIconT];
+    
+    self.userNameT = [[UILabel alloc] initWithFrame:CGRectMake(self.userIconT.frame.origin.x + self.userIconT.frame.size.width + 10, self.lineView.frame.origin.y +  self.lineView.frame.size.height + 20, 200, 20)];
+    self.userNameT.font = [UIFont systemFontOfSize:14];
+    self.userNameT.textColor = COLOR(147, 147, 147, 1);
+    [self addSubview:self.userNameT];
+    
+    self.questionLabelT = [[UILabel alloc] initWithFrame:CGRectMake(15, self.userIconT.frame.origin.y + self.userIconT.frame.size.height + 5, kScreenWidth - 30, 20)];
+    self.questionLabelT.textColor = COLOR(147, 147, 147, 1);
+    self.questionLabelT.font = [UIFont systemFontOfSize:14];
+    [self addSubview:self.questionLabelT];
+    
+    
+    
 }
 
 

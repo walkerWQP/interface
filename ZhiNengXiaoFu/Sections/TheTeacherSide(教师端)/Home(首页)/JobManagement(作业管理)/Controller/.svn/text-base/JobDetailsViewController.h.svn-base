@@ -10,4 +10,6 @@
 
 @interface JobDetailsViewController : BaseViewController
 
+@property (nonatomic, strong) NSString   *classID;
+
 @end

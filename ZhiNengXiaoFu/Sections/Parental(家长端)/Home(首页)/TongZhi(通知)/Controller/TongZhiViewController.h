@@ -10,4 +10,6 @@
 
 @interface TongZhiViewController : UIViewController
 
+@property (nonatomic, strong) NSString   *teacherID;
+
 @end

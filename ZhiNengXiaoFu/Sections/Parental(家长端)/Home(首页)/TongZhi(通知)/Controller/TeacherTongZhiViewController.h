@@ -10,4 +10,6 @@
 
 @interface TeacherTongZhiViewController : BaseViewController
 
+@property (nonatomic, strong) NSString   *identityID;
+
 @end

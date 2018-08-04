@@ -10,4 +10,9 @@
 
 @implementation TeacherNotifiedModel
 
++ (NSDictionary *)replacedKeyFromPropertyName {
+    
+    return @{@"ID": @"id"};
+}
+
 @end

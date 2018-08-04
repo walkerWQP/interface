@@ -8,9 +8,15 @@
 
 #import "ClassDetailsViewController.h"
 #import "ClassDetailsCell.h"
+#import "ClassDetailsModel.h"
 #import "NoticeViewController.h"
+#import "ClassNoticeViewController.h"
 
 @interface ClassDetailsViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+
+@property (nonatomic, assign) NSInteger     page;
+@property (nonatomic, strong) UIImageView * zanwushuju;
+
 
 @end
 
@@ -26,24 +32,58 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"八年级二班";
+    self.title = self.titleStr;
+    self.page  = 1;
     
-    NSMutableArray *imgArr = [NSMutableArray arrayWithObjects:@"通知图标",@"通知图标",@"通知图标",@"通知图标", nil];
-    NSMutableArray *titleArr = [NSMutableArray arrayWithObjects:@"七年级通知",@"九年级通知",@"六年级通知",@"四年级八班通知", nil];
-    NSMutableArray *contentArr = [NSMutableArray arrayWithObjects:@"英语作业通知",@"英语",@"数学成绩查询",@"春游计划通知", nil];
-    NSMutableArray *timeArr       = [NSMutableArray arrayWithObjects:@"2018-09-01",@"2018-09-02",@"2018-09-03",@"2018-09-04", nil];
-    for (int i = 0; i < imgArr.count; i++) {
-        NSString *img     = [imgArr objectAtIndex:i];
-        NSString *title   = [titleArr objectAtIndex:i];
-        NSString *content = [contentArr objectAtIndex:i];
-        NSString *time    = [timeArr objectAtIndex:i];
-        NSDictionary *dic = @{@"img":img,@"title":title,@"content":content,@"time":time};
-        [self.classDetailsArr addObject:dic];
-    }
+    [self getNoticeListData];
+    
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    [button setTitle:@"发布" forState:UIControlStateNormal];
+    button.titleLabel.font = titFont;
+    [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.view addSubview:self.zanwushuju];
+    
+    
     
     [self makeClassDetailsViewControllerUI];
  
 }
+
+- (void)getNoticeListData {
+    
+    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
+    NSDictionary *dic = @{@"key":key, @"page":[NSString stringWithFormat:@"%ld",self.page], @"is_school":@"0",@"class_id":self.ID};
+    [[HttpRequestManager sharedSingleton] POST:noticeListURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.classDetailsArr = [ClassDetailsModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            if (self.classDetailsArr.count == 0) {
+                self.zanwushuju.alpha = 1;
+            } else {
+                
+                [self.classDetailsCollectionView reloadData];
+            }
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+    
+}
+
 
 - (void)makeClassDetailsViewControllerUI {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
@@ -74,13 +114,14 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSDictionary * dic = [self.classDetailsArr objectAtIndex:indexPath.row];
+    ClassDetailsModel *model = [self.classDetailsArr objectAtIndex:indexPath.row];
+    
     UICollectionViewCell *gridcell = nil;
     ClassDetailsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ClassDetailsCell_CollectionView forIndexPath:indexPath];
-    cell.headImgView.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
-    cell.titleLabel.text = [dic objectForKey:@"title"];
-    cell.subjectsLabel.text = [dic objectForKey:@"content"];
-    cell.timeLabel.text = [dic objectForKey:@"time"];
+    cell.headImgView.image = [UIImage imageNamed:@"通知图标"];
+    cell.titleLabel.text = model.title;
+//    cell.subjectsLabel.text = model.abstract;
+    cell.timeLabel.text = model.create_time;
     gridcell = cell;
     return gridcell;
     
@@ -109,5 +150,12 @@
     [self.navigationController pushViewController:noticeVC animated:YES];
     
  }
+
+- (void)rightBtn : (UIButton *)sender {
+    
+    ClassNoticeViewController *classNoticeVC = [[ClassNoticeViewController alloc] init];
+    classNoticeVC.classID = self.ID;
+    [self.navigationController pushViewController:classNoticeVC animated:YES];
+}
 
 @end

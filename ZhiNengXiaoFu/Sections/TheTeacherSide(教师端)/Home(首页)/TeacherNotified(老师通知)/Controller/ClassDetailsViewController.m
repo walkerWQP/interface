@@ -11,6 +11,7 @@
 #import "ClassDetailsModel.h"
 #import "NoticeViewController.h"
 #import "ClassNoticeViewController.h"
+#import "TongZhiDetailsViewController.h"
 
 @interface ClassDetailsViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -146,8 +147,12 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"%ld",indexPath.row);
-    NoticeViewController *noticeVC = [NoticeViewController new];
-    [self.navigationController pushViewController:noticeVC animated:YES];
+    ClassDetailsModel *model = [self.classDetailsArr objectAtIndex:indexPath.row];
+    TongZhiDetailsViewController *tongZhiDetailsVC = [[TongZhiDetailsViewController alloc] init];
+    tongZhiDetailsVC.tongZhiId = model.ID;
+    [self.navigationController pushViewController:tongZhiDetailsVC animated:YES];
+//    NoticeViewController *noticeVC = [NoticeViewController new];
+//    [self.navigationController pushViewController:noticeVC animated:YES];
     
  }
 
