@@ -16,19 +16,17 @@
 @property (nonatomic, strong) NSMutableArray * schoolTongZhiAry;
 @property (nonatomic, strong) UITableView * schoolTongZhiTableView;
 @property (nonatomic, strong) UIImageView * zanwushuju;
+@property (nonatomic, assign) NSInteger     page;
+
 @end
 
 @implementation SchoolTongZhiViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
     self.title = @"学校通知";
-    //网络请求
-    [self getNetWork];
-    
-   
-    
+    self.page = 1;
     [self.view addSubview:self.schoolTongZhiTableView];
     [self.schoolTongZhiTableView registerClass:[TongZhiCell class] forCellReuseIdentifier:@"TongZhiCellId"];
     self.schoolTongZhiTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -37,17 +35,43 @@
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
     [self.view addSubview:self.zanwushuju];
+    //下拉刷新
+    self.schoolTongZhiTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.schoolTongZhiTableView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.schoolTongZhiTableView.mj_header beginRefreshing];
+    //上拉刷新
+    self.schoolTongZhiTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
 }
 
-- (void)getNetWork
+- (void)loadNewTopic {
+    self.page = 1;
+    [self.schoolTongZhiAry removeAllObjects];
+    [self getNetWork:self.page];
+}
+
+- (void)loadMoreTopic {
+    self.page += 1;
+    [self getNetWork:self.page];
+}
+
+- (void)getNetWork:(NSInteger)page
 {
-    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
-    NSDictionary * dic = @{@"key":key, @"is_school":@1};
+    
+    NSDictionary * dic = @{@"key":[UserManager key], @"is_school":@1,@"page":[NSString stringWithFormat:@"%ld",page]};
     [[HttpRequestManager sharedSingleton] POST:JIAZHANGCHAKANTONGZHILIEBIAO parameters:dic success:^(NSURLSessionDataTask *task, id responseObject)
     {
+        //结束头部刷新
+        [self.schoolTongZhiTableView.mj_header endRefreshing];
+        //结束尾部刷新
+        [self.schoolTongZhiTableView.mj_footer endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200)
         {
-            self.schoolTongZhiAry = [TongZhiModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            NSMutableArray *arr = [TongZhiModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            for (TongZhiModel *model in arr) {
+                [self.schoolTongZhiAry addObject:model];
+            }
             if (self.schoolTongZhiAry.count == 0) {
                 self.zanwushuju.alpha = 1;
                 

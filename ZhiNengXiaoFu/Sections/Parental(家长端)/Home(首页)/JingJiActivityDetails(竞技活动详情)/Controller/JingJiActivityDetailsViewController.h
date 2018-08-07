@@ -10,4 +10,5 @@
 
 @interface JingJiActivityDetailsViewController : UIViewController
 
+@property (nonatomic, copy) NSString * JingJiActivityDetailsId;
 @end

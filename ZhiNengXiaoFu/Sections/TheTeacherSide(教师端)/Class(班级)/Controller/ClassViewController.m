@@ -8,6 +8,7 @@
 
 #import "ClassViewController.h"
 #import "TeacherNotifiedCell.h"
+#import "TeacherNotifiedModel.h"
 #import "TheClassInformationViewController.h"
 
 @interface ClassViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
@@ -15,6 +16,7 @@
 @property (nonatomic, strong) NSMutableArray *classArr;
 @property (nonatomic, strong) UICollectionView *classCollectionView;
 @property (nonatomic, strong) UIImageView  *headImgView;
+@property (nonatomic, strong) UIImageView * zanwushuju;
 
 @end
 
@@ -31,21 +33,43 @@
     [super viewDidLoad];
     self.view.backgroundColor = backColor;
     self.title = @"班级管理";
-   
-    
-    NSMutableArray *imgArr = [NSMutableArray arrayWithObjects:@"头像",@"头像",@"头像",@"头像", nil];
-    NSMutableArray *titleArr = [NSMutableArray arrayWithObjects:@"七年级",@"九年级二班",@"六年级三班",@"四年级八班", nil];
-    
-    for (int i = 0; i < imgArr.count; i++) {
-        NSString *img     = [imgArr objectAtIndex:i];
-        NSString *title   = [titleArr objectAtIndex:i];
-        
-        NSDictionary *dic = @{@"img":img,@"title":title};
-        [self.classArr addObject:dic];
-    }
-    
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.view addSubview:self.zanwushuju];
+    [self getClassData];
     [self makeClassViewControllerUI];
     
+}
+
+- (void)getClassData {
+    
+    NSDictionary *dic = @{@"key":[UserManager key]};
+    [[HttpRequestManager sharedSingleton] POST:getClassURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.classArr = [TeacherNotifiedModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            if (self.classArr.count == 0) {
+                self.zanwushuju.alpha = 1;
+            } else {
+                
+                [self.classCollectionView reloadData];
+            }
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
 }
 
 - (void)makeClassViewControllerUI {
@@ -77,11 +101,12 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSDictionary * dic = [self.classArr objectAtIndex:indexPath.row];
+    
     UICollectionViewCell *gridcell = nil;
     TeacherNotifiedCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TeacherNotifiedCell_CollectionView forIndexPath:indexPath];
-    cell.headImgView.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
-    cell.classLabel.text = [dic objectForKey:@"title"];
+    TeacherNotifiedModel *model = [self.classArr objectAtIndex:indexPath.row];
+    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];
+    cell.classLabel.text = model.name;
     gridcell = cell;
     return gridcell;
     
@@ -105,8 +130,9 @@
 //点击响应方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSLog(@"%ld",(long)indexPath.row);
+    TeacherNotifiedModel *model = [self.classArr objectAtIndex:indexPath.row];
     TheClassInformationViewController *theClassInformationVC = [TheClassInformationViewController new];
+    theClassInformationVC.ID = model.ID;
     [self.navigationController pushViewController:theClassInformationVC animated:YES];
     
 }

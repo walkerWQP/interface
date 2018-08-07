@@ -46,6 +46,7 @@
         NSDictionary * dic = @{@"img":img, @"title":title, @"time":time};
         [self.QianDaoAry addObject:dic];
     }
+    [self setNetWork];
     
     [self.view addSubview:self.QianDaoTableView];
     
@@ -55,6 +56,25 @@
     [self.QianDaoTableView registerClass:[QianDaoItemCell class] forCellReuseIdentifier:@"QianDaoItemCellId"];
 
     self.QianDaoTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+}
+
+- (void)setNetWork
+{
+    NSLog(@"%@",self.studentId);
+    NSDictionary * dic  = [NSDictionary dictionary];
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"2"]) {
+        dic = @{@"key":[UserManager key], @"student_id":self.studentId};
+
+    }else
+    {
+        dic = @{@"key":[UserManager key]};
+
+    }
+    [[HttpRequestManager sharedSingleton] POST:recordURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
 }
 
 - (NSMutableArray *)QianDaoAry
@@ -115,7 +135,8 @@
 {
     if (indexPath.section == 0) {
         QianDaoPsersonCell * cell = [tableView dequeueReusableCellWithIdentifier:@"QianDaoPsersonCellId" forIndexPath:indexPath];
-        cell.itemLabel.text = @"小明";
+        cell.itemLabel.text = [UserManager getUserObject].name;
+        [cell.itemImg sd_setImageWithURL:[NSURL URLWithString:[UserManager getUserObject].head_img] placeholderImage:nil];
         cell.selectionStyle =  UITableViewCellSelectionStyleNone;
         return cell;
     }else

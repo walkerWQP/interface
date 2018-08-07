@@ -11,9 +11,7 @@
 @interface HomeWorkViewController : BaseViewController
 
 @property (nonatomic, strong) NSString        *titleStr;
-@property (nonatomic, strong) NSString  *ID;
-@property (nonatomic, strong) NSMutableArray  *homeWorkArr;
-@property (nonatomic, strong) UICollectionView *homeWorkCollectionView;
+@property (nonatomic, strong) NSString        *ID;
 @property (nonatomic, strong) UIImageView  *headImgView;
 
 @end

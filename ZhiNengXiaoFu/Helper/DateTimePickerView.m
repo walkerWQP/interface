@@ -832,19 +832,21 @@
 
 //确认的隐藏
 
--(void)configButtonClick
-
-{
-    
-    
+-(void)configButtonClick {
     
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(didClickFinishDateTimePickerView:)]) {
         
         [self.delegate didClickFinishDateTimePickerView:_string];
         
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"YYYY-MM-dd"];
+        NSDate *datenow = [NSDate date];
+        NSString *currentTimeString = [formatter stringFromDate:datenow];
+        
+        NSLog(@"currentTimeString =  %@",currentTimeString);
+        NSLog(@"%@",_string);
+        
     }
-    
-    
     
     [self hideDateTimePickerView];
     

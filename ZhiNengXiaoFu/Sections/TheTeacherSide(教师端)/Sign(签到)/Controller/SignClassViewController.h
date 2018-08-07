@@ -10,4 +10,6 @@
 
 @interface SignClassViewController : BaseViewController
 
+@property (nonatomic, strong) NSString    *ID;
+
 @end

@@ -8,39 +8,67 @@
 
 #import "HuoDongIngViewController.h"
 #import "OngoingCell.h"
+#import "JingJiHuoDongListModel.h"
+#import "JingJiActivityDetailsViewController.h"
+
 @interface HuoDongIngViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) NSMutableArray  *ongoingArr;
 @property (nonatomic, strong) UICollectionView *ongoingCollectionView;
+@property (nonatomic, assign) NSInteger     page;
+
 @end
 
 @implementation HuoDongIngViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    NSMutableArray *imgArr = [NSMutableArray arrayWithObjects:@"教师端活动管理banner",@"教师端活动管理banner",@"教师端活动管理banner",@"教师端活动管理banner", nil];
-    NSMutableArray *titleArr = [NSMutableArray arrayWithObjects:@"七年级运动会",@"九年级运动会",@"六年级运动会",@"四年级八班运动会", nil];
-    NSMutableArray *timeArr       = [NSMutableArray arrayWithObjects:@"活动日期:2018.07.30-2018.08.10",@"活动日期:2018.07.30-2018.08.10",@"活动日期:2018.07.30-2018.08.10",@"活动日期:2018.07.30-2018.08.10", nil];
-    
-    for (int i = 0; i < imgArr.count; i++) {
-        NSString *img     = [imgArr objectAtIndex:i];
-        NSString *title   = [titleArr objectAtIndex:i];
-        NSString *time    = [timeArr objectAtIndex:i];
-        NSDictionary *dic = @{@"img":img,@"title":title,@"time":time};
-        [self.ongoingArr addObject:dic];
-    }
-    
-    [self setNetWork];
-    
+    self.page = 1;
     [self makeOngoingViewControllerUI];
+    //下拉刷新
+    self.ongoingCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.ongoingCollectionView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.ongoingCollectionView.mj_header beginRefreshing];
+    //上拉刷新
+    self.ongoingCollectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
 }
 
-- (void)setNetWork
+- (void)loadNewTopic {
+    self.page = 1;
+    [self.ongoingArr removeAllObjects];
+    [self setNetWork:self.page];
+}
+
+- (void)loadMoreTopic {
+    self.page += 1;
+    [self setNetWork:self.page];
+}
+
+- (void)setNetWork:(NSInteger)page
 {
-    NSDictionary * dic = @{@"key":[UserManager key], @"status":@3};
+    NSDictionary * dic = @{@"key":[UserManager key], @"status":@1,@"page":[NSString stringWithFormat:@"%ld",page]};
     [[HttpRequestManager sharedSingleton] POST:activityActivityList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSLog(@"%@", responseObject);
+        //结束头部刷新
+        [self.ongoingCollectionView.mj_header endRefreshing];
+        //结束尾部刷新
+        [self.ongoingCollectionView.mj_footer endRefreshing];
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            NSMutableArray *arr = [JingJiHuoDongListModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            for (JingJiHuoDongListModel *model in arr) {
+                [self.ongoingArr addObject:model];
+            }
+            [self.ongoingCollectionView reloadData];
+        }else
+        {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            }else
+            {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
     }];
@@ -78,13 +106,14 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSDictionary * dic = [self.ongoingArr objectAtIndex:indexPath.row];
     UICollectionViewCell *gridcell = nil;
     OngoingCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:OngoingCell_CollectionView forIndexPath:indexPath];
-    cell.imgView.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
-    cell.titleLabel.text = [dic objectForKey:@"title"];
-    cell.timeLabel.text = [dic objectForKey:@"time"];
-    cell.detailsLabel.text = [dic objectForKey:@"title"];
+    JingJiHuoDongListModel * model = [self.ongoingArr objectAtIndex:indexPath.row];
+    
+    [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+    cell.titleLabel.text = model.title;
+    cell.timeLabel.text = [NSString stringWithFormat:@"活动日期:%@-%@", model.start, model.end];
+    cell.detailsLabel.text = model.title;
     gridcell = cell;
     return gridcell;
     
@@ -108,6 +137,11 @@
 //点击响应方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
+    JingJiActivityDetailsViewController * jjA = [[JingJiActivityDetailsViewController alloc] init];
+    JingJiHuoDongListModel * model = [self.ongoingArr objectAtIndex:indexPath.row];
+    
+    jjA.JingJiActivityDetailsId = model.ID;
+    [self.navigationController pushViewController:jjA animated:YES];
     NSLog(@"%ld",indexPath.row);
     
 }

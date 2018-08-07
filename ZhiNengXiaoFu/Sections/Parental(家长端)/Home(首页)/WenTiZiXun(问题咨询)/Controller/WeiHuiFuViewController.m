@@ -14,13 +14,15 @@
 @property (nonatomic, strong) UITableView * WeiHuiFuTableView;
 @property (nonatomic, strong) ConsultListModel * consultListModel;
 @property (nonatomic, strong) NSMutableArray * WeiHuiFuAry;
+@property (nonatomic, assign) NSInteger     page;
+
 @end
 
 @implementation WeiHuiFuViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.page = 1;
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.WeiHuiFuTableView.delegate = self;
@@ -30,7 +32,25 @@
     self.WeiHuiFuTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.WeiHuiFuTableView registerNib:[UINib nibWithNibName:@"WeiHuiFuCell" bundle:nil] forCellReuseIdentifier:@"WeiHuiFuCellId"];
     
-    [self setNetWork];
+    //下拉刷新
+    self.WeiHuiFuTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.WeiHuiFuTableView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.WeiHuiFuTableView.mj_header beginRefreshing];
+    //上拉刷新
+    self.WeiHuiFuTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+}
+
+- (void)loadNewTopic {
+    self.page = 1;
+    [self.WeiHuiFuAry removeAllObjects];
+    [self setNetWork:self.page];
+}
+
+- (void)loadMoreTopic {
+    self.page += 1;
+    [self setNetWork:self.page];
 }
 
 - (NSMutableArray *)WeiHuiFuAry
@@ -41,15 +61,21 @@
     return _WeiHuiFuAry;
 }
 
-- (void)setNetWork
+- (void)setNetWork:(NSInteger)page
 {
-    NSDictionary * dic = @{@"key":[UserManager key], @"status":@0};
+    NSDictionary * dic = @{@"key":[UserManager key], @"status":@0,@"page":[NSString stringWithFormat:@"%ld",page]};
     
     [[HttpRequestManager sharedSingleton] POST:ConsultConsultList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
-        
+        //结束头部刷新
+        [self.WeiHuiFuTableView.mj_header endRefreshing];
+        //结束尾部刷新
+        [self.WeiHuiFuTableView.mj_footer endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-            self.WeiHuiFuAry = [ConsultListModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            NSMutableArray *arr = [ConsultListModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            for (ConsultListModel *model in arr) {
+                [self.WeiHuiFuAry addObject:model];
+            }
             [self.WeiHuiFuTableView reloadData];
         }else
         {

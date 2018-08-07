@@ -102,30 +102,29 @@
         NSLog(@"请输入通知内容");
         [EasyShowTextView showImageText:@"通知内容不能为空" imageName:@"icon_sym_toast_failed_56_w100"];
         return;
-    }
-    
-    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
-    NSDictionary *dic = @{@"key":key,@"class_id":self.classID,@"title":self.noticeNameTextField.text,@"content":self.noticeContentTextView.text,@"img":@""};
-    [[HttpRequestManager sharedSingleton] POST:publishURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        
-        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+    } else {
+        NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
+        NSDictionary *dic = @{@"key":key,@"class_id":self.classID,@"title":self.noticeNameTextField.text,@"content":self.noticeContentTextView.text,@"img":@""};
+        [[HttpRequestManager sharedSingleton] POST:publishURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
             
-            [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
-            
-        } else {
-            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
-                [UserManager logoOut];
-            } else {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+            if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
                 
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
+                
+            } else {
+                if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                    [UserManager logoOut];
+                } else {
+                    [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                    
+                }
             }
-        }
-        
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
-    }];
-    
-    
+            
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            
+        }];
+    }
+
 }
 
 - (void)uploadPicturesBtn : (UIButton *)sender {

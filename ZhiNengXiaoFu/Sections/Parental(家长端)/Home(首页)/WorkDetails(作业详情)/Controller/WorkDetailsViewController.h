@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface WorkDetailsViewController : UIViewController
+
 @property (nonatomic, copy) NSString * workId;
 
 @end

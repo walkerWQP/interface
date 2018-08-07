@@ -7,13 +7,15 @@
 //
 
 #import "HomeWorkViewController.h"
-#import "ClassDetailsCell.h"
+#import "TongZhiCell.h"
 #import "HomeWorkModel.h"
 #import "PublishJobViewController.h"
 #import "WorkDetailsViewController.h"
 
-@interface HomeWorkViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@interface HomeWorkViewController ()<UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic, strong) UITableView * homeWorkTableView;
+@property (nonatomic, strong) NSMutableArray * homeWorkArr;
 @property (nonatomic, strong) UIImageView *zanwushuju;
 @property (nonatomic, assign) NSInteger   page;
 
@@ -33,7 +35,6 @@
     
     self.title = self.titleStr;
     self.page = 1;
-    [self getWorkHomeWorkListData];
     
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     [button setTitle:@"发布" forState:UIControlStateNormal];
@@ -45,23 +46,78 @@
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
     [self.view addSubview:self.zanwushuju];
+    [self.view addSubview:self.homeWorkTableView];
+    [self.homeWorkTableView registerClass:[TongZhiCell class] forCellReuseIdentifier:@"TongZhiCellId"];
+    self.homeWorkTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    [self makeHomeWorkViewControllerUI];
+    //下拉刷新
+    self.homeWorkTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.homeWorkTableView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.homeWorkTableView.mj_header beginRefreshing];
+    //上拉刷新
+    self.homeWorkTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     
 }
 
-- (void)getWorkHomeWorkListData {
-    NSString *key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
-    NSDictionary *dic = @{@"key":key,@"class_id":self.ID,@"page":[NSString stringWithFormat:@"%ld",self.page]};
-    [[HttpRequestManager sharedSingleton] POST:workHomeWorkList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+- (void)loadNewTopic {
+    self.page = 1;
+    [self.homeWorkArr removeAllObjects];
+    [self getWorkHomeWorkListData:self.page];
+}
+
+- (void)loadMoreTopic {
+    self.page += 1;
+    [self getWorkHomeWorkListData:self.page];
+}
+
+//删除作业
+- (void)WorkDeleteHomeWorkData:(NSString *)workID {
+    NSDictionary *dic = @{@"key":[UserManager key],@"id":workID};
+    [[HttpRequestManager sharedSingleton] POST:workDeleteHomeWork parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
-            self.homeWorkArr = [HomeWorkModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
+            //下拉刷新
+            self.homeWorkTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+            //进入刷新状态
+            [self.homeWorkTableView.mj_header beginRefreshing];
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+    
+}
+
+- (void)getWorkHomeWorkListData:(NSInteger)page {
+    
+    NSDictionary *dic = @{@"key":[UserManager key],@"class_id":self.ID,@"page":[NSString stringWithFormat:@"%ld",page]};
+    [[HttpRequestManager sharedSingleton] POST:workHomeWorkList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        //结束头部刷新
+        [self.homeWorkTableView.mj_header endRefreshing];
+        //结束尾部刷新
+        [self.homeWorkTableView.mj_footer endRefreshing];
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            NSMutableArray *arr = [HomeWorkModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            for (HomeWorkModel *model in arr) {
+                [self.homeWorkArr addObject:model];
+            }
             if (self.homeWorkArr.count == 0) {
                 self.zanwushuju.alpha = 1;
             } else {
                 
-                [self.homeWorkCollectionView reloadData];
+                [self.homeWorkTableView reloadData];
             }
             
             
@@ -78,79 +134,112 @@
     }];
 }
 
-- (void)makeHomeWorkViewControllerUI {
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
-    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    layout.sectionInset = UIEdgeInsetsMake(190, 0, 0, 0);
-    self.homeWorkCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT) collectionViewLayout:layout];
-    self.homeWorkCollectionView.backgroundColor = backColor;
-    self.homeWorkCollectionView.delegate = self;
-    self.homeWorkCollectionView.dataSource = self;
-    [self.view addSubview:self.homeWorkCollectionView];
-    
-    [self.homeWorkCollectionView registerClass:[ClassDetailsCell class] forCellWithReuseIdentifier:ClassDetailsCell_CollectionView];
-    
-    self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
-    self.headImgView.backgroundColor = [UIColor clearColor];
-    [self.homeWorkCollectionView addSubview:self.headImgView];
-    self.headImgView.image = [UIImage imageNamed:@"homepagelunbo2"];
+
+- (UITableView *)homeWorkTableView
+{
+    if (!_homeWorkTableView) {
+        self.homeWorkTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.homeWorkTableView.delegate = self;
+        self.homeWorkTableView.dataSource = self;
+    }
+    return _homeWorkTableView;
 }
 
-#pragma mark - <UICollectionViewDelegate, UICollectionViewDataSource>
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+//侧滑允许编辑cell
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
 }
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.homeWorkArr.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
-    UICollectionViewCell *gridcell = nil;
-    ClassDetailsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ClassDetailsCell_CollectionView forIndexPath:indexPath];
-    HomeWorkModel  *model = [self.homeWorkArr objectAtIndex:indexPath.row];
-    cell.headImgView.image = [UIImage imageNamed:@"通知图标"];
-    cell.titleLabel.text = model.title;
-//    cell.subjectsLabel.text = model.abstract;
-    cell.timeLabel.text = model.create_time;
-    [cell.delegateBtn addTarget:self action:@selector(delegateBtn:) forControlEvents:UIControlEventTouchUpInside];
-    gridcell = cell;
-    return gridcell;
+//执行删除操作
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"删除删除删除删除删除删除删除删除删除");
+    HomeWorkModel * model = [self.homeWorkArr objectAtIndex:indexPath.row];
+    [self WorkDeleteHomeWorkData:model.ID];
     
 }
-
-- (void)delegateBtn : (UIButton *)sender {
-    NSLog(@"删除"); //workDeleteHomeWork
-    
-}
-
-- (void)deleteItemsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths {
-    NSLog(@"%@",indexPaths);
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    
-    return 20;
-    
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGSize itemSize = CGSizeZero;
-    
-    itemSize = CGSizeMake(APP_WIDTH, 70);
-    
-    return itemSize;
+//侧滑出现的文字
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return @"删除";
 }
 
 
-//点击响应方法
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return nil;
+}
+
+//有时候tableview的底部视图也会出现此现象对应的修改就好了
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return nil;
+}
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        return 1;
+    } else {
+        return self.homeWorkArr.count;
+    }
     
-     HomeWorkModel  *model = [self.homeWorkArr objectAtIndex:indexPath.row];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    WorkDetailsViewController *workDetailsVC = [[WorkDetailsViewController alloc] init];
+    if (indexPath.section == 0) {
+        static NSString *CellIdentifier = @"TableViewCell";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        } else {
+            //删除cell中的子对象,刷新覆盖问题。
+            while ([cell.contentView.subviews lastObject] != nil) {
+                [(UIView*)[cell.contentView.subviews lastObject] removeFromSuperview];
+            }
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
+        imgs.image = [UIImage imageNamed:@"banner"];
+        [cell addSubview:imgs];
+        return cell;
+    } else {
+        TongZhiCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TongZhiCellId" forIndexPath:indexPath];
+        HomeWorkModel * model = [self.homeWorkArr objectAtIndex:indexPath.row];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.headImgView.image = [UIImage imageNamed:@"通知图标"] ;
+        cell.titleLabel.text = model.title;
+        cell.subjectsLabel.text = model.course_name;
+        cell.timeLabel.text = model.create_time;
+        return cell;
+    }
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return 170;
+    } else {
+        return 80;
+    }
+    
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    WorkDetailsViewController * workDetailsVC = [[WorkDetailsViewController alloc] init];
+    HomeWorkModel *model = [self.homeWorkArr objectAtIndex:indexPath.row];
     workDetailsVC.workId = model.ID;
     [self.navigationController pushViewController:workDetailsVC animated:YES];
 }

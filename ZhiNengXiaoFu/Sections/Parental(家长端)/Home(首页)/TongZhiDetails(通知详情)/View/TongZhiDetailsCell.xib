@@ -45,9 +45,8 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MAM-ZD-iDh">
-                        <rect key="frame" x="155" y="108" width="150" height="20"/>
+                        <rect key="frame" x="15" y="108" width="290" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="150" id="oJf-y2-SRY"/>
                             <constraint firstAttribute="height" constant="20" id="vt1-PX-kKd"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -58,6 +57,7 @@
                 <constraints>
                     <constraint firstItem="p2q-42-YA0" firstAttribute="top" secondItem="jn0-Bz-gsQ" secondAttribute="bottom" constant="15" id="4VK-om-nVy"/>
                     <constraint firstAttribute="trailing" secondItem="jn0-Bz-gsQ" secondAttribute="trailing" constant="15" id="7Zf-eE-aSD"/>
+                    <constraint firstItem="MAM-ZD-iDh" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="EUH-FE-uhh"/>
                     <constraint firstItem="MAM-ZD-iDh" firstAttribute="top" secondItem="7vo-b8-9Wi" secondAttribute="bottom" constant="15" id="O2t-39-gXU"/>
                     <constraint firstItem="7vo-b8-9Wi" firstAttribute="top" secondItem="p2q-42-YA0" secondAttribute="bottom" constant="15" id="Pc0-ra-c8m"/>
                     <constraint firstItem="7vo-b8-9Wi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="SM2-ib-iHT"/>

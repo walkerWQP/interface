@@ -13,7 +13,7 @@
 #import "PersonalDataViewController.h"
 #import "HelpCenterViewController.h"
 #import "LoginHomePageViewController.h"
-#import "LeaveListViewController.h"
+#import "OffTheListViewController.h"
 #import "ChangePasswordViewController.h"
 
 @interface MyViewController ()<UITableViewDelegate, UITableViewDataSource>
@@ -160,8 +160,8 @@
             case 1:
             {
                 NSLog(@"请假列表");
-                LeaveListViewController *leaveListVC = [[LeaveListViewController alloc] init];
-                [self.navigationController pushViewController:leaveListVC animated:YES];
+                OffTheListViewController *offTheListVC = [[OffTheListViewController alloc] init];
+                [self.navigationController pushViewController:offTheListVC animated:YES];
                
             }
                 break;

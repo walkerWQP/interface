@@ -34,24 +34,46 @@
     [super viewDidLoad];
     self.title = @"学校动态";
     self.page = 1;
-    [self getDynamicGetListData];
-    
     self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
     [self.view addSubview:self.zanwushuju];
-    
     [self makeSchoolDynamicViewControllerUI];
+    //下拉刷新
+    self.schoolDynamicCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.schoolDynamicCollectionView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.schoolDynamicCollectionView.mj_header beginRefreshing];
+    //上拉刷新
+    self.schoolDynamicCollectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     
 }
 
-- (void)getDynamicGetListData {
+- (void)loadNewTopic {
+    self.page = 1;
+    [self.schoolDynamicArr removeAllObjects];
+    [self getDynamicGetListData:self.page];
+}
+
+- (void)loadMoreTopic {
+    self.page += 1;
+    [self getDynamicGetListData:self.page];
+}
+
+- (void)getDynamicGetListData:(NSInteger)page {
     
-    NSString *key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
-    NSDictionary *dic = @{@"key":key,@"page":[NSString stringWithFormat:@"%ld",self.page]};
+    NSDictionary *dic = @{@"key":[UserManager key],@"page":[NSString stringWithFormat:@"%ld",page]};
     [[HttpRequestManager sharedSingleton] POST:dynamicGetList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        //结束头部刷新
+        [self.schoolDynamicCollectionView.mj_header endRefreshing];
+        //结束尾部刷新
+        [self.schoolDynamicCollectionView.mj_footer endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-            self.schoolDynamicArr = [SchoolDynamicModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            NSMutableArray *arr = [SchoolDynamicModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            for (SchoolDynamicModel * model in arr) {
+                [self.schoolDynamicArr addObject:model];
+            }
             if (self.schoolDynamicArr.count == 0) {
                 self.zanwushuju.alpha = 1;
             } else {

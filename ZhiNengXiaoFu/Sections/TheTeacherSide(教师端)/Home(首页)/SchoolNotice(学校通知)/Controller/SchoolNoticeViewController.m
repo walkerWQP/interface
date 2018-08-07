@@ -29,23 +29,50 @@
     [super viewDidLoad];
     self.title = @"学校通知";
     self.page  = 1;
-    [self getNoticeListData];
+   
     self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
     [self.view addSubview:self.zanwushuju];
     [self mkeSchoolNoticeViewControllerUI];
     
+    //下拉刷新
+    self.schoolNoticeCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.schoolNoticeCollectionView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.schoolNoticeCollectionView.mj_header beginRefreshing];
+    //上拉刷新
+    self.schoolNoticeCollectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    
 }
 
-- (void)getNoticeListData {
+- (void)loadNewTopic {
+    self.page = 1;
+    [self.schoolNoticeArr removeAllObjects];
+    [self getNoticeListData:self.page];
+}
+
+- (void)loadMoreTopic {
+    self.page += 1;
+    [self getNoticeListData:self.page];
+}
+
+- (void)getNoticeListData:(NSInteger)page {
     
     NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
-    NSDictionary *dic = @{@"key":key, @"page":[NSString stringWithFormat:@"%ld",self.page],@"is_school":@"1"};
+    NSDictionary *dic = @{@"key":key, @"page":[NSString stringWithFormat:@"%ld",page],@"is_school":@"1"};
     [[HttpRequestManager sharedSingleton] POST:noticeListURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+        //结束头部刷新
+        [self.schoolNoticeCollectionView.mj_header endRefreshing];
+        //结束尾部刷新
+        [self.schoolNoticeCollectionView.mj_footer endRefreshing];
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) { 
             
-            self.schoolNoticeArr = [ClassDetailsModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            NSMutableArray *arr = [ClassDetailsModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            for (ClassDetailsModel *model in arr) {
+                [self.schoolNoticeArr addObject:model];
+            }
             if (self.schoolNoticeArr.count == 0) {
                 self.zanwushuju.alpha = 1;
             } else {

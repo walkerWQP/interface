@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface TotalNumberViewController : BaseViewController
-
+@property (nonatomic, strong) NSString    *ID;
 @end

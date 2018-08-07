@@ -10,10 +10,12 @@
 #import "LeaveListItemCell.h"
 #import "LeaveRequestViewController.h"
 #import "LeaveDetailsViewController.h"
+#import "LeaveListModel.h"
 @interface LeaveListViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * leaveListTableView;
 @property (nonatomic, strong) NSMutableArray * leaveListAry;
+@property (nonatomic, assign) NSInteger     page;
 
 @end
 
@@ -25,36 +27,71 @@
     
     self.title = @"请假列表";
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    
+    self.page = 1;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"请假" style:UIBarButtonItemStyleDone target:self action:@selector(rightButton:)];
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
     [self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:15], NSFontAttributeName, nil] forState:UIControlStateNormal];
-    
-   
 
-    
-    NSMutableArray * timeAry = [NSMutableArray arrayWithObjects:@"请假时间: 2018-07-24 至 2018-07-25",@"请假时间: 2018-06-02 至 2018-06-03", nil];
-    NSMutableArray * seasonAry = [NSMutableArray arrayWithObjects:@"测试",@"因脚伤去医院治疗", nil];
-    NSMutableArray * stateAry = [NSMutableArray arrayWithObjects:@"1",@"3", nil];
-
-    for (int i = 0; i < timeAry.count; i++) {
-        NSString * time  = [timeAry objectAtIndex:i];
-        NSString * season = [seasonAry objectAtIndex:i];
-        NSString * state = [stateAry objectAtIndex:i];
-        NSDictionary* dic = @{@"season":season, @"time":time, @"state":state};
-        [self.leaveListAry addObject:dic];
-    }
-    
     [self.view addSubview:self.leaveListTableView];
     [self.leaveListTableView registerClass:[LeaveListItemCell class] forCellReuseIdentifier:@"LeaveListItemCellId"];
+    //下拉刷新
+    self.leaveListTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.leaveListTableView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.leaveListTableView.mj_header beginRefreshing];
+    //上拉刷新
+    self.leaveListTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+}
+
+- (void)loadNewTopic {
+    self.page = 1;
+    [self.leaveListAry removeAllObjects];
+    [self setNetWork:self.page];
+}
+
+- (void)loadMoreTopic {
+    self.page += 1;
+    [self setNetWork:self.page];
+}
+
+
+- (void)setNetWork:(NSInteger)page
+{
+    NSDictionary * dic = @{@"key":[UserManager key],@"page":[NSString stringWithFormat:@"%ld",page]};
     
+    [[HttpRequestManager sharedSingleton] POST:leaveLeaveList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        //结束头部刷新
+        [self.leaveListTableView.mj_header endRefreshing];
+        //结束尾部刷新
+        [self.leaveListTableView.mj_footer endRefreshing];
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            NSMutableArray *arr = [LeaveListModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            for (LeaveListModel *model in arr) {
+                [self.leaveListAry addObject:model];
+            }
+            [self.leaveListTableView reloadData];
+        }else
+        {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            }else
+            {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
 }
 
 - (UITableView *)leaveListTableView
 {
     if (!_leaveListTableView) {
-        self.leaveListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.leaveListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64) style:UITableViewStyleGrouped];
         self.leaveListTableView.dataSource = self;
         self.leaveListTableView.delegate = self;
     }
@@ -76,7 +113,7 @@
         return 1;
     }else
     {
-        return 2;
+        return self.leaveListAry.count;
     }
 }
 
@@ -108,16 +145,17 @@
         LeaveListItemCell * cell = [tableView dequeueReusableCellWithIdentifier:@"LeaveListItemCellId" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-        NSDictionary * dic = [self.leaveListAry objectAtIndex:indexPath.row];
-        cell.LeaveTimeLabel.text = [dic objectForKey:@"time"];
-        cell.LeaveReasonLabel.text = [dic objectForKey:@"season"];
-        if ([[dic objectForKey:@"state"] isEqualToString:@"1"]) {
-            cell.stateLabel.text = @"审核中";
-            cell.stateLabel.textColor = COLOR(252, 152, 152, 1);
-        }else if ([[dic objectForKey:@"state"] isEqualToString:@"3"])
-        {
+        LeaveListModel * model = [self.leaveListAry objectAtIndex:indexPath.row];
+        cell.LeaveTimeLabel.text = [NSString stringWithFormat:@"请假时间: %@ 至 %@", model.start, model.end];
+        cell.LeaveReasonLabel.text = model.reason;
+        if (model.status == 1) {
             cell.stateLabel.text = @"已批准";
             cell.stateLabel.textColor = COLOR(102, 205, 131, 1);
+          
+        }else
+        {
+            cell.stateLabel.text = @"审核中";
+            cell.stateLabel.textColor = COLOR(252, 152, 152, 1);
 
         }
         return cell;
@@ -164,6 +202,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     LeaveDetailsViewController * leaveDetailsVC = [[LeaveDetailsViewController alloc] init];
+    LeaveListModel * model = [self.leaveListAry objectAtIndex:indexPath.row];
+    leaveDetailsVC.leaveDetailsId = model.ID;
     [self.navigationController pushViewController:leaveDetailsVC animated:YES];
 }
 

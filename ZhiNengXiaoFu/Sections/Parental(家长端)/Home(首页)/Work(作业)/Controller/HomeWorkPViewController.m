@@ -15,44 +15,56 @@
 @property (nonatomic, strong) UITableView * HomeWorkPTableView;
 @property (nonatomic, strong) NSMutableArray * HomeWorkPAry;
 
-@property (nonatomic, assign) int page;
+@property (nonatomic, assign) NSInteger     page;
+
 @end
 
 @implementation HomeWorkPViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"作业";
-    
-    [self setNetWork];
-//    NSMutableArray *imgArr = [NSMutableArray arrayWithObjects:@"通知图标",@"通知图标",@"通知图标",@"通知图标", nil];
-//    NSMutableArray *titleArr = [NSMutableArray arrayWithObjects:@"七年级通知",@"九年级通知",@"六年级通知",@"四年级八班通知", nil];
-//    NSMutableArray *contentArr = [NSMutableArray arrayWithObjects:@"英语作业通知",@"英语",@"数学成绩查询",@"春游计划通知", nil];
-//    NSMutableArray *timeArr       = [NSMutableArray arrayWithObjects:@"2018-09-01",@"2018-09-02",@"2018-09-03",@"2018-09-04", nil];
-//    for (int i = 0; i < imgArr.count; i++) {
-//        NSString *img     = [imgArr objectAtIndex:i];
-//        NSString *title   = [titleArr objectAtIndex:i];
-//        NSString *content = [contentArr objectAtIndex:i];
-//        NSString *time    = [timeArr objectAtIndex:i];
-//        NSDictionary *dic = @{@"img":img,@"title":title,@"content":content,@"time":time};
-//        [self.HomeWorkPAry addObject:dic];
-//    }
-    
+    self.page = 1;
     [self.view addSubview:self.HomeWorkPTableView];
     [self.HomeWorkPTableView registerClass:[TongZhiCell class] forCellReuseIdentifier:@"TongZhiCellId"];
     self.HomeWorkPTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    //下拉刷新
+    self.HomeWorkPTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.HomeWorkPTableView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.HomeWorkPTableView.mj_header beginRefreshing];
+    //上拉刷新
+    self.HomeWorkPTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
 }
 
-- (void)setNetWork
+- (void)loadNewTopic {
+    self.page = 1;
+    [self.HomeWorkPAry removeAllObjects];
+    [self setNetWork:self.page];
+}
+
+- (void)loadMoreTopic {
+    self.page += 1;
+    [self setNetWork:self.page];
+}
+
+- (void)setNetWork:(NSInteger)page
 {
-    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
-    NSDictionary * dic = @{@"key":key};
+   
+    NSDictionary * dic = @{@"key":[UserManager key],@"page":[NSString stringWithFormat:@"%ld",page]};
     [[HttpRequestManager sharedSingleton] POST:workGetHomeWork parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        
+        //结束头部刷新
+        [self.HomeWorkPTableView.mj_header endRefreshing];
+        //结束尾部刷新
+        [self.HomeWorkPTableView.mj_footer endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-            self.HomeWorkPAry = [WorkModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            NSMutableArray *arr = [WorkModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            for (WorkModel *model in arr) {
+                [self.HomeWorkPAry addObject:model];
+            }
             [self.HomeWorkPTableView reloadData];
         }else
         {

@@ -15,6 +15,10 @@
 @interface SignClassViewController ()
 
 @property (nonatomic,strong) JohnTopTitleView *titleView;
+@property (nonatomic, strong) NSString        *allStr;
+@property (nonatomic, strong) NSString        *signStr;
+@property (nonatomic, strong) NSString        *no_signStr;
+@property (nonatomic, strong) NSString        *leaveStr;
 
 @end
 
@@ -23,11 +27,40 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"到校情况";
-    [self makeSignClassViewControllerUI];
+    [self getClassConditionURLData:@"1"];
+}
+
+- (void)getClassConditionURLData:(NSString *)type {
+    
+    NSDictionary *dic = @{@"key":[UserManager key],@"class_id":self.ID,@"type":type};
+    [[HttpRequestManager sharedSingleton] POST:classConditionURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.allStr = [NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"data"] objectForKey:@"all"]];
+            self.signStr = [NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"data"] objectForKey:@"sign"]];
+            self.no_signStr = [NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"data"] objectForKey:@"no_sign"]];
+            self.leaveStr = [NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"data"] objectForKey:@"leave"]];
+            [self makeSignClassViewControllerUI];
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
 }
 
 - (void)makeSignClassViewControllerUI {
-    NSArray *titleArray = [NSArray arrayWithObjects:@"总数20",@"已到19",@"未到1",@"请假1",nil];
+    NSString  *str1 = [NSString stringWithFormat:@"%@%@",@"总数",self.allStr];
+    NSString  *str2 = [NSString stringWithFormat:@"%@%@",@"已到",self.signStr];
+    NSString  *str3 = [NSString stringWithFormat:@"%@%@",@"未到",self.no_signStr];
+    NSString  *str4 = [NSString stringWithFormat:@"%@%@",@"请假",self.leaveStr];
+    NSArray *titleArray = [NSArray arrayWithObjects:str1,str2,str3,str4,nil];
     self.titleView.title = titleArray;
     [self.titleView setupViewControllerWithFatherVC:self childVC:[self setChildVC]];
     [self.view addSubview:self.titleView];
@@ -36,12 +69,16 @@
 - (NSArray <UIViewController *>*)setChildVC{
     //总数
     TotalNumberViewController *totalNumberVC = [[TotalNumberViewController alloc]init];
+    totalNumberVC.ID = self.ID;
     //已到
     HasBeenViewController *hasBeenVC = [[HasBeenViewController alloc]init];
+    hasBeenVC.ID = self.ID;
     //未到
     NotToViewController *notToVC = [[NotToViewController alloc]init];
+    notToVC.ID = self.ID;
     //请假
     AskLeaveViewController *askLeaveVC = [[AskLeaveViewController alloc]init];
+    askLeaveVC.ID = self.ID;
     NSArray *childVC = [NSArray arrayWithObjects:totalNumberVC,hasBeenVC,notToVC,askLeaveVC, nil];
     return childVC;
 }

@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UITableView * teacherTongZhiTableView;
 @property (nonatomic, strong) NSMutableArray * teacherTongZhiAry;
 @property (nonatomic, strong) UIImageView * zanwushuju;
+@property (nonatomic, assign) NSInteger     page;
 
 @end
 
@@ -24,9 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    //网络请求
-    [self getNetWork];
+    self.page = 1;
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -38,17 +37,42 @@
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
     [self.view addSubview:self.zanwushuju];
+    //下拉刷新
+    self.teacherTongZhiTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.teacherTongZhiTableView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.teacherTongZhiTableView.mj_header beginRefreshing];
+    //上拉刷新
+    self.teacherTongZhiTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
 }
 
-- (void)getNetWork
+- (void)loadNewTopic {
+    self.page = 1;
+    [self.teacherTongZhiAry removeAllObjects];
+    [self getNetWork:self.page];
+}
+
+- (void)loadMoreTopic {
+    self.page += 1;
+    [self getNetWork:self.page];
+}
+
+- (void)getNetWork:(NSInteger)page
 {
-    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
-    NSDictionary * dic = @{@"key":key, @"is_school":@0};
+    
+    NSDictionary * dic = @{@"key":[UserManager key], @"is_school":@0,@"page":[NSString stringWithFormat:@"%ld",page]};
     [[HttpRequestManager sharedSingleton] POST:JIAZHANGCHAKANTONGZHILIEBIAO parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
-        
+        //结束头部刷新
+        [self.teacherTongZhiTableView.mj_header endRefreshing];
+        //结束尾部刷新
+        [self.teacherTongZhiTableView.mj_footer endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-            self.teacherTongZhiAry = [TongZhiModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            NSMutableArray *arr = [TongZhiModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            for (TongZhiModel *model in arr) {
+                [self.teacherTongZhiAry addObject:model];
+            }
             if (self.teacherTongZhiAry.count == 0) {
                 self.zanwushuju.alpha = 1;
                 

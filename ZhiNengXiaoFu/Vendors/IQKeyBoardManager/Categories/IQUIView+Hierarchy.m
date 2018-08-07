@@ -91,33 +91,23 @@ Class UISearchBarTextFieldClass;        //UISearchBar
 
 -(UIViewController *)topMostController
 {
-    NSMutableArray *controllersHierarchy = [[NSMutableArray alloc] init];
-    
-    UIViewController *topController = self.window.rootViewController;
-    
-    if (topController)
-    {
-        [controllersHierarchy addObject:topController];
+    UIViewController  *rootController = [UIApplication  sharedApplication].keyWindow.rootViewController;
+    if ([rootController isKindOfClass:[UITabBarController class]]) {
+        UITabBarController *tabBarController = (UITabBarController *)rootController;
+        UINavigationController *navController = tabBarController.selectedViewController;
+        UIViewController *viewController = (UIViewController *)navController.visibleViewController;
+        while (viewController.presentedViewController) {
+            viewController = (UIViewController *)viewController.presentedViewController;
+        }
+        return viewController;
+    } else if ([rootController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navController = (UINavigationController *)rootController;
+        return navController.visibleViewController;
+    } else if ([rootController isKindOfClass:[UIViewController class]]) {
+        return rootController;
+    } else {
+        return nil;
     }
-    
-    while ([topController presentedViewController]) {
-        
-        topController = [topController presentedViewController];
-        [controllersHierarchy addObject:topController];
-    }
-    
-    UIResponder *matchController = [self viewController];
-    
-    while (matchController != nil && [controllersHierarchy containsObject:matchController] == NO)
-    {
-        do
-        {
-            matchController = [matchController nextResponder];
-            
-        } while (matchController != nil && [matchController isKindOfClass:[UIViewController class]] == NO);
-    }
-    
-    return (UIViewController*)matchController;
 }
 
 -(UIView*)superviewOfClassType:(Class)classType

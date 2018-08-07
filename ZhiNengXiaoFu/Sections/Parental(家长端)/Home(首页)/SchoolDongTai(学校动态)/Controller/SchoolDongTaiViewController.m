@@ -14,6 +14,8 @@
 
 @property (nonatomic, strong) UITableView *schoolDynamicTableView;
 @property (nonatomic, strong) NSMutableArray *schoolDynamicArr;
+@property (nonatomic, assign) NSInteger     page;
+
 @end
 
 @implementation SchoolDongTaiViewController
@@ -35,24 +37,47 @@
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
     self.title = @"学校动态";
-    
-    [self setNetWork];
-    
+    self.page = 1;
     [self.view addSubview:self.schoolDynamicTableView];
     self.schoolDynamicTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self.schoolDynamicTableView registerClass:[TeacherTongZhiCell class] forCellReuseIdentifier:@"TeacherTongZhiCellId"];
+    //下拉刷新
+    self.schoolDynamicTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.schoolDynamicTableView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.schoolDynamicTableView.mj_header beginRefreshing];
+    //上拉刷新
+    self.schoolDynamicTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
 }
 
-- (void)setNetWork
+- (void)loadNewTopic {
+    self.page = 1;
+    [self.schoolDynamicArr removeAllObjects];
+    [self setNetWork:self.page];
+}
+
+- (void)loadMoreTopic {
+    self.page += 1;
+    [self setNetWork:self.page];
+}
+
+
+- (void)setNetWork:(NSInteger)page
 {
-    NSDictionary * dic = @{@"key":[UserManager key]};
+    NSDictionary * dic = @{@"key":[UserManager key],@"page":[NSString stringWithFormat:@"%ld",page]};
     [[HttpRequestManager sharedSingleton] POST:dynamicGetList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
-        
+        //结束头部刷新
+        [self.schoolDynamicTableView.mj_header endRefreshing];
+        //结束尾部刷新
+        [self.schoolDynamicTableView.mj_footer endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-            
-            self.schoolDynamicArr = [SchoolDongTaiModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            NSMutableArray *arr = [SchoolDongTaiModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            for (SchoolDongTaiModel *model in arr) {
+                [self.schoolDynamicArr addObject:model];
+            }
             [self.schoolDynamicTableView reloadData];
         }else
         {

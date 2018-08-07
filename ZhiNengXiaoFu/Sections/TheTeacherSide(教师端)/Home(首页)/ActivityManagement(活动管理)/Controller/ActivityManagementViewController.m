@@ -27,7 +27,7 @@
 }
 
 - (void)makeActivityManagementViewControllerUI {
-    NSArray *titleArray = [NSArray arrayWithObjects:@"正在进行",@"即将开始", @"明日预告",nil];
+    NSArray *titleArray = [NSArray arrayWithObjects:@"进行中",@"未开始", @"已结束",nil];
     self.titleView.title = titleArray;
     [self.titleView setupViewControllerWithFatherVC:self childVC:[self setChildVC]];
     [self.view addSubview:self.titleView];

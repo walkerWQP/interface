@@ -87,5 +87,24 @@
 //教师、家长查看活动详情
 #define activityDetail [NSString stringWithFormat:@"%@index/activity/detail",YUMING]
 
+//请假模块
+//家长请假
+#define leaveAddLeave  [NSString stringWithFormat:@"%@index/leave/add_leave",YUMING]
+
+//家长、教师查看请假列表
+#define leaveLeaveList  [NSString stringWithFormat:@"%@index/leave/leave_list",YUMING]
+
+//家长、教师查看请假详情
+#define leaveLeaveDetail [NSString stringWithFormat:@"%@index/leave/leave_detail",YUMING]
+
+//教师审核请假
+#define leaveHandleLeave [NSString stringWithFormat:@"%@index/leave/handle_leave",YUMING]
+
+//学生签入签出模块
+//教师查看到校情况。
+#define classConditionURL [NSString stringWithFormat:@"%@index/record/class_condition",YUMING]
+
+//家长、教师查看学生进出记录。
+#define recordURL [NSString stringWithFormat:@"%@index/record/record",YUMING]
 
 

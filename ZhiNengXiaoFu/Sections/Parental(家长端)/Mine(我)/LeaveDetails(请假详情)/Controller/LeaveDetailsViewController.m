@@ -9,9 +9,11 @@
 #import "LeaveDetailsViewController.h"
 #import "LeaveDetailsHeaderCell.h"
 #import "LeaveDetailsDownCell.h"
+#import "LeaveListModel.h"
 @interface LeaveDetailsViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * leaveDetailsTableView;
+@property (nonatomic, strong) LeaveListModel * leaveListModel;
 @end
 
 @implementation LeaveDetailsViewController
@@ -29,6 +31,29 @@
     [self.view addSubview:self.leaveDetailsTableView];
     [self.leaveDetailsTableView registerClass:[LeaveDetailsHeaderCell class] forCellReuseIdentifier:@"LeaveDetailsHeaderCellId"];
     [self.leaveDetailsTableView registerNib:[UINib nibWithNibName:@"LeaveDetailsDownCell" bundle:nil] forCellReuseIdentifier:@"LeaveDetailsDownCellId"];
+    [self setNetWork];
+}
+
+- (void)setNetWork
+{
+    NSDictionary * dic = @{@"key":[UserManager key], @"id":self.leaveDetailsId};
+    [[HttpRequestManager sharedSingleton] POST:leaveLeaveDetail parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            self.leaveListModel = [LeaveListModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+            [self.leaveDetailsTableView reloadData];
+        }else
+        {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            }else
+            {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
 }
 
 - (UITableView *)leaveDetailsTableView
@@ -56,13 +81,25 @@
     if (indexPath.section == 0) {
         LeaveDetailsHeaderCell * cell = [tableView dequeueReusableCellWithIdentifier:@"LeaveDetailsHeaderCellId" forIndexPath:indexPath];
         cell.selectionStyle =  UITableViewCellSelectionStyleNone;
-        cell.StartLabel.text = @"2018-07-23";
-        cell.EndLabel.text = @"2018-07-25";
+        cell.StartLabel.text = self.leaveListModel.start;
+        cell.EndLabel.text = self.leaveListModel.end;
 
         return cell;
     }else
     {
         LeaveDetailsDownCell * cell = [tableView dequeueReusableCellWithIdentifier:@"LeaveDetailsDownCellId" forIndexPath:indexPath];
+        if (self.leaveListModel.status == 1) {
+            cell.LeaveDetailsDownShenHeState.text = @"已批准";
+            cell.LeaveDetailsDownShenHeState.textColor = COLOR(102, 205, 131, 1);
+            
+        }else
+        {
+            cell.LeaveDetailsDownShenHeState.text = @"审核中";
+            cell.LeaveDetailsDownShenHeState.textColor = COLOR(252, 152, 152, 1);
+            
+        }
+        cell.LeaveDetailsDownLeaveSeason.text = self.leaveListModel.reason;
+        cell.LeaveDetailsDownBeiZhu.text = self.leaveListModel.remark;
         return cell;
     }
 }

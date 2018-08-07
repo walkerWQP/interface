@@ -8,7 +8,9 @@
 
 #import "LeaveRequestViewController.h"
 
-@interface LeaveRequestViewController ()<UITextViewDelegate>
+@interface LeaveRequestViewController ()<UITextViewDelegate, HZQDatePickerViewDelegate>{
+    HZQDatePickerView *_pikerView;
+}
 
 @property (nonatomic, strong) UILabel * chooseStart;
 @property (nonatomic, strong) UILabel * chooseEnd;
@@ -41,13 +43,18 @@
     
     //选择请假开始时间
     self.chooseStart = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 16 - 160, 0, 140, 60)];
-       NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:@"选择请假开始时间"];
+    NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:@"选择请假开始时间"];
     NSRange contentRange = {0, [content length]};
         [content addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:contentRange];
     self.chooseStart.attributedText = content;
     self.chooseStart.textColor = COLOR(170, 170, 170, 1);
     self.chooseStart.font = [UIFont systemFontOfSize:15];
     [leaveStart addSubview:self.chooseStart];
+    
+    UITapGestureRecognizer * chooseStartTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chooseStartTap:)];
+    self.chooseStart.userInteractionEnabled = YES;
+    [self.chooseStart addGestureRecognizer:chooseStartTap];
+    
     
     //请假结束view
     UIView * leaveEnd = [[UIView alloc] initWithFrame:CGRectMake(17, leaveStart.frame.origin.y + leaveStart.frame.size.height + 10, kScreenWidth - 34, 60)];
@@ -71,6 +78,10 @@
     self.chooseEnd.textColor = COLOR(170, 170, 170, 1);
     self.chooseEnd.font = [UIFont systemFontOfSize:15];
     [leaveEnd addSubview:self.chooseEnd];
+    
+    UITapGestureRecognizer * chooseEndTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chooseEndTap:)];
+    self.chooseEnd.userInteractionEnabled = YES;
+    [self.chooseEnd addGestureRecognizer:chooseEndTap];
     
     //请假原因view
     UIView * leaveSeason = [[UIView alloc] initWithFrame:CGRectMake(17, leaveEnd.frame.size.height + leaveEnd.frame.origin.y  + 10, kScreenWidth - 34, 200)];
@@ -106,6 +117,54 @@
     submit.layer.cornerRadius = 4;
     submit.layer.masksToBounds = YES;
     [self.view addSubview:submit];
+    
+    [submit addTarget:self action:@selector(submitBtn:) forControlEvents:UIControlEventTouchDown];
+    submit.userInteractionEnabled = YES;
+}
+
+//选择开始时间
+- (void)chooseStartTap:(UITapGestureRecognizer *)sender
+{
+    [self setupDateView:DateTypeOfStart];
+
+}
+
+//选择结束时间
+- (void)chooseEndTap:(UITapGestureRecognizer *)sender
+{
+    [self setupDateView:DateTypeOfEnd];
+
+}
+
+- (void)setupDateView:(DateType)type {
+    
+    _pikerView = [HZQDatePickerView instanceDatePickerView];
+    _pikerView.frame = CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT + 20);
+    [_pikerView setBackgroundColor:[UIColor clearColor]];
+    _pikerView.delegate = self;
+    _pikerView.type = type;
+    // 今天开始往后的日期
+    [_pikerView.datePickerView setMinimumDate:[NSDate date]];
+    // 在今天之前的日期
+    //    [_pikerView.datePickerView setMaximumDate:[NSDate date]];
+    [self.view addSubview:_pikerView];
+    
+}
+
+- (void)getSelectDate:(NSString *)date type:(DateType)type {
+    NSLog(@"%d - %@", type, date);
+    switch (type) {
+        case DateTypeOfStart:
+           self.chooseStart.text = date;
+            break;
+            
+        case DateTypeOfEnd:
+            self.chooseEnd.text = date;
+            break;
+            
+        default:
+            break;
+    }
 }
 
 #pragma mark - UITextViewDelegate
@@ -125,9 +184,39 @@
 }
 
 
-- (void)submitBtn:(UIBarButtonItem *)sender
+- (void)submitBtn:(UIButton *)sender
 {
+    if ([self.chooseStart.text isEqualToString:@"选择请假开始时间"]) {
+        [EasyShowTextView showImageText:@"请选择请假开始时间" imageName:@"icon_sym_toast_warning_56_w100"];
+
+    }else if ([self.chooseEnd.text isEqualToString:@"选择请假结束时间"])
+    {
+        [EasyShowTextView showImageText:@"请选择请假结束时间" imageName:@"icon_sym_toast_warning_56_w100"];
+
+    }else
+    {
+        NSDictionary * dic = @{@"key":[UserManager key], @"start":self.chooseStart.text, @"end":self.chooseEnd.text, @"reason":self.leaveSeasonTextView.text};
+        [[HttpRequestManager sharedSingleton] POST:leaveAddLeave parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+                
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
+                [self.navigationController popViewControllerAnimated:YES];
+            }else
+            {
+                if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                    [UserManager logoOut];
+                }else
+                {
+                    [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                    
+                }
+            }
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            NSLog(@"%@", error);
+        }];
+    }
     
+   
 }
 
 - (void)didReceiveMemoryWarning {

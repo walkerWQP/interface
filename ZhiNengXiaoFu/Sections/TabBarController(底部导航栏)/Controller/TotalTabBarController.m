@@ -19,8 +19,6 @@
 #import "SignViewController.h"
 #import "MyViewController.h"
 
-#import "SignClassViewController.h"
-
 #import "MainNavigationController.h"
 
 @interface TotalTabBarController ()
@@ -48,7 +46,7 @@
         
         [self setupChildViewController:@"班级管理" viewController:[ClassViewController new] image:@"班级管理" selectedImage:@"班级管理1"];
         
-        [self setupChildViewController:@"到校情况" viewController:[SignClassViewController new] image:@"到校情况2" selectedImage:@"到校情况"];
+        [self setupChildViewController:@"到校情况" viewController:[SignViewController new] image:@"到校情况2" selectedImage:@"到校情况"];
         
         [self setupChildViewController:@"我的" viewController:[MyViewController new] image:@"我的拷贝" selectedImage:@"我的"];
         

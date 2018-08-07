@@ -31,9 +31,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.page = 1;
-    [self getConsultConsultListURLData:self.page];
-    
     [self makeDidNotReturnViewControllerUI];
+    //下拉刷新
+    self.didNotReturnCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.didNotReturnCollectionView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.didNotReturnCollectionView.mj_header beginRefreshing];
+    //上拉刷新
+    self.didNotReturnCollectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+}
+
+- (void)loadNewTopic {
+    self.page = 1;
+    [self.didNotReturnArr removeAllObjects];
+    [self getConsultConsultListURLData:self.page];
+}
+
+- (void)loadMoreTopic {
+    self.page += 1;
+    [self getConsultConsultListURLData:self.page];
 }
 
 - (void)getConsultConsultListURLData :(NSInteger )page {
@@ -41,9 +58,15 @@
     
     [[HttpRequestManager sharedSingleton] POST:ConsultConsultList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
-        
+        //结束头部刷新
+        [self.didNotReturnCollectionView.mj_header endRefreshing];
+        //结束尾部刷新
+        [self.didNotReturnCollectionView.mj_footer endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-            self.didNotReturnArr = [ConsultListModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            NSMutableArray *arr = [ConsultListModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            for (ConsultListModel * model in arr) {
+                [self.didNotReturnArr addObject:model];
+            }
             [self.didNotReturnCollectionView reloadData];
         }else
         {

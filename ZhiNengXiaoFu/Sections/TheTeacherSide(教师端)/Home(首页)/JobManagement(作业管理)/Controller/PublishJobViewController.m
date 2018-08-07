@@ -9,11 +9,12 @@
 #import "PublishJobViewController.h"
 #import "PublishJobModel.h"
 
-@interface PublishJobViewController ()<UITextFieldDelegate>
+@interface PublishJobViewController ()<UITextFieldDelegate,HQPickerViewDelegate>
 
 //科目
 @property (nonatomic, strong) UILabel      *subjectsLabel;
 @property (nonatomic, strong) UIButton     *subjectsBtn;
+@property (nonatomic, strong) NSString     *subjectsStr;
 //作业名称
 @property (nonatomic, strong) UILabel      *jobNameLabel;
 @property (nonatomic, strong) UITextField  *jobNameTextField;
@@ -25,7 +26,7 @@
 @property (nonatomic, strong) UIButton     *uploadPicturesBtn;
 
 @property (nonatomic, strong) NSMutableArray *publishJobArr;
-@property (nonatomic, strong) NSString    *courseID;
+@property (nonatomic, strong) NSString       *courseID;
 
 @end
 
@@ -46,7 +47,7 @@
     button.titleLabel.font = titFont;
     [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    [self getUserGetCourse];
+    
     [self makePublishJobViewControllerUI];
     
 }
@@ -130,8 +131,7 @@
 
 - (void)subjectsBtn : (UIButton *)sender {
     NSLog(@"点击科目类型");
-    NSLog(@"%ld",self.publishJobArr.count);
-    NSLog(@"%@",self.publishJobArr);
+    [self getUserGetCourse];
     
     
 }
@@ -192,6 +192,16 @@
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
             self.publishJobArr = [PublishJobModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            NSMutableArray * ary = [@[]mutableCopy];
+            for (PublishJobModel * model in self.publishJobArr) {
+                [ary addObject:[NSString stringWithFormat:@"%@", model.name]];
+            }
+            
+            HQPickerView *picker = [[HQPickerView alloc]initWithFrame:self.view.bounds];
+            picker.delegate = self ;
+            picker.customArr = ary;
+            [self.view addSubview:picker];
+            
             if (self.publishJobArr.count == 0) {
                 [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
             } else {
@@ -213,6 +223,13 @@
     }];
 }
 
+- (void)pickerView:(UIPickerView *)pickerView didSelectText:(NSString *)text  index:(NSInteger)index{
+    [self.subjectsBtn setTitle:text forState:UIControlStateNormal];
+    PublishJobModel *model = [self.publishJobArr objectAtIndex:index];
+    self.subjectsStr = model.ID;
+    NSLog(@"%@",model.ID);
+    NSLog(@"%@",self.subjectsStr);
+}
 
 
 

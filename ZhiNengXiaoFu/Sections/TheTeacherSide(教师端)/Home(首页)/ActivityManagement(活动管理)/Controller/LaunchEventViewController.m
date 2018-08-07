@@ -8,7 +8,9 @@
 
 #import "LaunchEventViewController.h"
 
-@interface LaunchEventViewController ()<UITextFieldDelegate>
+@interface LaunchEventViewController ()<UITextFieldDelegate,HZQDatePickerViewDelegate> {
+    HZQDatePickerView *_pikerView;
+}
 
 //活动标题
 @property (nonatomic, strong) UILabel     *titleLabel;
@@ -30,6 +32,7 @@
 @property (nonatomic, strong) UIButton    *uploadBtn;
 //发送班级活动
 @property (nonatomic, strong) UIButton    *releaseBtn;
+
 
 @end
 
@@ -97,7 +100,7 @@
     self.endTimeBtn.layer.cornerRadius = 5;
     self.endTimeBtn.layer.borderColor = fengeLineColor.CGColor;
     self.endTimeBtn.layer.borderWidth = 1.0f;
-    [self.endTimeBtn setTitle:@"开始时间" forState:UIControlStateNormal];
+    [self.endTimeBtn setTitle:@"结束时间" forState:UIControlStateNormal];
     self.endTimeBtn.titleLabel.font = contentFont;
     [self.endTimeBtn setTitleColor:backTitleColor forState:UIControlStateNormal];
     [self.endTimeBtn addTarget:self action:@selector(endTimeBtnBtn:) forControlEvents:UIControlEventTouchUpInside];
@@ -166,7 +169,7 @@
 }
 
 - (void)releaseBtn : (UIButton *)sender {
-    NSLog(@"点击发布");
+    NSLog(@"点击发布");  //activityPublish
 }
 
 - (void)uploadBtn : (UIButton *)sender {
@@ -179,11 +182,46 @@
 
 - (void)endTimeBtnBtn : (UIButton *)sender {
     NSLog(@"点击结束时间");
+    [self setupDateView:DateTypeOfEnd];
 }
 
 - (void)beginTimeBtn : (UIButton *)sender {
     NSLog(@"点击开始时间");
+    [self setupDateView:DateTypeOfStart];
+    
 }
+
+- (void)getSelectDate:(NSString *)date type:(DateType)type {
+    NSLog(@"%d - %@", type, date);
+    switch (type) {
+        case DateTypeOfStart:
+            [self.beginTimeBtn setTitle:date forState:UIControlStateNormal];
+            break;
+            
+        case DateTypeOfEnd:
+            [self.endTimeBtn setTitle:date forState:UIControlStateNormal];
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)setupDateView:(DateType)type {
+    
+    _pikerView = [HZQDatePickerView instanceDatePickerView];
+    _pikerView.frame = CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT + 20);
+    [_pikerView setBackgroundColor:[UIColor clearColor]];
+    _pikerView.delegate = self;
+    _pikerView.type = type;
+    // 今天开始往后的日期
+    [_pikerView.datePickerView setMinimumDate:[NSDate date]];
+    // 在今天之前的日期
+    //    [_pikerView.datePickerView setMaximumDate:[NSDate date]];
+    [self.view addSubview:_pikerView];
+    
+}
+
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
