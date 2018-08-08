@@ -48,7 +48,7 @@
             if (self.hasBeenArr.count == 0) {
                 self.zanwushuju.alpha = 1;
             } else {
-                
+                self.zanwushuju.alpha = 0;
                 [self.hasBeenCollectionView reloadData];
             }
             [self.hasBeenCollectionView reloadData];
@@ -57,7 +57,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }

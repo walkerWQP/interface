@@ -72,7 +72,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -254,7 +254,7 @@
                 if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                     [UserManager logoOut];
                 } else {
-                    [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                    [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
                     
                 }
             }

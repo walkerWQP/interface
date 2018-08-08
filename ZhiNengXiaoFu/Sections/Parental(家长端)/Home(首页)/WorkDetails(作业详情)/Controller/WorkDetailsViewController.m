@@ -8,11 +8,11 @@
 
 #import "WorkDetailsViewController.h"
 #import "TongZhiDetailsCell.h"
-#import "WorkDetailsModel.h"
+#import "TongZhiDetailsModel.h"
 @interface WorkDetailsViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * WorkDetailsTableView;
-@property (nonatomic, strong) WorkDetailsModel * workDetailsModel;
+@property (nonatomic, strong) TongZhiDetailsModel * workDetailsModel;
 @property (nonatomic, strong) TongZhiDetailsCell * tongZhiDetailsCell;
 
 @property (nonatomic, strong) NSMutableArray * imgAry;
@@ -60,8 +60,8 @@
     [[HttpRequestManager sharedSingleton] POST:workHomeWorkDetails parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-            self.workDetailsModel = [WorkDetailsModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
-            [self.imgAry addObject:self.workDetailsModel.img];
+            self.workDetailsModel = [TongZhiDetailsModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+//            [self.imgAry addObject:self.workDetailsModel.img];
             [self configureImage];
             
             [self.WorkDetailsTableView reloadData];
@@ -83,10 +83,10 @@
 
 - (void)configureImage
 {
-    for (int i = 0; i < self.imgAry.count; i++) {
+    for (int i = 0; i < self.workDetailsModel.img.count; i++) {
         UIImageView * imageViewNew = [[UIImageView alloc] initWithFrame:CGRectMake(0, i * 210, self.tongZhiDetailsCell.PicView.bounds.size.width ,0)];
         
-        [imageViewNew sd_setImageWithURL:[NSURL URLWithString:[self.imgAry objectAtIndex:i]] placeholderImage:nil options:SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        [imageViewNew sd_setImageWithURL:[NSURL URLWithString:[self.workDetailsModel.img objectAtIndex:i]] placeholderImage:nil options:SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             CGSize size = image.size;
             CGFloat w = size.width;
             CGFloat H = size.height;
@@ -148,7 +148,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (self.imgAry.count == 0) {
+    if (self.workDetailsModel.img.count == 0) {
         
         self.tongZhiDetailsCell.CommunityDetailsImageViewHegit.constant = 0;
         return 150;

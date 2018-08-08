@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "PersonInformationModel.h"
-
+#import "TeacherZaiXianDetailsModel.h"
 @interface SingletonHelper : NSObject
 
 + (SingletonHelper *)manager;
@@ -20,5 +20,5 @@
 
 @property (nonatomic, strong) PersonInformationModel * personInfoModel;
 
-
+@property (nonatomic, strong) TeacherZaiXianDetailsModel * teacherZaiXianDetailsModel;
 @end

@@ -10,10 +10,12 @@
 #import "JohnTopTitleView.h"
 #import "KeChengJieShaoViewController.h"
 #import "ShiPinListViewController.h"
+#import "TeacherZaiXianDetailsModel.h"
+
 @interface TeacherZaiXianDetailsViewController ()
 
 @property (nonatomic,strong) JohnTopTitleView *titleView;
-
+@property (nonatomic,strong) TeacherZaiXianDetailsModel * teacherZaiXianDetailsModel;
 @end
 
 @implementation TeacherZaiXianDetailsViewController
@@ -27,7 +29,21 @@
     UIImageView * back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
     back.image = [UIImage imageNamed:@"banner"];
     [self.view addSubview:back];
-    [self createUI];
+    
+    [self setNetWork];
+}
+
+- (void)setNetWork
+{
+    NSDictionary * dic = @{@"key":[UserManager key], @"id":self.teacherZaiXianDetailsId};
+    [[HttpRequestManager sharedSingleton] POST:onlineVideoDetail parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        self.teacherZaiXianDetailsModel = [TeacherZaiXianDetailsModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+        [self createUI];
+
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
 }
 
 - (void)createUI{
@@ -39,6 +55,7 @@
 
 - (NSArray <UIViewController *>*)setChildVC{
     KeChengJieShaoViewController * vc1 = [[KeChengJieShaoViewController alloc]init];
+    vc1.teacherZaiXianDetailsModel = self.teacherZaiXianDetailsModel;
     ShiPinListViewController *vc2 = [[ShiPinListViewController alloc]init];
     NSArray *childVC = [NSArray arrayWithObjects:vc1,vc2, nil];
     return childVC;

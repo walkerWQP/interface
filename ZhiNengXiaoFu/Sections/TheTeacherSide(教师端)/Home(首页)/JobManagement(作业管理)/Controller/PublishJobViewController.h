@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface PublishJobViewController : BaseViewController
+@interface PublishJobViewController : LQPhotoPickerViewController
 
 @property (nonatomic, strong) NSString   *classID;
 

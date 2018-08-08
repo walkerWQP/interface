@@ -199,6 +199,7 @@
     if (self.teacherChooseState == 1 || self.parentChooseState == 1) {
         
         NSString * chooseLoginState = [[NSString alloc] init];
+        
         if (self.teacherChooseState == 1) {
             chooseLoginState = @"2";
         }else if (self.parentChooseState == 1)
@@ -215,11 +216,12 @@
 //
 //        }else
 //        {
+        
             NSString * newstr = [Encryption MD5ForLower32Bate:@"iosduxiu2018"];
             NSString * passwordStr = [Encryption MD5ForLower32Bate:@"123456"];
             NSString * system = [[SingletonHelper manager] encode:@"ios"];
 
-            NSDictionary * dic = @{@"usernum":@"aa011", @"password":passwordStr, @"identity":chooseLoginState, @"system":system, @"sign":newstr};
+            NSDictionary * dic = @{@"usernum":@"aa012", @"password":passwordStr, @"identity":chooseLoginState, @"system":system, @"sign":newstr};
             [[HttpRequestManager sharedSingleton] POST:LOGIN parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
                 NSLog(@"%@",responseObject);
                 

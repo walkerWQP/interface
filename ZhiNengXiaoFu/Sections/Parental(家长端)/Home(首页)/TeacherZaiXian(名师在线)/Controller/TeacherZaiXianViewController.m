@@ -9,6 +9,7 @@
 #import "TeacherZaiXianViewController.h"
 #import "TeacherZhuanLanCell.h"
 #import "TeacherZaiXianDetailsViewController.h"
+#import "TeacherZaiXianModel.h"
 @interface TeacherZaiXianViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * TeacherZaiXianTableView;
@@ -27,6 +28,37 @@
     [self.view addSubview:self.TeacherZaiXianTableView];
     self.TeacherZaiXianTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.TeacherZaiXianTableView registerClass:[TeacherZhuanLanCell class] forCellReuseIdentifier:@"TeacherZhuanLanCellId"];
+    
+    [self setNetWork];
+}
+
+- (void)setNetWork
+{
+    NSDictionary * dic = @{@"key":[UserManager key]};
+    [[HttpRequestManager sharedSingleton] POST:onlineVideoList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200)
+        {
+            NSMutableArray *arr = [TeacherZaiXianModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            for (TeacherZaiXianModel *model in arr) {
+                [self.TeacherZaiXianAry addObject:model];
+            }
+            
+            
+            [self.TeacherZaiXianTableView reloadData];
+            
+        }else
+        {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            }else
+            {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
 }
 
 - (NSMutableArray *)TeacherZaiXianAry
@@ -68,7 +100,7 @@
         return nil;
     }else
     {
-        UIView * teacherZhuanLanView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
+        UIView * teacherZhuanLanView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
         teacherZhuanLanView.backgroundColor = [UIColor whiteColor];
         UIView * lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 10)];
         lineView.backgroundColor = COLOR(247, 247, 247, 1);
@@ -101,7 +133,7 @@
         return 1;
     }else
     {
-        return 3;
+        return self.TeacherZaiXianAry.count;
     }
     
 }
@@ -134,12 +166,19 @@
     {
         TeacherZhuanLanCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TeacherZhuanLanCellId" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.UserIcon.image = [UIImage imageNamed:@"头像"];
-        cell.UserName.text = @"安娜";
-        cell.titleLabel.text = @"物理复习课程";
-        cell.subTitleLabel.text = @"著名物理学博士";
-        cell.timeLabel.text = @"2018-05-20";
-        cell.stateLabel.text = @"公开课";
+        TeacherZaiXianModel * model = [self.TeacherZaiXianAry objectAtIndex:indexPath.row];
+        [cell.UserIcon sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];
+        cell.UserName.text = model.name;
+        cell.titleLabel.text = model.title;
+        cell.subTitleLabel.text = model.honor;
+        cell.timeLabel.text = model.create_time;
+        if (model.is_charge == 1) {
+            cell.stateLabel.text = @"收费课";
+        }else
+        {
+            cell.stateLabel.text = @"公开课";
+
+        }
         return cell;
     }
     
@@ -159,6 +198,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TeacherZaiXianDetailsViewController * teacherZaiXianDetailsVC = [[TeacherZaiXianDetailsViewController alloc] init];
+    TeacherZaiXianModel * model = [self.TeacherZaiXianAry objectAtIndex:indexPath.row];
+    teacherZaiXianDetailsVC.teacherZaiXianDetailsId = model.ID;
     [self.navigationController pushViewController:teacherZaiXianDetailsVC animated:YES];
 }
 

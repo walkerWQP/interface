@@ -8,7 +8,7 @@
 
 #import "IsAboutToBeginViewController.h"
 #import "OngoingCell.h"
-#import "JingJiHuoDongListModel.h"
+#import "OngoingModel.h"
 #import "JingJiActivityDetailsViewController.h"
 
 @interface IsAboutToBeginViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
@@ -62,8 +62,8 @@
         //结束尾部刷新
         [self.isAboutToBeginCollectionView.mj_footer endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-            NSMutableArray *arr = [JingJiHuoDongListModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
-            for (JingJiHuoDongListModel *model in arr) {
+            NSMutableArray *arr = [OngoingModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            for (OngoingModel *model in arr) {
                 [self.isAboutToBeginArr addObject:model];
             }
             [self.isAboutToBeginCollectionView reloadData];
@@ -72,7 +72,7 @@
                 [UserManager logoOut];
             }else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -108,8 +108,8 @@
 
     UICollectionViewCell *gridcell = nil;
     OngoingCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:OngoingCell_CollectionView forIndexPath:indexPath];
-    JingJiHuoDongListModel *model = [self.isAboutToBeginArr objectAtIndex:indexPath.row];
-    [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+    OngoingModel *model = [self.isAboutToBeginArr objectAtIndex:indexPath.row];
+    [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img[0]] placeholderImage:nil];
     cell.titleLabel.text = model.title;
     cell.timeLabel.text = [NSString stringWithFormat:@"活动日期:%@-%@", model.start, model.end];;
     cell.detailsLabel.text = model.title;
@@ -137,7 +137,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"%ld",indexPath.row);
-    JingJiHuoDongListModel *model = [self.isAboutToBeginArr objectAtIndex:indexPath.row];
+    OngoingModel *model = [self.isAboutToBeginArr objectAtIndex:indexPath.row];
     JingJiActivityDetailsViewController *jingJiActivityDetailsVC = [JingJiActivityDetailsViewController new];
     jingJiActivityDetailsVC.JingJiActivityDetailsId = model.ID;
     [self.navigationController pushViewController:jingJiActivityDetailsVC animated:YES];

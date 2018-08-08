@@ -6,8 +6,9 @@
 //  Copyright © 2018年 henanduxiu. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import <UIKit/UIKit.h>
 
-@interface LaunchEventViewController : BaseViewController
+
+@interface LaunchEventViewController : LQPhotoPickerViewController
 
 @end

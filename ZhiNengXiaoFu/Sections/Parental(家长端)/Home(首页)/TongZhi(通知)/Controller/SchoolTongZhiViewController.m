@@ -75,6 +75,9 @@
             if (self.schoolTongZhiAry.count == 0) {
                 self.zanwushuju.alpha = 1;
                 
+            } else {
+                self.zanwushuju.alpha = 0;
+                [self.schoolTongZhiTableView reloadData];
             }
             [self.schoolTongZhiTableView reloadData];
 

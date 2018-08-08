@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "TeacherZaiXianDetailsModel.h"
 @interface KeChengJieShaoViewController : UIViewController
 
+@property (nonatomic, strong) TeacherZaiXianDetailsModel * teacherZaiXianDetailsModel;
 @end

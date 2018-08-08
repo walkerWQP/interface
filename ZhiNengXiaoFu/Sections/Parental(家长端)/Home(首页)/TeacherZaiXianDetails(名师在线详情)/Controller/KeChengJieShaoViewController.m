@@ -78,11 +78,11 @@
   
     KeChengJieShaoCell * cell = [tableView dequeueReusableCellWithIdentifier:@"KeChengJieShaoCellId" forIndexPath:indexPath];
     cell.selectionStyle =  UITableViewCellSelectionStyleNone;
-    cell.userImg.image = [UIImage imageNamed:@"头像"];
-    cell.userNName.text = @"安娜";
-    cell.jieShaoLabel.text = @"著名物理学博士";
+    [cell.userImg sd_setImageWithURL:[NSURL URLWithString:self.teacherZaiXianDetailsModel.head_img] placeholderImage:nil];
+    cell.userNName.text = self.teacherZaiXianDetailsModel.name;
+    cell.jieShaoLabel.text = self.teacherZaiXianDetailsModel.honor;
     cell.shanChangImg.image = [UIImage imageNamed:@"擅长领域"];
-    cell.shanChangConnectLabel.text = @"马云，男，1964年9月10日生于浙江省杭州市，祖籍浙江省嵊州市（原嵊县）谷来镇， 阿里巴巴集团主要创始人，现担任阿里巴巴集团董事局主席、日本软银董事、大自然保护协会中国理事会主席兼全球董事会成员、华谊兄弟董事、生命科学突破奖基金会董事、联合国数字合作高级别小组联合主席。 [1-2] 1988年毕业于杭州师范学院外语系，同年担任杭州电子工业学院英文及国际贸易教师，1995年创办中国第一家互联网商业信息发布网站“中国黄页”，1998年出任中国国际电子商务中心国富通信息技术发展有限公司总经理，1999年创办阿里巴巴，并担任阿里集团CEO、董事局主席。";
+    cell.shanChangConnectLabel.text = self.teacherZaiXianDetailsModel.introduce;
     return cell;
 }
 

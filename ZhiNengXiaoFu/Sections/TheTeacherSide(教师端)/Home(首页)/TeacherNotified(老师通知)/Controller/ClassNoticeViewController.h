@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface ClassNoticeViewController : BaseViewController
+@interface ClassNoticeViewController : LQPhotoPickerViewController
 
 @property (nonatomic, strong) NSString    *classID;
 

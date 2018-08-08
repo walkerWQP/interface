@@ -28,7 +28,6 @@
 #import "EasyShowView.h"
 #import <WebKit/WebKit.h>
 #import "BusinessDetailController.h"
-#import "DateTimePickerView.h"
 #import "UserManager.h"
 #import "IQKeyboardManager.h"
 #import "Masonry.h"
@@ -36,6 +35,8 @@
 #import "UIColor+HexString.h"
 #import "HZQDatePickerView.h"
 #import "HQPickerView.h"
+#import "LQPhotoPickerViewController.h"
+#import "WProgressHUD.h" //提示效果
 
 #endif /* PrefixHeader_pch */
 

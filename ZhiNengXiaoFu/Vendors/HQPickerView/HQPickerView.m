@@ -51,7 +51,7 @@
         }];
         self.cancelBtn.titleLabel.font = [UIFont systemFontOfSize:15];
         [self.cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-        [self.cancelBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [self.cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [self.cancelBtn addTarget:self action:@selector(cancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
         
         self.completionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -64,7 +64,7 @@
         }];
         self.completionBtn.titleLabel.font = [UIFont systemFontOfSize:15];
         [self.completionBtn setTitle:@"完成" forState:UIControlStateNormal];
-        [self.completionBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [self.completionBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [self.completionBtn addTarget:self action:@selector(completionBtnClick) forControlEvents:UIControlEventTouchUpInside];
         //线
         UIView *line = [UIView new];

@@ -30,6 +30,10 @@
 {
     if (!_UserIcon) {
         self.UserIcon = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 50, 50)];
+        self.UserIcon.layer.cornerRadius = 25;
+        self.UserIcon.layer.masksToBounds = YES;
+        self.UserIcon.contentMode=UIViewContentModeScaleAspectFill;
+        self.UserIcon.clipsToBounds=YES;
     }
     return _UserIcon;
 }
@@ -58,7 +62,7 @@
 - (UILabel *)subTitleLabel
 {
     if (!_subTitleLabel) {
-        self.subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.titleLabel.frame.origin.x, self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height + 5, 120, 20)];
+        self.subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.titleLabel.frame.origin.x, self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height + 5, kScreenWidth - self.titleLabel.frame.origin.x - 15, 20)];
         self.subTitleLabel.font = [UIFont systemFontOfSize:15];
         self.subTitleLabel.textColor = COLOR(147, 147, 147, 1);
     }

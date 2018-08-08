@@ -9,12 +9,12 @@
 #import "PublishJobViewController.h"
 #import "PublishJobModel.h"
 
-@interface PublishJobViewController ()<UITextFieldDelegate,HQPickerViewDelegate>
+@interface PublishJobViewController ()<UITextFieldDelegate,HQPickerViewDelegate,LQPhotoPickerViewDelegate>
 
 //科目
 @property (nonatomic, strong) UILabel      *subjectsLabel;
 @property (nonatomic, strong) UIButton     *subjectsBtn;
-@property (nonatomic, strong) NSString     *subjectsStr;
+
 //作业名称
 @property (nonatomic, strong) UILabel      *jobNameLabel;
 @property (nonatomic, strong) UITextField  *jobNameTextField;
@@ -23,7 +23,9 @@
 @property (nonatomic, strong) WTextView   *jobContentTextView;
 //上传图片内容
 @property (nonatomic, strong) UILabel      *uploadPicturesLabel;
-@property (nonatomic, strong) UIButton     *uploadPicturesBtn;
+@property (nonatomic, strong) UIView       *myPicture;
+
+@property (nonatomic, strong) NSMutableArray  *imgFiledArr;
 
 @property (nonatomic, strong) NSMutableArray *publishJobArr;
 @property (nonatomic, strong) NSString       *courseID;
@@ -37,6 +39,13 @@
         _publishJobArr = [NSMutableArray array];
     }
     return _publishJobArr;
+}
+
+- (NSMutableArray *)imgFiledArr {
+    if (!_imgFiledArr) {
+        _imgFiledArr = [NSMutableArray array];
+    }
+    return _imgFiledArr;
 }
 
 - (void)viewDidLoad {
@@ -54,6 +63,7 @@
 
 - (void)makePublishJobViewControllerUI {
     
+    self.view.backgroundColor = backColor;
     self.subjectsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, APP_WIDTH, 30)];
     self.subjectsLabel.text = @"科目";
     self.subjectsLabel.textColor =titlColor;
@@ -117,17 +127,23 @@
     self.uploadPicturesLabel.font = titFont;
     [self.view addSubview:self.uploadPicturesLabel];
     
-    self.uploadPicturesBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.subjectsLabel.frame.size.height + self.subjectsBtn.frame.size.height + self.jobNameLabel.frame.size.height + self.jobNameTextField.frame.size.height + self.jobContentLabel.frame.size.height + self.jobContentTextView.frame.size.height + self.uploadPicturesLabel.frame.size.height + 40, 80, 80)];
-    [self.uploadPicturesBtn setImage:[UIImage imageNamed:@"添加图片"] forState:UIControlStateNormal];
-    [self.uploadPicturesBtn addTarget:self action:@selector(uploadPicturesBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.uploadPicturesBtn];
+    self.myPicture = [[UIView alloc] initWithFrame:CGRectMake(10, self.subjectsLabel.frame.size.height + self.subjectsBtn.frame.size.height + self.jobNameLabel.frame.size.height + self.jobNameTextField.frame.size.height + self.jobContentLabel.frame.size.height + self.jobContentTextView.frame.size.height + self.uploadPicturesLabel.frame.size.height + 40, kScreenWidth - 20, 80)];
+    self.myPicture.backgroundColor = [UIColor redColor];
+    [self.view addSubview:self.myPicture];
     
+    if (!self.LQPhotoPicker_superView)
+    {
+        self.LQPhotoPicker_superView = self.myPicture;
+        
+        self.LQPhotoPicker_imgMaxCount = 3;
+        
+        [self LQPhotoPicker_initPickerView];
+        
+        self.LQPhotoPicker_delegate = self;
+    }
     
 }
 
-- (void)uploadPicturesBtn : (UIButton *)sender {
-    NSLog(@"点击添加图片");
-}
 
 - (void)subjectsBtn : (UIButton *)sender {
     NSLog(@"点击科目类型");
@@ -137,15 +153,68 @@
 }
 
 - (void)rightBtn : (UIButton *)sender {
-    
     NSLog(@"点击发布");
-    [self PostWorkPusblishData];
+    [self setShangChuanTupian];
+}
+
+- (void)setShangChuanTupian {
+    
+    [self LQPhotoPicker_getBigImageDataArray];
+    NSDictionary * params = @{@"key":[UserManager key],@"upload_type":@"img", @"upload_img_type":@"work"};
+    [WProgressHUD showHUDShowText:@"加载中..."];
+    [[HttpRequestManager sharedSingleton].sessionManger POST:WENJIANSHANGCHUANJIEKOU parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        for (int i = 0; i < self.LQPhotoPicker_bigImageArray.count; i++)
+        {
+            UIImage * image = self.LQPhotoPicker_bigImageArray[i];
+            NSData *imageData = UIImageJPEGRepresentation(image,1);
+            float length=[imageData length]/1000;
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            formatter.dateFormat = @"yyyyMMddHHmmss";
+            NSString *str = [formatter stringFromDate:[NSDate date]];
+            NSString *imageFileName = [NSString stringWithFormat:@"%@.jpeg", str];
+            
+            if (length>1280) {
+                NSData *fData = UIImageJPEGRepresentation(image, 0.5);
+                [formData appendPartWithFileData:fData name:[NSString stringWithFormat:@"file[%d]",i] fileName:imageFileName mimeType:@"image/jpeg"];
+                
+            }else{
+                [formData appendPartWithFileData:imageData name:[NSString stringWithFormat:@"file[%d]",i] fileName:imageFileName mimeType:@"image/jpeg"];
+            }
+            
+        }
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [WProgressHUD hideAllHUDAnimated:YES];
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            NSLog(@"%@", responseObject);
+            NSDictionary *dic = [responseObject objectForKey:@"data"];
+            NSMutableArray *arr = [dic objectForKey:@"url"];
+            for (int i = 0; i < arr.count; i ++) {
+                [self.imgFiledArr addObject:arr[i]];
+            }
+            NSLog(@"%ld",self.imgFiledArr.count);
+            [self PostWorkPusblishData];
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"%@", error);
+        
+        
+    }];
     
 }
 
+
 - (void)PostWorkPusblishData {
-    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
-    NSLog(@"%@",self.subjectsBtn.titleLabel.text);
+    
     if ([self.subjectsBtn.titleLabel.text isEqualToString:@"请选择科目类型"]) {
         [EasyShowTextView showImageText:@"请选择科目类型" imageName:@"icon_sym_toast_succeed_56_w100"];
         
@@ -162,32 +231,40 @@
         [EasyShowTextView showImageText:@"请输入作业内容" imageName:@"icon_sym_toast_succeed_56_w100"];
         
         return;
+    } else {
+        NSDictionary *dic = [NSDictionary dictionary];
+        
+        dic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.jobNameTextField.text,@"content":self.jobContentTextView.text,@"course_id":self.courseID,@"img":self.imgFiledArr};
+     
+        [WProgressHUD showHUDShowText:@"加载中..."];
+        [[HttpRequestManager sharedSingleton] POST:workPusblish parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+            [WProgressHUD hideAllHUDAnimated:YES];
+            if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+                
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [self.navigationController popViewControllerAnimated:YES];
+                
+            } else {
+                if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                    [UserManager logoOut];
+                } else {
+                    [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                    
+                }
+            }
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            
+        }];
     }
     
-    NSDictionary *dic = @{@"key":key,@"class_id":self.classID,@"title":self.jobNameTextField.text,@"content":self.jobContentTextView.text,@"course_id":self.courseID,@"img":@""};
-    [[HttpRequestManager sharedSingleton] POST:workPusblish parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-            
-            [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
-            
-        } else {
-            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
-                [UserManager logoOut];
-            } else {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
-                
-            }
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
-    }];
+    
     
 }
 
 
 - (void)getUserGetCourse {
-    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
-    NSDictionary *dic = @{@"key":key};
+    
+    NSDictionary *dic = @{@"key":[UserManager key]};
     [[HttpRequestManager sharedSingleton] POST:userGetCourse parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
@@ -203,7 +280,7 @@
             [self.view addSubview:picker];
             
             if (self.publishJobArr.count == 0) {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
             } else {
                 
                 
@@ -214,7 +291,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -226,9 +303,9 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectText:(NSString *)text  index:(NSInteger)index{
     [self.subjectsBtn setTitle:text forState:UIControlStateNormal];
     PublishJobModel *model = [self.publishJobArr objectAtIndex:index];
-    self.subjectsStr = model.ID;
+    self.courseID = model.ID;
     NSLog(@"%@",model.ID);
-    NSLog(@"%@",self.subjectsStr);
+    
 }
 
 

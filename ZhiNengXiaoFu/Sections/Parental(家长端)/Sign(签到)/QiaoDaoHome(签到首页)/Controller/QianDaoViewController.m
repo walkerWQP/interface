@@ -10,11 +10,15 @@
 #import "QianDaoPsersonCell.h"
 #import "QianDaoItemCell.h"
 #import "DingWeiViewController.h"
+#import "QianDaoModel.h"
+#import "QianDaoInModel.h"
 @interface QianDaoViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * QianDaoTableView;
 @property (nonatomic, strong) NSMutableArray * QianDaoAry;
 @property (nonatomic, strong) UIView * backView;
+@property (nonatomic, strong) QianDaoModel * qianDaoModel;
+
 @end
 
 @implementation QianDaoViewController
@@ -34,18 +38,18 @@
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:173/ 255.0 green:228 / 255.0 blue: 211 / 255.0 alpha:1];
     self.navigationController.navigationBar.translucent = NO;
     
-    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"进校",@"出校",@"进校",@"出校", nil];
-    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"星期四",@"星期四",@"星期四",@"星期四", nil];
-    NSMutableArray * TimeAry = [NSMutableArray arrayWithObjects:@"2015-05-23 11:22:00",@"2015-05-23 11:22:00",@"2015-05-23 11:22:00",@"2015-05-23 11:22:00", nil];
-
-    
-    for (int i = 0; i < imgAry.count; i++) {
-        NSString * img  = [imgAry objectAtIndex:i];
-        NSString * title = [TitleAry objectAtIndex:i];
-        NSString * time = [TimeAry objectAtIndex:i];
-        NSDictionary * dic = @{@"img":img, @"title":title, @"time":time};
-        [self.QianDaoAry addObject:dic];
-    }
+//    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"进校",@"出校",@"进校",@"出校", nil];
+//    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"星期四",@"星期四",@"星期四",@"星期四", nil];
+//    NSMutableArray * TimeAry = [NSMutableArray arrayWithObjects:@"2015-05-23 11:22:00",@"2015-05-23 11:22:00",@"2015-05-23 11:22:00",@"2015-05-23 11:22:00", nil];
+//
+//    
+//    for (int i = 0; i < imgAry.count; i++) {
+//        NSString * img  = [imgAry objectAtIndex:i];
+//        NSString * title = [TitleAry objectAtIndex:i];
+//        NSString * time = [TimeAry objectAtIndex:i];
+//        NSDictionary * dic = @{@"img":img, @"title":title, @"time":time};
+//        [self.QianDaoAry addObject:dic];
+//    }
     [self setNetWork];
     
     [self.view addSubview:self.QianDaoTableView];
@@ -72,6 +76,23 @@
     }
     [[HttpRequestManager sharedSingleton] POST:recordURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
+        
+        self.qianDaoModel = [QianDaoModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+        
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            self.QianDaoAry = [QianDaoInModel mj_objectArrayWithKeyValuesArray:self.qianDaoModel.record];
+            [self.QianDaoTableView reloadData];
+        }else
+        {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            }else
+            {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+        
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
     }];
@@ -144,10 +165,19 @@
         QianDaoItemCell * cell = [tableView dequeueReusableCellWithIdentifier:@"QianDaoItemCellId" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        NSDictionary * dic = [self.QianDaoAry objectAtIndex:indexPath.row];
-        cell.stateLabel.text = [dic objectForKey:@"img"];
-        cell.timeLabel.text = [dic objectForKey:@"title"];
-        cell.detailsTimeLabel.text = [dic objectForKey:@"time"];
+        QianDaoInModel * model = [self.QianDaoAry objectAtIndex:indexPath.row];
+        if (model.type == 1) {
+            cell.stateLabel.text = @"进校";
+            cell.stateImg.image = [UIImage imageNamed:@"进校"];
+
+        }else
+        {
+            cell.stateLabel.text = @"出校";
+            cell.stateImg.image = [UIImage imageNamed:@"出校"];
+
+        }
+        cell.timeLabel.text = model.week;
+        cell.detailsTimeLabel.text = model.create_time;
 
         if (indexPath.row == 0) {
             cell.yuanImg.image = [UIImage imageNamed:@"椭圆5"];
@@ -156,17 +186,7 @@
             cell.yuanImg.image = [UIImage imageNamed:@"椭圆5"];
 
         }
-        if ([[dic objectForKey:@"img"] isEqualToString:@"进校"]) {
-            cell.stateImg.image = [UIImage imageNamed:@"进校"];
-        }else if ([[dic objectForKey:@"img"] isEqualToString:@"出校"])
-        {
-            cell.stateImg.image = [UIImage imageNamed:@"出校"];
-
-
-        }else if ([[dic objectForKey:@"img"] isEqualToString:@"未知"])
-        {
-
-        }
+       
         return cell;
     }
 }
@@ -183,26 +203,31 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
-    self.backView.backgroundColor = COLOR(0, 0, 0, 0.2);
-    UITapGestureRecognizer * backTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backTap:)];
-    self.backView.userInteractionEnabled = YES;
-    [self.backView addGestureRecognizer:backTap];
-    [[[UIApplication sharedApplication] keyWindow] addSubview:self.backView];
-
-    UIImageView * img = [[UIImageView alloc] initWithFrame:CGRectMake(15, kScreenHeight / 2 - (kScreenWidth - 30) * 210 / 345 / 2, kScreenWidth - 30 , (kScreenWidth - 30) * 210 / 345)];
-    img.image = [UIImage imageNamed:@"监控"];
-    UITapGestureRecognizer * imgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgTap:)];
-    img.userInteractionEnabled = YES;
-    [img addGestureRecognizer:imgTap];
-    [self.backView addSubview:img];
-    
-    UIImageView * close = [[UIImageView alloc] initWithFrame:CGRectMake(img.frame.size.width + img.frame.origin.x - 10, img.frame.origin.y - 10, 20 , 20)];
-    close.image = [UIImage imageNamed:@"guanbi"];
-    UITapGestureRecognizer * closeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeTap:)];
-    close.userInteractionEnabled = YES;
-    [close addGestureRecognizer:closeTap];
-    [self.backView addSubview:close];
+    if (indexPath.section == 0) {
+        
+    }else
+    {
+        self.backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+        self.backView.backgroundColor = COLOR(0, 0, 0, 0.2);
+        UITapGestureRecognizer * backTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backTap:)];
+        self.backView.userInteractionEnabled = YES;
+        [self.backView addGestureRecognizer:backTap];
+        [[[UIApplication sharedApplication] keyWindow] addSubview:self.backView];
+        
+        UIImageView * img = [[UIImageView alloc] initWithFrame:CGRectMake(15, kScreenHeight / 2 - (kScreenWidth - 30) * 210 / 345 / 2, kScreenWidth - 30 , (kScreenWidth - 30) * 210 / 345)];
+        img.image = [UIImage imageNamed:@"监控"];
+        UITapGestureRecognizer * imgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgTap:)];
+        img.userInteractionEnabled = YES;
+        [img addGestureRecognizer:imgTap];
+        [self.backView addSubview:img];
+        
+        UIImageView * close = [[UIImageView alloc] initWithFrame:CGRectMake(img.frame.size.width + img.frame.origin.x - 10, img.frame.origin.y - 10, 20 , 20)];
+        close.image = [UIImage imageNamed:@"guanbi"];
+        UITapGestureRecognizer * closeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeTap:)];
+        close.userInteractionEnabled = YES;
+        [close addGestureRecognizer:closeTap];
+        [self.backView addSubview:close];
+    }
 }
 
 - (void)dingweiClick:(UIBarButtonItem *)sender

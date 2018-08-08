@@ -7,8 +7,9 @@
 //
 
 #import "LaunchEventViewController.h"
+#import "TeacherNotifiedModel.h"
 
-@interface LaunchEventViewController ()<UITextFieldDelegate,HZQDatePickerViewDelegate> {
+@interface LaunchEventViewController ()<UITextFieldDelegate,HZQDatePickerViewDelegate,LQPhotoPickerViewDelegate,HQPickerViewDelegate,UIScrollViewDelegate> {
     HZQDatePickerView *_pikerView;
 }
 
@@ -29,14 +30,38 @@
 @property (nonatomic, strong) WTextView  *introductionTextView;
 //上传图片
 @property (nonatomic, strong) UILabel     *uploadLabel;
-@property (nonatomic, strong) UIButton    *uploadBtn;
+//@property (nonatomic, strong) UIButton    *uploadBtn;
 //发送班级活动
 @property (nonatomic, strong) UIButton    *releaseBtn;
+@property (nonatomic, strong) UIView      *myPicture;
 
+@property (nonatomic, strong) NSMutableArray *jobManagementArr;
+
+@property (nonatomic, strong) UIScrollView   *launchEventScrollView;
+
+@property (nonatomic, strong) NSMutableArray  *imgFiledArr;
+
+@property (nonatomic, strong) NSString   *ID;
+
+@property (nonatomic, assign) NSInteger  timeID;
 
 @end
 
 @implementation LaunchEventViewController
+
+- (NSMutableArray *)jobManagementArr {
+    if (!_jobManagementArr) {
+        _jobManagementArr = [NSMutableArray array];
+    }
+    return _jobManagementArr;
+}
+
+- (NSMutableArray *)imgFiledArr {
+    if (!_imgFiledArr) {
+        _imgFiledArr = [NSMutableArray array];
+    }
+    return _imgFiledArr;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -46,11 +71,26 @@
 
 - (void)makeLaunchEventViewControllerUI {
     
+    self.launchEventScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT)];
+    self.launchEventScrollView.backgroundColor = [UIColor greenColor];
+    self.launchEventScrollView.contentSize = CGSizeMake(APP_WIDTH, APP_HEIGHT * 1.2);
+    self.launchEventScrollView.bounces = YES;
+    self.launchEventScrollView.indicatorStyle = UIScrollViewIndicatorStyleDefault;
+    
+    self.launchEventScrollView.maximumZoomScale = 2.0;//最多放大到两倍
+    self.launchEventScrollView.minimumZoomScale = 0.5;//最多缩小到0.5倍
+    //设置是否允许缩放超出倍数限制，超出后弹回
+    self.launchEventScrollView.bouncesZoom = YES;
+    //设置委托
+    self.launchEventScrollView.delegate = self;
+    
+    [self.view addSubview:self.launchEventScrollView];
+    
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, APP_WIDTH - 20, 30)];
     self.titleLabel.textColor = titlColor;
     self.titleLabel.font = titFont;
     self.titleLabel.text = @"活动标题";
-    [self.view addSubview:self.titleLabel];
+    [self.launchEventScrollView addSubview:self.titleLabel];
     
     self.titleTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + 10, APP_WIDTH - 20, 40)];
     self.titleTextField.backgroundColor = [UIColor whiteColor];
@@ -62,13 +102,13 @@
     self.titleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入活动标题" attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:157/255.0 green:157/255.0 blue:157/255.0 alpha:1.0]}];
     self.titleTextField.delegate = self;
     self.titleTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    [self.view addSubview:self.titleTextField];
+    [self.launchEventScrollView addSubview:self.titleTextField];
     
     self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + 20, APP_WIDTH - 20, 30)];
     self.timeLabel.textColor = titlColor;
     self.timeLabel.font = titFont;
     self.timeLabel.text = @"时间";
-    [self.view addSubview:self.timeLabel];
+    [self.launchEventScrollView addSubview:self.timeLabel];
     
     self.timeView = [[UIView alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + self.timeLabel.frame.size.height + 20, APP_WIDTH - 20, 40)];
     self.timeView.backgroundColor = [UIColor whiteColor];
@@ -76,7 +116,7 @@
     self.timeView.layer.cornerRadius = 5;
     self.timeView.layer.borderColor = fengeLineColor.CGColor;
     self.timeView.layer.borderWidth = 1.0f;
-    [self.view addSubview:self.timeView];
+    [self.launchEventScrollView addSubview:self.timeView];
     
     self.changeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 40, 30)];
     self.changeLabel.text = @"请选择";
@@ -110,7 +150,7 @@
     self.classLabel.text = @"班级";
     self.classLabel.textColor = titlColor;
     self.classLabel.font = contentFont;
-    [self.view addSubview:self.classLabel];
+    [self.launchEventScrollView addSubview:self.classLabel];
     
     self.classBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + self.timeLabel.frame.size.height + self.timeView.frame.size.height + self.classLabel.frame.size.height + 30, APP_WIDTH - 20, 40)];
     self.classBtn.backgroundColor = [UIColor whiteColor];
@@ -123,13 +163,13 @@
     self.classBtn.titleLabel.font = contentFont;
     [self.classBtn setTitleColor:backTitleColor forState:UIControlStateNormal];
     [self.classBtn addTarget:self action:@selector(classBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.classBtn];
+    [self.launchEventScrollView addSubview:self.classBtn];
     
     self.introductionLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + self.timeLabel.frame.size.height + self.timeView.frame.size.height + self.classLabel.frame.size.height + self.classBtn.frame.size.height + 40, APP_WIDTH - 20, 30)];
     self.introductionLabel.text = @"活动简介";
     self.introductionLabel.textColor = titlColor;
     self.introductionLabel.font = contentFont;
-    [self.view addSubview:self.introductionLabel];
+    [self.launchEventScrollView addSubview:self.introductionLabel];
     
     self.introductionTextView = [[WTextView alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + self.timeLabel.frame.size.height + self.timeView.frame.size.height + self.classLabel.frame.size.height + self.classBtn.frame.size.height + self.introductionLabel.frame.size.height + 40, APP_WIDTH - 20, 100)];
     self.introductionTextView.backgroundColor = [UIColor whiteColor];
@@ -140,20 +180,30 @@
     self.introductionTextView.font = contentFont;
     self.introductionTextView.placeholder = @"请输入活动内容...";
     self.automaticallyAdjustsScrollViewInsets = NO;
-    [self.view addSubview:self.introductionTextView];
+    [self.launchEventScrollView addSubview:self.introductionTextView];
     
     self.uploadLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + self.timeLabel.frame.size.height + self.timeView.frame.size.height + self.classLabel.frame.size.height + self.classBtn.frame.size.height + self.introductionLabel.frame.size.height + self.introductionTextView.frame.size.height + 50, APP_WIDTH - 20, 30)];
     self.uploadLabel.text = @"上传活动宣传图";
     self.uploadLabel.textColor = titlColor;
     self.uploadLabel.font = contentFont;
-    [self.view addSubview:self.uploadLabel];
+    [self.launchEventScrollView addSubview:self.uploadLabel];
     
-    self.uploadBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + self.timeLabel.frame.size.height + self.timeView.frame.size.height + self.classLabel.frame.size.height + self.classBtn.frame.size.height + self.introductionLabel.frame.size.height + self.introductionTextView.frame.size.height + self.uploadLabel.frame.size.height + 50, 80, 80)];
-    [self.uploadBtn setImage:[UIImage imageNamed:@"添加图片"] forState:UIControlStateNormal];
-    [self.uploadBtn addTarget:self action:@selector(uploadBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.uploadBtn];
+    self.myPicture = [[UIView alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + self.timeLabel.frame.size.height + self.timeView.frame.size.height + self.classLabel.frame.size.height + self.classBtn.frame.size.height + self.introductionLabel.frame.size.height + self.introductionTextView.frame.size.height + self.uploadLabel.frame.size.height + 50, kScreenWidth - 20, 80)];
+    self.myPicture.backgroundColor = [UIColor redColor];
+    [self.launchEventScrollView addSubview:self.myPicture];
     
-    self.releaseBtn = [[UIButton alloc] initWithFrame:CGRectMake(20, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + self.timeLabel.frame.size.height + self.timeView.frame.size.height + self.classLabel.frame.size.height + self.classBtn.frame.size.height + self.introductionLabel.frame.size.height + self.introductionTextView.frame.size.height + self.uploadLabel.frame.size.height + self.uploadBtn.frame.size.height + 70, APP_WIDTH - 40, 40)];
+    if (!self.LQPhotoPicker_superView)
+    {
+        self.LQPhotoPicker_superView = self.myPicture;
+        
+        self.LQPhotoPicker_imgMaxCount = 1;
+        
+        [self LQPhotoPicker_initPickerView];
+        
+        self.LQPhotoPicker_delegate = self;
+    }
+    
+    self.releaseBtn = [[UIButton alloc] initWithFrame:CGRectMake(20, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + self.timeLabel.frame.size.height + self.timeView.frame.size.height + self.classLabel.frame.size.height + self.classBtn.frame.size.height + self.introductionLabel.frame.size.height + self.introductionTextView.frame.size.height + self.myPicture.frame.size.height + self.myPicture.frame.size.height + 70, APP_WIDTH - 40, 40)];
     self.releaseBtn.backgroundColor = THEMECOLOR;
     [self.releaseBtn setTitle:@"发布班级活动" forState:UIControlStateNormal];
     self.releaseBtn.layer.masksToBounds = YES;
@@ -164,31 +214,251 @@
     [self.releaseBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.releaseBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [self.releaseBtn addTarget:self action:@selector(releaseBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.releaseBtn];
+    [self.launchEventScrollView addSubview:self.releaseBtn];
+    
+    self.launchEventScrollView.backgroundColor = backColor;
     
 }
 
 - (void)releaseBtn : (UIButton *)sender {
-    NSLog(@"点击发布");  //activityPublish
+    NSLog(@"点击发布");
+    
+    if ([self.titleTextField.text isEqualToString:@""]) {
+        [EasyShowTextView showImageText:@"活动标题不能为空" imageName:@"icon_sym_toast_failed_56_w100"];
+        return;
+    }
+    
+    if ([self.beginTimeBtn.titleLabel.text isEqualToString:@"开始时间"]) {
+        [EasyShowTextView showImageText:@"请选择活动开始时间" imageName:@"icon_sym_toast_failed_56_w100"];
+        return;
+    }
+    
+    if ([self.endTimeBtn.titleLabel.text isEqualToString:@"结束时间"]) {
+        [EasyShowTextView showImageText:@"请选择活动结束时间" imageName:@"icon_sym_toast_failed_56_w100"];
+        return;
+    }
+    
+    if (![self.beginTimeBtn.titleLabel.text isEqualToString:@"开始时间"] && ![self.endTimeBtn.titleLabel.text isEqualToString:@"结束时间"]) {
+//        [self compareDate:self.beginTimeBtn.titleLabel.text withDate:self.endTimeBtn.titleLabel.text];
+        
+        NSDateFormatter *dateformater = [[NSDateFormatter alloc] init];
+        [dateformater setDateFormat:@"yyyy-MM-dd"];
+        NSDate *dta = [[NSDate alloc] init];
+        NSDate *dtb = [[NSDate alloc] init];
+        
+        dta = [dateformater dateFromString:self.beginTimeBtn.titleLabel.text];
+        dtb = [dateformater dateFromString:self.endTimeBtn.titleLabel.text];
+        NSComparisonResult result = [dta compare:dtb];
+       if (result == NSOrderedDescending) {
+            //bDate比aDate小
+            NSLog(@"第二个比第一个小");
+            [EasyShowTextView showImageText:@"开始时间不能小于结束时间" imageName:@"icon_sym_toast_failed_56_w100"];
+            [self.beginTimeBtn setTitle:@"开始时间" forState:UIControlStateNormal];
+            [self.endTimeBtn setTitle:@"结束时间" forState:UIControlStateNormal];
+            
+            return;
+        }
+    }
+    
+    if ([self.classBtn.titleLabel.text isEqualToString:@"请选择"]) {
+        [EasyShowTextView showImageText:@"请选择班级" imageName:@"icon_sym_toast_failed_56_w100"];
+        return;
+    }
+    
+    if ([self.introductionTextView.text isEqualToString:@""]) {
+        [EasyShowTextView showImageText:@"请输入活动内容" imageName:@"icon_sym_toast_failed_56_w100"];
+        return;
+    }
+ 
+//    if (self.LQPhotoPicker_bigImageArray.count == 0) {
+//        [EasyShowTextView showImageText:@"请添加活动照片" imageName:@"icon_sym_toast_failed_56_w100"];
+//        return;
+//    }
+    else {
+        
+        [self LQPhotoPicker_getBigImageDataArray];
+        [self setShangChuanTupian];
+        
+    }
+
 }
 
-- (void)uploadBtn : (UIButton *)sender {
-    NSLog(@"点击上传图片");
+- (void)postDataForActivityPublish:(NSDictionary *)dic {
+        [WProgressHUD showHUDShowText:@"加载中..."];
+        [[HttpRequestManager sharedSingleton] POST:activityPublish parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+            [WProgressHUD hideAllHUDAnimated:YES];
+            if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+                
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [self.navigationController popViewControllerAnimated:YES];
+                
+            } else {
+                if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                    [UserManager logoOut];
+                } else {
+                    [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                }
+            }
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            
+        }];
+    
+}
+
+- (void)setShangChuanTupian {
+    
+    NSDictionary * params = @{@"key":[UserManager key],@"upload_type":@"img", @"upload_img_type":@"activity"};
+    [WProgressHUD showHUDShowText:@"加载中..."];
+    [[HttpRequestManager sharedSingleton].sessionManger POST:WENJIANSHANGCHUANJIEKOU parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        for (int i = 0; i < self.LQPhotoPicker_bigImageArray.count; i++)
+        {
+            UIImage * image = self.LQPhotoPicker_bigImageArray[i];
+            NSData *imageData = UIImageJPEGRepresentation(image,1);
+            float length=[imageData length]/1000;
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            formatter.dateFormat = @"yyyyMMddHHmmss";
+            NSString *str = [formatter stringFromDate:[NSDate date]];
+            NSString *imageFileName = [NSString stringWithFormat:@"%@.jpeg", str];
+            // 上传图片，以文件流的格式 image/jpg/png/jpeg
+            //            [formData appendPartWithFileData:btnCImgStr name:[NSString stringWithFormat:@"img%d",i+1] fileName:imageFileName mimeType:@"image/jpeg"];
+            if (length>1280) {
+                NSData *fData = UIImageJPEGRepresentation(image, 0.5);
+                [formData appendPartWithFileData:fData name:[NSString stringWithFormat:@"file[%d]",i] fileName:imageFileName mimeType:@"image/jpeg"];
+                
+            }else{
+                [formData appendPartWithFileData:imageData name:[NSString stringWithFormat:@"file[%d]",i] fileName:imageFileName mimeType:@"image/jpeg"];
+            }
+            
+        }
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            [WProgressHUD hideAllHUDAnimated:YES];
+            
+            NSDictionary *dic = [responseObject objectForKey:@"data"];
+            NSMutableArray *arr = [dic objectForKey:@"url"];
+            for (int i = 0; i < arr.count; i ++) {
+                [self.imgFiledArr addObject:arr[i]];
+            }
+            NSLog(@"%ld",self.imgFiledArr.count);
+            
+            if (self.imgFiledArr.count != 0) {
+                NSString *str = [NSString stringWithFormat:@"%@",self.imgFiledArr[0]];
+                NSDictionary *dic  = @{@"key":[UserManager key],@"title":self.titleTextField.text,@"start":self.beginTimeBtn.titleLabel.text,@"end":self.endTimeBtn.titleLabel.text,@"class_id":self.ID,@"introduction":self.introductionTextView.text,@"img":str};
+                [self postDataForActivityPublish:dic];
+            } else {
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                return;
+            }
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                    [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+            }
+        }
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+     {
+         NSLog(@"%@", error);
+         
+         
+     }];
+    
+}
+
+- (void)compareDate:(NSString*)aDate withDate:(NSString*)bDate {
+    NSDateFormatter *dateformater = [[NSDateFormatter alloc] init];
+    [dateformater setDateFormat:@"yyyy-MM-dd"];
+    NSDate *dta = [[NSDate alloc] init];
+    NSDate *dtb = [[NSDate alloc] init];
+    
+    dta = [dateformater dateFromString:aDate];
+    dtb = [dateformater dateFromString:bDate];
+    NSComparisonResult result = [dta compare:dtb];
+    if (result == NSOrderedSame) {
+        NSLog(@"相等");
+        self.timeID = 0;
+        return;
+    }else if (result == NSOrderedAscending) {
+        //bDate比aDate大
+        NSLog(@"第二个比第一个大");
+        self.timeID = 0;
+        return;
+    }else if (result == NSOrderedDescending) {
+        //bDate比aDate小
+        NSLog(@"第二个比第一个小");
+        [EasyShowTextView showImageText:@"开始时间不能小于结束时间" imageName:@"icon_sym_toast_failed_56_w100"];
+        [self.beginTimeBtn setTitle:@"开始时间" forState:UIControlStateNormal];
+        [self.endTimeBtn setTitle:@"结束时间" forState:UIControlStateNormal];
+        self.timeID = 1;
+        return;
+    }
+   
 }
 
 - (void)classBtn : (UIButton *)sender {
     NSLog(@"请选择");
+    [self getClassData];
 }
 
 - (void)endTimeBtnBtn : (UIButton *)sender {
     NSLog(@"点击结束时间");
+    self.timeID = 0;
     [self setupDateView:DateTypeOfEnd];
+    
 }
 
 - (void)beginTimeBtn : (UIButton *)sender {
     NSLog(@"点击开始时间");
+    self.timeID = 0;
     [self setupDateView:DateTypeOfStart];
+    [self.endTimeBtn setTitle:@"结束时间" forState:UIControlStateNormal];
     
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectText:(NSString *)text  index:(NSInteger)index{
+    [self.classBtn setTitle:text forState:UIControlStateNormal];
+    [self.classBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    TeacherNotifiedModel *model = [self.jobManagementArr objectAtIndex:index];
+    self.ID = model.ID;
+    NSLog(@"%@",model.ID);
+}
+
+- (void)getClassData {
+    
+    NSDictionary *dic = @{@"key":[UserManager key]};
+    [[HttpRequestManager sharedSingleton] POST:getClassURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.jobManagementArr = [TeacherNotifiedModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            NSMutableArray * ary = [@[]mutableCopy];
+            for (TeacherNotifiedModel * model in self.jobManagementArr) {
+                [ary addObject:[NSString stringWithFormat:@"%@", model.name]];
+            }
+            
+            HQPickerView *picker = [[HQPickerView alloc]initWithFrame:self.view.bounds];
+            picker.delegate = self ;
+            picker.customArr = ary;
+            [self.view addSubview:picker];
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
 }
 
 - (void)getSelectDate:(NSString *)date type:(DateType)type {
@@ -226,6 +496,62 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
     [self.view endEditing:YES];
+    
+}
+
+#pragma mark - UIScrollViewDelegate
+//返回缩放时所使用的UIView对象
+- (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView{
+    return scrollView;
+}
+
+//开始缩放时调用
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view{
+    
+}
+
+//结束缩放时调用，告知缩放比例
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale{
+    
+}
+
+//已经缩放时调用
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView{
+    
+}
+
+//确定是否可以滚动到顶部
+- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView{
+    return YES;
+}
+
+//滚动到顶部时调用
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView{
+    
+}
+
+//已经滚动时调用
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+}
+
+//开始进行拖动时调用
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    
+}
+
+//抬起手指停止拖动时调用，布尔值确定滚动到最后位置时是否需要减速
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    
+}
+
+//如果上面的方法决定需要减速继续滚动，则调用该方法，可以读取contentOffset属性，判断用户抬手位置（不是最终停止位置）
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+    
+}
+
+//减速完毕停止滚动时调用，这里的读取contentOffset属性就是最终停止位置
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     
 }
 

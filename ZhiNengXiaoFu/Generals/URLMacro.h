@@ -107,4 +107,11 @@
 //家长、教师查看学生进出记录。
 #define recordURL [NSString stringWithFormat:@"%@index/record/record",YUMING]
 
+//名师在线模块
+//家长查看视频列表
+#define onlineVideoList [NSString stringWithFormat:@"%@index/online/video_list",YUMING]
+
+//家长查看视频详情
+#define onlineVideoDetail [NSString stringWithFormat:@"%@index/online/video_detail",YUMING]
+
 
