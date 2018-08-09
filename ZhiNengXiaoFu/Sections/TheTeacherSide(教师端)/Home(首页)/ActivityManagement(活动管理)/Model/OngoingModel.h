@@ -10,7 +10,7 @@
 
 @interface OngoingModel : NSObject
 @property (nonatomic, copy) NSString * ID;
-@property (nonatomic, copy) NSMutableArray * img;
+@property (nonatomic, copy) NSString * img;
 @property (nonatomic, copy) NSString * start;
 @property (nonatomic, copy) NSString * end;
 @property (nonatomic, copy) NSString * title;

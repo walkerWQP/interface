@@ -154,7 +154,26 @@
 
 - (void)rightBtn : (UIButton *)sender {
     NSLog(@"点击发布");
-    [self setShangChuanTupian];
+    if ([self.subjectsBtn.titleLabel.text isEqualToString:@"请选择科目类型"]) {
+        [EasyShowTextView showImageText:@"请选择科目类型" imageName:@"icon_sym_toast_succeed_56_w100"];
+        
+        return;
+    }
+    
+    if ([self.jobNameTextField.text isEqualToString:@""]) {
+        [EasyShowTextView showImageText:@"请输入作业名称" imageName:@"icon_sym_toast_succeed_56_w100"];
+        
+        return;
+    }
+    
+    if ([self.jobContentTextView.text isEqualToString:@""]) {
+        [EasyShowTextView showImageText:@"请输入作业内容" imageName:@"icon_sym_toast_succeed_56_w100"];
+        
+        return;
+    } else {
+        [self setShangChuanTupian];
+    }
+    
 }
 
 - (void)setShangChuanTupian {
@@ -194,7 +213,10 @@
                 [self.imgFiledArr addObject:arr[i]];
             }
             NSLog(@"%ld",self.imgFiledArr.count);
-            [self PostWorkPusblishData];
+            NSDictionary *dataDic = [NSDictionary dictionary];
+            
+            dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.jobNameTextField.text,@"content":self.jobContentTextView.text,@"course_id":self.courseID,@"img":self.imgFiledArr};
+            [self PostWorkPusblishData:dataDic];
             
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
@@ -206,36 +228,16 @@
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@", error);
-        
+        [WProgressHUD hideAllHUDAnimated:YES];
         
     }];
     
 }
 
 
-- (void)PostWorkPusblishData {
+- (void)PostWorkPusblishData:(NSDictionary *)dic {
     
-    if ([self.subjectsBtn.titleLabel.text isEqualToString:@"请选择科目类型"]) {
-        [EasyShowTextView showImageText:@"请选择科目类型" imageName:@"icon_sym_toast_succeed_56_w100"];
-        
-        return;
-    }
     
-    if ([self.jobNameTextField.text isEqualToString:@""]) {
-        [EasyShowTextView showImageText:@"请输入作业名称" imageName:@"icon_sym_toast_succeed_56_w100"];
-        
-        return;
-    }
-    
-    if ([self.jobContentTextView.text isEqualToString:@""]) {
-        [EasyShowTextView showImageText:@"请输入作业内容" imageName:@"icon_sym_toast_succeed_56_w100"];
-        
-        return;
-    } else {
-        NSDictionary *dic = [NSDictionary dictionary];
-        
-        dic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.jobNameTextField.text,@"content":self.jobContentTextView.text,@"course_id":self.courseID,@"img":self.imgFiledArr};
-     
         [WProgressHUD showHUDShowText:@"加载中..."];
         [[HttpRequestManager sharedSingleton] POST:workPusblish parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
             [WProgressHUD hideAllHUDAnimated:YES];
@@ -253,11 +255,8 @@
                 }
             }
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
-            
+            [WProgressHUD hideAllHUDAnimated:YES];
         }];
-    }
-    
-    
     
 }
 

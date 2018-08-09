@@ -185,7 +185,6 @@
 		98AD7EB9210F11BD00641231 /* PublishJobViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AD7E77210F11BD00641231 /* PublishJobViewController.m */; };
 		98AD7EBA210F11BD00641231 /* JobManagementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AD7E78210F11BD00641231 /* JobManagementViewController.m */; };
 		98AD7EBB210F11BD00641231 /* HomeWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AD7E79210F11BD00641231 /* HomeWorkViewController.m */; };
-		98AD7EBC210F11BD00641231 /* SchoolInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AD7E83210F11BD00641231 /* SchoolInformationViewController.m */; };
 		98AD7EBD210F11BD00641231 /* SchoolDynamicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AD7E84210F11BD00641231 /* SchoolDynamicViewController.m */; };
 		98AD7EBE210F11BD00641231 /* SchoolDynamicCellCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AD7E88210F11BD00641231 /* SchoolDynamicCellCell.m */; };
 		98AD7EBF210F11BD00641231 /* HomeLunBoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AD7E8A210F11BD00641231 /* HomeLunBoCell.m */; };
@@ -208,7 +207,6 @@
 		98C01EEA2114442600D625DA /* ClassDetailsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C01EE92114442600D625DA /* ClassDetailsModel.m */; };
 		98C01EED21144F9200D625DA /* HomeWorkModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C01EEC21144F9200D625DA /* HomeWorkModel.m */; };
 		98C01EF02114562200D625DA /* PublishJobModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C01EEF2114562200D625DA /* PublishJobModel.m */; };
-		98C0E4A921129B5600832DF4 /* JobDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C0E4A821129B5600832DF4 /* JobDetailsViewController.m */; };
 		98D89DB5211002C200355626 /* SignClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DB4211002C200355626 /* SignClassViewController.m */; };
 		98D89DB82110054100355626 /* TotalNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DB72110054100355626 /* TotalNumberViewController.m */; };
 		98D89DBB2110055D00355626 /* HasBeenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D89DBA2110055D00355626 /* HasBeenViewController.m */; };
@@ -244,6 +242,7 @@
 		98E33E8221181D200098C241 /* LeaveTheDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E33E8121181D200098C241 /* LeaveTheDetailsViewController.m */; };
 		98E33E85211823800098C241 /* LeaveTheDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E33E84211823800098C241 /* LeaveTheDetailsCell.m */; };
 		98E33E88211851730098C241 /* TotalNumberModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E33E87211851730098C241 /* TotalNumberModel.m */; };
+		98E69522211C1FDF00660B14 /* PublicClassModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E69521211C1FDF00660B14 /* PublicClassModel.m */; };
 		AB9AE7EF90ECD4FF56ADE6CC /* libPods-ZhiNengXiaoFu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DEA638256AADE5C8E411ACF /* libPods-ZhiNengXiaoFu.a */; };
 /* End PBXBuildFile section */
 
@@ -620,9 +619,7 @@
 		98AD7E7A210F11BD00641231 /* PublishJobViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishJobViewController.h; sourceTree = "<group>"; };
 		98AD7E7B210F11BD00641231 /* HomeWorkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeWorkViewController.h; sourceTree = "<group>"; };
 		98AD7E7C210F11BD00641231 /* JobManagementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobManagementViewController.h; sourceTree = "<group>"; };
-		98AD7E81210F11BD00641231 /* SchoolInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SchoolInformationViewController.h; sourceTree = "<group>"; };
 		98AD7E82210F11BD00641231 /* SchoolDynamicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SchoolDynamicViewController.h; sourceTree = "<group>"; };
-		98AD7E83210F11BD00641231 /* SchoolInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SchoolInformationViewController.m; sourceTree = "<group>"; };
 		98AD7E84210F11BD00641231 /* SchoolDynamicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SchoolDynamicViewController.m; sourceTree = "<group>"; };
 		98AD7E87210F11BD00641231 /* SchoolDynamicCellCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SchoolDynamicCellCell.h; sourceTree = "<group>"; };
 		98AD7E88210F11BD00641231 /* SchoolDynamicCellCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SchoolDynamicCellCell.m; sourceTree = "<group>"; };
@@ -666,8 +663,6 @@
 		98C01EEC21144F9200D625DA /* HomeWorkModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeWorkModel.m; sourceTree = "<group>"; };
 		98C01EEE2114562200D625DA /* PublishJobModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublishJobModel.h; sourceTree = "<group>"; };
 		98C01EEF2114562200D625DA /* PublishJobModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PublishJobModel.m; sourceTree = "<group>"; };
-		98C0E4A721129B5600832DF4 /* JobDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JobDetailsViewController.h; sourceTree = "<group>"; };
-		98C0E4A821129B5600832DF4 /* JobDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JobDetailsViewController.m; sourceTree = "<group>"; };
 		98D89DB3211002C200355626 /* SignClassViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignClassViewController.h; sourceTree = "<group>"; };
 		98D89DB4211002C200355626 /* SignClassViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignClassViewController.m; sourceTree = "<group>"; };
 		98D89DB62110054100355626 /* TotalNumberViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TotalNumberViewController.h; sourceTree = "<group>"; };
@@ -738,6 +733,8 @@
 		98E33E84211823800098C241 /* LeaveTheDetailsCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LeaveTheDetailsCell.m; sourceTree = "<group>"; };
 		98E33E86211851730098C241 /* TotalNumberModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TotalNumberModel.h; sourceTree = "<group>"; };
 		98E33E87211851730098C241 /* TotalNumberModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TotalNumberModel.m; sourceTree = "<group>"; };
+		98E69520211C1FDF00660B14 /* PublicClassModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublicClassModel.h; sourceTree = "<group>"; };
+		98E69521211C1FDF00660B14 /* PublicClassModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PublicClassModel.m; sourceTree = "<group>"; };
 		E9EF48CA703F38D41C8D8940 /* Pods-ZhiNengXiaoFu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhiNengXiaoFu.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZhiNengXiaoFu/Pods-ZhiNengXiaoFu.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -2385,6 +2382,8 @@
 		98AD7E52210F11BC00641231 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				98E69520211C1FDF00660B14 /* PublicClassModel.h */,
+				98E69521211C1FDF00660B14 /* PublicClassModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2537,8 +2536,6 @@
 				98AD7E79210F11BD00641231 /* HomeWorkViewController.m */,
 				98AD7E7A210F11BD00641231 /* PublishJobViewController.h */,
 				98AD7E77210F11BD00641231 /* PublishJobViewController.m */,
-				98C0E4A721129B5600832DF4 /* JobDetailsViewController.h */,
-				98C0E4A821129B5600832DF4 /* JobDetailsViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2576,8 +2573,6 @@
 			children = (
 				98AD7E82210F11BD00641231 /* SchoolDynamicViewController.h */,
 				98AD7E84210F11BD00641231 /* SchoolDynamicViewController.m */,
-				98AD7E81210F11BD00641231 /* SchoolInformationViewController.h */,
-				98AD7E83210F11BD00641231 /* SchoolInformationViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3027,6 +3022,7 @@
 				983CD955211152130050508C /* BusinessDetailController.m in Sources */,
 				045A95082113119700030E56 /* WorkDetailsViewController.m in Sources */,
 				98D89DEC21103C7800355626 /* Encryption.m in Sources */,
+				98E69522211C1FDF00660B14 /* PublicClassModel.m in Sources */,
 				98C01EF02114562200D625DA /* PublishJobModel.m in Sources */,
 				0413D6BD210F06C900CB34A6 /* ParentXueTangCell.m in Sources */,
 				0409A4272119754C004A9DB6 /* MShowAllGroup.m in Sources */,
@@ -3085,7 +3081,6 @@
 				98AD7EA6210F11BD00641231 /* DidNotReturnViewController.m in Sources */,
 				98AD7EB4210F11BD00641231 /* ActivityManagementViewController.m in Sources */,
 				98D89DBB2110055D00355626 /* HasBeenViewController.m in Sources */,
-				98AD7EBC210F11BD00641231 /* SchoolInformationViewController.m in Sources */,
 				043F39852101CFCB00115A55 /* MASConstraintMaker.m in Sources */,
 				98AD7EB7210F11BD00641231 /* OngoingCell.m in Sources */,
 				98AD7EC6210F11BD00641231 /* ClassDetailsCell.m in Sources */,
@@ -3168,7 +3163,6 @@
 				0429F60B210C696A00C32957 /* TeacherTongZhiViewController.m in Sources */,
 				043F38DB21016DB600115A55 /* AppDelegate.m in Sources */,
 				045A95012113079800030E56 /* WorkModel.m in Sources */,
-				98C0E4A921129B5600832DF4 /* JobDetailsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

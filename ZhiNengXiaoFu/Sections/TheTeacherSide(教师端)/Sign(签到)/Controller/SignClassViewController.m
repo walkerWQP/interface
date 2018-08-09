@@ -30,7 +30,7 @@
     [self getClassConditionURLData:@"1"];
 }
 
-- (void)getClassConditionURLData:(NSString *)type {
+- (void)getClassConditionURLData:(NSString *)type {  //1全部学生
     
     NSDictionary *dic = @{@"key":[UserManager key],@"class_id":self.ID,@"type":type};
     [[HttpRequestManager sharedSingleton] POST:classConditionURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {

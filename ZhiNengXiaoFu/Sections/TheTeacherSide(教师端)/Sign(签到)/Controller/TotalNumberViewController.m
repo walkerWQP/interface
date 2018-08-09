@@ -31,6 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"%@",self.ID);
+    //总数
     [self getClassConditionURLData:@"1"];
     self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
@@ -96,11 +97,11 @@
     TotalNumberModel *model = [self.totalNumberArr objectAtIndex:indexPath.row];
     [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];
     cell.nameLabel.text = model.name;
-    if (model.is_leave == 0) { //未请假
-        cell.nameLabel.textColor = [UIColor redColor];
-    } else if (model.is_leave == 1) { //请假
+    if (model.is_leave == 1) { //1请假
         cell.nameLabel.textColor = THEMECOLOR;
-    } else {
+    } else if (model.is_leave == 2) { //2逃学
+        cell.nameLabel.textColor = [UIColor redColor];
+    } else if (model.is_leave == 3) { //3签到
         cell.nameLabel.textColor = titlColor;
     }
     gridcell = cell;

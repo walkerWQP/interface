@@ -33,12 +33,11 @@
     [super viewDidLoad];
     self.title = @"到校情况";
     [self getClassData];
+    [self makeSignViewControllerUI];
     self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
-    [self.view addSubview:self.zanwushuju];
-    
-    [self makeSignViewControllerUI];
+    [self.signCollectionView addSubview:self.zanwushuju];
 }
 
 - (void)getClassData {

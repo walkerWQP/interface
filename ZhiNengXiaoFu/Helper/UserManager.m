@@ -50,7 +50,7 @@
     
     NSString * chooseLoginState = [[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"];
     PersonInformationModel * model = [UserManager getUserObject];
-    NSDictionary * dic = @{@"uid":model.ID, @"school_id":[NSString stringWithFormat:@"%ld", model.school_id], @"identity":chooseLoginState, @"token":model.token};
+    NSDictionary * dic = @{@"uid":model.ID, @"school_id":[NSString stringWithFormat:@"%ld", model.school_id], @"identity":chooseLoginState};
     [[HttpRequestManager sharedSingleton] POST:TUICHULOGIN parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
 //        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {

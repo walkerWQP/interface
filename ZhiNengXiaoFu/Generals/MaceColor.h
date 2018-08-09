@@ -15,7 +15,7 @@
 //背景色
 #define backColor RGB(245,252,244)
 //主题颜色
-#define THEMECOLOR RGB(40,182,22)
+#define THEMECOLOR RGB(79,243,164)
 
 //家长端主题颜色
 #define TEACHERTHEMECOLOR RGB(79,243,164)

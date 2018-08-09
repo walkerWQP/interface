@@ -9,7 +9,7 @@
 #import "SchoolDynamicViewController.h"
 #import "SchoolDynamicCellCell.h"
 #import "SchoolDynamicModel.h"
-#import "SchoolInformationViewController.h"
+#import "SchoolDongTaiDetailsViewController.h"
 
 @interface SchoolDynamicViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -34,10 +34,7 @@
     [super viewDidLoad];
     self.title = @"学校动态";
     self.page = 1;
-    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
-    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
-    self.zanwushuju.alpha = 0;
-    [self.view addSubview:self.zanwushuju];
+    
     [self makeSchoolDynamicViewControllerUI];
     //下拉刷新
     self.schoolDynamicCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
@@ -47,6 +44,10 @@
     [self.schoolDynamicCollectionView.mj_header beginRefreshing];
     //上拉刷新
     self.schoolDynamicCollectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.schoolDynamicCollectionView addSubview:self.zanwushuju];
     
 }
 
@@ -157,9 +158,9 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%ld",indexPath.row);
     SchoolDynamicModel *model = [self.schoolDynamicArr objectAtIndex:indexPath.row];
-    SchoolInformationViewController *schoolInformationVC = [[SchoolInformationViewController alloc] init];
-    schoolInformationVC.ID = model.ID;
-    [self.navigationController pushViewController:schoolInformationVC animated:YES];
+    SchoolDongTaiDetailsViewController *schoolDongTaiDetailsVC = [[SchoolDongTaiDetailsViewController alloc] init];
+    schoolDongTaiDetailsVC.schoolDongTaiId = model.ID;
+    [self.navigationController pushViewController:schoolDongTaiDetailsVC animated:YES];
 }
 
 

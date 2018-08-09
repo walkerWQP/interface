@@ -111,8 +111,20 @@
 
 - (void)rightBtn : (UIButton *)sender {
     NSLog(@"发送通知");
+    if ([self.noticeNameTextField.text isEqualToString:@""]) {
+        NSLog(@"请输入通知分类");
+        [EasyShowTextView showImageText:@"通知分类不能为空" imageName:@"icon_sym_toast_failed_56_w100"];
+        return;
+    }
     
-    [self setShangChuanTupian];
+    if ([self.noticeContentTextView.text isEqualToString:@""]) {
+        NSLog(@"请输入通知内容");
+        [EasyShowTextView showImageText:@"通知内容不能为空" imageName:@"icon_sym_toast_failed_56_w100"];
+        return;
+    } else {
+        [self setShangChuanTupian];
+    }
+    
     
 }
 
@@ -161,10 +173,14 @@
                 [self.imgFiledArr addObject:arr[i]];
             }
             NSLog(@"%ld",self.imgFiledArr.count);
-            if (self.imgFiledArr.count != 0) {
-                [self postDataForRelease];
+            NSDictionary *dataDic = [NSDictionary dictionary];
+            if (self.imgFiledArr.count == 0) {
+                dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.noticeNameTextField.text,@"content":self.noticeContentTextView.text,@"img":@""};
+                [self postDataForRelease:dataDic];
             } else {
-                [self postDataForRelease];
+                
+                dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.noticeNameTextField.text,@"content":self.noticeContentTextView.text,@"img":self.imgFiledArr};
+                [self postDataForRelease:dataDic];
             }
             
         } else {
@@ -177,36 +193,15 @@
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
          NSLog(@"%@", error);
-         
+         [WProgressHUD hideAllHUDAnimated:YES];
          
      }];
     
 }
 
 //发布
-- (void)postDataForRelease {
-    if ([self.noticeNameTextField.text isEqualToString:@""]) {
-        NSLog(@"请输入通知分类");
-        [EasyShowTextView showImageText:@"通知分类不能为空" imageName:@"icon_sym_toast_failed_56_w100"];
-        return;
-    }
+- (void)postDataForRelease:(NSDictionary *)dic{
     
-    if ([self.noticeContentTextView.text isEqualToString:@""]) {
-        NSLog(@"请输入通知内容");
-        [EasyShowTextView showImageText:@"通知内容不能为空" imageName:@"icon_sym_toast_failed_56_w100"];
-        return;
-    } else {
-        
-        NSDictionary *dic = [NSDictionary dictionary];
-        if (self.imgFiledArr.count == 0) {
-            dic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.noticeNameTextField.text,@"content":self.noticeContentTextView.text,@"img":@""};
-        } else {
-            for (int i = 0; i < self.imgFiledArr.count; i ++) {
-                
-            }
-            dic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.noticeNameTextField.text,@"content":self.noticeContentTextView.text,@"img":self.imgFiledArr};
-        }
-        
         [WProgressHUD showHUDShowText:@"加载中..."];
         [[HttpRequestManager sharedSingleton] POST:publishURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
             [WProgressHUD hideAllHUDAnimated:YES];
@@ -225,9 +220,8 @@
             }
             
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
-            
+            [WProgressHUD hideAllHUDAnimated:YES];
         }];
-    }
 }
 
 - (void)uploadPicturesBtn : (UIButton *)sender {

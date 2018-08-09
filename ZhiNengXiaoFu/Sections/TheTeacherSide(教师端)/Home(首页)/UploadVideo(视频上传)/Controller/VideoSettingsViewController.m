@@ -13,9 +13,6 @@
 //视频标题
 @property (nonatomic, strong) UILabel      *titleLabel;
 @property (nonatomic, strong) UITextField  *titleField;
-//视频分类
-@property (nonatomic, strong) UILabel      *classificationLabel;
-@property (nonatomic, strong) UITextField  *classificationField;
 //视频描述
 @property (nonatomic, strong) UILabel     *describeLabel;
 @property (nonatomic, strong) WTextView   *describeTextView;
@@ -31,6 +28,8 @@
 @property (nonatomic, strong) UILabel     *costLabel;
 @property (nonatomic, strong) UITextField *costTextField;
 @property (nonatomic, strong) UILabel     *yuanLabel;
+
+@property (nonatomic, strong) NSString  *is_chargeStr;//收费0否1是
 //保存
 @property (nonatomic, strong) UIButton    *saveBtn;
 
@@ -70,31 +69,15 @@
     self.titleField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [self.view addSubview:self.titleField];
     
-    self.classificationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height + 20, APP_WIDTH - 20, 30)];
-    self.classificationLabel.text = @"视频分类";
-    self.classificationLabel.font = titFont;
-    self.classificationLabel.textColor = titlColor;
-    [self.view addSubview:self.classificationLabel];
+
     
-    self.classificationField = [[UITextField alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.classificationLabel.frame.size.height + 20, APP_WIDTH - 20, 40)];
-    self.classificationField.backgroundColor = [UIColor whiteColor];
-    self.classificationField.layer.masksToBounds = YES;
-    self.classificationField.layer.cornerRadius = 5;
-    self.classificationField.layer.borderColor = fengeLineColor.CGColor;
-    self.classificationField.layer.borderWidth = 1.0f;
-    self.classificationField.font = contentFont;
-    self.classificationField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请选择视频分类" attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:157/255.0 green:157/255.0 blue:157/255.0 alpha:1.0]}];
-    self.classificationField.delegate = self;
-    self.classificationField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    [self.view addSubview:self.classificationField];
-    
-    self.describeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.classificationLabel.frame.size.height + self.classificationField.frame.size.height + 30, APP_WIDTH - 20, 30)];
+    self.describeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height  + 30, APP_WIDTH - 20, 30)];
     self.describeLabel.text = @"视频描述";
     self.describeLabel.font = titFont;
     self.describeLabel.textColor = titlColor;
     [self.view addSubview:self.describeLabel];
     
-    self.describeTextView = [[WTextView alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.classificationLabel.frame.size.height + self.classificationField.frame.size.height + self.describeLabel.frame.size.height + 30, APP_WIDTH - 20, 100)];
+    self.describeTextView = [[WTextView alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height +  self.describeLabel.frame.size.height + 30, APP_WIDTH - 20, 100)];
     self.describeTextView.backgroundColor = [UIColor whiteColor];
     self.describeTextView.layer.masksToBounds = YES;
     self.describeTextView.layer.cornerRadius = 5;
@@ -105,29 +88,29 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.describeTextView];
     
-    self.publicBtn = [[UIButton alloc] initWithFrame:CGRectMake((APP_WIDTH - 160) / 3, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.classificationLabel.frame.size.height + self.classificationField.frame.size.height + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + 40, 20, 20)];
+    self.publicBtn = [[UIButton alloc] initWithFrame:CGRectMake((APP_WIDTH - 160) / 3, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + 40, 20, 20)];
     [self.publicBtn setBackgroundImage:[UIImage imageNamed:@"对勾"] forState:UIControlStateNormal];
     [self.publicBtn addTarget:self action:@selector(publicBtn:) forControlEvents:UIControlEventTouchDown];
     self.publicBtn.userInteractionEnabled = YES;
     [self.view addSubview:self.publicBtn];
-    UILabel *publicLabel = [[UILabel alloc] initWithFrame:CGRectMake((APP_WIDTH - 160) / 3 + self.publicBtn.frame.size.width, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.classificationLabel.frame.size.height + self.classificationField.frame.size.height + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + 40, 60, 20)];
+    UILabel *publicLabel = [[UILabel alloc] initWithFrame:CGRectMake((APP_WIDTH - 160) / 3 + self.publicBtn.frame.size.width, self.titleLabel.frame.size.height + self.titleField.frame.size.height  + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + 40, 60, 20)];
     publicLabel.textColor = titlColor;
     publicLabel.text = @"公开";
     publicLabel.font = titFont;
     [self.view addSubview:publicLabel];
     
-    self.chargeBtn = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH - (APP_WIDTH - 160) / 3 - 60, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.classificationLabel.frame.size.height + self.classificationField.frame.size.height + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + 40, 20, 20)];
+    self.chargeBtn = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH - (APP_WIDTH - 160) / 3 - 60, self.titleLabel.frame.size.height + self.titleField.frame.size.height  + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + 40, 20, 20)];
     [self.chargeBtn setBackgroundImage:[UIImage imageNamed:@"圆角矩形"] forState:UIControlStateNormal];
     [self.chargeBtn addTarget:self action:@selector(chargeBtn:) forControlEvents:UIControlEventTouchDown];
     self.chargeBtn.userInteractionEnabled = YES;
     [self.view addSubview:self.chargeBtn];
-    UILabel *chargeLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - (APP_WIDTH - 160) / 3 - self.chargeBtn.frame.size.width * 2, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.classificationLabel.frame.size.height + self.classificationField.frame.size.height + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + 40, 60, 20)];
+    UILabel *chargeLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - (APP_WIDTH - 160) / 3 - self.chargeBtn.frame.size.width * 2, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + 40, 60, 20)];
     chargeLabel.textColor = titlColor;
     chargeLabel.text = @"收费";
     chargeLabel.font = titFont;
     [self.view addSubview:chargeLabel];
     
-    self.saveBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.classificationLabel.frame.size.height + self.classificationField.frame.size.height + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + self.publicBtn.frame.size.height + 70, APP_WIDTH - 20, 40)];
+    self.saveBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height  + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + self.publicBtn.frame.size.height + 70, APP_WIDTH - 20, 40)];
     self.saveBtn.backgroundColor = THEMECOLOR;
     [self.saveBtn setTitle:@"保存" forState:UIControlStateNormal];
     self.saveBtn.layer.masksToBounds = YES;
@@ -148,7 +131,7 @@
     
     self.saveBtn.hidden = YES;
     
-    self.costView = [[UIView alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.classificationLabel.frame.size.height + self.classificationField.frame.size.height + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + self.publicBtn.frame.size.height + 60, APP_WIDTH - 20, 50)];
+    self.costView = [[UIView alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + self.publicBtn.frame.size.height + 60, APP_WIDTH - 20, 50)];
     [self.view addSubview:self.costView];
     self.costView.backgroundColor = [UIColor whiteColor];
     
@@ -168,12 +151,13 @@
     self.costTextField.backgroundColor = [UIColor whiteColor];
     self.costTextField.font = contentFont;
     self.costTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入金额" attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:157/255.0 green:157/255.0 blue:157/255.0 alpha:1.0]}];
+    self.costTextField.keyboardType = UIKeyboardTypeNumberPad;
     self.costTextField.delegate = self;
     self.costTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [self.costView addSubview:self.costTextField];
     
     self.costView.hidden = NO;
-    self.saveBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.classificationLabel.frame.size.height + self.classificationField.frame.size.height + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + self.publicBtn.frame.size.height + self.costView.frame.size.height + 90, APP_WIDTH - 20, 40)];
+    self.saveBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height  + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + self.publicBtn.frame.size.height + self.costView.frame.size.height + 90, APP_WIDTH - 20, 40)];
     self.saveBtn.backgroundColor = THEMECOLOR;
     [self.saveBtn setTitle:@"保存" forState:UIControlStateNormal];
     self.saveBtn.layer.masksToBounds = YES;
@@ -191,7 +175,7 @@
 - (void)makePublicView {
     self.costView.hidden = YES;
     self.saveBtn.hidden  = YES;
-    self.saveBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height + self.classificationLabel.frame.size.height + self.classificationField.frame.size.height + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + self.publicBtn.frame.size.height + 70, APP_WIDTH - 20, 40)];
+    self.saveBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleField.frame.size.height  + self.describeLabel.frame.size.height + self.describeTextView.frame.size.height + self.publicBtn.frame.size.height + 70, APP_WIDTH - 20, 40)];
     self.saveBtn.backgroundColor = THEMECOLOR;
     [self.saveBtn setTitle:@"保存" forState:UIControlStateNormal];
     self.saveBtn.layer.masksToBounds = YES;
@@ -207,10 +191,29 @@
 
 - (void)saveBtn : (UIButton *)sender {
     NSLog(@"点击发布");
+    
+    NSDictionary *dic = @{@"key":[UserManager key],@"id":self.ID,@"title":self.titleField.text,@"introduce":self.describeTextView.text,@"is_charge":self.is_chargeStr,@"price":self.costTextField.text};
+    [[HttpRequestManager sharedSingleton] POST:toUpdateURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+    
 }
 
 - (void)chargeBtn : (UIButton *)sender {
     NSLog(@"点击收费");
+    self.is_chargeStr = @"1";
     self.chargeChooseState = 1;
     self.publicChooseState = 0;
     [self.chargeBtn setBackgroundImage:[UIImage imageNamed:@"对勾"] forState:UIControlStateNormal];
@@ -220,6 +223,7 @@
 
 - (void)publicBtn : (UIButton *)sender {
     NSLog(@"点击公开");
+    self.is_chargeStr = @"0";
     self.publicChooseState = 1;
     self.chargeChooseState = 0;
     [self.publicBtn setBackgroundImage:[UIImage imageNamed:@"对勾"] forState:UIControlStateNormal];
@@ -229,6 +233,23 @@
 
 - (void)rightBtn : (UIButton *)sender {
     NSLog(@"点击删除");
+    NSDictionary *dic = @{@"key":[UserManager key],@"id":self.ID};
+    [[HttpRequestManager sharedSingleton] POST:toDeleteURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+    
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSMutableArray  *isAboutToBeginArr;
 @property (nonatomic, strong) UICollectionView *isAboutToBeginCollectionView;
 @property (nonatomic, assign) NSInteger       page;
+@property (nonatomic, strong) UIImageView *zanwushuju;
 
 @end
 
@@ -40,6 +41,10 @@
     [self.isAboutToBeginCollectionView.mj_header beginRefreshing];
     //上拉刷新
     self.isAboutToBeginCollectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.isAboutToBeginCollectionView addSubview:self.zanwushuju];
 }
 
 - (void)loadNewTopic {
@@ -66,7 +71,14 @@
             for (OngoingModel *model in arr) {
                 [self.isAboutToBeginArr addObject:model];
             }
-            [self.isAboutToBeginCollectionView reloadData];
+            if (self.isAboutToBeginArr.count == 0) {
+                self.zanwushuju.alpha = 1;
+                
+            } else {
+                self.zanwushuju.alpha = 0;
+                [self.isAboutToBeginCollectionView reloadData];
+            }
+            
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
@@ -109,7 +121,7 @@
     UICollectionViewCell *gridcell = nil;
     OngoingCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:OngoingCell_CollectionView forIndexPath:indexPath];
     OngoingModel *model = [self.isAboutToBeginArr objectAtIndex:indexPath.row];
-    [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img[0]] placeholderImage:nil];
+    [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
     cell.titleLabel.text = model.title;
     cell.timeLabel.text = [NSString stringWithFormat:@"活动日期:%@-%@", model.start, model.end];;
     cell.detailsLabel.text = model.title;

@@ -10,4 +10,6 @@
 
 @interface VideoSettingsViewController : BaseViewController
 
+@property (nonatomic, strong) NSString  *ID;
+
 @end

@@ -97,11 +97,11 @@
     TotalNumberModel *model = [self.notToArr objectAtIndex:indexPath.row];
     [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];
     cell.nameLabel.text = model.name;
-    if (model.is_leave == 0) { //未请假
-        cell.nameLabel.textColor = [UIColor redColor];
-    } else if (model.is_leave == 1) { //请假
+    if (model.is_leave == 1) { //1请假
         cell.nameLabel.textColor = THEMECOLOR;
-    } else {
+    } else if (model.is_leave == 2) { //2逃学
+        cell.nameLabel.textColor = [UIColor redColor];
+    } else if (model.is_leave == 3) { //3签到
         cell.nameLabel.textColor = titlColor;
     }
     gridcell = cell;

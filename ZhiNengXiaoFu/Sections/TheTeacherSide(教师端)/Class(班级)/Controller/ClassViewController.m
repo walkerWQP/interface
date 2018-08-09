@@ -33,12 +33,12 @@
     [super viewDidLoad];
     self.view.backgroundColor = backColor;
     self.title = @"班级管理";
+    [self getClassData];
+    [self makeClassViewControllerUI];
     self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
-    [self.view addSubview:self.zanwushuju];
-    [self getClassData];
-    [self makeClassViewControllerUI];
+    [self.classCollectionView addSubview:self.zanwushuju];
     
 }
 

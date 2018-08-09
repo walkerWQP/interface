@@ -16,6 +16,8 @@
 @property (nonatomic, strong) NSMutableArray  *didNotReturnArr;
 @property (nonatomic, strong) UICollectionView *didNotReturnCollectionView;
 @property (nonatomic, assign) NSInteger    page;
+@property (nonatomic, strong) UIImageView *zanwushuju;
+
 
 @end
 
@@ -40,6 +42,10 @@
     [self.didNotReturnCollectionView.mj_header beginRefreshing];
     //上拉刷新
     self.didNotReturnCollectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.didNotReturnCollectionView addSubview:self.zanwushuju];
 }
 
 - (void)loadNewTopic {
@@ -67,17 +73,22 @@
             for (ConsultListModel * model in arr) {
                 [self.didNotReturnArr addObject:model];
             }
-            [self.didNotReturnCollectionView reloadData];
-        }else
-        {
+            if (self.didNotReturnArr.count == 0) {
+                self.zanwushuju.alpha = 1;
+                //                [self.publicClassCollectionView reloadData];
+            } else {
+                self.zanwushuju.alpha = 0;
+                [self.didNotReturnCollectionView reloadData];
+            }
+            
+        } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
                 [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
             }
         }
-        
-        
+    
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
     }];

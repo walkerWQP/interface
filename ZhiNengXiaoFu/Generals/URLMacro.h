@@ -114,4 +114,17 @@
 //家长查看视频详情
 #define onlineVideoDetail [NSString stringWithFormat:@"%@index/online/video_detail",YUMING]
 
+//教师查看自己发布的视频列表
+#define myPublishListURL [NSString stringWithFormat:@"%@index/online/my_publish_list",YUMING]
 
+//教师查看自己发布的视频详情
+#define myPublishDetailURL [NSString stringWithFormat:@"%@index/online/my_publish_detail",YUMING]
+
+//教师修改自己发布的视频
+#define toUpdateURL [NSString stringWithFormat:@"%@index/online/to_update",YUMING]
+
+//教师删除自己发布的视频
+#define toDeleteURL [NSString stringWithFormat:@"%@index/online/to_delete",YUMING]
+
+//获取个人信息
+#define getUserInfoURL [NSString stringWithFormat:@"%@index/user/get_user_info",YUMING]

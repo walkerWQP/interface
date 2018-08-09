@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSMutableArray  *haveToReplyArr;
 @property (nonatomic, strong) UICollectionView *haveToReplyCollectionView;
 @property (nonatomic, assign) NSInteger     page;
+@property (nonatomic, strong) UIImageView *zanwushuju;
 
 @end
 
@@ -40,7 +41,10 @@
     [self.haveToReplyCollectionView.mj_header beginRefreshing];
     //上拉刷新
     self.haveToReplyCollectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
-    
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.haveToReplyCollectionView addSubview:self.zanwushuju];
     
     
 }
@@ -72,7 +76,15 @@
             for (ConsultListModel * model in arr) {
                 [self.haveToReplyArr addObject:model];
             }
-            [self.haveToReplyCollectionView reloadData];
+            
+            if (self.haveToReplyArr.count == 0) {
+                self.zanwushuju.alpha = 1;
+                //                [self.publicClassCollectionView reloadData];
+            } else {
+                self.zanwushuju.alpha = 0;
+                [self.haveToReplyCollectionView reloadData];
+            }
+            
         }else
         {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {

@@ -34,7 +34,6 @@
 }
 
 
-
 - (UITableView *)personalDataTableView {
     if (!_personalDataTableView) {
         self.personalDataTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64) style:UITableViewStylePlain];

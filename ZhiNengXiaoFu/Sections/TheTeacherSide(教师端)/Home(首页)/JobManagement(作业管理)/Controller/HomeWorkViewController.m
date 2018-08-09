@@ -42,10 +42,7 @@
     [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     
-    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
-    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
-    self.zanwushuju.alpha = 0;
-    [self.view addSubview:self.zanwushuju];
+  
     [self.view addSubview:self.homeWorkTableView];
     [self.homeWorkTableView registerClass:[TongZhiCell class] forCellReuseIdentifier:@"TongZhiCellId"];
     self.homeWorkTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -58,6 +55,11 @@
     [self.homeWorkTableView.mj_header beginRefreshing];
     //上拉刷新
     self.homeWorkTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.self.homeWorkTableView addSubview:self.zanwushuju];
     
 }
 
@@ -79,10 +81,9 @@
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
             [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
-            //下拉刷新
-            self.homeWorkTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
-            //进入刷新状态
-            [self.homeWorkTableView.mj_header beginRefreshing];
+            
+            [self.homeWorkArr removeAllObjects];
+            [self getWorkHomeWorkListData:1];
             
             
         } else {
@@ -114,6 +115,7 @@
             }
             if (self.homeWorkArr.count == 0) {
                 self.zanwushuju.alpha = 1;
+                [self.homeWorkTableView reloadData];
             } else {
                 self.zanwushuju.alpha = 0;
                 [self.homeWorkTableView reloadData];

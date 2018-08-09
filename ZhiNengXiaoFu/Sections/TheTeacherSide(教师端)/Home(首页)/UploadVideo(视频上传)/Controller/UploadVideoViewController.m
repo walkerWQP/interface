@@ -10,6 +10,7 @@
 #import "ForClassViewController.h"
 #import "PublicClassViewController.h"
 
+
 @interface UploadVideoViewController ()
 
 @property (nonatomic,strong) JohnTopTitleView *titleView;
@@ -32,9 +33,9 @@
 }
 
 - (NSArray <UIViewController *>*)setChildVC{
-    //已回复
+    //公开课
     PublicClassViewController *publicClassVC = [[PublicClassViewController alloc]init];
-    //未回复
+    //收费课
     ForClassViewController *forClassVC = [[ForClassViewController alloc]init];
     NSArray *childVC = [NSArray arrayWithObjects:publicClassVC,forClassVC, nil];
     return childVC;

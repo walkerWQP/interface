@@ -300,7 +300,7 @@
                 }
             }
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
-            
+            [WProgressHUD hideAllHUDAnimated:YES];
         }];
     
 }

@@ -8,12 +8,14 @@
 
 #import "PublicClassViewController.h"
 #import "PublicClassCell.h"
+#import "PublicClassModel.h"
 #import "VideoSettingsViewController.h"
 
 @interface PublicClassViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) NSMutableArray  *publicClassArr;
 @property (nonatomic, strong) UICollectionView *publicClassCollectionView;
+@property (nonatomic, strong) UIImageView *zanwushuju;
 
 @end
 
@@ -26,17 +28,43 @@
     return _publicClassArr;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad {  //公开课
     [super viewDidLoad];
-    NSMutableArray *imgArr = [NSMutableArray arrayWithObjects:@"教师端活动管理banner",@"教师端活动管理banner",@"教师端活动管理banner",@"教师端活动管理banner", nil];
-    NSMutableArray *contentArr = [NSMutableArray arrayWithObjects:@"七年级运动会",@"九年级运动会",@"六年级运动会",@"四年级八班运动会", nil];
-    for (int i = 0; i < imgArr.count; i++) {
-        NSString *img     = [imgArr objectAtIndex:i];
-        NSString *content   = [contentArr objectAtIndex:i];
-        NSDictionary *dic = @{@"img":img,@"content":content};
-        [self.publicClassArr addObject:dic];
-    }
+    [self getDataFromMyPublishListURL];
+    
     [self makePublicClassViewControllerUI];
+    
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.publicClassCollectionView addSubview:self.zanwushuju];
+}
+
+- (void)getDataFromMyPublishListURL {
+    NSDictionary *dic = @{@"key":[UserManager key],@"is_charge":@"0"};
+    [[HttpRequestManager sharedSingleton] POST:myPublishListURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.publicClassArr = [PublicClassModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            if (self.publicClassArr.count == 0) {
+                self.zanwushuju.alpha = 1;
+
+            } else {
+                self.zanwushuju.alpha = 0;
+                [self.publicClassCollectionView reloadData];
+            }
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
 }
 
 - (void)makePublicClassViewControllerUI {
@@ -63,11 +91,12 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSDictionary * dic = [self.publicClassArr objectAtIndex:indexPath.row];
+    
     UICollectionViewCell *gridcell = nil;
     PublicClassCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:PublicClassCell_CollectionView forIndexPath:indexPath];
-    cell.imgView.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
-    cell.contentLabel.text = [dic objectForKey:@"content"];
+    PublicClassModel *model = [self.publicClassArr objectAtIndex:indexPath.row];
+    [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+    cell.contentLabel.text = model.title;
     [cell.playBtn addTarget:self action:@selector(playBtn:) forControlEvents:UIControlEventTouchUpInside];
     [cell.setUpBtn addTarget:self action:@selector(setUpBtn:) forControlEvents:UIControlEventTouchUpInside];
     gridcell = cell;
@@ -81,8 +110,7 @@
 
 - (void)setUpBtn : (UIButton *)sender {
     NSLog(@"点击设置");
-    VideoSettingsViewController *videoSettingsVC = [[VideoSettingsViewController alloc] init];
-    [self.navigationController pushViewController:videoSettingsVC animated:YES];
+    
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
@@ -104,7 +132,10 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"%ld",indexPath.row);
-    
+    PublicClassModel *model = [self.publicClassArr objectAtIndex:indexPath.row];
+    VideoSettingsViewController *videoSettingsVC = [[VideoSettingsViewController alloc] init];
+    videoSettingsVC.ID = model.ID;
+    [self.navigationController pushViewController:videoSettingsVC animated:YES];
 }
 
 @end
