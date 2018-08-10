@@ -52,7 +52,7 @@
 - (UILabel *)titleLabel
 {
     if (!_titleLabel) {
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.UserIcon.frame.origin.x + self.UserIcon.frame.size.width + 10, self.UserIcon.frame.origin.y, 100, 20)];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.UserIcon.frame.origin.x + self.UserIcon.frame.size.width + 10, self.UserIcon.frame.origin.y, kScreenWidth - (self.UserIcon.frame.origin.x + self.UserIcon.frame.size.width + 10) - 70, 20)];
         self.titleLabel.font = [UIFont systemFontOfSize:15];
         self.titleLabel.textColor = COLOR(147, 147, 147, 1);
     }

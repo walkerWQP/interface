@@ -7,7 +7,7 @@
 //
 
 #import "TheClassInformationViewController.h"
-
+#import "ClassHomeModel.h"
 @interface TheClassInformationViewController ()
 
 @property (nonatomic, strong) UIImageView    *backImgView;
@@ -29,6 +29,9 @@
 @property (nonatomic, strong) UILabel       *remarkLabel;
 @property (nonatomic, strong) UILabel       *remarksLabel;
 
+@property (nonatomic, strong) UIImageView * userIcon;
+
+@property (nonatomic, assign) NSInteger hnew;
 @end
 
 @implementation TheClassInformationViewController
@@ -36,10 +39,49 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"班级信息";
-    [self makeTheClassInformationViewControllerUI];
+    
+    [self setNetWork];
 }
 
-- (void)makeTheClassInformationViewControllerUI {
+- (void)setNetWork
+{
+    NSDictionary * dic = [NSDictionary dictionary];
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"2"]) {
+        dic = @{@"key":[UserManager key], @"class_id":self.ID};
+        
+    }else
+    {
+        dic = @{@"key":[UserManager key]};
+
+    }
+    
+    [[HttpRequestManager sharedSingleton] POST:userClassInfo parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            ClassHomeModel * model = [ClassHomeModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+            [self makeTheClassInformationViewControllerUI:model];
+        }else
+        {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            }else
+            {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+        
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
+}
+
+- (void)makeTheClassInformationViewControllerUI:(ClassHomeModel *)model {
+    
+  
+    
     self.backImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.backImgView.image = [UIImage imageNamed:@"背景图"];
     [self.view addSubview:self.backImgView];
@@ -48,68 +90,74 @@
     self.headImgView.image = [UIImage imageNamed:@"班级信息"];
     [self.backImgView addSubview:self.headImgView];
     
+   
+    
     self.bgView = [[UIView alloc] initWithFrame:CGRectMake(40, self.headImgView.frame.size.height + 40, APP_WIDTH - 80, APP_HEIGHT * 0.65)];
     self.bgView.backgroundColor = whiteTMColor;
     [self.backImgView addSubview:self.bgView];
     
-    self.chargeLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 80, 30)];
+    self.userIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.bgView.frame.size.width / 2 - 25, 10, 50, 50)];
+    self.userIcon.layer.cornerRadius = 25;
+    self.userIcon.layer.masksToBounds = YES;
+    [self.userIcon sd_setImageWithURL:[NSURL URLWithString:model.class_head_img]];
+    [self.bgView addSubview:self.userIcon];
+
+    self.chargeLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 80, 80, 20)];
     self.chargeLabel.text = @"班级主任:";
     self.chargeLabel.textColor = [UIColor blackColor];
     self.chargeLabel.font = titFont;
     [self.bgView addSubview:self.chargeLabel];
     
-    self.chargeNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.chargeLabel.frame.size.width + 30, 20, 100, 30)];
-    self.chargeNameLabel.text = @"上官欧阳";
+    self.chargeNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.chargeLabel.frame.size.width + 30, 80, 100, 20)];
+    self.chargeNameLabel.text = model.adviser_name;
     self.chargeNameLabel.textColor = titlColor;
     self.chargeNameLabel.font = titFont;
     self.chargeNameLabel.textAlignment = NSTextAlignmentLeft;
     [self.bgView addSubview:self.chargeNameLabel];
     
-    self.teachersLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, self.chargeLabel.frame.size.height + 20, self.chargeLabel.frame.size.width, 30)];
+    self.teachersLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, self.chargeLabel.frame.size.height + self.chargeLabel.frame.origin.y + 10, self.chargeLabel.frame.size.width, 20)];
     self.teachersLabel.text = @"科任老师:";
     self.teachersLabel.textColor = [UIColor blackColor];
     self.teachersLabel.font = titFont;
     [self.bgView addSubview:self.teachersLabel];
     
-    self.teachersNameLael = [[UILabel alloc] initWithFrame:CGRectMake(self.teachersLabel.frame.size.width + 30, self.chargeLabel.frame.size.height + 20, 200, 30)];
-    self.teachersNameLael.text = @"上官欧阳(语文)";
-    self.teachersNameLael.textColor = titlColor;
-    self.teachersNameLael.font = titFont;
-    self.teachersNameLael.textAlignment = NSTextAlignmentLeft;
-    [self.bgView addSubview:self.teachersNameLael];
+    for (int i = 0; i < model.teachers.count; i++ ) {
+        self.teachersNameLael = [[UILabel alloc] initWithFrame:CGRectMake(self.teachersLabel.frame.size.width + 30, self.chargeLabel.frame.size.height + self.chargeLabel.frame.origin.y  + 10 * (i + 1) + 20 * (i), 200, 20)];
+        NSDictionary * dic = [model.teachers objectAtIndex:i];
+        self.teachersNameLael.text = [NSString stringWithFormat:@"%@(%@)",[dic objectForKey:@"teacher_name"], [dic objectForKey:@"course_name"]];
+        self.teachersNameLael.textColor = titlColor;
+        self.teachersNameLael.font = titFont;
+        self.teachersNameLael.textAlignment = NSTextAlignmentLeft;
+        [self.bgView addSubview:self.teachersNameLael];
+        
+    }
+    self.hnew = self.chargeLabel.frame.size.height + self.chargeLabel.frame.origin.y + 30 * model.teachers.count;
+
+   
     
-    self.dryLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, self.chargeLabel.frame.size.height + self.teachersLabel.frame.size.height + 20, self.chargeLabel.frame.size.width, 30)];
-    self.dryLabel.text = @"班委班干:";
-    self.dryLabel.textColor = [UIColor blackColor];
-    self.dryLabel.font = titFont;
-    [self.bgView addSubview:self.dryLabel];
+   
     
-    self.dryNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.dryLabel.frame.size.width + 30, self.chargeLabel.frame.size.height + self.teachersLabel.frame.size.height + 20, self.teachersNameLael.frame.size.width, 30)];
-    self.dryNameLabel.text = @"上官云飞";
-    self.dryNameLabel.textColor = titlColor;
-    self.dryNameLabel.font = titFont;
-    [self.bgView addSubview:self.dryNameLabel];
     
-    self.numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, self.chargeLabel.frame.size.height + self.teachersLabel.frame.size.height + self.dryLabel.frame.size.height + 20, self.chargeLabel.frame.size.width, 30)];
+    self.numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, self.hnew + 10, self.chargeLabel.frame.size.width, 20)];
     self.numberLabel.text = @"班级人数:";
     self.numberLabel.textColor = [UIColor blackColor];
     self.numberLabel.font = titFont;
     [self.bgView addSubview:self.numberLabel];
-    
-    self.numberPeopleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.numberLabel.frame.size.width + 30, self.chargeLabel.frame.size.height + self.teachersLabel.frame.size.height + self.dryLabel.frame.size.height + 20, self.teachersNameLael.frame.size.width, 30)];
-    self.numberPeopleLabel.text = @"36人";
+
+    self.numberPeopleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.numberLabel.frame.size.width + 30, self.hnew + 10, self.teachersNameLael.frame.size.width, 20)];
+    self.numberPeopleLabel.text = [NSString stringWithFormat:@"%ld人", model.num];
     self.numberPeopleLabel.textColor = titlColor;
     self.numberPeopleLabel.font = titFont;
     [self.bgView addSubview:self.numberPeopleLabel];
-    
-    self.remarkLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, self.chargeLabel.frame.size.height + self.teachersLabel.frame.size.height + self.dryLabel.frame.size.height + self.numberLabel.frame.size.height + 20, self.chargeLabel.frame.size.width, 30)];
+//
+    self.remarkLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, self.numberLabel.frame.origin.y + self.numberLabel.frame.size.height + 10, self.chargeLabel.frame.size.width, 20)];
     self.remarkLabel.text = @"班级寄语:";
     self.remarkLabel.textColor = [UIColor blackColor];
     self.remarkLabel.font = titFont;
     [self.bgView addSubview:self.remarkLabel];
-    
-    self.remarksLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.remarkLabel.frame.size.width + 30, self.chargeLabel.frame.size.height + self.teachersLabel.frame.size.height + self.dryLabel.frame.size.height + self.numberLabel.frame.size.height , self.bgView.frame.size.width - self.remarkLabel.frame.size.width - 50, 90)];
-    self.remarksLabel.text = @"努力不一定有收获, 但是不努力一定没有收获。";
+
+    self.remarksLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.remarkLabel.frame.size.width + 30,  self.remarkLabel.frame.origin.y , self.bgView.frame.size.width - self.remarkLabel.frame.size.width - 50, 90)];
+    self.remarksLabel.text = model.message;
     self.remarksLabel.textColor = titlColor;
     self.remarksLabel.font = titFont;
     self.remarksLabel.lineBreakMode = NSLineBreakByWordWrapping;

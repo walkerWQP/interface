@@ -10,12 +10,16 @@
 #import "PublicClassCell.h"
 #import "PublicClassModel.h"
 #import "VideoSettingsViewController.h"
+#import "TeacherZaiXianDetailsViewController.h"
 
 @interface PublicClassViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) NSMutableArray  *publicClassArr;
 @property (nonatomic, strong) UICollectionView *publicClassCollectionView;
 @property (nonatomic, strong) UIImageView *zanwushuju;
+
+@property (nonatomic, assign) NSInteger     page;
+@property (nonatomic, strong) NSString     *videoID;
 
 @end
 
@@ -28,9 +32,9 @@
     return _publicClassArr;
 }
 
-- (void)viewDidLoad {  //公开课
-    [super viewDidLoad];
-    [self getDataFromMyPublishListURL];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.page = 1;
     
     [self makePublicClassViewControllerUI];
     
@@ -38,17 +42,48 @@
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
     [self.publicClassCollectionView addSubview:self.zanwushuju];
+    //下拉刷新
+    self.publicClassCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.publicClassCollectionView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.publicClassCollectionView.mj_header beginRefreshing];
+    //上拉刷新
+    self.publicClassCollectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
 }
 
-- (void)getDataFromMyPublishListURL {
-    NSDictionary *dic = @{@"key":[UserManager key],@"is_charge":@"0"};
+- (void)viewDidLoad {  //公开课
+    [super viewDidLoad];
+    
+    
+}
+
+- (void)loadNewTopic {
+    self.page = 1;
+    [self.publicClassArr removeAllObjects];
+    [self getDataFromMyPublishListURL:self.page];
+}
+
+- (void)loadMoreTopic {
+    self.page += 1;
+    [self getDataFromMyPublishListURL:self.page];
+}
+
+- (void)getDataFromMyPublishListURL:(NSInteger)page {
+    NSDictionary *dic = @{@"key":[UserManager key],@"is_charge":@"0",@"page":[NSString stringWithFormat:@"%ld",page]};
     [[HttpRequestManager sharedSingleton] POST:myPublishListURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        //结束头部刷新
+        [self.publicClassCollectionView.mj_header endRefreshing];
+        //结束尾部刷新
+        [self.publicClassCollectionView.mj_footer endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
-            self.publicClassArr = [PublicClassModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            NSMutableArray *arr = [PublicClassModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            for (PublicClassModel *model in arr) {
+                [self.publicClassArr addObject:model];
+            }
             if (self.publicClassArr.count == 0) {
                 self.zanwushuju.alpha = 1;
-
             } else {
                 self.zanwushuju.alpha = 0;
                 [self.publicClassCollectionView reloadData];
@@ -97,6 +132,7 @@
     PublicClassModel *model = [self.publicClassArr objectAtIndex:indexPath.row];
     [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
     cell.contentLabel.text = model.title;
+    self.videoID = model.ID;
     [cell.playBtn addTarget:self action:@selector(playBtn:) forControlEvents:UIControlEventTouchUpInside];
     [cell.setUpBtn addTarget:self action:@selector(setUpBtn:) forControlEvents:UIControlEventTouchUpInside];
     gridcell = cell;
@@ -106,6 +142,9 @@
 
 - (void)playBtn : (UIButton *)sender {
     NSLog(@"点击播放按钮");
+    
+    TeacherZaiXianDetailsViewController *teacherZaiXianDetailsVC = [[TeacherZaiXianDetailsViewController alloc] init]; teacherZaiXianDetailsVC.teacherZaiXianDetailsId = self.videoID;
+    [self.navigationController pushViewController:teacherZaiXianDetailsVC animated:YES];
 }
 
 - (void)setUpBtn : (UIButton *)sender {
@@ -133,9 +172,9 @@
     
     NSLog(@"%ld",indexPath.row);
     PublicClassModel *model = [self.publicClassArr objectAtIndex:indexPath.row];
-    VideoSettingsViewController *videoSettingsVC = [[VideoSettingsViewController alloc] init];
-    videoSettingsVC.ID = model.ID;
-    [self.navigationController pushViewController:videoSettingsVC animated:YES];
+    TeacherZaiXianDetailsViewController *teacherZaiXianDetailsVC = [[TeacherZaiXianDetailsViewController alloc] init];
+    teacherZaiXianDetailsVC.teacherZaiXianDetailsId = model.ID;
+    [self.navigationController pushViewController:teacherZaiXianDetailsVC animated:YES];
 }
 
 @end

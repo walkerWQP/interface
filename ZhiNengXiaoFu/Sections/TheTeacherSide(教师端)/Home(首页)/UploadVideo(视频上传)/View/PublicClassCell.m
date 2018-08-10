@@ -47,6 +47,7 @@
     [self.setUpBtn setTitle:@"设置" forState:UIControlStateNormal];
     self.setUpBtn.titleLabel.font = contentFont;
     [self.contentView addSubview:self.setUpBtn];
+    self.setUpBtn.hidden = YES;
     
     
     

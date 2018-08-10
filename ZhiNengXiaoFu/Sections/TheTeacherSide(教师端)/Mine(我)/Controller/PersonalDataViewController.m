@@ -56,7 +56,12 @@
     if (indexPath.row == 0) {
         PersonIconCell * cell = [tableView dequeueReusableCellWithIdentifier:@"PersonIconCellId" forIndexPath:indexPath];
         cell.nameLabel.text = @"头像";
-        [cell.iConImg sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:nil];
+        
+        if (self.personInfo.head_img == nil) {
+            cell.iConImg.image = [UIImage imageNamed:@"user"];
+        } else {
+            [cell.iConImg sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:nil];
+        }
         return cell;
     } else {
         PersonInfomationCell * cell = [tableView dequeueReusableCellWithIdentifier:@"PersonInfomationCellId" forIndexPath:indexPath];

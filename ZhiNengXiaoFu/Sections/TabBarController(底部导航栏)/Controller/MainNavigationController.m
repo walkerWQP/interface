@@ -42,6 +42,8 @@
     mDict[NSForegroundColorAttributeName] = [UIColor whiteColor];
     navbar.titleTextAttributes = mDict;
     
+
+    
     //去掉黑线
     [navbar setShadowImage:[[UIImage alloc] init]];
     

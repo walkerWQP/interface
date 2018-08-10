@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TeacherZaiXianDetailsModel.h"
 
 @interface ShiPinListViewController : UIViewController
+@property (nonatomic, strong) TeacherZaiXianDetailsModel * teacherZaiXianDetailsModel;
 
 @end

@@ -8,12 +8,16 @@
 
 #import "HelperCenterViewController.h"
 #import "ClassHomePageItemCell.h"
+#import "AdviceFeedbackViewController.h"
+#import "HelperCenterModel.h"
 
 @interface HelperCenterViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * HelperCenterTableView;
 @property (nonatomic, strong) NSMutableArray * HelperCenterAry;
-
+@property (nonatomic, strong) HelperCenterModel * helperCenterModel;
+@property (nonatomic, strong) UIWebView * webView;
+@property (nonatomic, strong) UIView * back;
 @end
 
 @implementation HelperCenterViewController
@@ -28,6 +32,30 @@
     [self.view addSubview:self.HelperCenterTableView];
     [self.HelperCenterTableView registerClass:[ClassHomePageItemCell class] forCellReuseIdentifier:@"ClassHomePageItemCellId"];
     self.HelperCenterTableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
+    [self setNetWork];
+}
+
+- (void)setNetWork
+{
+    NSDictionary * dic = @{@"key":[UserManager key]};
+    [[HttpRequestManager sharedSingleton] POST:userContactUs parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            self.helperCenterModel = [HelperCenterModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+        }else
+        {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            }else
+            {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+        NSLog(@"%@", responseObject);
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
 }
 
 - (NSMutableArray *)HelperCenterAry
@@ -188,6 +216,74 @@
     {
         return 50;
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"%ld",(long)indexPath.row);
+    
+    switch (indexPath.section) {
+        case 1:
+        {
+            if (indexPath.row == 0) {
+                NSLog(@"拨打电话");
+                
+                if (_webView == nil) {
+                    _webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+                }
+                [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", self.helperCenterModel.phone]]]];
+            }
+            
+            if (indexPath.row) {
+                NSLog(@"qq联系");
+                UIWebView *webView = [[UIWebView alloc] init];
+                
+                NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"mqq://im/chat?chat_type=wpa&uin=%@&version=1&src_type=web", self.helperCenterModel.qq]];
+                
+                NSURLRequest *request = [NSURLRequest requestWithURL:url];
+                
+                webView.delegate = self;
+                
+                [webView loadRequest:request];
+                
+                [self.view addSubview:webView];
+            }
+        }
+            break;
+        case 2:
+        {
+            NSLog(@"关注我们");
+            self.back = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+            self.back.backgroundColor = [UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.8];
+            [[[UIApplication sharedApplication] keyWindow] addSubview:self.back];
+            
+            UIImageView * img = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth / 2 - 100, kScreenHeight / 2 - 100, 200, 200)];
+            [img sd_setImageWithURL:[NSURL URLWithString:self.helperCenterModel.wx] placeholderImage:nil];
+            [self.back addSubview:img];
+            
+            UITapGestureRecognizer * imgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgTap:)];
+            self.back.userInteractionEnabled = YES;
+            [self.back addGestureRecognizer:imgTap];
+            
+        }
+            break;
+        case 3:
+        {
+            NSLog(@"建议与反馈");
+            AdviceFeedbackViewController *adviceFeedbackVC = [[AdviceFeedbackViewController alloc] init];
+            [self.navigationController pushViewController:adviceFeedbackVC animated:YES];
+        }
+            break;
+            
+            
+        default:
+            break;
+    }
+    
+}
+
+- (void)imgTap:(UITapGestureRecognizer *)sender
+{
+    [self.back removeFromSuperview];
 }
 
 - (void)didReceiveMemoryWarning {

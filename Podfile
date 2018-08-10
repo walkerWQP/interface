@@ -7,5 +7,6 @@ pod 'MJExtension', '~> 3.0.15.1'
 pod 'AMap3DMap'
 pod 'AMapSearch'
 pod 'AMapLocation'
-pod 'MJRefresh' 
+pod 'MJRefresh'
+pod 'WebViewJavascriptBridge'
 end

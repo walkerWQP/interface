@@ -28,6 +28,7 @@ PODS:
   - SDWebImage (4.4.2):
     - SDWebImage/Core (= 4.4.2)
   - SDWebImage/Core (4.4.2)
+  - WebViewJavascriptBridge (6.0.3)
 
 DEPENDENCIES:
   - AFNetworking
@@ -38,6 +39,7 @@ DEPENDENCIES:
   - MJRefresh
   - SDCycleScrollView
   - SDWebImage
+  - WebViewJavascriptBridge
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -50,6 +52,7 @@ SPEC REPOS:
     - MJRefresh
     - SDCycleScrollView
     - SDWebImage
+    - WebViewJavascriptBridge
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
@@ -61,7 +64,8 @@ SPEC CHECKSUMS:
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
   SDCycleScrollView: 884b88f0266dd4708a0e1934975c69cb971707b1
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
+  WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
 
-PODFILE CHECKSUM: 04a127bfb50134d17ff5c003618ff866b003f1e6
+PODFILE CHECKSUM: a06a6ee7705edc89d18ac3164f3b21ce031d4df3
 
 COCOAPODS: 1.5.3

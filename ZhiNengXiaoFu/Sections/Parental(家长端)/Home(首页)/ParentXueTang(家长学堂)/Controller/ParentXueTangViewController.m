@@ -10,6 +10,7 @@
 #import "ChildJiaoYuViewController.h"
 #import "HeartHealtyViewController.h"
 @interface ParentXueTangViewController ()
+
 @property (nonatomic,strong) JohnTopTitleView *titleView;
 
 @end

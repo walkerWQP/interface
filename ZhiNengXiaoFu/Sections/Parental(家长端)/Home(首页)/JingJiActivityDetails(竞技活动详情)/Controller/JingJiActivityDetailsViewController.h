@@ -6,9 +6,9 @@
 //  Copyright © 2018年 henanduxiu. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface JingJiActivityDetailsViewController : UIViewController
+@interface JingJiActivityDetailsViewController : BaseViewController
 
 @property (nonatomic, copy) NSString * JingJiActivityDetailsId;
 @end

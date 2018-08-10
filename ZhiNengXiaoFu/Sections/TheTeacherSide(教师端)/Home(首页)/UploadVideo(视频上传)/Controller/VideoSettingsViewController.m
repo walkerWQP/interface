@@ -40,6 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"设置";
+    self.is_chargeStr = @"0";
     [self makeVideoSettingsViewControllerUI];
 }
 
@@ -192,7 +193,19 @@
 - (void)saveBtn : (UIButton *)sender {
     NSLog(@"点击发布");
     
-    NSDictionary *dic = @{@"key":[UserManager key],@"id":self.ID,@"title":self.titleField.text,@"introduce":self.describeTextView.text,@"is_charge":self.is_chargeStr,@"price":self.costTextField.text};
+    NSLog(@"%@",self.ID);
+    NSLog(@"%@",self.titleField.text);
+    NSLog(@"%@",self.describeTextView.text);
+    NSLog(@"%@",self.is_chargeStr);
+    NSLog(@"%@",self.costTextField.text);
+    NSDictionary *dic = [NSDictionary dictionary];
+    if ([self.is_chargeStr isEqualToString:@"0"]) {
+        dic = @{@"key":[UserManager key],@"id":self.ID,@"title":self.titleField.text,@"introduce":self.describeTextView.text,@"is_charge":self.is_chargeStr};
+    } else {
+        dic = @{@"key":[UserManager key],@"id":self.ID,@"title":self.titleField.text,@"introduce":self.describeTextView.text,@"is_charge":self.is_chargeStr,@"price":self.costTextField.text};
+    }
+    
+    
     [[HttpRequestManager sharedSingleton] POST:toUpdateURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];

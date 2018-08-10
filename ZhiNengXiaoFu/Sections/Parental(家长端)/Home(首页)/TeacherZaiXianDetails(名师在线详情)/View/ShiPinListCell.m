@@ -44,7 +44,7 @@
     self.naozhongImg.image = [UIImage imageNamed:@"时间"];
     [self addSubview:self.naozhongImg];
     
-    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.naozhongImg.frame.size.width + self.naozhongImg.frame.origin.x + 5, self.naozhongImg.frame.origin.y, 100, 20)];
+    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.naozhongImg.frame.size.width + self.naozhongImg.frame.origin.x + 5, self.naozhongImg.frame.origin.y - 4, 100, 20)];
     self.timeLabel.textColor = COLOR(117, 117, 117, 1);
     self.timeLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:self.timeLabel];

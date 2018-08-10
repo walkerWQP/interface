@@ -102,7 +102,11 @@
     UICollectionViewCell *gridcell = nil;
     TeacherNotifiedCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TeacherNotifiedCell_CollectionView forIndexPath:indexPath];
     TeacherNotifiedModel *model = [self.signArr objectAtIndex:indexPath.row];
-    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];
+    if ([model.head_img isEqualToString:@""]) {
+        cell.headImgView.image = [UIImage imageNamed:@"user"];
+    } else {
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];
+    }
     cell.classLabel.text = model.name;
     gridcell = cell;
     return gridcell;

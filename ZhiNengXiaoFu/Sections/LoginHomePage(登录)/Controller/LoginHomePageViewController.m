@@ -54,6 +54,9 @@
     self.parentChooseState = 1;
     self.teacherChooseState = 0;
     
+    
+    
+    
     //logo
     UIImageView * logoImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 43, backView.frame.origin.y + 20, 86, 63)];
     logoImg.image = [UIImage imageNamed:@"logo"];
@@ -152,6 +155,20 @@
     [loginBtn addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchDown];
     loginBtn.userInteractionEnabled = YES;
     [self.view addSubview:loginBtn];
+    
+    
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"shifouJizhuLogin"] isEqualToString:@"1"]) {
+        self.zhangHaoTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"userName"];
+        self.miMaTextfield.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"userMiMa"];
+        self.jizhuLoginChooseState = 1;
+        [self.chooseBtn setBackgroundImage:[UIImage imageNamed:@"对勾"] forState:UIControlStateNormal];
+    }else
+    {
+        self.jizhuLoginChooseState = 0;
+           [self.chooseBtn setBackgroundImage:[UIImage imageNamed:@"圆角矩形"] forState:UIControlStateNormal];
+
+    }
 }
 
 //家长选择
@@ -178,18 +195,13 @@
     if (self.jizhuLoginChooseState == 0) {
         [self.chooseBtn setBackgroundImage:[UIImage imageNamed:@"对勾"] forState:UIControlStateNormal];
         self.jizhuLoginChooseState = 1;
-        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"shifouJizhuLogin"];
-        [[NSUserDefaults standardUserDefaults] setObject:self.zhangHaoTextField.text forKey:@"userName"];
-        [[NSUserDefaults standardUserDefaults] setObject:self.miMaTextfield.text forKey:@"userMiMa"];
+      
 
     }else
     {
         [self.chooseBtn setBackgroundImage:[UIImage imageNamed:@"圆角矩形"] forState:UIControlStateNormal];
         self.jizhuLoginChooseState = 0;
         
-        [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"shifouJizhuLogin"];
-        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"userName"];
-        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"userMiMa"];
     }
 }
 
@@ -207,34 +219,48 @@
             chooseLoginState = @"1";
         }
         
-//        if ([self.zhangHaoTextField.text isEqualToString:@""] ) {
-//            [EasyShowTextView showImageText:@"请输入用户名" imageName:@"icon_sym_toast_warning_56_w100"];
-//
-//        }else if ([self.miMaTextfield.text isEqualToString:@""])
-//        {
-//            [EasyShowTextView showImageText:@"请输入密码" imageName:@"icon_sym_toast_warning_56_w100"];
-//
-//        }else
-//        {
+        if ([self.zhangHaoTextField.text isEqualToString:@""] ) {
+            [EasyShowTextView showImageText:@"请输入用户名" imageName:@"icon_sym_toast_warning_56_w100"];
+
+        }else if ([self.miMaTextfield.text isEqualToString:@""])
+        {
+            [EasyShowTextView showImageText:@"请输入密码" imageName:@"icon_sym_toast_warning_56_w100"];
+
+        }else
+        {
         
             NSString * newstr = [Encryption MD5ForLower32Bate:@"iosduxiu2018"];
-            NSString * passwordStr = [Encryption MD5ForLower32Bate:@"123456"];
+            NSString * passwordStr = [Encryption MD5ForLower32Bate:self.miMaTextfield.text];
             NSString * system = [[SingletonHelper manager] encode:@"ios"];
 
-            NSDictionary * dic = @{@"usernum":@"aa012", @"password":passwordStr, @"identity":chooseLoginState, @"system":system, @"sign":newstr};
+            NSDictionary * dic = @{@"usernum":self.zhangHaoTextField.text, @"password":passwordStr, @"identity":chooseLoginState, @"system":system, @"sign":newstr};
             [[HttpRequestManager sharedSingleton] POST:LOGIN parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
                 NSLog(@"%@",responseObject);
                 
                 if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+                    
+                    
+                    if (self.jizhuLoginChooseState == 1) {
+                     
+                        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"shifouJizhuLogin"];
+                        [[NSUserDefaults standardUserDefaults] setObject:self.zhangHaoTextField.text forKey:@"userName"];
+                        [[NSUserDefaults standardUserDefaults] setObject:self.miMaTextfield.text forKey:@"userMiMa"];
+                        
+                    }else
+                    {
+                        
+                        [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"shifouJizhuLogin"];
+                        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"userName"];
+                        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"userMiMa"];
+                    }
+                    
+                    
                     if (self.teacherChooseState == 1) {
                         [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:@"chooseLoginState"];
                     }else if (self.parentChooseState == 1)
                     {
                         [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"chooseLoginState"];
                     }
-                    
-
-                    
                     
                     self.personInfoModel = [PersonInformationModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
                     
@@ -273,7 +299,7 @@
             } failure:^(NSURLSessionDataTask *task, NSError *error) {
                 NSLog(@"%@", error);
             }];
-//        }
+     }
         
         
        

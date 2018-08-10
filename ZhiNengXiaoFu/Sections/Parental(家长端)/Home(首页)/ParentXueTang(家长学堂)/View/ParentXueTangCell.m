@@ -24,6 +24,8 @@
     self.ShiPinListImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 111, 92)];
     self.ShiPinListImg.image = [UIImage imageNamed:@"视频列表"];
     [self addSubview:self.ShiPinListImg];
+    self.ShiPinListImg.contentMode=UIViewContentModeScaleAspectFill;
+    self.ShiPinListImg.clipsToBounds=YES;
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.ShiPinListImg.frame.origin.x + self.ShiPinListImg.frame.size.width + 10, 20, 200, 20)];
     self.titleLabel.font = [UIFont systemFontOfSize:14];

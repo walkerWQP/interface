@@ -13,6 +13,7 @@
 #import "QianDaoModel.h"
 #import "QianDaoInModel.h"
 @interface QianDaoViewController ()<UITableViewDelegate, UITableViewDataSource>
+@property (nonatomic,weak) CLPlayerView *playerView;
 
 @property (nonatomic, strong) UITableView * QianDaoTableView;
 @property (nonatomic, strong) NSMutableArray * QianDaoAry;
@@ -157,7 +158,7 @@
     if (indexPath.section == 0) {
         QianDaoPsersonCell * cell = [tableView dequeueReusableCellWithIdentifier:@"QianDaoPsersonCellId" forIndexPath:indexPath];
         cell.itemLabel.text = [UserManager getUserObject].name;
-        [cell.itemImg sd_setImageWithURL:[NSURL URLWithString:[UserManager getUserObject].head_img] placeholderImage:nil];
+        [cell.itemImg sd_setImageWithURL:[NSURL URLWithString:[UserManager getUserObject].head_img] placeholderImage:[UIImage imageNamed:@"user"]];
         cell.selectionStyle =  UITableViewCellSelectionStyleNone;
         return cell;
     }else
@@ -201,33 +202,86 @@
     }
 }
 
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
         
     }else
     {
-        self.backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
-        self.backView.backgroundColor = COLOR(0, 0, 0, 0.2);
-        UITapGestureRecognizer * backTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backTap:)];
-        self.backView.userInteractionEnabled = YES;
-        [self.backView addGestureRecognizer:backTap];
-        [[[UIApplication sharedApplication] keyWindow] addSubview:self.backView];
+        QianDaoInModel * model = [self.QianDaoAry objectAtIndex:indexPath.row];
+//        self.backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+//        self.backView.backgroundColor = COLOR(0, 0, 0, 0.2);
+//        UITapGestureRecognizer * backTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backTap:)];
+//        self.backView.userInteractionEnabled = YES;
+//        [self.backView addGestureRecognizer:backTap];
+//        [[[UIApplication sharedApplication] keyWindow] addSubview:self.backView];
         
-        UIImageView * img = [[UIImageView alloc] initWithFrame:CGRectMake(15, kScreenHeight / 2 - (kScreenWidth - 30) * 210 / 345 / 2, kScreenWidth - 30 , (kScreenWidth - 30) * 210 / 345)];
-        img.image = [UIImage imageNamed:@"监控"];
-        UITapGestureRecognizer * imgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgTap:)];
-        img.userInteractionEnabled = YES;
-        [img addGestureRecognizer:imgTap];
-        [self.backView addSubview:img];
         
-        UIImageView * close = [[UIImageView alloc] initWithFrame:CGRectMake(img.frame.size.width + img.frame.origin.x - 10, img.frame.origin.y - 10, 20 , 20)];
-        close.image = [UIImage imageNamed:@"guanbi"];
-        UITapGestureRecognizer * closeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeTap:)];
-        close.userInteractionEnabled = YES;
-        [close addGestureRecognizer:closeTap];
-        [self.backView addSubview:close];
+        CLPlayerView *playerView = [[CLPlayerView alloc] initWithFrame:CGRectMake(0, 0, self.view.CLwidth , 200)];
+        playerView.maskView.fullButton.alpha = 0;
+        _playerView = playerView;
+        
+        [self.view addSubview:_playerView];
+        
+        //    //重复播放，默认不播放
+        _playerView.repeatPlay = YES;
+        //    //当前控制器是否支持旋转，当前页面支持旋转的时候需要设置，告知播放器
+        _playerView.isLandscape = YES;
+        //    //设置等比例全屏拉伸，多余部分会被剪切
+        //    _playerView.fillMode = ResizeAspectFill;
+        //    //设置进度条背景颜色
+        //    _playerView.progressBackgroundColor = [UIColor purpleColor];
+        //    //设置进度条缓冲颜色
+        //    _playerView.progressBufferColor = [UIColor redColor];
+        //    //设置进度条播放完成颜色
+        //    _playerView.progressPlayFinishColor = [UIColor greenColor];
+        //    //全屏是否隐藏状态栏
+        //    _playerView.fullStatusBarHidden = NO;
+        //    //是否静音，默认NO
+        //    _playerView.mute = YES;
+        //    //转子颜色
+        //    _playerView.strokeColor = [UIColor redColor];
+        //视频地址
+             _playerView.url = [NSURL URLWithString:@"http://c31.aipai.com/user/128/31977128/1006/card/44340096/card.mp4?l=f&ip=1"];
+//            _playerView.url = [NSURL URLWithString:model.video];
+        //播放
+        [_playerView playVideo];
+        //返回按钮点击事件回调
+        [_playerView backButton:^(UIButton *button) {
+            NSLog(@"返回按钮被点击");
+            //查询是否是全屏状态
+            NSLog(@"%d",_playerView.isFullScreen);
+        }];
+        //播放完成回调
+        [_playerView endPlay:^{
+            //销毁播放器
+            //        [_playerView destroyPlayer];
+            //        _playerView = nil;
+            NSLog(@"播放完成");
+        }];
+//        UIImageView * img = [[UIImageView alloc] initWithFrame:CGRectMake(15, kScreenHeight / 2 - (kScreenWidth - 30) * 210 / 345 / 2, kScreenWidth - 30 , (kScreenWidth - 30) * 210 / 345)];
+//        img.image = [UIImage imageNamed:@"监控"];
+//        UITapGestureRecognizer * imgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgTap:)];
+//        img.userInteractionEnabled = YES;
+//        [img addGestureRecognizer:imgTap];
+//        [self.backView addSubview:img];
+        
+        
+        
+//        UIImageView * close = [[UIImageView alloc] initWithFrame:CGRectMake(_playerView.frame.size.width + _playerView.frame.origin.x - 10, _playerView.frame.origin.y - 10, 20 , 20)];
+//        close.image = [UIImage imageNamed:@"guanbi"];
+//        UITapGestureRecognizer * closeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeTap:)];
+//        close.userInteractionEnabled = YES;
+//        [close addGestureRecognizer:closeTap];
+//        [self.backView addSubview:close];
     }
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [_playerView destroyPlayer];
+    _playerView = nil;
 }
 
 - (void)dingweiClick:(UIBarButtonItem *)sender
@@ -243,11 +297,30 @@
 - (void)closeTap:(UITapGestureRecognizer *)sender
 {
     [self.backView removeFromSuperview];
+    [_playerView destroyPlayer];
+    _playerView = nil;
 }
 
 - (void)backTap:(UITapGestureRecognizer *)sender
 {
     [self.backView removeFromSuperview];
+    
+}
+
+#pragma mark -- 需要设置全局支持旋转方向，然后重写下面三个方法可以让当前页面支持多个方向
+// 是否支持自动转屏
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+// 支持哪些屏幕方向
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAll;
+}
+
+// 默认的屏幕方向（当前ViewController必须是通过模态出来的UIViewController（模态带导航的无效）方式展现出来的，才会调用这个方法）
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return UIInterfaceOrientationPortrait;
 }
 
 - (void)didReceiveMemoryWarning {

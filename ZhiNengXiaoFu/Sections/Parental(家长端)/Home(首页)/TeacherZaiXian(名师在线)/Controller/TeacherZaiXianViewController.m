@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) UITableView * TeacherZaiXianTableView;
 @property (nonatomic, strong) NSMutableArray * TeacherZaiXianAry;
+@property (nonatomic, assign) NSInteger     page;
 
 @end
 
@@ -29,13 +30,37 @@
     self.TeacherZaiXianTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.TeacherZaiXianTableView registerClass:[TeacherZhuanLanCell class] forCellReuseIdentifier:@"TeacherZhuanLanCellId"];
     
-    [self setNetWork];
+//    [self setNetWork];
+    
+    //下拉刷新
+    self.TeacherZaiXianTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.TeacherZaiXianTableView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.TeacherZaiXianTableView.mj_header beginRefreshing];
+    //上拉刷新
+    self.TeacherZaiXianTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
 }
 
-- (void)setNetWork
+- (void)loadNewTopic {
+    self.page = 1;
+    [self.TeacherZaiXianAry removeAllObjects];
+    [self setNetWork:self.page];
+}
+
+- (void)loadMoreTopic {
+    self.page += 1;
+    [self setNetWork:self.page];
+}
+
+- (void)setNetWork:(NSInteger)page
 {
-    NSDictionary * dic = @{@"key":[UserManager key]};
+    NSDictionary * dic = @{@"key":[UserManager key], @"page":[NSString stringWithFormat:@"%ld",page]};
     [[HttpRequestManager sharedSingleton] POST:onlineVideoList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        //结束头部刷新
+        [self.TeacherZaiXianTableView.mj_header endRefreshing];
+        //结束尾部刷新
+        [self.TeacherZaiXianTableView.mj_footer endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200)
         {
             NSMutableArray *arr = [TeacherZaiXianModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
@@ -111,7 +136,7 @@
         [teacherZhuanLanView addSubview:teacherZhuanLanImg];
         
         
-        UILabel * teacherZhuanLanLabel = [[UILabel alloc] initWithFrame:CGRectMake(teacherZhuanLanImg.frame.origin.x + teacherZhuanLanImg.frame.size.width + 10, 20, 70, 20)];
+        UILabel * teacherZhuanLanLabel = [[UILabel alloc] initWithFrame:CGRectMake(teacherZhuanLanImg.frame.origin.x + teacherZhuanLanImg.frame.size.width + 10, 18, 70, 20)];
         teacherZhuanLanLabel.text = @"名师专栏";
         teacherZhuanLanLabel.font = [UIFont systemFontOfSize:14];
         teacherZhuanLanLabel.textColor = [UIColor blackColor];
@@ -167,7 +192,7 @@
         TeacherZhuanLanCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TeacherZhuanLanCellId" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         TeacherZaiXianModel * model = [self.TeacherZaiXianAry objectAtIndex:indexPath.row];
-        [cell.UserIcon sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];
+        [cell.UserIcon sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
         cell.UserName.text = model.name;
         cell.titleLabel.text = model.title;
         cell.subTitleLabel.text = model.honor;

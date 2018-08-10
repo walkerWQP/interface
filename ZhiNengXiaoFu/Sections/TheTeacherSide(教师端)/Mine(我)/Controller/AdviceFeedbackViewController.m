@@ -10,7 +10,7 @@
 
 @interface AdviceFeedbackViewController ()<UITextFieldDelegate>
 
-@property (nonatomic, strong) UITextField   *themeTextField;
+
 @property (nonatomic, strong) WTextView     *contentTextView;
 @property (nonatomic, strong) UIButton    *submitBtn;
 
@@ -26,26 +26,18 @@
 
 - (void)makeAdviceFeedbackViewControllerUI {
     
-    self.themeTextField = [[UITextField alloc] initWithFrame:CGRectMake(20, 20, APP_WIDTH - 40, 40)];
-    self.themeTextField.backgroundColor = [UIColor whiteColor];
-    self.themeTextField.font = contentFont;
-    self.themeTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"主题" attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:157/255.0 green:157/255.0 blue:157/255.0 alpha:1.0]}];
-    self.themeTextField.delegate = self;
-    self.themeTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    [self.view addSubview:self.themeTextField];
-    
-    self.contentTextView = [[WTextView alloc] initWithFrame:CGRectMake(20, self.themeTextField.frame.size.height + 40, APP_WIDTH - 40, APP_HEIGHT * 0.3)];
+    self.contentTextView = [[WTextView alloc] initWithFrame:CGRectMake(20, 40, APP_WIDTH - 40, APP_HEIGHT * 0.3)];
     self.contentTextView.backgroundColor = [UIColor whiteColor];
 //    self.contentTextView.layer.masksToBounds = YES;
 //    self.contentTextView.layer.cornerRadius = 5;
 //    self.contentTextView.layer.borderColor = fengeLineColor.CGColor;
 //    self.contentTextView.layer.borderWidth = 1.0f;
     self.contentTextView.font = contentFont;
-    self.contentTextView.placeholder = @"请输入活动内容...";
+    self.contentTextView.placeholder = @"请输入反馈内容...";
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.contentTextView];
     
-    self.submitBtn = [[UIButton alloc] initWithFrame:CGRectMake(40, self.themeTextField.frame.size.height + self.contentTextView.frame.size.height + 80, APP_WIDTH - 80, 40)];
+    self.submitBtn = [[UIButton alloc] initWithFrame:CGRectMake(40, self.contentTextView.frame.size.height + 80, APP_WIDTH - 80, 40)];
     self.submitBtn.backgroundColor = THEMECOLOR;
     [self.submitBtn setTitle:@"提交" forState:UIControlStateNormal];
     self.submitBtn.layer.masksToBounds = YES;
@@ -62,6 +54,35 @@
 
 - (void)submitBtn : (UIButton *)sender {
     NSLog(@"点击提交");
+    if ([self.contentTextView.text isEqualToString:@""]) {
+        [EasyShowTextView showImageText:@"反馈内容不能为空" imageName:@"icon_sym_toast_failed_56_w100"];
+        return;
+    } else {
+        NSDictionary *dic = @{@"key":[UserManager key],@"content":self.contentTextView.text};
+        [self postDataForSuggestURL:dic];
+    }
+    
+}
+
+- (void)postDataForSuggestURL:(NSDictionary *)dic {
+    [WProgressHUD showHUDShowText:@"加载中..."];
+    [[HttpRequestManager sharedSingleton] POST:suggestURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        [WProgressHUD hideAllHUDAnimated:YES];
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+            [self.navigationController popViewControllerAnimated:YES];
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

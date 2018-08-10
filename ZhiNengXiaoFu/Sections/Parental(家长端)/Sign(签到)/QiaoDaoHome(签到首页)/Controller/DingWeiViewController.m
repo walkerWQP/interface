@@ -33,7 +33,7 @@
     _mapView.showsUserLocation = YES;
     _mapView.userTrackingMode = MAUserTrackingModeFollow;
     //设置缩放级别
-    [_mapView setZoomLevel:18];
+    [_mapView setZoomLevel:19];
     //是否显示指南针
     [_mapView setShowsCompass:YES];
     

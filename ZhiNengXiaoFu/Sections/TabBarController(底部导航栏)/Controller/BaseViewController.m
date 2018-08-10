@@ -32,6 +32,8 @@
     
     self.view.backgroundColor = backColor;
     self.navigationController.navigationBar.translucent = NO;
+    self.navigationItem.hidesBackButton = YES;
+
 }
 
 - (void)presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion {

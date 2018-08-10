@@ -37,7 +37,9 @@
 #import "HQPickerView.h"
 #import "LQPhotoPickerViewController.h"
 #import "WProgressHUD.h" //提示效果
-
+#import "CLPlayerView.h"
+#import "UIView+CLSetRect.h"
+#import "CLPlayerView.h"
 #endif /* PrefixHeader_pch */
 
 

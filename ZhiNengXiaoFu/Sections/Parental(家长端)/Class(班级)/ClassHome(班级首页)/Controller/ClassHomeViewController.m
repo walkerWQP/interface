@@ -9,6 +9,7 @@
 #import "ClassHomeViewController.h"
 #import "TeacherNotifiedCell.h"
 #import "TheClassInformationViewController.h"
+#import "ClassHomeModel.h"
 @interface ClassHomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) NSMutableArray *classArr;
@@ -24,19 +25,47 @@
     self.view.backgroundColor = backColor;
     self.title = @"班级信息";
     
-    
-    NSMutableArray *imgArr = [NSMutableArray arrayWithObjects:@"头像", nil];
-    NSMutableArray *titleArr = [NSMutableArray arrayWithObjects:[UserManager getUserObject].class_name_s, nil];
-    
-    for (int i = 0; i < imgArr.count; i++) {
-        NSString *img     = [imgArr objectAtIndex:i];
-        NSString *title   = [titleArr objectAtIndex:i];
-        
-        NSDictionary *dic = @{@"img":img,@"title":title};
-        [self.classArr addObject:dic];
-    }
+    [self setNetWork];
+   
     
     [self makeClassViewControllerUI];
+}
+
+- (void)setNetWork
+{
+    NSDictionary * dic = @{@"key":[UserManager key]};
+    [[HttpRequestManager sharedSingleton] POST:userClassInfo parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            ClassHomeModel * model = [ClassHomeModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+            
+            NSMutableArray *imgArr = [NSMutableArray arrayWithObjects:model.class_head_img, nil];
+            NSMutableArray *titleArr = [NSMutableArray arrayWithObjects:model.class_name, nil];
+            
+            for (int i = 0; i < imgArr.count; i++) {
+                NSString *img     = [imgArr objectAtIndex:i];
+                NSString *title   = [titleArr objectAtIndex:i];
+                
+                NSDictionary *dic = @{@"img":img,@"title":title};
+                [self.classArr addObject:dic];
+            }
+        }else
+        {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            }else
+            {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                
+            }
+        }
+        
+        
+        [self.classCollectionView reloadData];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
 }
 
 - (NSMutableArray *)classArr {
@@ -79,7 +108,7 @@
     NSDictionary * dic = [self.classArr objectAtIndex:indexPath.row];
     UICollectionViewCell *gridcell = nil;
     TeacherNotifiedCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TeacherNotifiedCell_CollectionView forIndexPath:indexPath];
-    cell.headImgView.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
+    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"img"]] placeholderImage:[UIImage imageNamed:@"user"]];
     cell.classLabel.text = [dic objectForKey:@"title"];
     gridcell = cell;
     return gridcell;

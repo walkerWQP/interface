@@ -8,9 +8,9 @@
 
 #import "SchoolNoticeViewController.h"
 #import "ClassDetailsCell.h"
-#import "ClassDetailsModel.h"
+#import "SchoolDynamicModel.h"
 #import "NoticeViewController.h"
-#import "TongZhiDetailsViewController.h"
+#import "SchoolDongTaiDetailsViewController.h"
 
 @interface SchoolNoticeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -70,8 +70,8 @@
         [self.schoolNoticeCollectionView.mj_footer endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) { 
             
-            NSMutableArray *arr = [ClassDetailsModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
-            for (ClassDetailsModel *model in arr) {
+            NSMutableArray *arr = [SchoolDynamicModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            for (SchoolDynamicModel *model in arr) {
                 [self.schoolNoticeArr addObject:model];
             }
             if (self.schoolNoticeArr.count == 0) {
@@ -124,7 +124,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    ClassDetailsModel *model = [self.schoolNoticeArr objectAtIndex:indexPath.row];
+    SchoolDynamicModel *model = [self.schoolNoticeArr objectAtIndex:indexPath.row];
     
     UICollectionViewCell *gridcell = nil;
     ClassDetailsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ClassDetailsCell_CollectionView forIndexPath:indexPath];
@@ -155,11 +155,15 @@
 //点击响应方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSLog(@"%ld",indexPath.row);
-    ClassDetailsModel *model = [self.schoolNoticeArr objectAtIndex:indexPath.row];
-    TongZhiDetailsViewController *tongZhiDetailsVC = [[TongZhiDetailsViewController alloc] init];
-    tongZhiDetailsVC.tongZhiId = model.ID;
-    [self.navigationController pushViewController:tongZhiDetailsVC animated:YES];
+//    ClassDetailsModel *model = [self.schoolNoticeArr objectAtIndex:indexPath.row];
+//    TongZhiDetailsViewController *tongZhiDetailsVC = [[TongZhiDetailsViewController alloc] init];
+//    tongZhiDetailsVC.tongZhiId = model.ID;
+//    [self.navigationController pushViewController:tongZhiDetailsVC animated:YES];
+    
+    SchoolDynamicModel *model = [self.schoolNoticeArr objectAtIndex:indexPath.row];
+    SchoolDongTaiDetailsViewController *schoolDongTaiDetailsVC = [[SchoolDongTaiDetailsViewController alloc] init];
+    schoolDongTaiDetailsVC.schoolDongTaiId = model.ID;
+    [self.navigationController pushViewController:schoolDongTaiDetailsVC animated:YES];
     
 }
 

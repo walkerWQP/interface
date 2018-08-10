@@ -9,12 +9,17 @@
 #import "SchoolDongTaiDetailsViewController.h"
 #import "TongZhiDetailsCell.h"
 #import "WorkDetailsModel.h"
-@interface SchoolDongTaiDetailsViewController ()<UITableViewDelegate, UITableViewDataSource>
+
+#import <WebKit/WebKit.h>
+#import "UIView+XXYViewFrame.h"
+@interface SchoolDongTaiDetailsViewController ()<UITableViewDelegate, UITableViewDataSource,WKUIDelegate,WKNavigationDelegate>
 @property (nonatomic, strong) UITableView * schoolDongTaiDetailsTableView;
 @property (nonatomic, strong) WorkDetailsModel * workDetailsModel;
 @property (nonatomic, strong) TongZhiDetailsCell * tongZhiDetailsCell;
 
 @property (nonatomic, strong) NSMutableArray * imgAry;
+@property (nonatomic, assign) CGFloat Hnew;
+
 @end
 
 @implementation SchoolDongTaiDetailsViewController
@@ -27,7 +32,8 @@
     
     [self setNetWork];
     [self.view addSubview:self.schoolDongTaiDetailsTableView];
-    
+    self.navigationItem.hidesBackButton = YES;
+
     [self.schoolDongTaiDetailsTableView registerNib:[UINib nibWithNibName:@"TongZhiDetailsCell" bundle:nil] forCellReuseIdentifier:@"TongZhiDetailsCellId"];
 }
 
@@ -140,20 +146,94 @@
     self.tongZhiDetailsCell.TongZhiDetailsTitleLabel.text = self.workDetailsModel.title;
     self.tongZhiDetailsCell.TongZhiDetailsConnectLabel.text = self.workDetailsModel.content;
     self.tongZhiDetailsCell.TongZhiDetailsTimeLabel.text = self.workDetailsModel.create_time;
+    if (self.Hnew ==0) {
+        
+        self.tongZhiDetailsCell.webView.hidden = NO;
+        //            self.newsDetailsTopCell.webView.backgroundColor = BAKit_Color_Yellow_pod;
+        self.tongZhiDetailsCell.webView.userInteractionEnabled = YES;
+        
+        self.tongZhiDetailsCell.webView.UIDelegate = self;
+        self.tongZhiDetailsCell.webView.navigationDelegate = self;
+        self.tongZhiDetailsCell.TongZhiDetailsConnectLabel.alpha = 0;
+        
+        
+        
+        if (self.workDetailsModel.content.length>0) {
+            
+            
+            
+            [self.tongZhiDetailsCell.webView loadHTMLString:[NSString stringWithFormat:@"<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'><meta name='apple-mobile-web-app-capable' content='yes'><meta name='apple-mobile-web-app-status-bar-style' content='black'><meta name='format-detection' content='telephone=no'><style type='text/css'>img{width:%fpx}</style>%@", kScreenWidth , self.workDetailsModel.content] baseURL:nil];
+            
+        }
+        
+    }
+    
     return self.tongZhiDetailsCell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
     
-    if (self.imgAry.count == 0) {
+    NSString *heightString4 = @"document.body.scrollHeight";
+    
+    
+    [webView evaluateJavaScript:heightString4 completionHandler:^(id _Nullable item, NSError * _Nullable error) {
         
-        self.tongZhiDetailsCell.CommunityDetailsImageViewHegit.constant = 0;
-        return 150;
         
+        CGFloat currentHeight = [item doubleValue];
+        NSInteger width = kScreenWidth - 30;
+        
+        NSDictionary *attributes = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:30]};
+        CGSize size = [self.workDetailsModel.title boundingRectWithSize:CGSizeMake(width, 10000) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+        
+        self.tongZhiDetailsCell.webView.frame = CGRectMake(0, 30 + size.height , kScreenWidth, currentHeight);
+        
+        //                weak_self.communityDetailsCell.communityDetailsHegiht.constant = currentHeight;
+        
+        self.Hnew = currentHeight;
+        NSLog(@"html 高度2：%f", currentHeight);
+        self.tongZhiDetailsCell.webView.hidden =NO;
+        
+        self.tongZhiDetailsCell.TongZhiDetailsTWebopCon.constant = self.Hnew + 26;
+        
+        self.tongZhiDetailsCell.webView.height = currentHeight;
+        [self.schoolDongTaiDetailsTableView reloadData];
+        
+    }];
+    
+    
+    
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger width = kScreenWidth - 30;
+    
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:30]};
+    CGSize size = [self.workDetailsModel.title boundingRectWithSize:CGSizeMake(width, 10000) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+    
+    if (self.Hnew ==0) {
+        if (self.imgAry.count == 0) {
+            
+            self.tongZhiDetailsCell.CommunityDetailsImageViewHegit.constant = 0;
+            return 150 + size.height;
+            
+        }else
+        {
+            return  self.tongZhiDetailsCell.CommunityDetailsImageViewHegit.constant + 150 + size.height;
+        }
     }else
     {
-        return  self.tongZhiDetailsCell.CommunityDetailsImageViewHegit.constant + 150;
+        if (self.imgAry.count == 0) {
+            
+            self.tongZhiDetailsCell.CommunityDetailsImageViewHegit.constant = 0;
+            return 150 + self.Hnew + size.height;
+            
+        }else
+        {
+            return  self.tongZhiDetailsCell.CommunityDetailsImageViewHegit.constant + 150+ self.Hnew + size.height;
+        }
     }
 }
 

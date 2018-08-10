@@ -17,6 +17,7 @@
 #import "PersonInformationModel.h"
 #import "PrefixHeader.pch"
 #import "LoginHomePageViewController.h"
+#import "ChangePasswordViewController.h"
 @interface MineViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * mineTabelView;
@@ -38,8 +39,8 @@
     self.navigationController.navigationBar.translucent = NO;
     
     
-    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"系统消息", nil];
-    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"系统消息", nil];
+    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码", nil];
+    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码", nil];
     
     for (int i = 0; i < imgAry.count; i++) {
         NSString * img  = [imgAry objectAtIndex:i];
@@ -133,7 +134,7 @@
         MinePersonXiXinCell * cell = [tableView dequeueReusableCellWithIdentifier:@"MinePersonXiXinCellId" forIndexPath:indexPath];
         cell.userName.text = self.personInfo.name;
         cell.userZiLiao.text = @"我的资料";
-        [cell.userImg sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:nil];
+        [cell.userImg sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }else if (indexPath.section == 1)
@@ -185,8 +186,8 @@
             [self.navigationController pushViewController:leaveListVC animated:YES];
         }else
         {
-            SystemInfomationViewController * systemInfomationVC = [[SystemInfomationViewController alloc] init];
-            [self.navigationController pushViewController:systemInfomationVC animated:YES];
+            ChangePasswordViewController *changePasswordVC = [[ChangePasswordViewController alloc] init];
+            [self.navigationController pushViewController:changePasswordVC animated:YES];
         }
     }else
     {

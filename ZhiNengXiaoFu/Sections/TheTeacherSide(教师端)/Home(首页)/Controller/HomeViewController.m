@@ -19,16 +19,26 @@
 #import "JobManagementViewController.h"
 #import "TeacherNotifiedViewController.h"
 #import "TongZhiViewController.h"
+#import "PublishJobModel.h"
+
 
 @interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView * HomeCollectionView;
 @property (nonatomic, retain) UICollectionViewFlowLayout * layout;
 @property (nonatomic, strong) NSMutableArray * homePageAry;
+@property (nonatomic, strong) NSMutableArray *publishJobArr;
 
 @end
 
 @implementation HomeViewController
+
+- (NSMutableArray *)publishJobArr {
+    if (!_publishJobArr) {
+        _publishJobArr = [NSMutableArray array];
+    }
+    return _publishJobArr;
+}
 
 - (NSMutableArray *)homePageAry {
     if (!_homePageAry) {
@@ -53,7 +63,7 @@
     [self.HomeCollectionView registerClass:[HomeItemCell class] forCellWithReuseIdentifier:@"HomePageItemCellId"];
     
     NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"课程管理",@"成长相册",@"视频上传",@"活动管理",@"问题咨询",@"学校通知",@"学校动态1", nil];
-    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"右脑开发",@"成长相册",@"视频上传",@"活动管理",@"问题咨询",@"学校通知",@"学校动态", nil];
+    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"右脑开发",@"成长相册",@"名师在线",@"活动管理",@"问题咨询",@"学校通知",@"学校动态", nil];
     
     for (int i = 0; i < imgAry.count; i++) {
         NSString * img  = [imgAry objectAtIndex:i];
@@ -138,10 +148,8 @@
             case 3:
             {
                 NSLog(@"点击成长相册");
-                BusinessDetailController *businessDetailC = [[BusinessDetailController alloc] init];
-                businessDetailC.urlStr = @"http://d.ksznxt.com/xc.html";
-                businessDetailC.webTitle = @"成长相册";
-                [self.navigationController pushViewController:businessDetailC animated:YES];
+                [self getClassURLData];
+                
             }
                 break;
             case 4:
@@ -195,6 +203,57 @@
         
     }
     
+}
+
+- (void)postDataForGetURL:(NSString *)classID {
+    NSDictionary *dic = @{@"key":[UserManager key],@"class_id":classID};
+    [[HttpRequestManager sharedSingleton] POST:getURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            NSString *url = [[responseObject objectForKey:@"data"] objectForKey:@"url"];
+            GrowthAlbumViewController *growthAlbumVC = [[GrowthAlbumViewController alloc] init];
+            growthAlbumVC.urlStr = url;
+            growthAlbumVC.webTitle = @"成长相册";
+            [self.navigationController pushViewController:growthAlbumVC animated:YES];
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
+
+- (void)getClassURLData {
+    
+    NSDictionary *dic = @{@"key":[UserManager key]};
+    [[HttpRequestManager sharedSingleton] POST:getClassURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            self.publishJobArr = [PublishJobModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            NSMutableArray * ary = [@[]mutableCopy];
+            for (PublishJobModel * model in self.publishJobArr) {
+                [ary addObject:[NSString stringWithFormat:@"%@", model.ID]];
+            }
+            NSLog(@"%@",ary[0]);
+            [self postDataForGetURL:ary[0]];
+            
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

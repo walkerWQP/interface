@@ -21,7 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"视频上传";
+    self.title = @"名师在线";
     [self makeUploadVideoViewControllerUI];
 }
 

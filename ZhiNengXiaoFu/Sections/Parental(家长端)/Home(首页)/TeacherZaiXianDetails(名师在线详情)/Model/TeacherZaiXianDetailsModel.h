@@ -17,4 +17,6 @@
 @property (nonatomic, copy) NSString * name;
 @property (nonatomic, copy) NSString * video;
 @property (nonatomic, assign) NSInteger  teacher_id;
+@property (nonatomic, copy) NSString * img;
+
 @end

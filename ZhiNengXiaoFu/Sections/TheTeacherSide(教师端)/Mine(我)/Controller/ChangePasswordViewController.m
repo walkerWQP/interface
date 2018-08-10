@@ -97,6 +97,63 @@
 
 - (void)submitBtn : (UIButton *)sender {
     NSLog(@"提交");
+    
+    if ([self.oldPasswordText.text isEqualToString:@""]) {
+        [EasyShowTextView showImageText:@"请输入旧密码" imageName:@"icon_sym_toast_succeed_56_w100"];
+        return;
+    }
+    
+    if ([self.passwordText.text isEqualToString:@""]) {
+        [EasyShowTextView showImageText:@"请输入新密码" imageName:@"icon_sym_toast_succeed_56_w100"];
+        return;
+    }
+    
+    if (self.passwordText.text.length < 6) {
+        [EasyShowTextView showImageText:@"请输入最少6位密码" imageName:@"icon_sym_toast_succeed_56_w100"];
+        return;
+    }
+    
+    if ([self.againText.text isEqualToString:@""]) {
+        [EasyShowTextView showImageText:@"请再次输入新密码" imageName:@"icon_sym_toast_succeed_56_w100"];
+        return;
+    }
+    
+    
+    if (self.againText.text.length < 6) {
+        [EasyShowTextView showImageText:@"请输入最少6位密码" imageName:@"icon_sym_toast_succeed_56_w100"];
+        return;
+    }
+    
+    if (self.passwordText.text != self.againText.text) {
+        [EasyShowTextView showImageText:@"两次密码输入不一致" imageName:@"icon_sym_toast_succeed_56_w100"];
+        return;
+    } else {
+        NSString *oldPasswordStr = [Encryption MD5ForLower32Bate:self.oldPasswordText.text];
+        NSString *newPasswordStr = [Encryption MD5ForLower32Bate:self.againText.text];
+        NSDictionary *dic = @{@"key":[UserManager key],@"old_password":oldPasswordStr,@"new_password":newPasswordStr};
+        [self updatePasswordURLForData:dic];
+    }
+    
+    
+}
+
+- (void)updatePasswordURLForData:(NSDictionary *)dic {
+    [[HttpRequestManager sharedSingleton] POST:updatePasswordURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
+            [UserManager logoOut];
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
 }
 
 @end

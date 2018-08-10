@@ -11,7 +11,7 @@
 #import "MyInformationCell.h"
 #import "HomeworkCell.h"
 #import "PersonalDataViewController.h"
-#import "HelpCenterViewController.h"
+#import "HelperCenterViewController.h"
 #import "LoginHomePageViewController.h"
 #import "OffTheListViewController.h"
 #import "ChangePasswordViewController.h"
@@ -114,7 +114,12 @@
         MyInformationCell * cell = [tableView dequeueReusableCellWithIdentifier:@"MyInformationCellId" forIndexPath:indexPath];
         cell.userName.text = self.personInfo.name;
         cell.userZiLiao.text = @"我的资料";
-        [cell.userImg sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:nil];
+       
+        if (self.personInfo.head_img == nil) {
+            cell.userImg.image = [UIImage imageNamed:@"user"];
+        } else {
+             [cell.userImg sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:nil];
+        }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     } else if (indexPath.section == 1) {
@@ -153,7 +158,7 @@
             case 0:
             {
                 NSLog(@"1");
-                HelpCenterViewController *helpCenterVC = [[HelpCenterViewController alloc] init];
+                HelperCenterViewController *helpCenterVC = [[HelperCenterViewController alloc] init];
                 [self.navigationController pushViewController:helpCenterVC animated:YES];
             }
                 break;

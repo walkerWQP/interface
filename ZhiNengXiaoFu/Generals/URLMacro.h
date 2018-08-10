@@ -114,11 +114,11 @@
 //家长查看视频详情
 #define onlineVideoDetail [NSString stringWithFormat:@"%@index/online/video_detail",YUMING]
 
+//家长查看该视频老师所有视频列表
+#define onlineTheTeacherList [NSString stringWithFormat:@"%@/index/online/the_teacher_list",YUMING]
+
 //教师查看自己发布的视频列表
 #define myPublishListURL [NSString stringWithFormat:@"%@index/online/my_publish_list",YUMING]
-
-//教师查看自己发布的视频详情
-#define myPublishDetailURL [NSString stringWithFormat:@"%@index/online/my_publish_detail",YUMING]
 
 //教师修改自己发布的视频
 #define toUpdateURL [NSString stringWithFormat:@"%@index/online/to_update",YUMING]
@@ -128,3 +128,33 @@
 
 //获取个人信息
 #define getUserInfoURL [NSString stringWithFormat:@"%@index/user/get_user_info",YUMING]
+
+
+//修改个人密码
+#define updatePasswordURL [NSString stringWithFormat:@"%@index/user/update_password",YUMING]
+
+//获取联系我们数据
+#define userContactUs [NSString stringWithFormat:@"%@index/user/contact_us",YUMING]
+
+//家长、教师获取班级信息
+#define userClassInfo [NSString stringWithFormat:@"%@index/user/class_info",YUMING]
+
+//成长相册模块
+//教师发布相册
+#define uploadURL [NSString stringWithFormat:@"%@index/album/upload",YUMING]
+
+
+//家长学堂模块
+//家长获取视频列表
+#define pschoolGetList [NSString stringWithFormat:@"%@index/pschool/get_list",YUMING]
+
+//家长获取视频详情
+#define pschoolGetDetail [NSString stringWithFormat:@"%@index/pschool/get_detail",YUMING]
+
+
+//提交建议
+#define suggestURL [NSString stringWithFormat:@"%@index/suggest/suggest",YUMING]
+
+//教师、家长获取成长相册链接
+#define getURL [NSString stringWithFormat:@"%@index/album/get_url",YUMING]
+

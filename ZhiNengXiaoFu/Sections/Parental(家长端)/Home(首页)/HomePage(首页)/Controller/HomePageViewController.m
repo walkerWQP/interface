@@ -22,6 +22,7 @@
 #import "WenTiZiXunViewController.h"
 #import "GrowthAlbumViewController.h"
 #import "CourseManagementViewController.h"
+#import "ChengZhangXiangCeViewController.h"
 @interface HomePageViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView * HomePageCollectionView;
@@ -143,10 +144,12 @@
             [self.navigationController pushViewController:courseManagementVC animated:YES];
         }else if (indexPath.row == 3)
         {
-            BusinessDetailController *businessDetailC = [[BusinessDetailController alloc] init];
-            businessDetailC.urlStr = @"http://d.ksznxt.com/xc.html";
-            businessDetailC.webTitle = @"成长相册";
-            [self.navigationController pushViewController:businessDetailC animated:YES];
+//            BusinessDetailController *businessDetailC = [[BusinessDetailController alloc] init];
+//            businessDetailC.urlStr = @"http://d.ksznxt.com/xc.html";
+//            businessDetailC.webTitle = @"成长相册";
+//            [self.navigationController pushViewController:businessDetailC animated:YES];
+            ChengZhangXiangCeViewController * chengzhang = [[ChengZhangXiangCeViewController alloc] init];
+            [self.navigationController pushViewController:chengzhang animated:YES];
 
         }else if (indexPath.row == 4)
         {

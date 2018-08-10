@@ -93,7 +93,11 @@
     UICollectionViewCell *gridcell = nil;
     TotalNumberCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TotalNumberCell_CollectionView forIndexPath:indexPath];
     TotalNumberModel *model = [self.hasBeenArr objectAtIndex:indexPath.row];
-    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];
+    if (model.head_img == nil) {
+        cell.headImgView.image = [UIImage imageNamed:@"user"];
+    } else {
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];
+    }
     cell.nameLabel.text = model.name;
     if (model.is_leave == 1) { //1请假
         cell.nameLabel.textColor = THEMECOLOR;

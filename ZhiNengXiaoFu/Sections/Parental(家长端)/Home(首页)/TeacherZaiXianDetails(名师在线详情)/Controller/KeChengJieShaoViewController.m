@@ -78,7 +78,7 @@
   
     KeChengJieShaoCell * cell = [tableView dequeueReusableCellWithIdentifier:@"KeChengJieShaoCellId" forIndexPath:indexPath];
     cell.selectionStyle =  UITableViewCellSelectionStyleNone;
-    [cell.userImg sd_setImageWithURL:[NSURL URLWithString:self.teacherZaiXianDetailsModel.head_img] placeholderImage:nil];
+    [cell.userImg sd_setImageWithURL:[NSURL URLWithString:self.teacherZaiXianDetailsModel.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
     cell.userNName.text = self.teacherZaiXianDetailsModel.name;
     cell.jieShaoLabel.text = self.teacherZaiXianDetailsModel.honor;
     cell.shanChangImg.image = [UIImage imageNamed:@"擅长领域"];
