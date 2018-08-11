@@ -187,19 +187,17 @@
 - (void)submitBtn:(UIButton *)sender
 {
     if ([self.chooseStart.text isEqualToString:@"选择请假开始时间"]) {
-        [EasyShowTextView showImageText:@"请选择请假开始时间" imageName:@"icon_sym_toast_warning_56_w100"];
-
+        [WProgressHUD showErrorAnimatedText:@"请选择请假开始时间"];
     }else if ([self.chooseEnd.text isEqualToString:@"选择请假结束时间"])
     {
-        [EasyShowTextView showImageText:@"请选择请假结束时间" imageName:@"icon_sym_toast_warning_56_w100"];
-
+        [WProgressHUD showErrorAnimatedText:@"请选择请假结束时间"];
     }else
     {
         NSDictionary * dic = @{@"key":[UserManager key], @"start":self.chooseStart.text, @"end":self.chooseEnd.text, @"reason":self.leaveSeasonTextView.text};
         [[HttpRequestManager sharedSingleton] POST:leaveAddLeave parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
             if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
                 
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
                 [self.navigationController popViewControllerAnimated:YES];
             }else
             {
@@ -207,7 +205,7 @@
                     [UserManager logoOut];
                 }else
                 {
-                    [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                    [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                     
                 }
             }

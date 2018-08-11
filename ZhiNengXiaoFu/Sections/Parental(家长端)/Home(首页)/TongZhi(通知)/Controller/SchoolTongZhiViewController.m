@@ -87,7 +87,7 @@
                 [UserManager logoOut];
             }else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }        
@@ -155,15 +155,14 @@
     
     
     TongZhiCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TongZhiCellId" forIndexPath:indexPath];
-    TongZhiModel * model = [self.schoolTongZhiAry objectAtIndex:indexPath.row];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.headImgView.image = [UIImage imageNamed:@"通知图标"];
-    cell.titleLabel.text = model.title;
-    cell.subjectsLabel.text = model.abstract;
-    cell.timeLabel.text = model.create_time;
-    
-    
-    
+    if (self.schoolTongZhiAry.count != 0) {
+        TongZhiModel * model = [self.schoolTongZhiAry objectAtIndex:indexPath.row];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.headImgView.image = [UIImage imageNamed:@"通知图标"];
+        cell.titleLabel.text = model.title;
+        cell.subjectsLabel.text = model.abstract;
+        cell.timeLabel.text = model.create_time;
+    }
     
     return cell;
     
@@ -176,9 +175,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     TongZhiDetailsViewController * tongZhiDetails  = [[TongZhiDetailsViewController alloc] init];
+    if (self.schoolTongZhiAry.count != 0) {
+
     TongZhiModel * model = [self.schoolTongZhiAry objectAtIndex:indexPath.row];
     tongZhiDetails.tongZhiId = model.ID;
+    }
     [self.navigationController pushViewController:tongZhiDetails animated:YES];
 }
 

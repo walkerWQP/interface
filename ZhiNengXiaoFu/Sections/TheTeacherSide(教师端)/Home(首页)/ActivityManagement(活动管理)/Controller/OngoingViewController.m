@@ -84,7 +84,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             }else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -153,8 +153,13 @@
     NSLog(@"%ld",indexPath.row);
     OngoingModel *model = [self.ongoingArr objectAtIndex:indexPath.row];
     JingJiActivityDetailsViewController *jingJiActivityDetailsVC = [JingJiActivityDetailsViewController new];
-    jingJiActivityDetailsVC.JingJiActivityDetailsId = model.ID;
-    [self.navigationController pushViewController:jingJiActivityDetailsVC animated:YES];
+    if (model.ID == nil) {
+        [WProgressHUD showSuccessfulAnimatedText:@"数据不正确,请重试"];
+    } else {
+        jingJiActivityDetailsVC.JingJiActivityDetailsId = model.ID;
+        [self.navigationController pushViewController:jingJiActivityDetailsVC animated:YES];
+    }
+    
     
 }
 

@@ -61,7 +61,6 @@
     
     UIImageView * xialaImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.chooseTeacherLabel.frame.size.width - 8 - 15, 22, 8, 6)];
     xialaImg.image = [UIImage imageNamed:@"下拉"];
-    
     [self.chooseTeacherLabel addSubview:xialaImg];
     
     UITapGestureRecognizer * chooseTeacherTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chooseTeacherTap:)];
@@ -82,7 +81,7 @@
     [[HttpRequestManager sharedSingleton] POST:ConsultQuestion parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-            [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
+            [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -133,7 +132,12 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectText:(NSString *)text  index:(NSInteger)index{
     self.chooseTeacherLabel.text = [NSString stringWithFormat:@"  %@", text];
-    self.userGetStuTeaModel = [self.courseAry objectAtIndex:index];
+    if (self.courseAry.count == 0) {
+        
+    }else
+    {
+        self.userGetStuTeaModel = [self.courseAry objectAtIndex:index];
+    }
 }
 
 

@@ -16,4 +16,6 @@
 @property (nonatomic, copy) NSString * end;
 @property (nonatomic, copy) NSString * title;
 @property (nonatomic, copy) NSString * introduction;
+
+@property (nonatomic, assign) int  is_school;
 @end

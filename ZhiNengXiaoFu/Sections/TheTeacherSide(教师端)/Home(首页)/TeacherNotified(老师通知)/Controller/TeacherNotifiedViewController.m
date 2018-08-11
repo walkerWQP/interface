@@ -65,7 +65,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             }
         }
         
@@ -89,7 +89,7 @@
     self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
     self.headImgView.backgroundColor = [UIColor clearColor];
     [self.teacherNotifiedCollectionView addSubview:self.headImgView];
-    self.headImgView.image = [UIImage imageNamed:@"homepagelunbo2"];
+    self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
 }
 
 #pragma mark - <UICollectionViewDelegate, UICollectionViewDataSource>
@@ -134,9 +134,14 @@
     TeacherNotifiedModel *model = [self.teacherNotifiedArr objectAtIndex:indexPath.row];
     
     ClassDetailsViewController *ClassDetailsVC = [[ClassDetailsViewController alloc] init];
-    ClassDetailsVC.titleStr = model.name;
-    ClassDetailsVC.ID       = model.ID;
-    [self.navigationController pushViewController:ClassDetailsVC animated:YES];
+    if (model.ID == nil || model.name == nil) {
+        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+    } else {
+        ClassDetailsVC.titleStr = model.name;
+        ClassDetailsVC.ID       = model.ID;
+        [self.navigationController pushViewController:ClassDetailsVC animated:YES];
+    }
+    
 }
 
 @end

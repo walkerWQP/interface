@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSMutableArray  *ongoingArr;
 @property (nonatomic, strong) UICollectionView *ongoingCollectionView;
 @property (nonatomic, assign) NSInteger     page;
+@property (nonatomic, strong) UIImageView * zanwushuju;
 
 @end
 
@@ -24,6 +25,12 @@
     [super viewDidLoad];
     self.page = 1;
     [self makeOngoingViewControllerUI];
+    
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.view addSubview:self.zanwushuju];
+    
     //下拉刷新
     self.ongoingCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
     //自动更改透明度
@@ -58,6 +65,14 @@
             for (JingJiHuoDongListModel *model in arr) {
                 [self.ongoingArr addObject:model];
             }
+            
+            if (self.ongoingArr.count == 0) {
+                self.zanwushuju.alpha = 1;
+                
+            } else {
+                self.zanwushuju.alpha = 0;
+            }
+            
             [self.ongoingCollectionView reloadData];
         }else
         {
@@ -65,7 +80,7 @@
                 [UserManager logoOut];
             }else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -108,12 +123,15 @@
     
     UICollectionViewCell *gridcell = nil;
     OngoingCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:OngoingCell_CollectionView forIndexPath:indexPath];
-    JingJiHuoDongListModel * model = [self.ongoingArr objectAtIndex:indexPath.row];
-    
-    [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
-    cell.titleLabel.text = model.title;
-    cell.timeLabel.text = [NSString stringWithFormat:@"活动日期:%@-%@", model.start, model.end];
-    cell.detailsLabel.text = model.title;
+    if (self.ongoingArr.count != 0) {
+        JingJiHuoDongListModel * model = [self.ongoingArr objectAtIndex:indexPath.row];
+        
+        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+        cell.titleLabel.text = model.title;
+        cell.timeLabel.text = [NSString stringWithFormat:@"活动日期:%@-%@", model.start, model.end];
+        cell.detailsLabel.text = model.title;
+    }
+   
     gridcell = cell;
     return gridcell;
     
@@ -138,9 +156,12 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     JingJiActivityDetailsViewController * jjA = [[JingJiActivityDetailsViewController alloc] init];
+    
+     if (self.ongoingArr.count != 0) {
     JingJiHuoDongListModel * model = [self.ongoingArr objectAtIndex:indexPath.row];
     
     jjA.JingJiActivityDetailsId = model.ID;
+     }
     [self.navigationController pushViewController:jjA animated:YES];
     NSLog(@"%ld",indexPath.row);
     

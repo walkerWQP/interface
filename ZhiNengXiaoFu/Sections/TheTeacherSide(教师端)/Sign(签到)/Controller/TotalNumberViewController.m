@@ -31,6 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"%@",self.ID);
+    
     //总数
     [self getClassConditionURLData:@"1"];
     self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
@@ -59,7 +60,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -134,8 +135,13 @@
     
     NSLog(@"%ld",indexPath.row);
     QianDaoViewController *qianDaoVC = [[QianDaoViewController alloc] init];
-    qianDaoVC.studentId = self.ID;
-    [self.navigationController pushViewController:qianDaoVC animated:YES];
+    if (self.ID == nil) {
+        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+    } else {
+        qianDaoVC.studentId = self.ID;
+        [self.navigationController pushViewController:qianDaoVC animated:YES];
+    }
+    
 }
 
 @end

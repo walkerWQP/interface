@@ -211,15 +211,20 @@
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             NSString *url = [[responseObject objectForKey:@"data"] objectForKey:@"url"];
             GrowthAlbumViewController *growthAlbumVC = [[GrowthAlbumViewController alloc] init];
-            growthAlbumVC.urlStr = url;
-            growthAlbumVC.webTitle = @"成长相册";
-            [self.navigationController pushViewController:growthAlbumVC animated:YES];
+            if (url == nil) {
+                [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+            } else {
+                growthAlbumVC.urlStr = url;
+                growthAlbumVC.webTitle = @"成长相册";
+                [self.navigationController pushViewController:growthAlbumVC animated:YES];
+            }
+           
             
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -239,15 +244,17 @@
                 [ary addObject:[NSString stringWithFormat:@"%@", model.ID]];
             }
             NSLog(@"%@",ary[0]);
-            [self postDataForGetURL:ary[0]];
-            
-            
+            if (ary[0] == nil) {
+                [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+            } else {
+                [self postDataForGetURL:ary[0]];
+            }
             
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }

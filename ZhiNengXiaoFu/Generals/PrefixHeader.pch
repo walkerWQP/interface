@@ -40,6 +40,9 @@
 #import "CLPlayerView.h"
 #import "UIView+CLSetRect.h"
 #import "CLPlayerView.h"
+#import "UIColor+HexString.h"
+#import "WPopupMenu.h" //popView
+#import "BannerModel.h"
 #endif /* PrefixHeader_pch */
 
 

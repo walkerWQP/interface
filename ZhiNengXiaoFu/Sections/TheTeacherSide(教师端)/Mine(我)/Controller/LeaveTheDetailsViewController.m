@@ -72,7 +72,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -238,7 +238,7 @@
 - (void)submitBtn : (UIButton *)sender {
     
     if ([self.noteTextView.text isEqualToString:@""]) {
-        [EasyShowTextView showImageText:@"审核内容不能为空" imageName:@"icon_sym_toast_failed_56_w100"];
+        [WProgressHUD showErrorAnimatedText:@"审核内容不能为空"];
         return;
     } else {
        
@@ -246,7 +246,7 @@
         [[HttpRequestManager sharedSingleton] POST:leaveHandleLeave parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
             if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
                 
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
                 
                 [self.navigationController popViewControllerAnimated:YES];
                 
@@ -254,7 +254,7 @@
                 if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                     [UserManager logoOut];
                 } else {
-                    [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                    [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                     
                 }
             }

@@ -72,7 +72,7 @@
                 [UserManager logoOut];
             }else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -159,14 +159,17 @@
     }else
     {
         TongZhiCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TongZhiCellId" forIndexPath:indexPath];
-        WorkModel * model = [self.HomeWorkPAry objectAtIndex:indexPath.row];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.headImgView.image = [UIImage imageNamed:@"通知图标"] ;
-        cell.titleLabel.text = model.title;
-        cell.subjectsLabel.text = model.course_name;
-        cell.timeLabel.text = model.create_time;
+        if (self.HomeWorkPAry.count != 0) {
+            WorkModel * model = [self.HomeWorkPAry objectAtIndex:indexPath.row];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.headImgView.image = [UIImage imageNamed:@"通知图标"] ;
+            cell.titleLabel.text = model.title;
+            cell.subjectsLabel.text = model.course_name;
+            cell.timeLabel.text = model.create_time;
+        }
+       
         return cell;
     }
     
@@ -186,8 +189,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     WorkDetailsViewController * workDetailsVC = [[WorkDetailsViewController alloc] init];
-    WorkModel * model = [self.HomeWorkPAry objectAtIndex:indexPath.row];
-    workDetailsVC.workId = model.ID;
+    if (self.HomeWorkPAry.count != 0) {
+        WorkModel * model = [self.HomeWorkPAry objectAtIndex:indexPath.row];
+        workDetailsVC.workId = model.ID;
+    }
     [self.navigationController pushViewController:workDetailsVC animated:YES];
 }
 

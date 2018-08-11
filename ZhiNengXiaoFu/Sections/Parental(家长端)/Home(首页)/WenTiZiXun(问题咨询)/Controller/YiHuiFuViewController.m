@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSMutableArray * yiHuiFuAry;
 @property (nonatomic, assign) NSInteger     page;
 
+@property (nonatomic, strong) UIImageView * zanwushuju;
 
 @end
 
@@ -32,6 +33,11 @@
     [self.view addSubview:self.YiHuiFuTableView];
     self.YiHuiFuTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.YiHuiFuTableView registerClass:[WenTiZiXunListCell class] forCellReuseIdentifier:@"WenTiZiXunListCellId"];
+    
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.view addSubview:self.zanwushuju];
     
     //下拉刷新
     self.YiHuiFuTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
@@ -77,6 +83,13 @@
             for (ConsultListModel *model in arr) {
                 [self.yiHuiFuAry addObject:model];
             }
+            
+            if (self.yiHuiFuAry.count == 0) {
+                self.zanwushuju.alpha = 1;
+                
+            } else {
+                self.zanwushuju.alpha = 0;
+            }
             [self.YiHuiFuTableView reloadData];
         }else
         {
@@ -84,7 +97,7 @@
                 [UserManager logoOut];
             }else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -143,13 +156,17 @@
 {
     WenTiZiXunListCell * cell = [tableView dequeueReusableCellWithIdentifier:@"WenTiZiXunListCellId" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    ConsultListModel * model = [self.yiHuiFuAry objectAtIndex:indexPath.row];
-    [cell.userIcon sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:nil];
-    cell.userName.text = [NSString stringWithFormat:@"%@%@问:", model.class_name ,model.student_name];
-    cell.questionLabel.text = model.question;
-    [cell.userIconT sd_setImageWithURL:[NSURL URLWithString:model.t_headimg] placeholderImage:nil];
-    cell.userNameT.text = [NSString stringWithFormat:@"%@%@老师%@回复:", model.class_name, model.course_name, model.teacher_name];
-    cell.questionLabelT.text = model.answer;
+    
+    if (self.yiHuiFuAry.count != 0)
+    {
+        ConsultListModel * model = [self.yiHuiFuAry objectAtIndex:indexPath.row];
+        [cell.userIcon sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:nil];
+        cell.userName.text = [NSString stringWithFormat:@"%@%@问:", model.class_name ,model.student_name];
+        cell.questionLabel.text = model.question;
+        [cell.userIconT sd_setImageWithURL:[NSURL URLWithString:model.t_headimg] placeholderImage:nil];
+        cell.userNameT.text = [NSString stringWithFormat:@"%@%@老师%@回复:", model.class_name, model.course_name, model.teacher_name];
+        cell.questionLabelT.text = model.answer;
+    }
     
     return cell;
 }

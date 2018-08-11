@@ -10,10 +10,13 @@
 #import "LeaveDetailsHeaderCell.h"
 #import "LeaveDetailsDownCell.h"
 #import "LeaveListModel.h"
+#import "PersonInformationModel.h"
 @interface LeaveDetailsViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * leaveDetailsTableView;
 @property (nonatomic, strong) LeaveListModel * leaveListModel;
+
+@property (nonatomic, strong) PersonInformationModel * model;
 @end
 
 @implementation LeaveDetailsViewController
@@ -32,6 +35,19 @@
     [self.leaveDetailsTableView registerClass:[LeaveDetailsHeaderCell class] forCellReuseIdentifier:@"LeaveDetailsHeaderCellId"];
     [self.leaveDetailsTableView registerNib:[UINib nibWithNibName:@"LeaveDetailsDownCell" bundle:nil] forCellReuseIdentifier:@"LeaveDetailsDownCellId"];
     [self setNetWork];
+    [self setUser];
+}
+
+- (void)setUser
+{
+    NSDictionary * dic = @{@"key":[UserManager key]};
+    [[HttpRequestManager sharedSingleton] POST:getUserInfoURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        self.model = [PersonInformationModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+        [self.leaveDetailsTableView reloadData];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
 }
 
 - (void)setNetWork
@@ -47,7 +63,7 @@
                 [UserManager logoOut];
             }else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -83,7 +99,8 @@
         cell.selectionStyle =  UITableViewCellSelectionStyleNone;
         cell.StartLabel.text = self.leaveListModel.start;
         cell.EndLabel.text = self.leaveListModel.end;
-
+        [cell.userIconImg sd_setImageWithURL:[NSURL URLWithString:self.model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
+        cell.userNameLabel.text = self.model.name;
         return cell;
     }else
     {

@@ -19,7 +19,7 @@
 @property (nonatomic, strong) NSMutableArray * QianDaoAry;
 @property (nonatomic, strong) UIView * backView;
 @property (nonatomic, strong) QianDaoModel * qianDaoModel;
-
+@property (nonatomic, strong) UIImageView * close;
 @end
 
 @implementation QianDaoViewController
@@ -38,19 +38,7 @@
      @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:18],NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:173/ 255.0 green:228 / 255.0 blue: 211 / 255.0 alpha:1];
     self.navigationController.navigationBar.translucent = NO;
-    
-//    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"进校",@"出校",@"进校",@"出校", nil];
-//    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"星期四",@"星期四",@"星期四",@"星期四", nil];
-//    NSMutableArray * TimeAry = [NSMutableArray arrayWithObjects:@"2015-05-23 11:22:00",@"2015-05-23 11:22:00",@"2015-05-23 11:22:00",@"2015-05-23 11:22:00", nil];
-//
-//    
-//    for (int i = 0; i < imgAry.count; i++) {
-//        NSString * img  = [imgAry objectAtIndex:i];
-//        NSString * title = [TitleAry objectAtIndex:i];
-//        NSString * time = [TimeAry objectAtIndex:i];
-//        NSDictionary * dic = @{@"img":img, @"title":title, @"time":time};
-//        [self.QianDaoAry addObject:dic];
-//    }
+
     [self setNetWork];
     
     [self.view addSubview:self.QianDaoTableView];
@@ -89,7 +77,7 @@
                 [UserManager logoOut];
             }else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -165,28 +153,30 @@
     {
         QianDaoItemCell * cell = [tableView dequeueReusableCellWithIdentifier:@"QianDaoItemCellId" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (self.QianDaoAry.count != 0) {
+            QianDaoInModel * model = [self.QianDaoAry objectAtIndex:indexPath.row];
+            if (model.type == 1) {
+                cell.stateLabel.text = @"进校";
+                cell.stateImg.image = [UIImage imageNamed:@"进校"];
+                
+            }else
+            {
+                cell.stateLabel.text = @"出校";
+                cell.stateImg.image = [UIImage imageNamed:@"出校"];
+                
+            }
+            cell.timeLabel.text = model.week;
+            cell.detailsTimeLabel.text = model.create_time;
+            
+            if (indexPath.row == 0) {
+                cell.yuanImg.image = [UIImage imageNamed:@"椭圆5"];
+            }else
+            {
+                cell.yuanImg.image = [UIImage imageNamed:@"椭圆5"];
+                
+            }
+        }
         
-        QianDaoInModel * model = [self.QianDaoAry objectAtIndex:indexPath.row];
-        if (model.type == 1) {
-            cell.stateLabel.text = @"进校";
-            cell.stateImg.image = [UIImage imageNamed:@"进校"];
-
-        }else
-        {
-            cell.stateLabel.text = @"出校";
-            cell.stateImg.image = [UIImage imageNamed:@"出校"];
-
-        }
-        cell.timeLabel.text = model.week;
-        cell.detailsTimeLabel.text = model.create_time;
-
-        if (indexPath.row == 0) {
-            cell.yuanImg.image = [UIImage imageNamed:@"椭圆5"];
-        }else
-        {
-            cell.yuanImg.image = [UIImage imageNamed:@"椭圆5"];
-
-        }
        
         return cell;
     }
@@ -207,28 +197,28 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        
+
     }else
     {
         QianDaoInModel * model = [self.QianDaoAry objectAtIndex:indexPath.row];
-//        self.backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
-//        self.backView.backgroundColor = COLOR(0, 0, 0, 0.2);
-//        UITapGestureRecognizer * backTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backTap:)];
-//        self.backView.userInteractionEnabled = YES;
-//        [self.backView addGestureRecognizer:backTap];
-//        [[[UIApplication sharedApplication] keyWindow] addSubview:self.backView];
+        self.backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+        self.backView.backgroundColor = COLOR(0, 0, 0, 0.2);
+        UITapGestureRecognizer * backTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backTap:)];
+        self.backView.userInteractionEnabled = YES;
+        [self.backView addGestureRecognizer:backTap];
+        [[[UIApplication sharedApplication] keyWindow] addSubview:self.backView];
         
         
-        CLPlayerView *playerView = [[CLPlayerView alloc] initWithFrame:CGRectMake(0, 0, self.view.CLwidth , 200)];
+        CLPlayerView *playerView = [[CLPlayerView alloc] initWithFrame:CGRectMake(15, kScreenHeight / 2 - 100, self.view.CLwidth - 30 , 200)];
         playerView.maskView.fullButton.alpha = 0;
         _playerView = playerView;
         
-        [self.view addSubview:_playerView];
+        [[[UIApplication sharedApplication] keyWindow] addSubview:_playerView];
         
         //    //重复播放，默认不播放
         _playerView.repeatPlay = YES;
         //    //当前控制器是否支持旋转，当前页面支持旋转的时候需要设置，告知播放器
-        _playerView.isLandscape = YES;
+//        _playerView.isLandscape = YES;
         //    //设置等比例全屏拉伸，多余部分会被剪切
         //    _playerView.fillMode = ResizeAspectFill;
         //    //设置进度条背景颜色
@@ -244,8 +234,8 @@
         //    //转子颜色
         //    _playerView.strokeColor = [UIColor redColor];
         //视频地址
-             _playerView.url = [NSURL URLWithString:@"http://c31.aipai.com/user/128/31977128/1006/card/44340096/card.mp4?l=f&ip=1"];
-//            _playerView.url = [NSURL URLWithString:model.video];
+//             _playerView.url = [NSURL URLWithString:@"http://c31.aipai.com/user/128/31977128/1006/card/44340096/card.mp4?l=f&ip=1"];
+         _playerView.url = [NSURL URLWithString:model.video];
         //播放
         [_playerView playVideo];
         //返回按钮点击事件回调
@@ -270,18 +260,21 @@
         
         
         
-//        UIImageView * close = [[UIImageView alloc] initWithFrame:CGRectMake(_playerView.frame.size.width + _playerView.frame.origin.x - 10, _playerView.frame.origin.y - 10, 20 , 20)];
-//        close.image = [UIImage imageNamed:@"guanbi"];
-//        UITapGestureRecognizer * closeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeTap:)];
-//        close.userInteractionEnabled = YES;
-//        [close addGestureRecognizer:closeTap];
-//        [self.backView addSubview:close];
+       self.close = [[UIImageView alloc] initWithFrame:CGRectMake(_playerView.frame.size.width + _playerView.frame.origin.x - 10, _playerView.frame.origin.y - 10, 20 , 20)];
+        self.close.image = [UIImage imageNamed:@"guanbi"];
+        UITapGestureRecognizer * closeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeTap:)];
+        self.close.userInteractionEnabled = YES;
+        [self.close addGestureRecognizer:closeTap];
+        [[[UIApplication sharedApplication] keyWindow] addSubview:self.close];
     }
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
     [_playerView destroyPlayer];
     _playerView = nil;
+    [self.close removeFromSuperview];
+    [_playerView removeFromSuperview];
+    [self.backView removeFromSuperview];
 }
 
 - (void)dingweiClick:(UIBarButtonItem *)sender
@@ -292,6 +285,7 @@
 
 - (void)imgTap:(UITapGestureRecognizer *)sender
 {
+    
 }
 
 - (void)closeTap:(UITapGestureRecognizer *)sender
@@ -299,12 +293,17 @@
     [self.backView removeFromSuperview];
     [_playerView destroyPlayer];
     _playerView = nil;
+    
+    [self.close removeFromSuperview];
 }
 
 - (void)backTap:(UITapGestureRecognizer *)sender
 {
     [self.backView removeFromSuperview];
-    
+    [self.close removeFromSuperview];
+
+    [_playerView destroyPlayer];
+    _playerView = nil;
 }
 
 #pragma mark -- 需要设置全局支持旋转方向，然后重写下面三个方法可以让当前页面支持多个方向

@@ -155,20 +155,17 @@
 - (void)rightBtn : (UIButton *)sender {
     NSLog(@"点击发布");
     if ([self.subjectsBtn.titleLabel.text isEqualToString:@"请选择科目类型"]) {
-        [EasyShowTextView showImageText:@"请选择科目类型" imageName:@"icon_sym_toast_succeed_56_w100"];
-        
+        [WProgressHUD showErrorAnimatedText:@"请选择科目类型"];
         return;
     }
     
     if ([self.jobNameTextField.text isEqualToString:@""]) {
-        [EasyShowTextView showImageText:@"请输入作业名称" imageName:@"icon_sym_toast_succeed_56_w100"];
-        
+        [WProgressHUD showErrorAnimatedText:@"请输入作业名称"];
         return;
     }
     
     if ([self.jobContentTextView.text isEqualToString:@""]) {
-        [EasyShowTextView showImageText:@"请输入作业内容" imageName:@"icon_sym_toast_succeed_56_w100"];
-        
+        [WProgressHUD showErrorAnimatedText:@"请输入作业内容"];
         return;
     } else {
         [self setShangChuanTupian];
@@ -279,7 +276,7 @@
             [self.view addSubview:picker];
             
             if (self.publishJobArr.count == 0) {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             } else {
                 
                 
@@ -290,7 +287,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -302,7 +299,12 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectText:(NSString *)text  index:(NSInteger)index{
     [self.subjectsBtn setTitle:text forState:UIControlStateNormal];
     PublishJobModel *model = [self.publishJobArr objectAtIndex:index];
-    self.courseID = model.ID;
+    if (model.ID == nil) {
+        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+    } else {
+      self.courseID = model.ID;
+    }
+   
     NSLog(@"%@",model.ID);
     
 }

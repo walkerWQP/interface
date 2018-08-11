@@ -78,7 +78,7 @@
                 [UserManager logoOut];
             }else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -137,7 +137,7 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
-        imgs.image = [UIImage imageNamed:@"homepagelunbo2"];
+        imgs.image = [UIImage imageNamed:@"banner"];
         [cell addSubview:imgs];
         return cell;
     }else

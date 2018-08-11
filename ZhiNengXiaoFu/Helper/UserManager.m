@@ -55,7 +55,7 @@
         NSLog(@"%@", responseObject);
 //        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
-            [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
+           [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
             
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"chooseLoginState"];
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"personInfo"];

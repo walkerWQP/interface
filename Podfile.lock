@@ -14,13 +14,13 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
-  - AMap3DMap (6.3.0):
-    - AMapFoundation (~> 1.5)
-  - AMapFoundation (1.5.3)
-  - AMapLocation (2.6.0):
-    - AMapFoundation (~> 1.4)
-  - AMapSearch (6.1.1):
-    - AMapFoundation (~> 1.4)
+  - AMap3DMap-NO-IDFA (6.3.0):
+    - AMapFoundation-NO-IDFA (~> 1.5)
+  - AMapFoundation-NO-IDFA (1.5.3)
+  - AMapLocation-NO-IDFA (2.6.0):
+    - AMapFoundation-NO-IDFA (~> 1.4)
+  - AMapSearch-NO-IDFA (6.1.1):
+    - AMapFoundation-NO-IDFA (~> 1.4)
   - MJExtension (3.0.15.1)
   - MJRefresh (3.1.15.3)
   - SDCycleScrollView (1.75):
@@ -32,9 +32,9 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
-  - AMap3DMap
-  - AMapLocation
-  - AMapSearch
+  - AMap3DMap-NO-IDFA
+  - AMapLocation-NO-IDFA
+  - AMapSearch-NO-IDFA
   - MJExtension (~> 3.0.15.1)
   - MJRefresh
   - SDCycleScrollView
@@ -44,10 +44,10 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
-    - AMap3DMap
-    - AMapFoundation
-    - AMapLocation
-    - AMapSearch
+    - AMap3DMap-NO-IDFA
+    - AMapFoundation-NO-IDFA
+    - AMapLocation-NO-IDFA
+    - AMapSearch-NO-IDFA
     - MJExtension
     - MJRefresh
     - SDCycleScrollView
@@ -56,16 +56,16 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
-  AMap3DMap: 1bb48f98ecb46682f145881692e7b06adcd06a93
-  AMapFoundation: 58f883c80754c659cf626deb3150936bfe8f1772
-  AMapLocation: 55116a2c8956eab7550cbb56e989aa5cdcc424e3
-  AMapSearch: 3dcbf85c403a2a0fe0eda5318caabc272b31f5e1
+  AMap3DMap-NO-IDFA: 5fc3230e40e444290d3daa03f4d203a094ea7fe0
+  AMapFoundation-NO-IDFA: 128ccf9249abc9de1661b935f01d116700583691
+  AMapLocation-NO-IDFA: a75b762ae9a90840ce683de12504ac843a9f3b6c
+  AMapSearch-NO-IDFA: 848e148a31876217a1094e6be3448e95d1688b6a
   MJExtension: 19bc33ce2eee2d319760f5622562cf581a6ff756
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
   SDCycleScrollView: 884b88f0266dd4708a0e1934975c69cb971707b1
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
 
-PODFILE CHECKSUM: a06a6ee7705edc89d18ac3164f3b21ce031d4df3
+PODFILE CHECKSUM: cc48fb3ea74bffe401a58f3bb10c1f0c1ac55515
 
 COCOAPODS: 1.5.3

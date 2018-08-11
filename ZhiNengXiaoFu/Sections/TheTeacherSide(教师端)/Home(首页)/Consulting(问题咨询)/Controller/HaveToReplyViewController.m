@@ -91,7 +91,7 @@
                 [UserManager logoOut];
             }else
             {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             }
         }
         

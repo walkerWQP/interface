@@ -116,8 +116,8 @@
 }
 
 - (void)releasedBtn:(UIButton *)sender {
-    if ([self.nameBtn.titleLabel.text isEqualToString:@"请选择班级"]) {
-        [EasyShowTextView showImageText:@"请选择班级" imageName:@"icon_sym_toast_failed_56_w100"];
+    if (self.courseID == nil) {
+        [WProgressHUD showErrorAnimatedText:@"请选择班级"];
         return;
     } else {
         [self setShangChuanTupian];
@@ -228,7 +228,7 @@
             [self.view addSubview:picker];
             
             if (self.publishJobArr.count == 0) {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             } else {
                 
                 
@@ -239,7 +239,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }

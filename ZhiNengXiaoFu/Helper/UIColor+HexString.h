@@ -19,4 +19,5 @@
  */
 + (UIColor *)colorwithHexString:(NSString *)color;
 
+
 @end

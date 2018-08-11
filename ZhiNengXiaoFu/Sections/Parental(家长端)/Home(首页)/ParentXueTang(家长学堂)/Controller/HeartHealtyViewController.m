@@ -75,7 +75,8 @@
             if (self.ChildJiaoYuAry.count == 0) {
                 self.zanwushuju.alpha = 1;
                 
-            } else {
+            }else
+            {
                 self.zanwushuju.alpha = 0;
                 [self.HeartHealtyTableView reloadData];
             }
@@ -86,7 +87,7 @@
                 [UserManager logoOut];
             }else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -152,60 +153,65 @@
     
     ParentXueTangCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ParentXueTangCellId" forIndexPath:indexPath];
     cell.selectionStyle =  UITableViewCellSelectionStyleNone;
-    ParentXueTangModel * model = [self.ChildJiaoYuAry objectAtIndex:indexPath.row];
-    cell.titleLabel.text = model.title;
-    [cell.ShiPinListImg sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
-    cell.liulanLabel.text = [NSString stringWithFormat:@"%ld人已看", model.view];
-    cell.jiShuLabel.text = [NSString stringWithFormat:@"%ld次", model.view];
-    if (model.label.count == 0) {
-        cell.biaoQianOneImg.alpha = 0;
-        cell.biaoQianTwoImg.alpha = 0;
-        cell.biaoQianThreeImg.alpha = 0;
-        
-        cell.biaoQianOneLabel.alpha = 0;
-        cell.biaoQianTwoLabel.alpha = 0;
-        cell.biaoQianThreeLabel.alpha = 0;
-    }else if (model.label.count == 1)
-    {
-        cell.biaoQianOneImg.alpha = 1;
-        cell.biaoQianTwoImg.alpha = 0;
-        cell.biaoQianThreeImg.alpha = 0;
-        
-        cell.biaoQianOneLabel.alpha = 1;
-        cell.biaoQianTwoLabel.alpha = 0;
-        cell.biaoQianThreeLabel.alpha = 0;
-        cell.biaoQianOneImg.image = [UIImage imageNamed:@"长的"];
-        cell.biaoQianOneLabel.text = [model.label objectAtIndex:0];
-        
-    }else if (model.label.count == 2)
-    {
-        cell.biaoQianOneImg.alpha = 1;
-        cell.biaoQianTwoImg.alpha = 1;
-        cell.biaoQianThreeImg.alpha = 0;
-        
-        cell.biaoQianOneLabel.alpha = 1;
-        cell.biaoQianTwoLabel.alpha = 1;
-        cell.biaoQianThreeLabel.alpha = 0;
-        cell.biaoQianOneImg.image = [UIImage imageNamed:@"长的"];
-        cell.biaoQianOneLabel.text = [model.label objectAtIndex:0];
-        cell.biaoQianTwoImg.image = [UIImage imageNamed:@"长的"];
-        cell.biaoQianTwoLabel.text = [model.label objectAtIndex:1];
-    }else if (model.label.count == 3)
-    {
-        cell.biaoQianOneImg.alpha = 1;
-        cell.biaoQianTwoImg.alpha = 1;
-        cell.biaoQianThreeImg.alpha = 1;
-        
-        cell.biaoQianOneLabel.alpha = 1;
-        cell.biaoQianTwoLabel.alpha = 1;
-        cell.biaoQianThreeLabel.alpha = 1;
-        cell.biaoQianOneImg.image = [UIImage imageNamed:@"长的"];
-        cell.biaoQianOneLabel.text = [model.label objectAtIndex:0];
-        cell.biaoQianTwoImg.image = [UIImage imageNamed:@"长的"];
-        cell.biaoQianTwoLabel.text = [model.label objectAtIndex:1];
-        cell.biaoQianThreeImg.image = [UIImage imageNamed:@"长的"];
-        cell.biaoQianThreeLabel.text = [model.label objectAtIndex:2];
+    
+    if (self.ChildJiaoYuAry) {
+        ParentXueTangModel * model = [self.ChildJiaoYuAry objectAtIndex:indexPath.row];
+        cell.titleLabel.text = model.title;
+        [cell.ShiPinListImg sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+        cell.liulanLabel.text = [NSString stringWithFormat:@"%ld人已看", model.view];
+        cell.jiShuLabel.text = [NSString stringWithFormat:@"%ld次", model.view];
+        if (model.label.count == 0) {
+            cell.biaoQianOneImg.alpha = 0;
+            cell.biaoQianTwoImg.alpha = 0;
+            cell.biaoQianThreeImg.alpha = 0;
+            
+            cell.biaoQianOneLabel.alpha = 0;
+            cell.biaoQianTwoLabel.alpha = 0;
+            cell.biaoQianThreeLabel.alpha = 0;
+        }else if (model.label.count == 1)
+        {
+            cell.biaoQianOneImg.alpha = 1;
+            cell.biaoQianTwoImg.alpha = 0;
+            cell.biaoQianThreeImg.alpha = 0;
+            
+            cell.biaoQianOneLabel.alpha = 1;
+            cell.biaoQianTwoLabel.alpha = 0;
+            cell.biaoQianThreeLabel.alpha = 0;
+            cell.biaoQianOneImg.image = [UIImage imageNamed:@"长的"];
+            cell.biaoQianOneLabel.text = [model.label objectAtIndex:0];
+            
+        }else if (model.label.count == 2)
+        {
+            cell.biaoQianOneImg.alpha = 1;
+            cell.biaoQianTwoImg.alpha = 1;
+            cell.biaoQianThreeImg.alpha = 0;
+            
+            cell.biaoQianOneLabel.alpha = 1;
+            cell.biaoQianTwoLabel.alpha = 1;
+            cell.biaoQianThreeLabel.alpha = 0;
+            cell.biaoQianOneImg.image = [UIImage imageNamed:@"长的"];
+            cell.biaoQianOneLabel.text = [model.label objectAtIndex:0];
+            cell.biaoQianTwoImg.image = [UIImage imageNamed:@"长的"];
+            cell.biaoQianTwoLabel.text = [model.label objectAtIndex:1];
+        }else if (model.label.count == 3)
+        {
+            cell.biaoQianOneImg.alpha = 1;
+            cell.biaoQianTwoImg.alpha = 1;
+            cell.biaoQianThreeImg.alpha = 1;
+            
+            cell.biaoQianOneLabel.alpha = 1;
+            cell.biaoQianTwoLabel.alpha = 1;
+            cell.biaoQianThreeLabel.alpha = 1;
+            cell.biaoQianOneImg.image = [UIImage imageNamed:@"长的"];
+            cell.biaoQianOneLabel.text = [model.label objectAtIndex:0];
+            cell.biaoQianTwoImg.image = [UIImage imageNamed:@"长的"];
+            cell.biaoQianTwoLabel.text = [model.label objectAtIndex:1];
+            cell.biaoQianThreeImg.image = [UIImage imageNamed:@"长的"];
+            cell.biaoQianThreeLabel.text = [model.label objectAtIndex:2];
+        }
     }
+    
+   
     
     
     return cell;
@@ -220,8 +226,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ParentXueTangDetailsViewController * parentXueTangDetailsVC = [[ParentXueTangDetailsViewController alloc] init];
-    ParentXueTangModel * model = [self.ChildJiaoYuAry objectAtIndex:indexPath.row];
-    parentXueTangDetailsVC.ParentXueTangDetailsId = model.ID;
+    if (self.ChildJiaoYuAry.count != 0) {
+        ParentXueTangModel * model = [self.ChildJiaoYuAry objectAtIndex:indexPath.row];
+        parentXueTangDetailsVC.ParentXueTangDetailsId = model.ID;
+    }
+   
     [self.navigationController pushViewController:parentXueTangDetailsVC animated:YES];
 }
 

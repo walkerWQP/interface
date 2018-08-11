@@ -158,3 +158,16 @@
 //教师、家长获取成长相册链接
 #define getURL [NSString stringWithFormat:@"%@index/album/get_url",YUMING]
 
+//获取banner图信息
+/*
+ 1  首页banner图
+ 2 班级列表banner图
+ 3 老师通知列表banner图
+ 4 作业列表banner图
+ 5 学校通知列表banner图,
+ 6 学校动态列表banner图
+ 7 联系我们banner图
+ 8 名师在线banner图
+ 9 请假列表banner图
+ */
+#define bannersURL [NSString stringWithFormat:@"%@index/banner/banners",YUMING]

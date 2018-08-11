@@ -35,7 +35,7 @@
 {
     if (!_itemImg) {
         self.itemImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 70, 70)];
-        self.itemImg.image = [UIImage imageNamed:@"头像"];
+        self.itemImg.image = [UIImage imageNamed:@"user"];
         self.itemImg.layer.cornerRadius = 35;
         self.itemImg.layer.masksToBounds = YES;
     }

@@ -91,7 +91,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -173,8 +173,13 @@
 //    [self.navigationController pushViewController:videoSettingsVC animated:YES];
     PublicClassModel *model = [self.forClassArr objectAtIndex:indexPath.row];
     TeacherZaiXianDetailsViewController *teacherZaiXianDetailsVC = [[TeacherZaiXianDetailsViewController alloc] init];
-    teacherZaiXianDetailsVC.teacherZaiXianDetailsId = model.ID;
-    [self.navigationController pushViewController:teacherZaiXianDetailsVC animated:YES];
+    if (model.ID == nil) {
+        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+    } else {
+        teacherZaiXianDetailsVC.teacherZaiXianDetailsId = model.ID;
+        [self.navigationController pushViewController:teacherZaiXianDetailsVC animated:YES];
+    }
+    
 }
 
 @end

@@ -92,20 +92,20 @@
 
 - (void)postDataForTeacherAnswerURL {
     if ([self.replyTextField.text isEqualToString:@""]) {
-        [EasyShowTextView showImageText:@"回复不能为空" imageName:@"icon_sym_toast_failed_56_w100"];
+        [WProgressHUD showErrorAnimatedText:@"回复不能为空"];
         return;
     } else {
         NSDictionary * dic = @{@"key":[UserManager key], @"id":self.ID,@"answer":self.replyTextField.text};
         [[HttpRequestManager sharedSingleton] POST:teacherAnswerURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
             if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
+                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
                 [self.navigationController popViewControllerAnimated:YES];
             }else
             {
                 if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                     [UserManager logoOut];
                 } else {
-                    [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                    [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 }
             }
         } failure:^(NSURLSessionDataTask *task, NSError *error) {

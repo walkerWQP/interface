@@ -43,8 +43,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
-                
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             }
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -56,27 +55,7 @@
 
 
 - (void)prepareViews {
-    
-//    NSString *urlStr = [NSString stringWithFormat:@"%@", self.urlStr];
-//    NSURL *url = [NSURL URLWithString:urlStr];
-//    [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
-//    // 3.开启日志
-//    [WebViewJavascriptBridge enableLogging];
-//
-//    // 4.给webView建立JS和OC的沟通桥梁
-//    self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.webView];
-//    [self.bridge setWebViewDelegate:self];
-//
-//
-//    /* JS调用OC的API:打开分享 */
-//
-//    [self.bridge registerHandler:@"uploadphoto" handler:^(id data, WVJBResponseCallback responseCallback) {
-//        NSLog(@"点击上传");
-//        
-//    }];
-    
-    
-    
+
 }
 
 

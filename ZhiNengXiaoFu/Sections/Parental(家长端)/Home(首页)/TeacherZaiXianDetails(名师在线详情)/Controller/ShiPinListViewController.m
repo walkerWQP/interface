@@ -71,7 +71,7 @@
                 [UserManager logoOut];
             }else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -130,18 +130,22 @@
     
     ShiPinListCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ShiPinListCellId" forIndexPath:indexPath];
     cell.selectionStyle =  UITableViewCellSelectionStyleNone;
-    SchoolDongTaiModel * model = [self.shiPinListAry objectAtIndex:indexPath.row];
-    [cell.ShiPinListImg sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
-    cell.titleLabel.text = model.title;
-    cell.timeLabel.text = model.create_time;
+    if (self.shiPinListAry.count != 0) {
+        SchoolDongTaiModel * model = [self.shiPinListAry objectAtIndex:indexPath.row];
+        [cell.ShiPinListImg sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+        cell.titleLabel.text = model.title;
+        cell.timeLabel.text = model.create_time;
+    }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SchoolDongTaiModel * model = [self.shiPinListAry objectAtIndex:indexPath.row];
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"shipinListBoFang" object:@{@"SchoolDongTaiModel":model}];
+    if (self.shiPinListAry.count != 0) {
+        SchoolDongTaiModel * model = [self.shiPinListAry objectAtIndex:indexPath.row];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"shipinListBoFang" object:@{@"SchoolDongTaiModel":model}];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

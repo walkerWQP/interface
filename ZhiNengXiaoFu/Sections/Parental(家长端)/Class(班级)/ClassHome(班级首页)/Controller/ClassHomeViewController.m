@@ -56,7 +56,7 @@
                 [UserManager logoOut];
             }else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -105,11 +105,14 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSDictionary * dic = [self.classArr objectAtIndex:indexPath.row];
     UICollectionViewCell *gridcell = nil;
     TeacherNotifiedCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TeacherNotifiedCell_CollectionView forIndexPath:indexPath];
-    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"img"]] placeholderImage:[UIImage imageNamed:@"user"]];
-    cell.classLabel.text = [dic objectForKey:@"title"];
+    if (self.classArr.count != 0) {
+        NSDictionary * dic = [self.classArr objectAtIndex:indexPath.row];
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"img"]] placeholderImage:[UIImage imageNamed:@"user"]];
+        cell.classLabel.text = [dic objectForKey:@"title"];
+    }
+   
     gridcell = cell;
     return gridcell;
     

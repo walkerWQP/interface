@@ -34,10 +34,7 @@
     [super viewDidLoad];
     self.title = @"请假列表";
     self.page = 1;
-    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
-    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
-    self.zanwushuju.alpha = 0;
-    [self.view addSubview:self.zanwushuju];
+    
     [self makeOffTheListViewControllerUI];
     //下拉刷新
     self.offTheListCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
@@ -47,6 +44,10 @@
     [self.offTheListCollectionView.mj_header beginRefreshing];
     //上拉刷新
     self.offTheListCollectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.view addSubview:self.zanwushuju];
 }
 
 - (void)loadNewTopic {
@@ -86,7 +87,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -110,7 +111,7 @@
     self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
     self.headImgView.backgroundColor = [UIColor clearColor];
     [self.offTheListCollectionView addSubview:self.headImgView];
-    self.headImgView.image = [UIImage imageNamed:@"homepagelunbo2"];
+    self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
 }
 
 #pragma mark - <UICollectionViewDelegate, UICollectionViewDataSource>
@@ -163,12 +164,15 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     OffTheListModel *model = [self.offTheListArr objectAtIndex:indexPath.row];
     LeaveTheDetailsViewController *leaveTheDetailsVC = [LeaveTheDetailsViewController new];
-    leaveTheDetailsVC.ID = model.ID;
-    leaveTheDetailsVC.name = model.name;
-    leaveTheDetailsVC.headImg = model.head_img;
+    if (model.ID == nil || model.name == nil) {
+        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+    } else {
+        leaveTheDetailsVC.ID = model.ID;
+        leaveTheDetailsVC.name = model.name;
+        leaveTheDetailsVC.headImg = model.head_img;
+        [self.navigationController pushViewController:leaveTheDetailsVC animated:YES];
+    }
     
-    
-    [self.navigationController pushViewController:leaveTheDetailsVC animated:YES];
     
 }
 

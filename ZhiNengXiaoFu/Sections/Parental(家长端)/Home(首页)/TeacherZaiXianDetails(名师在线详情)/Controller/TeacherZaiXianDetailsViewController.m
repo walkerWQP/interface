@@ -15,6 +15,7 @@
 #import "CLPlayerView.h"
 #import "UIView+CLSetRect.h"
 #import "SchoolDongTaiModel.h"
+
 @interface TeacherZaiXianDetailsViewController ()
 @property (nonatomic,weak) CLPlayerView *playerView;
 
@@ -60,8 +61,6 @@
             if ([self.teacherZaiXianDetailsModel.video isEqualToString:@""]) {
                 
                 
-                //                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
-                
             }else
             {
                 [self setBoFang];
@@ -81,7 +80,7 @@
             
             else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -104,9 +103,6 @@
         {
             
             if ([self.teacherZaiXianDetailsModel.video isEqualToString:@""]) {
-              
-                
-//                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
 
             }else
             {
@@ -127,7 +123,7 @@
             
             else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }

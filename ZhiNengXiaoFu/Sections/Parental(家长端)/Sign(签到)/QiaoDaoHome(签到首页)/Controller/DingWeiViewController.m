@@ -32,6 +32,8 @@
     [self.view addSubview:self.mapView];
     _mapView.showsUserLocation = YES;
     _mapView.userTrackingMode = MAUserTrackingModeFollow;
+//    腾讯高德：34.7746120000,113.6555180000
+  
     //设置缩放级别
     [_mapView setZoomLevel:19];
     //是否显示指南针

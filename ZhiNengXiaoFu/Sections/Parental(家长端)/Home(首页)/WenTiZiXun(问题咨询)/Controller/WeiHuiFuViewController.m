@@ -15,6 +15,7 @@
 @property (nonatomic, strong) ConsultListModel * consultListModel;
 @property (nonatomic, strong) NSMutableArray * WeiHuiFuAry;
 @property (nonatomic, assign) NSInteger     page;
+@property (nonatomic, strong) UIImageView * zanwushuju;
 
 @end
 
@@ -32,6 +33,10 @@
     self.WeiHuiFuTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.WeiHuiFuTableView registerNib:[UINib nibWithNibName:@"WeiHuiFuCell" bundle:nil] forCellReuseIdentifier:@"WeiHuiFuCellId"];
     
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.view addSubview:self.zanwushuju];
     //下拉刷新
     self.WeiHuiFuTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
     //自动更改透明度
@@ -63,7 +68,7 @@
 
 - (void)setNetWork:(NSInteger)page
 {
-    NSDictionary * dic = @{@"key":[UserManager key], @"status":@0,@"page":[NSString stringWithFormat:@"%ld",page]};
+    NSDictionary * dic = @{@"key":[UserManager key], @"status":@0,@"page":[NSString stringWithFormat:@"%ld", page]};
     
     [[HttpRequestManager sharedSingleton] POST:ConsultConsultList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
@@ -76,6 +81,13 @@
             for (ConsultListModel *model in arr) {
                 [self.WeiHuiFuAry addObject:model];
             }
+            
+            if (self.WeiHuiFuAry.count == 0) {
+                self.zanwushuju.alpha = 1;
+                
+            } else {
+                self.zanwushuju.alpha = 0;
+            }
             [self.WeiHuiFuTableView reloadData];
         }else
         {
@@ -83,7 +95,7 @@
                 [UserManager logoOut];
             }else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -142,10 +154,13 @@
 {
     WeiHuiFuCell * cell = [tableView dequeueReusableCellWithIdentifier:@"WeiHuiFuCellId" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    ConsultListModel * model = [self.WeiHuiFuAry objectAtIndex:indexPath.row];
-    [cell.WeiHuiFuUserIconImg sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:nil];
-    cell.WeiHuiFuNameLabel.text = [NSString stringWithFormat:@"%@%@问:", model.class_name ,model.student_name];
-    cell.WeiHuiFuQuestionLabel.text = model.question;
+    
+    if (self.WeiHuiFuAry.count != 0) {
+        ConsultListModel * model = [self.WeiHuiFuAry objectAtIndex:indexPath.row];
+        [cell.WeiHuiFuUserIconImg sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:nil];
+        cell.WeiHuiFuNameLabel.text = [NSString stringWithFormat:@"%@%@问:", model.class_name ,model.student_name];
+        cell.WeiHuiFuQuestionLabel.text = model.question;
+    }
     return cell;
     
 }

@@ -9,8 +9,8 @@
 #import "ParentXueTangDetailsViewController.h"
 #import "ParentXueTangDetailsModel.h"
 @interface ParentXueTangDetailsViewController ()<UIWebViewDelegate>
-@property (nonatomic,weak) CLPlayerView *playerView;
 
+@property (nonatomic,weak) CLPlayerView *playerView;
 @property (nonatomic, strong) ParentXueTangDetailsModel * parentXueTangDetailsModel;
 @property (strong, nonatomic) UIWebView *webView;
 
@@ -40,10 +40,12 @@
             [self LoadWebView];
 
             self.title = self.parentXueTangDetailsModel.title;
-            if ([self.parentXueTangDetailsModel.url isEqualToString:@""]) {
+            if ([self.parentXueTangDetailsModel.url isEqualToString:@""])
+            {
                 UIImageView * back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
                 [back sd_setImageWithURL:[NSURL URLWithString:self.parentXueTangDetailsModel.img] placeholderImage:nil];
                 [self.view addSubview:back];
+                
             }else
             {
                 [self setBoFang];
@@ -55,7 +57,7 @@
                 [UserManager logoOut];
             }else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }

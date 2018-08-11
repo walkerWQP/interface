@@ -85,7 +85,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             }
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -109,7 +109,7 @@
     self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
     self.headImgView.backgroundColor = [UIColor clearColor];
     [self.schoolDynamicCollectionView addSubview:self.headImgView];
-    self.headImgView.image = [UIImage imageNamed:@"homepagelunbo2"];
+    self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
     
     
     
@@ -159,8 +159,13 @@
     NSLog(@"%ld",indexPath.row);
     SchoolDynamicModel *model = [self.schoolDynamicArr objectAtIndex:indexPath.row];
     SchoolDongTaiDetailsViewController *schoolDongTaiDetailsVC = [[SchoolDongTaiDetailsViewController alloc] init];
-    schoolDongTaiDetailsVC.schoolDongTaiId = model.ID;
-    [self.navigationController pushViewController:schoolDongTaiDetailsVC animated:YES];
+    if (model.ID == nil) {
+        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+    } else {
+        schoolDongTaiDetailsVC.schoolDongTaiId = model.ID;
+        [self.navigationController pushViewController:schoolDongTaiDetailsVC animated:YES];
+    }
+    
 }
 
 

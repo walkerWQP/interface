@@ -12,7 +12,7 @@
 #import "ReleasedAlbumsViewController.h"
 
 
-@interface GrowthAlbumViewController ()<UIWebViewDelegate,HQPickerViewDelegate>
+@interface GrowthAlbumViewController ()<UIWebViewDelegate,WPopupMenuDelegate>
 
 @property (nonatomic, strong) WebViewJavascriptBridge *bridge;
 @property (nonatomic, strong) UIWebView   *webView;
@@ -22,6 +22,8 @@
 @property (nonatomic, strong) NSString   *shareImgurl;
 @property (nonatomic, strong) NSMutableArray *publishJobArr;
 @property (nonatomic, strong) UIView     *bgView;
+
+@property (nonatomic, strong) UIButton       *rightBtn;
 
 @end
 
@@ -41,11 +43,11 @@
     self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT)];
     self.bgView.backgroundColor = backColor;
     [self.view addSubview:self.bgView];
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 90, 30)];
-    [button setTitle:@"选择班级" forState:UIControlStateNormal];
-    button.titleLabel.font = titFont;
-    [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    self.rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 90, 30)];
+    [self.rightBtn setTitle:@"选择班级" forState:UIControlStateNormal];
+    self.rightBtn.titleLabel.font = titFont;
+    [self.rightBtn addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];
     self.view.backgroundColor = [UIColor greenColor];
     
     [self prepareViews];
@@ -71,13 +73,14 @@
                 [ary addObject:[NSString stringWithFormat:@"%@", model.name]];
             }
             
-            HQPickerView *picker = [[HQPickerView alloc]initWithFrame:self.view.bounds];
-            picker.delegate = self ;
-            picker.customArr = ary;
-            [self.view addSubview:picker];
+            if (ary.count == 0) {
+                [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+            } else {
+                [WPopupMenu showRelyOnView:self.rightBtn titles:ary icons:nil menuWidth:140 delegate:self];
+            }
             
             if (self.publishJobArr.count == 0) {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             } else {
                 
                 
@@ -88,7 +91,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -97,12 +100,19 @@
     }];
 }
 
-- (void)pickerView:(UIPickerView *)pickerView didSelectText:(NSString *)text  index:(NSInteger)index{
+
+#pragma mark - YBPopupMenuDelegate
+- (void)WPopupMenuDidSelectedAtIndex:(NSInteger)index WPopupMenu:(WPopupMenu *)WPopupMenu {
+    
     PublishJobModel *model = [self.publishJobArr objectAtIndex:index];
     NSLog(@"%@",model.ID);
-    [self postDataForGetURL:model.ID];
-    
+    if (model.ID == nil) {
+        [WProgressHUD showSuccessfulAnimatedText:@"数据不正确,请重试"];
+    } else {
+        [self postDataForGetURL:model.ID];
+    }
 }
+
 
 - (void)postDataForGetURL:(NSString *)classID {
     NSDictionary *dic = @{@"key":[UserManager key],@"class_id":classID};
@@ -114,14 +124,18 @@
             [self.view addSubview:self.bgView];
             [self cleanCacheAndCookie];
             NSString *url = [[responseObject objectForKey:@"data"] objectForKey:@"url"];
-            self.urlStr = url;
-            [self prepareViews];
+            if (url == nil) {
+                [WProgressHUD showSuccessfulAnimatedText:@"数据不正确,请重试"];
+            } else {
+                self.urlStr = url;
+                [self prepareViews];
+            }
             
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }

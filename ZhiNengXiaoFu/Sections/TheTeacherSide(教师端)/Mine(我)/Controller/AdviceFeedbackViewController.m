@@ -55,7 +55,7 @@
 - (void)submitBtn : (UIButton *)sender {
     NSLog(@"点击提交");
     if ([self.contentTextView.text isEqualToString:@""]) {
-        [EasyShowTextView showImageText:@"反馈内容不能为空" imageName:@"icon_sym_toast_failed_56_w100"];
+        [WProgressHUD showErrorAnimatedText:@"反馈内容不能为空"];
         return;
     } else {
         NSDictionary *dic = @{@"key":[UserManager key],@"content":self.contentTextView.text};

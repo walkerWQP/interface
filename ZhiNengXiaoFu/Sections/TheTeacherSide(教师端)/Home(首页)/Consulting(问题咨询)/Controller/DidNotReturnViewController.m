@@ -85,7 +85,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             }
         }
     
@@ -157,8 +157,13 @@
     NSLog(@"%ld",indexPath.row);
     ConsultListModel *model = [self.didNotReturnArr objectAtIndex:indexPath.row];
     ReplyViewController *replyVC = [[ReplyViewController alloc] init];
-    replyVC.ID = model.ID;
-    [self.navigationController pushViewController:replyVC animated:YES];
+    if (model.ID == nil) {
+        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+    } else {
+        replyVC.ID = model.ID;
+        [self.navigationController pushViewController:replyVC animated:YES];
+    }
+   
     
 }
 

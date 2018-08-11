@@ -77,7 +77,7 @@
                 [UserManager logoOut];
             }else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -191,19 +191,22 @@
     {
         TeacherZhuanLanCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TeacherZhuanLanCellId" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        TeacherZaiXianModel * model = [self.TeacherZaiXianAry objectAtIndex:indexPath.row];
-        [cell.UserIcon sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
-        cell.UserName.text = model.name;
-        cell.titleLabel.text = model.title;
-        cell.subTitleLabel.text = model.honor;
-        cell.timeLabel.text = model.create_time;
-        if (model.is_charge == 1) {
-            cell.stateLabel.text = @"收费课";
-        }else
-        {
-            cell.stateLabel.text = @"公开课";
-
+        if (self.TeacherZaiXianAry.count != 0) {
+            TeacherZaiXianModel * model = [self.TeacherZaiXianAry objectAtIndex:indexPath.row];
+            [cell.UserIcon sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
+            cell.UserName.text = model.name;
+            cell.titleLabel.text = model.title;
+            cell.subTitleLabel.text = model.honor;
+            cell.timeLabel.text = model.create_time;
+            if (model.is_charge == 1) {
+                cell.stateLabel.text = @"收费课";
+            }else
+            {
+                cell.stateLabel.text = @"公开课";
+                
+            }
         }
+        
         return cell;
     }
     
@@ -222,10 +225,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    TeacherZaiXianDetailsViewController * teacherZaiXianDetailsVC = [[TeacherZaiXianDetailsViewController alloc] init];
-    TeacherZaiXianModel * model = [self.TeacherZaiXianAry objectAtIndex:indexPath.row];
-    teacherZaiXianDetailsVC.teacherZaiXianDetailsId = model.ID;
-    [self.navigationController pushViewController:teacherZaiXianDetailsVC animated:YES];
+    if (indexPath.section == 1) {
+        if (self.TeacherZaiXianAry.count != 0) {
+            TeacherZaiXianDetailsViewController * teacherZaiXianDetailsVC = [[TeacherZaiXianDetailsViewController alloc] init];
+            TeacherZaiXianModel * model = [self.TeacherZaiXianAry objectAtIndex:indexPath.row];
+            teacherZaiXianDetailsVC.teacherZaiXianDetailsId = model.ID;
+            [self.navigationController pushViewController:teacherZaiXianDetailsVC animated:YES];
+        }
+    }
+   
 }
 
 

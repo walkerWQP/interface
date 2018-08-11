@@ -94,7 +94,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             }
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -119,7 +119,7 @@
     self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
     self.headImgView.backgroundColor = [UIColor clearColor];
     [self.classDetailsCollectionView addSubview:self.headImgView];
-    self.headImgView.image = [UIImage imageNamed:@"homepagelunbo2"];
+    self.headImgView.image = [UIImage imageNamed:@"banner"];
 }
 
 #pragma mark - <UICollectionViewDelegate, UICollectionViewDataSource>
@@ -167,8 +167,13 @@
     NSLog(@"%ld",indexPath.row);
     ClassDetailsModel *model = [self.classDetailsArr objectAtIndex:indexPath.row];
     TongZhiDetailsViewController *tongZhiDetailsVC = [[TongZhiDetailsViewController alloc] init];
-    tongZhiDetailsVC.tongZhiId = model.ID;
-    [self.navigationController pushViewController:tongZhiDetailsVC animated:YES];
+    if (model.ID == nil) {
+        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+    } else {
+        tongZhiDetailsVC.tongZhiId = model.ID;
+        [self.navigationController pushViewController:tongZhiDetailsVC animated:YES];
+    }
+   
 //    NoticeViewController *noticeVC = [NoticeViewController new];
 //    [self.navigationController pushViewController:noticeVC animated:YES];
     

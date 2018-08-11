@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface SignClassViewController : BaseViewController
+@interface SignClassViewController : UIViewController
 
 @property (nonatomic, strong) NSString    *ID;
 

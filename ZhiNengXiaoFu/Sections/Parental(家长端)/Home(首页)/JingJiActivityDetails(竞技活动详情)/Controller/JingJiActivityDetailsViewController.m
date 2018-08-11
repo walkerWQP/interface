@@ -66,7 +66,7 @@
                 [UserManager logoOut];
             }else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -141,7 +141,13 @@
     self.tongZhiDetailsCell.TongZhiDetailsTitleLabel.text = self.jingJiHuoDongListModol.title;
     self.tongZhiDetailsCell.TongZhiDetailsConnectLabel.text = self.jingJiHuoDongListModol.introduction;
     self.tongZhiDetailsCell.TongZhiDetailsTimeLabel.text = [NSString stringWithFormat:@"活动时间:%@-%@", self.jingJiHuoDongListModol.start, self.jingJiHuoDongListModol.end];
-    
+    if (self.jingJiHuoDongListModol.is_school == 1) {
+        self.tongZhiDetailsCell.TongZhiDetailsConnectLabel.alpha = 0;
+    }else
+    {
+        self.tongZhiDetailsCell.TongZhiDetailsConnectLabel.alpha = 1;
+
+    }
     
     if (self.Hnew ==0) {
         

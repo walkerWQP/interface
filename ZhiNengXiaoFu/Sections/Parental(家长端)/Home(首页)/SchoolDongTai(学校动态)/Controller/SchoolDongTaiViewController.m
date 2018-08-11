@@ -85,7 +85,7 @@
                 [UserManager logoOut];
             }else
             {
-                [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -98,8 +98,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SchoolDongTaiDetailsViewController * schoolDongTaivc = [[SchoolDongTaiDetailsViewController alloc] init];
+    if (self.schoolDynamicArr.count != 0) {
+
     SchoolDongTaiModel * model = [self.schoolDynamicArr objectAtIndex:indexPath.row];
     schoolDongTaivc.schoolDongTaiId = model.ID;
+    }
     [self.navigationController pushViewController:schoolDongTaivc animated:YES];
     
 }
@@ -169,11 +172,13 @@
         TeacherTongZhiCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TeacherTongZhiCellId" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
+         if (self.schoolDynamicArr.count != 0) {
         SchoolDongTaiModel * model = [self.schoolDynamicArr objectAtIndex:indexPath.row];
         
         [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
         cell.titleLabel.text = model.title;
         cell.timeLabel.text = model.create_time;
+         }
         return cell;
     }
     

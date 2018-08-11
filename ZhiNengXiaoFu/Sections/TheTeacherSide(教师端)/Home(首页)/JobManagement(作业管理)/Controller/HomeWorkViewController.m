@@ -80,7 +80,7 @@
     [[HttpRequestManager sharedSingleton] POST:workDeleteHomeWork parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
-            [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_succeed_56_w100"];
+            [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
             
             [self.homeWorkArr removeAllObjects];
             [self getWorkHomeWorkListData:1];
@@ -90,7 +90,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             }
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -126,7 +126,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -249,9 +249,12 @@
     
     NSLog(@"点击发布通知");
     PublishJobViewController *publishJobVC = [[PublishJobViewController alloc] init];
-    publishJobVC.classID = self.ID;
-    [self.navigationController pushViewController:publishJobVC animated:YES];
-    
+    if (self.ID == nil) {
+        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+    } else {
+        publishJobVC.classID = self.ID;
+        [self.navigationController pushViewController:publishJobVC animated:YES];
+    }
 }
 
 @end

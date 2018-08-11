@@ -59,7 +59,7 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
         }
@@ -134,8 +134,13 @@
     
     NSLog(@"%ld",indexPath.row);
     QianDaoViewController *qianDaoVC = [[QianDaoViewController alloc] init];
-    qianDaoVC.studentId = self.ID;
-    [self.navigationController pushViewController:qianDaoVC animated:YES];
+    if (self.ID == nil) {
+        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+    } else {
+        qianDaoVC.studentId = self.ID;
+        [self.navigationController pushViewController:qianDaoVC animated:YES];
+    }
+    
     
 }
 

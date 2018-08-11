@@ -113,13 +113,13 @@
     NSLog(@"发送通知");
     if ([self.noticeNameTextField.text isEqualToString:@""]) {
         NSLog(@"请输入通知分类");
-        [EasyShowTextView showImageText:@"通知分类不能为空" imageName:@"icon_sym_toast_failed_56_w100"];
+        [WProgressHUD showErrorAnimatedText:@"通知分类不能为空"];
         return;
     }
     
     if ([self.noticeContentTextView.text isEqualToString:@""]) {
         NSLog(@"请输入通知内容");
-        [EasyShowTextView showImageText:@"通知内容不能为空" imageName:@"icon_sym_toast_failed_56_w100"];
+        [WProgressHUD showErrorAnimatedText:@"通知内容不能为空"];
         return;
     } else {
         [self setShangChuanTupian];
@@ -214,7 +214,7 @@
                 if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                     [UserManager logoOut];
                 } else {
-                    [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                    [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                     
                 }
             }

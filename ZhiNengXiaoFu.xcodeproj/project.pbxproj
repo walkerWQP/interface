@@ -159,7 +159,6 @@
 		04F6956F211C40E600F9D2E2 /* UIViewController+CLPlayerRotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F69563211C40E600F9D2E2 /* UIViewController+CLPlayerRotation.m */; };
 		04F69570211C40E600F9D2E2 /* CLPlayer.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04F69568211C40E600F9D2E2 /* CLPlayer.bundle */; };
 		04F69573211C410D00F9D2E2 /* UIView+CLSetRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F69572211C410D00F9D2E2 /* UIView+CLSetRect.m */; };
-		9813959D2105E61E00CDE2BA /* SignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 981395842105E61E00CDE2BA /* SignViewController.m */; };
 		9813959E2105E61E00CDE2BA /* MyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9813958B2105E61E00CDE2BA /* MyViewController.m */; };
 		9813959F2105E61E00CDE2BA /* ClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 981395902105E61E00CDE2BA /* ClassViewController.m */; };
 		983CD955211152130050508C /* BusinessDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 983CD954211152130050508C /* BusinessDetailController.m */; };
@@ -167,6 +166,10 @@
 		983CD9652111B70D0050508C /* TongZhiDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 983CD9632111B70D0050508C /* TongZhiDetailsCell.m */; };
 		983CD9662111B70D0050508C /* TongZhiDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 983CD9642111B70D0050508C /* TongZhiDetailsCell.xib */; };
 		983CD9692111B7210050508C /* TongZhiDetailsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 983CD9682111B7210050508C /* TongZhiDetailsModel.m */; };
+		987209A7211ECEB3009D235D /* YBRectConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 987209A1211ECEB3009D235D /* YBRectConst.m */; };
+		987209A8211ECEB3009D235D /* WPopupMenuPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 987209A2211ECEB3009D235D /* WPopupMenuPath.m */; };
+		987209A9211ECEB3009D235D /* WPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 987209A6211ECEB3009D235D /* WPopupMenu.m */; };
+		987209AC211EEB8E009D235D /* BannerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 987209AB211EEB8E009D235D /* BannerModel.m */; };
 		989822BA211AF6DA00D547C0 /* UIView+GoodView.m in Sources */ = {isa = PBXBuildFile; fileRef = 989822B6211AF6DA00D547C0 /* UIView+GoodView.m */; };
 		989822BB211AF6DA00D547C0 /* WPublicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 989822B7211AF6DA00D547C0 /* WPublicManager.m */; };
 		989822BC211AF6DA00D547C0 /* WProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 989822B9211AF6DA00D547C0 /* WProgressHUD.m */; };
@@ -583,8 +586,6 @@
 		6DEA638256AADE5C8E411ACF /* libPods-ZhiNengXiaoFu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZhiNengXiaoFu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		97E480AB68F52C70A0E84853 /* Pods-ZhiNengXiaoFu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhiNengXiaoFu.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZhiNengXiaoFu/Pods-ZhiNengXiaoFu.release.xcconfig"; sourceTree = "<group>"; };
 		9813955E2105E41B00CDE2BA /* MaceColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaceColor.h; sourceTree = "<group>"; };
-		981395842105E61E00CDE2BA /* SignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignViewController.m; sourceTree = "<group>"; };
-		981395852105E61E00CDE2BA /* SignViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignViewController.h; sourceTree = "<group>"; };
 		9813958A2105E61E00CDE2BA /* MyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyViewController.h; sourceTree = "<group>"; };
 		9813958B2105E61E00CDE2BA /* MyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyViewController.m; sourceTree = "<group>"; };
 		981395902105E61E00CDE2BA /* ClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassViewController.m; sourceTree = "<group>"; };
@@ -599,6 +600,14 @@
 		983CD9642111B70D0050508C /* TongZhiDetailsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TongZhiDetailsCell.xib; sourceTree = "<group>"; };
 		983CD9672111B7210050508C /* TongZhiDetailsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TongZhiDetailsModel.h; sourceTree = "<group>"; };
 		983CD9682111B7210050508C /* TongZhiDetailsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TongZhiDetailsModel.m; sourceTree = "<group>"; };
+		987209A1211ECEB3009D235D /* YBRectConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBRectConst.m; sourceTree = "<group>"; };
+		987209A2211ECEB3009D235D /* WPopupMenuPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPopupMenuPath.m; sourceTree = "<group>"; };
+		987209A3211ECEB3009D235D /* WPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPopupMenu.h; sourceTree = "<group>"; };
+		987209A4211ECEB3009D235D /* YBRectConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBRectConst.h; sourceTree = "<group>"; };
+		987209A5211ECEB3009D235D /* WPopupMenuPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPopupMenuPath.h; sourceTree = "<group>"; };
+		987209A6211ECEB3009D235D /* WPopupMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPopupMenu.m; sourceTree = "<group>"; };
+		987209AA211EEB8E009D235D /* BannerModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BannerModel.h; sourceTree = "<group>"; };
+		987209AB211EEB8E009D235D /* BannerModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BannerModel.m; sourceTree = "<group>"; };
 		989822B4211AF6DA00D547C0 /* WPublicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPublicManager.h; sourceTree = "<group>"; };
 		989822B5211AF6DA00D547C0 /* WProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WProgressHUD.h; sourceTree = "<group>"; };
 		989822B6211AF6DA00D547C0 /* UIView+GoodView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+GoodView.m"; sourceTree = "<group>"; };
@@ -1983,6 +1992,7 @@
 		043F391121016F8C00115A55 /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
+				987209A0211ECEB3009D235D /* popView(弹出视图) */,
 				042AA445211D58EA00E3AACB /* JasonAcitonSheetViewUtil */,
 				04F69558211C40E600F9D2E2 /* CLPlayer */,
 				989822B3211AF6DA00D547C0 /* 提示效果 */,
@@ -2331,8 +2341,6 @@
 		981395832105E61E00CDE2BA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				981395852105E61E00CDE2BA /* SignViewController.h */,
-				981395842105E61E00CDE2BA /* SignViewController.m */,
 				98D89DB3211002C200355626 /* SignClassViewController.h */,
 				98D89DB4211002C200355626 /* SignClassViewController.m */,
 				98D89DB62110054100355626 /* TotalNumberViewController.h */,
@@ -2444,6 +2452,8 @@
 		981395922105E61E00CDE2BA /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				987209AA211EEB8E009D235D /* BannerModel.h */,
+				987209AB211EEB8E009D235D /* BannerModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2462,6 +2472,19 @@
 				983CD9602111B6DF0050508C /* TongZhiModel.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		987209A0211ECEB3009D235D /* popView(弹出视图) */ = {
+			isa = PBXGroup;
+			children = (
+				987209A1211ECEB3009D235D /* YBRectConst.m */,
+				987209A2211ECEB3009D235D /* WPopupMenuPath.m */,
+				987209A3211ECEB3009D235D /* WPopupMenu.h */,
+				987209A4211ECEB3009D235D /* YBRectConst.h */,
+				987209A5211ECEB3009D235D /* WPopupMenuPath.h */,
+				987209A6211ECEB3009D235D /* WPopupMenu.m */,
+			);
+			path = "popView(弹出视图)";
 			sourceTree = "<group>";
 		};
 		989822B3211AF6DA00D547C0 /* 提示效果 */ = {
@@ -3080,7 +3103,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ZhiNengXiaoFu/Pods-ZhiNengXiaoFu-resources.sh",
-				"${PODS_ROOT}/AMap3DMap/MAMapKit.framework/AMap.bundle",
+				"${PODS_ROOT}/AMap3DMap-NO-IDFA/MAMapKit.framework/AMap.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -3125,6 +3148,8 @@
 				98D89E0621105CC000355626 /* HuoDongYiJieShuViewController.m in Sources */,
 				0409A42B2119754C004A9DB6 /* MShowGroupAllSet.m in Sources */,
 				042810982108070F00E2CA14 /* SystemInfomationViewController.m in Sources */,
+				987209AC211EEB8E009D235D /* BannerModel.m in Sources */,
+				987209A9211ECEB3009D235D /* WPopupMenu.m in Sources */,
 				989BFE3121088E04007A69A5 /* CompetitiveActivityViewController.m in Sources */,
 				0413D694210EA53A00CB34A6 /* TeacherZaiXianViewController.m in Sources */,
 				042810A12108070F00E2CA14 /* QianDaoViewController.m in Sources */,
@@ -3144,13 +3169,13 @@
 				0428109F2108070F00E2CA14 /* PersonIconCell.m in Sources */,
 				041482DE2117D8F300C2AED2 /* LeaveListModel.m in Sources */,
 				98AD7EBB210F11BD00641231 /* HomeWorkViewController.m in Sources */,
+				987209A7211ECEB3009D235D /* YBRectConst.m in Sources */,
 				98D89DE521103C7800355626 /* EasyShowLabel.m in Sources */,
 				98AD7EAE210F11BD00641231 /* ForClassViewController.m in Sources */,
 				0413D6A1210EE73900CB34A6 /* KeChengJieShaoViewController.m in Sources */,
 				045A94FB2112E41D00030E56 /* IQUIScrollView+Additions.m in Sources */,
 				0409A4222119754C004A9DB6 /* MHeadImaView.m in Sources */,
 				98AD7EA8210F11BD00641231 /* ConsultingViewController.m in Sources */,
-				9813959D2105E61E00CDE2BA /* SignViewController.m in Sources */,
 				98DD0C22211D2869004E0773 /* ReleasedAlbumsViewController.m in Sources */,
 				98AD7EA5210F11BD00641231 /* HaveToReplyViewController.m in Sources */,
 				983CD9612111B6E20050508C /* TongZhiModel.m in Sources */,
@@ -3198,6 +3223,7 @@
 				98C01EF02114562200D625DA /* PublishJobModel.m in Sources */,
 				0413D6BD210F06C900CB34A6 /* ParentXueTangCell.m in Sources */,
 				0409A4272119754C004A9DB6 /* MShowAllGroup.m in Sources */,
+				987209A8211ECEB3009D235D /* WPopupMenuPath.m in Sources */,
 				98D89E0A2110674200355626 /* AdviceFeedbackViewController.m in Sources */,
 				043F38EC21016DB700115A55 /* main.m in Sources */,
 				047FB2212114038400AED26D /* UserGetStuTeaModel.m in Sources */,
@@ -3519,8 +3545,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = MRPFND3RB4;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Henan Duxiu Technology Co., Ltd. (NBZT2UT4S6)";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = NBZT2UT4S6;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhiNengXiaoFu/Generals/PrefixHeader.pch";
 				INFOPLIST_FILE = ZhiNengXiaoFu/Info.plist;
@@ -3531,7 +3558,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.DuXiuKeJi.YiShanZhiHui;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE = "b3f4eab9-a3b2-426d-821d-b76e146bfdb0";
+				PROVISIONING_PROFILE_SPECIFIER = yishanzhihuiDis;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -3541,8 +3570,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = MRPFND3RB4;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Henan Duxiu Technology Co., Ltd. (NBZT2UT4S6)";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = NBZT2UT4S6;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhiNengXiaoFu/Generals/PrefixHeader.pch";
 				INFOPLIST_FILE = ZhiNengXiaoFu/Info.plist;
@@ -3553,7 +3583,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.DuXiuKeJi.YiShanZhiHui;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE = "b3f4eab9-a3b2-426d-821d-b76e146bfdb0";
+				PROVISIONING_PROFILE_SPECIFIER = yishanzhihuiDis;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

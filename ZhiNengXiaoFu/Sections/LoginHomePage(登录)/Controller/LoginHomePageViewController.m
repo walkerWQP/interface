@@ -220,11 +220,11 @@
         }
         
         if ([self.zhangHaoTextField.text isEqualToString:@""] ) {
-            [EasyShowTextView showImageText:@"请输入用户名" imageName:@"icon_sym_toast_warning_56_w100"];
+            [WProgressHUD showErrorAnimatedText:@"请输入用户名"];
 
         }else if ([self.miMaTextfield.text isEqualToString:@""])
         {
-            [EasyShowTextView showImageText:@"请输入密码" imageName:@"icon_sym_toast_warning_56_w100"];
+            [WProgressHUD showErrorAnimatedText:@"请输入密码"];
 
         }else
         {
@@ -291,7 +291,7 @@
 
                 }else
                 {
-                    [EasyShowTextView showImageText:[responseObject objectForKey:@"msg"] imageName:@"icon_sym_toast_failed_56_w100"];
+                    [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
 
                 }
                

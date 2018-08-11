@@ -34,9 +34,9 @@
 {
     //网络加载 --- 创建带标题的图片轮播器
     
-    [self.dataHeaderSourceAryImg addObject:[UIImage imageNamed:@"homepagelunbo1"]];
-    [self.dataHeaderSourceAryImg addObject:[UIImage imageNamed:@"homepagelunbo2"]];
-    [self.dataHeaderSourceAryImg addObject:[UIImage imageNamed:@"homepagelunbo3"]];
+    [self.dataHeaderSourceAryImg addObject:[UIImage imageNamed:@"教师端活动管理banner"]];
+    [self.dataHeaderSourceAryImg addObject:[UIImage imageNamed:@"banner"]];
+    [self.dataHeaderSourceAryImg addObject:[UIImage imageNamed:@"bannerHelper"]];
     
     
     if (kScreenWidth == 414) {
