@@ -12,6 +12,6 @@
 
 @property (nonatomic, strong) NSString        *titleStr;
 @property (nonatomic, strong) NSString        *ID;
-@property (nonatomic, strong) UIImageView  *headImgView;
+
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "KeChengJieShaoViewController.h"
-#import "KeChengJieShaoCell.h"
+#import "KeChengJieShaonCell.h"
 @interface KeChengJieShaoViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * KeChengJieShaoTableView;
@@ -26,7 +26,7 @@
     
     [self.view addSubview:self.KeChengJieShaoTableView];
     self.KeChengJieShaoTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.KeChengJieShaoTableView registerClass:[KeChengJieShaoCell class] forCellReuseIdentifier:@"KeChengJieShaoCellId"];
+    [self.KeChengJieShaoTableView registerNib:[UINib nibWithNibName:@"KeChengJieShaonCell" bundle:nil] forCellReuseIdentifier:@"KeChengJieShaonCellId"];
 }
 
 - (UITableView *)KeChengJieShaoTableView
@@ -76,19 +76,22 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   
-    KeChengJieShaoCell * cell = [tableView dequeueReusableCellWithIdentifier:@"KeChengJieShaoCellId" forIndexPath:indexPath];
+    KeChengJieShaonCell * cell = [tableView dequeueReusableCellWithIdentifier:@"KeChengJieShaonCellId" forIndexPath:indexPath];
     cell.selectionStyle =  UITableViewCellSelectionStyleNone;
     [cell.userImg sd_setImageWithURL:[NSURL URLWithString:self.teacherZaiXianDetailsModel.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
     cell.userNName.text = self.teacherZaiXianDetailsModel.name;
     cell.jieShaoLabel.text = self.teacherZaiXianDetailsModel.honor;
-    cell.shanChangImg.image = [UIImage imageNamed:@"擅长领域"];
     cell.shanChangConnectLabel.text = self.teacherZaiXianDetailsModel.introduce;
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 800;
+    NSInteger width = kScreenWidth - 30;
+    
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
+    CGSize size = [self.teacherZaiXianDetailsModel.introduce boundingRectWithSize:CGSizeMake(width, 1000000) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+    return 150 + size.height;
     
 }
 

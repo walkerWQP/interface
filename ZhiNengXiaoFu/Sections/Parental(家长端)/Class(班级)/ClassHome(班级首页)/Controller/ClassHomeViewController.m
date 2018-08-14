@@ -15,6 +15,8 @@
 @property (nonatomic, strong) NSMutableArray *classArr;
 @property (nonatomic, strong) UICollectionView *classCollectionView;
 @property (nonatomic, strong) UIImageView  *headImgView;
+@property (nonatomic, strong) NSMutableArray *bannerArr;
+
 @end
 
 @implementation ClassHomeViewController
@@ -27,9 +29,18 @@
     
     [self setNetWork];
    
-    
+    [self getBannersURLData];
+
     [self makeClassViewControllerUI];
 }
+
+- (NSMutableArray *)bannerArr {
+    if (!_bannerArr) {
+        _bannerArr = [NSMutableArray array];
+    }
+    return _bannerArr;
+}
+
 
 - (void)setNetWork
 {
@@ -91,7 +102,6 @@
     self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
     self.headImgView.backgroundColor = [UIColor clearColor];
     [self.classCollectionView addSubview:self.headImgView];
-    self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
 }
 
 #pragma mark - <UICollectionViewDelegate, UICollectionViewDataSource>
@@ -130,6 +140,35 @@
     itemSize = CGSizeMake(APP_WIDTH, 70);
     
     return itemSize;
+}
+
+- (void)getBannersURLData {
+    NSDictionary *dic = @{@"key":[UserManager key],@"t_id":@"2"};
+    NSLog(@"%@",[UserManager key]);
+    [[HttpRequestManager sharedSingleton] POST:bannersURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.bannerArr = [BannerModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            if (self.bannerArr.count == 0) {
+                self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
+            } else {
+                BannerModel * model = [self.bannerArr objectAtIndex:0];
+                [self.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+                [self.classCollectionView reloadData];
+            }
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
 }
 
 

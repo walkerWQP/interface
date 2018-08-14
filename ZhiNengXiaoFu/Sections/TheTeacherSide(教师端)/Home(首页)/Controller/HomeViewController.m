@@ -62,8 +62,8 @@
     [self.HomeCollectionView registerClass:[HomeLunBoCell class] forCellWithReuseIdentifier:@"HomePageLunBoCellId"];
     [self.HomeCollectionView registerClass:[HomeItemCell class] forCellWithReuseIdentifier:@"HomePageItemCellId"];
     
-    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"课程管理",@"成长相册",@"视频上传",@"活动管理",@"问题咨询",@"学校通知",@"学校动态1", nil];
-    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"右脑开发",@"成长相册",@"名师在线",@"活动管理",@"问题咨询",@"学校通知",@"学校动态", nil];
+    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"课程管理",@"成长相册",@"活动管理",@"问题咨询",@"学校通知",@"学校动态1", nil];
+    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"右脑开发",@"成长相册",@"活动管理",@"问题咨询",@"学校通知",@"学校动态", nil];
     
     for (int i = 0; i < imgAry.count; i++) {
         NSString * img  = [imgAry objectAtIndex:i];
@@ -152,15 +152,15 @@
                 
             }
                 break;
+//            case 4:
+//            {
+//                NSLog(@"点击视频上传");
+//                UploadVideoViewController *uploadVideoVC = [[UploadVideoViewController alloc] init];
+//                [self.navigationController pushViewController:uploadVideoVC animated:YES];
+//
+//            }
+//                break;
             case 4:
-            {
-                NSLog(@"点击视频上传");
-                UploadVideoViewController *uploadVideoVC = [[UploadVideoViewController alloc] init];
-                [self.navigationController pushViewController:uploadVideoVC animated:YES];
-                
-            }
-                break;
-            case 5:
             {
                 NSLog(@"点击活动管理");
                 ActivityManagementViewController *activityManagementVC = [[ActivityManagementViewController alloc] init];
@@ -169,7 +169,7 @@
                 
             }
                 break;
-            case 6:
+            case 5:
             {
                 NSLog(@"点击问题咨询");
                 ConsultingViewController *consultingVC = [[ConsultingViewController alloc] init];
@@ -177,7 +177,7 @@
                 
             }
                 break;
-            case 7:
+            case 6:
             {
                 NSLog(@"点击学校通知");
                 SchoolNoticeViewController *schoolNoticeVC = [[SchoolNoticeViewController alloc] init];
@@ -188,7 +188,7 @@
                
             }
                 break;
-            case 8:
+            case 7:
             {
                 NSLog(@"点击学校动态");
                 SchoolDynamicViewController *schoolDynamicVC = [[SchoolDynamicViewController alloc] init];

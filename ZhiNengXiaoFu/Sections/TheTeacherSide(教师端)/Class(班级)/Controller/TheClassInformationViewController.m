@@ -8,7 +8,8 @@
 
 #import "TheClassInformationViewController.h"
 #import "ClassHomeModel.h"
-@interface TheClassInformationViewController ()
+#import "PublishJobModel.h"
+@interface TheClassInformationViewController ()<WPopupMenuDelegate>
 
 @property (nonatomic, strong) UIImageView    *backImgView;
 @property (nonatomic, strong) UIImageView    *headImgView;
@@ -32,22 +33,108 @@
 @property (nonatomic, strong) UIImageView * userIcon;
 
 @property (nonatomic, assign) NSInteger hnew;
+
+@property (nonatomic, strong) NSMutableArray  *publishJobArr;
+
+@property (nonatomic, strong) NSMutableArray  *classNameArr;
+
+@property (nonatomic, strong) UIButton       *rightBtn;
+
 @end
 
 @implementation TheClassInformationViewController
 
+- (NSMutableArray *)classNameArr {
+    if (!_classNameArr) {
+        _classNameArr = [NSMutableArray array];
+    }
+    return _classNameArr;
+}
+
+- (NSMutableArray *)publishJobArr {
+    if (!_publishJobArr) {
+        _publishJobArr = [NSMutableArray array];
+    }
+    return _publishJobArr;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self getClassURLData];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"班级信息";
+    self.rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+    [self.rightBtn setTitle:@"切换班级" forState:UIControlStateNormal];
+    self.rightBtn.titleLabel.font = titFont;
+    [self.rightBtn addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];
     
-    [self setNetWork];
 }
 
-- (void)setNetWork
-{
+- (void)rightBtn:(UIButton *)sender {
+    NSLog(@"点击选择班级");
+    [self getClassURLDataForClassID];
+    
+}
+
+- (void)getClassURLDataForClassID {
+    NSDictionary *dic = @{@"key":[UserManager key]};
+    [[HttpRequestManager sharedSingleton] POST:getClassURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.classNameArr = [PublishJobModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            NSMutableArray * ary = [@[]mutableCopy];
+            for (PublishJobModel * model in self.classNameArr) {
+                [ary addObject:[NSString stringWithFormat:@"%@", model.name]];
+            }
+            if (ary.count == 0) {
+                [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+            } else {
+                [WPopupMenu showRelyOnView:self.rightBtn titles:ary icons:nil menuWidth:140 delegate:self];
+            }
+            
+            
+            if (self.publishJobArr.count == 0) {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+            } else {
+                
+                
+            }
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
+
+#pragma mark - YBPopupMenuDelegate
+- (void)WPopupMenuDidSelectedAtIndex:(NSInteger)index WPopupMenu:(WPopupMenu *)WPopupMenu {
+    
+    PublishJobModel *model = [self.classNameArr objectAtIndex:index];
+    NSLog(@"%@",model.ID);
+    if (model.ID == nil) {
+        [WProgressHUD showSuccessfulAnimatedText:@"数据不正确,请重试"];
+    } else {
+        self.ID = model.ID;
+        [self setNetWork:self.ID];
+    }
+}
+
+- (void)setNetWork:(NSString *)classID {
     NSDictionary * dic = [NSDictionary dictionary];
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"2"]) {
-        dic = @{@"key":[UserManager key], @"class_id":self.ID};
+        dic = @{@"key":[UserManager key], @"class_id":classID};
         
     }else
     {
@@ -75,6 +162,40 @@
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
+    }];
+}
+
+
+- (void)getClassURLData {
+    
+    NSDictionary *dic = @{@"key":[UserManager key]};
+    [[HttpRequestManager sharedSingleton] POST:getClassURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.publishJobArr = [PublishJobModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            NSMutableArray * ary = [@[]mutableCopy];
+            for (PublishJobModel * model in self.publishJobArr) {
+                [ary addObject:[NSString stringWithFormat:@"%@", model.ID]];
+            }
+            
+            if (self.publishJobArr.count == 0) {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+            } else {
+                self.ID = ary[0];
+                [self setNetWork:self.ID];
+            }
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
     }];
 }
 

@@ -51,8 +51,12 @@
     NSString * chooseLoginState = [[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"];
     PersonInformationModel * model = [UserManager getUserObject];
     NSDictionary * dic = @{@"uid":model.ID, @"school_id":[NSString stringWithFormat:@"%ld", model.school_id], @"identity":chooseLoginState};
+    [WProgressHUD showHUDShowText:@"加载中..."];
+
     [[HttpRequestManager sharedSingleton] POST:TUICHULOGIN parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
+        [WProgressHUD hideAllHUDAnimated:YES];
+
 //        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
            [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
@@ -105,6 +109,8 @@
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
+        [WProgressHUD hideAllHUDAnimated:YES];
+
     }];
     
 }

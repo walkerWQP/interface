@@ -14,16 +14,28 @@
 @interface JobManagementViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UIImageView * zanwushuju;
-
+@property (nonatomic, strong) NSMutableArray *bannerArr;
 @end
 
 @implementation JobManagementViewController
+
+- (NSMutableArray *)bannerArr {
+    if (!_bannerArr) {
+        _bannerArr = [NSMutableArray array];
+    }
+    return _bannerArr;
+}
 
 - (NSMutableArray *)jobManagementArr {
     if (!_jobManagementArr) {
         _jobManagementArr = [NSMutableArray array];
     }
     return _jobManagementArr;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self getBannersURLData];
 }
 
 - (void)viewDidLoad {
@@ -70,6 +82,36 @@
         
     }];
 }
+
+- (void)getBannersURLData {
+    NSDictionary *dic = @{@"key":[UserManager key],@"t_id":@"2"};
+    NSLog(@"%@",[UserManager key]);
+    [[HttpRequestManager sharedSingleton] POST:bannersURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.bannerArr = [BannerModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            if (self.bannerArr.count == 0) {
+                self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
+            } else {
+                BannerModel * model = [self.bannerArr objectAtIndex:0];
+                [self.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+                [self.jobManagementCollectionView reloadData];
+            }
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
+
 
 - (void)makeJobManagementViewControllerUI {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];

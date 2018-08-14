@@ -8,8 +8,9 @@
 
 #import "PublishJobViewController.h"
 #import "PublishJobModel.h"
+#import <Photos/Photos.h>
 
-@interface PublishJobViewController ()<UITextFieldDelegate,HQPickerViewDelegate,LQPhotoPickerViewDelegate>
+@interface PublishJobViewController ()<UITextFieldDelegate,PickerViewResultDelegate,LQPhotoPickerViewDelegate>
 
 //科目
 @property (nonatomic, strong) UILabel      *subjectsLabel;
@@ -56,7 +57,9 @@
     button.titleLabel.font = titFont;
     [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+        
+    }];
     [self makePublishJobViewControllerUI];
     
 }
@@ -211,15 +214,21 @@
             }
             NSLog(@"%ld",self.imgFiledArr.count);
             NSDictionary *dataDic = [NSDictionary dictionary];
+            if (self.imgFiledArr.count == 0) {
+                dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.jobNameTextField.text,@"content":self.jobContentTextView.text,@"course_id":self.courseID,@"img":@""};
+                [self PostWorkPusblishData:dataDic];
+            } else {
+                dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.jobNameTextField.text,@"content":self.jobContentTextView.text,@"course_id":self.courseID,@"img":self.imgFiledArr};
+                [self PostWorkPusblishData:dataDic];
+            }
             
-            dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.jobNameTextField.text,@"content":self.jobContentTextView.text,@"course_id":self.courseID,@"img":self.imgFiledArr};
-            [self PostWorkPusblishData:dataDic];
             
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+               NSDictionary *dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.jobNameTextField.text,@"content":self.jobContentTextView.text,@"course_id":self.courseID,@"img":@""};
+                [self PostWorkPusblishData:dataDic];
             }
         }
         
@@ -269,11 +278,17 @@
             for (PublishJobModel * model in self.publishJobArr) {
                 [ary addObject:[NSString stringWithFormat:@"%@", model.name]];
             }
+            PickerView *vi = [[PickerView alloc] init];
+            vi.array = ary;
             
-            HQPickerView *picker = [[HQPickerView alloc]initWithFrame:self.view.bounds];
-            picker.delegate = self ;
-            picker.customArr = ary;
-            [self.view addSubview:picker];
+            vi.type = PickerViewTypeHeigh;
+            vi.selectComponent = 0;
+            vi.delegate = self;
+            [[[UIApplication sharedApplication] keyWindow] addSubview:vi];
+//            HQPickerView *picker = [[HQPickerView alloc]initWithFrame:self.view.bounds];
+//            picker.delegate = self ;
+//            picker.customArr = ary;
+//            [self.view addSubview:picker];
             
             if (self.publishJobArr.count == 0) {
                 [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
@@ -296,18 +311,31 @@
     }];
 }
 
-- (void)pickerView:(UIPickerView *)pickerView didSelectText:(NSString *)text  index:(NSInteger)index{
-    [self.subjectsBtn setTitle:text forState:UIControlStateNormal];
+-(void)pickerView:(UIView *)pickerView result:(NSString *)string index:(NSInteger)index{
+    [self.subjectsBtn setTitle:string forState:UIControlStateNormal];
     PublishJobModel *model = [self.publishJobArr objectAtIndex:index];
     if (model.ID == nil) {
         [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
     } else {
-      self.courseID = model.ID;
+        self.courseID = model.ID;
     }
-   
+    
     NSLog(@"%@",model.ID);
     
 }
+
+//- (void)pickerView:(UIPickerView *)pickerView didSelectText:(NSString *)text  index:(NSInteger)index{
+//    [self.subjectsBtn setTitle:text forState:UIControlStateNormal];
+//    PublishJobModel *model = [self.publishJobArr objectAtIndex:index];
+//    if (model.ID == nil) {
+//        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+//    } else {
+//      self.courseID = model.ID;
+//    }
+//
+//    NSLog(@"%@",model.ID);
+//
+//}
 
 
 

@@ -8,8 +8,9 @@
 
 #import "LeaveTheDetailsViewController.h"
 #import "LeaveListModel.h"
+#import "ToSchoolSituationModel.h"
 
-@interface LeaveTheDetailsViewController ()
+@interface LeaveTheDetailsViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIView       *firstView;
 @property (nonatomic, strong) UIImageView  *userIconImg;
@@ -46,6 +47,10 @@
 
 @property (nonatomic, strong) LeaveListModel *leaveListModel;
 
+@property (nonatomic, strong) UIScrollView   *launchEventScrollView;
+
+@property (nonatomic, strong) ToSchoolSituationModel *toSchoolSituationModel;
+
 @end
 
 @implementation LeaveTheDetailsViewController
@@ -55,8 +60,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"请假详情";
-    [self getLeaveLeaveDetailData];
+    if ([self.typeStr isEqualToString:@"1"]) {
+        [self getDataFromLeaveLeaveDetail:self.studentID];
+    } else {
+        [self getLeaveLeaveDetailData];
+    }
     
+    
+}
+
+- (void)getDataFromLeaveLeaveDetail:(NSString *)studentId {
+    NSDictionary *dic = @{@"key":[UserManager key],@"student_id":studentId};
+    [[HttpRequestManager sharedSingleton] POST:studentTodayLeaveURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.toSchoolSituationModel = [ToSchoolSituationModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+            [self makeLeaveTheDetailsViewControllerUI];
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
 }
 
 - (void)getLeaveLeaveDetailData {
@@ -83,16 +114,45 @@
 
 - (void)makeLeaveTheDetailsViewControllerUI {
     
+    self.launchEventScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT)];
+    self.launchEventScrollView.backgroundColor = backColor;
+    self.launchEventScrollView.contentSize = CGSizeMake(APP_WIDTH, APP_HEIGHT * 1.2);
+    self.launchEventScrollView.bounces = YES;
+    self.launchEventScrollView.indicatorStyle = UIScrollViewIndicatorStyleDefault;
+    
+    self.launchEventScrollView.maximumZoomScale = 2.0;//最多放大到两倍
+    self.launchEventScrollView.minimumZoomScale = 0.5;//最多缩小到0.5倍
+    //设置是否允许缩放超出倍数限制，超出后弹回
+    self.launchEventScrollView.bouncesZoom = YES;
+    //设置委托
+    self.launchEventScrollView.delegate = self;
+    
+    [self.view addSubview:self.launchEventScrollView];
+    
     self.firstView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 200)];
     self.firstView.backgroundColor = backColor;
-    [self.view addSubview:self.firstView];
+    [self.launchEventScrollView addSubview:self.firstView];
     
     self.backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 155)];
     self.backView.backgroundColor = TEACHERTHEMECOLOR;
     [self.firstView addSubview:self.backView];
     
     self.userIconImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.backView.frame.size.width / 2 -35, 4, 70, 70)];
-    [self.userIconImg sd_setImageWithURL:[NSURL URLWithString:self.headImg] placeholderImage:nil];
+    if ([self.typeStr isEqualToString:@"1"]) {
+        if (self.headImg == nil) {
+            self.userIconImg.image = [UIImage imageNamed:@"user"];
+        } else {
+            [self.userIconImg sd_setImageWithURL:[NSURL URLWithString:self.toSchoolSituationModel.head_img] placeholderImage:nil];
+        }
+    } else {
+        if (self.headImg == nil) {
+            self.userIconImg.image = [UIImage imageNamed:@"user"];
+        } else {
+            [self.userIconImg sd_setImageWithURL:[NSURL URLWithString:self.headImg] placeholderImage:nil];
+        }
+    }
+    
+    
     self.userIconImg.layer.cornerRadius = 35;
     self.userIconImg.layer.masksToBounds = YES;
     [self.backView addSubview:self.userIconImg];
@@ -101,7 +161,12 @@
     self.userNameLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:15];
     self.userNameLabel.textColor = [UIColor whiteColor];
     self.userNameLabel.textAlignment = NSTextAlignmentCenter;
-    self.userNameLabel.text = self.name;
+    if ([self.typeStr isEqualToString:@"1"]) {
+        self.userNameLabel.text = self.toSchoolSituationModel.name;
+    } else {
+       self.userNameLabel.text = self.name;
+    }
+    
     [self.backView addSubview:self.userNameLabel];
     
     self.StartEndView = [[UIView alloc] initWithFrame:CGRectMake(32, 155 - 85 / 2, kScreenWidth - 64, 85)];
@@ -117,7 +182,12 @@
     self.StartLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.StartImg.frame.origin.x + self.StartImg.frame.size.width + 10, self.StartEndView.frame.size.height / 2 - 10, 90, 20)];
     self.StartLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:15];
     self.StartLabel.textColor = COLOR(119, 119, 119, 1);
-    self.StartLabel.text = self.leaveListModel.start;
+    if ([self.typeStr isEqualToString:@"1"]) {
+        self.StartLabel.text = self.toSchoolSituationModel.start;
+    } else {
+       self.StartLabel.text = self.leaveListModel.start;
+    }
+    
     [self.StartEndView addSubview:self.StartLabel];
     
     self.EndImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.StartEndView.frame.size.width / 2 + 10, 53 / 2, 32, 32)];
@@ -127,14 +197,19 @@
     self.EndLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.EndImg.frame.origin.x + self.EndImg.frame.size.width + 10, self.StartEndView.frame.size.height / 2 - 10, 90, 20)];
     self.EndLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:15];
     self.EndLabel.textColor = COLOR(119, 119, 119, 1);
-    self.EndLabel.text = self.leaveListModel.end;
+    if ([self.typeStr isEqualToString:@"1"]) {
+        self.EndLabel.text = self.toSchoolSituationModel.end;
+    } else {
+        self.EndLabel.text = self.leaveListModel.end;
+    }
+    
     [self.StartEndView addSubview:self.EndLabel];
     
     
     
     self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 220, APP_WIDTH, APP_HEIGHT - 230)];
     self.bgView.backgroundColor = backColor;
-    [self.view addSubview:self.bgView];
+    [self.launchEventScrollView addSubview:self.bgView];
     
     self.typeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 50)];
     self.typeView.backgroundColor = [UIColor whiteColor];
@@ -152,13 +227,24 @@
     
     self.statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 100, 5, 90, 30)];
     self.statusLabel.font = titFont;
-    if (self.leaveListModel.status == 0) {
-        self.statusLabel.text = @"审核中";
-        self.statusLabel.textColor = [UIColor redColor];
-    } else if (self.leaveListModel.status == 1) {
-        self.statusLabel.text = @"已批准";
-        self.statusLabel.textColor = THEMECOLOR;
+    if ([self.typeStr isEqualToString:@"1"]) {
+        if (self.toSchoolSituationModel.status == 0) {
+            self.statusLabel.text = @"审核中";
+            self.statusLabel.textColor = [UIColor redColor];
+        } else if (self.toSchoolSituationModel.status == 1) {
+            self.statusLabel.text = @"已批准";
+            self.statusLabel.textColor = THEMECOLOR;
+        }
+    } else {
+        if (self.leaveListModel.status == 0) {
+            self.statusLabel.text = @"审核中";
+            self.statusLabel.textColor = [UIColor redColor];
+        } else if (self.leaveListModel.status == 1) {
+            self.statusLabel.text = @"已批准";
+            self.statusLabel.textColor = THEMECOLOR;
+        }
     }
+    
     [self.typeView addSubview:self.statusLabel];
     
     self.whyView = [[UIView alloc] initWithFrame:CGRectMake(0, self.typeView.frame.size.height + 20, APP_WIDTH, 100)];
@@ -182,7 +268,12 @@
     self.reasonLeaveLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 60, APP_WIDTH - 40, 30)];
     self.reasonLeaveLabel.textColor = titlColor;
     self.reasonLeaveLabel.font = contentFont;
-    self.reasonLeaveLabel.text = self.leaveListModel.reason;
+    if ([self.typeStr isEqualToString:@"1"]) {
+        self.reasonLeaveLabel.text = self.toSchoolSituationModel.reason;
+    } else {
+        self.reasonLeaveLabel.text = self.leaveListModel.reason;
+    }
+    
     [self.whyView addSubview:self.reasonLeaveLabel];
     
     self.noteView = [[UIView alloc] initWithFrame:CGRectMake(0, self.typeView.frame.size.height + self.whyView.frame.size.height + 40, APP_WIDTH, 150)];
@@ -204,10 +295,19 @@
     [self.noteView addSubview:self.lineView1];
     
     self.noteTextView = [[WTextView alloc] initWithFrame:CGRectMake(20, 60, APP_WIDTH - 40, 70)];
-    if (self.leaveListModel.status == 0) {
-        self.noteTextView.placeholder = @"请输入审核内容";
-    } else if (self.leaveListModel.status == 1) {
-        self.noteTextView.text = self.leaveListModel.remark;
+    
+    if ([self.typeStr isEqualToString:@"1"]) {
+        if (self.toSchoolSituationModel.status == 0) {
+            self.noteTextView.placeholder = @"请输入审核内容";
+        } else if (self.toSchoolSituationModel.status == 1) {
+            self.noteTextView.text = self.toSchoolSituationModel.remark;
+        }
+    } else {
+        if (self.leaveListModel.status == 0) {
+            self.noteTextView.placeholder = @"请输入审核内容";
+        } else if (self.leaveListModel.status == 1) {
+            self.noteTextView.text = self.leaveListModel.remark;
+        }
     }
     
     self.noteTextView.backgroundColor = backColor;
@@ -224,13 +324,20 @@
     [self.submitBtn addTarget:self action:@selector(submitBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.bgView addSubview:self.submitBtn];
     
-    if (self.leaveListModel.status == 1) {
+    if ([self.typeStr isEqualToString:@"1"]) {
         self.submitBtn.hidden = YES;
         self.noteTextView.editable = NO;
     } else {
-        self.submitBtn.hidden = NO;
-        self.noteTextView.editable = YES;
+        if (self.leaveListModel.status == 1) {
+            self.submitBtn.hidden = YES;
+            self.noteTextView.editable = NO;
+        } else {
+            self.submitBtn.hidden = NO;
+            self.noteTextView.editable = YES;
+        }
     }
+    
+    
 }
 
 
@@ -262,11 +369,64 @@
             
         }];
     }
-    
-    
+}
+
+
+#pragma mark - UIScrollViewDelegate
+//返回缩放时所使用的UIView对象
+- (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView{
+    return scrollView;
+}
+
+//开始缩放时调用
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view{
     
 }
 
+//结束缩放时调用，告知缩放比例
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale{
+    
+}
+
+//已经缩放时调用
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView{
+    
+}
+
+//确定是否可以滚动到顶部
+- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView{
+    return YES;
+}
+
+//滚动到顶部时调用
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView{
+    
+}
+
+//已经滚动时调用
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+}
+
+//开始进行拖动时调用
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    
+}
+
+//抬起手指停止拖动时调用，布尔值确定滚动到最后位置时是否需要减速
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    
+}
+
+//如果上面的方法决定需要减速继续滚动，则调用该方法，可以读取contentOffset属性，判断用户抬手位置（不是最终停止位置）
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+    
+}
+
+//减速完毕停止滚动时调用，这里的读取contentOffset属性就是最终停止位置
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    
+}
 
 
 @end

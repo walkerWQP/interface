@@ -9,7 +9,7 @@
 #import "TotalNumberViewController.h"
 #import "TotalNumberCell.h"
 #import "TotalNumberModel.h"
-#import "QianDaoViewController.h"
+#import "LeaveTheDetailsViewController.h"
 
 @interface TotalNumberViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -28,12 +28,16 @@
     return _totalNumberArr;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self getClassConditionURLData:@"1"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"%@",self.ID);
     
     //总数
-    [self getClassConditionURLData:@"1"];
     self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
@@ -134,12 +138,36 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"%ld",indexPath.row);
-    QianDaoViewController *qianDaoVC = [[QianDaoViewController alloc] init];
-    if (self.ID == nil) {
-        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
-    } else {
-        qianDaoVC.studentId = self.ID;
-        [self.navigationController pushViewController:qianDaoVC animated:YES];
+    TotalNumberModel *model = [self.totalNumberArr objectAtIndex:indexPath.row];
+    LeaveTheDetailsViewController *LeaveTheDetailsVC = [[LeaveTheDetailsViewController alloc] init];
+    switch (model.is_leave) {
+        case 1:
+        {
+            NSLog(@"请假");
+            if (model.ID == nil) {
+                [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+            } else {
+                LeaveTheDetailsVC.typeStr = @"1";
+                LeaveTheDetailsVC.studentID= model.ID;
+                
+                [self.navigationController pushViewController:LeaveTheDetailsVC animated:YES];
+            }
+        }
+            break;
+        case 2:
+        {
+            NSLog(@"逃学");
+            
+        }
+            break;
+        case 3:
+        {
+            NSLog(@"签到");
+        }
+            break;
+            
+        default:
+            break;
     }
     
 }

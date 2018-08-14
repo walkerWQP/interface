@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "PrefixHeader.pch"
 @interface MyZiXunViewController : UIViewController
 
 @end

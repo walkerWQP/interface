@@ -51,7 +51,8 @@
     self.replyLabel.font = titFont;
     [self.contentView addSubview:self.replyLabel];
     
-    self.replyContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.headImgView.frame.size.height + self.problemContentLabel.frame.size.height + self.lineView.frame.size.height + self.headImageView.frame.size.height + 30, self.contentView.frame.size.width - 20, 30)];
+    self.replyContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.headImgView.frame.size.height + self.problemContentLabel.frame.size.height + self.lineView.frame.size.height + self.headImageView.frame.size.height + 20, self.contentView.frame.size.width - 30, 40)];
+//    self.replyContentLabel.backgroundColor = [UIColor redColor];
     self.replyContentLabel.textColor = titlColor;
     self.replyContentLabel.font = titFont;
     [self.contentView addSubview:self.replyContentLabel];

@@ -47,6 +47,11 @@
     self.WeiHuiFuTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self loadNewTopic];
+}
+
 - (void)loadNewTopic {
     self.page = 1;
     [self.WeiHuiFuAry removeAllObjects];
@@ -109,7 +114,7 @@
 - (UITableView *)WeiHuiFuTableView
 {
     if (!_WeiHuiFuTableView) {
-        self.WeiHuiFuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.WeiHuiFuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64 - 40) style:UITableViewStyleGrouped];
         self.WeiHuiFuTableView.delegate = self;
         self.WeiHuiFuTableView.dataSource = self;
     }
@@ -157,8 +162,8 @@
     
     if (self.WeiHuiFuAry.count != 0) {
         ConsultListModel * model = [self.WeiHuiFuAry objectAtIndex:indexPath.row];
-        [cell.WeiHuiFuUserIconImg sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:nil];
-        cell.WeiHuiFuNameLabel.text = [NSString stringWithFormat:@"%@%@问:", model.class_name ,model.student_name];
+        [cell.WeiHuiFuUserIconImg sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:[UIImage imageNamed:@"user"]];
+        cell.WeiHuiFuNameLabel.text = [NSString stringWithFormat:@"%@%@问%@(%@):", model.class_name ,model.student_name, model.teacher_name, model.course_name];
         cell.WeiHuiFuQuestionLabel.text = model.question;
     }
     return cell;
@@ -167,7 +172,19 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 150;
+    NSInteger width = kScreenWidth - 30;
+    
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
+    
+    if (self.WeiHuiFuAry.count != 0) {
+        ConsultListModel * model = [self.WeiHuiFuAry objectAtIndex:indexPath.row];
+        CGSize size = [model.question boundingRectWithSize:CGSizeMake(width, 100000) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+        return 130 + size.height;
+   
+    }else
+    {
+        return 0;
+    }
     
 }
 

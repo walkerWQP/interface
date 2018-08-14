@@ -7,7 +7,7 @@
 //
 
 #import "YiHuiFuViewController.h"
-#import "WenTiZiXunListCell.h"
+#import "YiHuiFuCell.h"
 #import "ConsultListModel.h"
 
 @interface YiHuiFuViewController ()<UITableViewDelegate, UITableViewDataSource>
@@ -32,7 +32,7 @@
     
     [self.view addSubview:self.YiHuiFuTableView];
     self.YiHuiFuTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.YiHuiFuTableView registerClass:[WenTiZiXunListCell class] forCellReuseIdentifier:@"WenTiZiXunListCellId"];
+    [self.YiHuiFuTableView registerNib:[UINib nibWithNibName:@"YiHuiFuCell" bundle:nil] forCellReuseIdentifier:@"YiHuiFuCellId"];
     
     self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
@@ -48,6 +48,8 @@
     //上拉刷新
     self.YiHuiFuTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
 }
+
+
 
 - (void)loadNewTopic {
     self.page = 1;
@@ -111,7 +113,7 @@
 - (UITableView *)YiHuiFuTableView
 {
     if (!_YiHuiFuTableView) {
-        self.YiHuiFuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.YiHuiFuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64 - 40) style:UITableViewStyleGrouped];
         self.YiHuiFuTableView.delegate = self;
         self.YiHuiFuTableView.dataSource = self;
     }
@@ -154,16 +156,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WenTiZiXunListCell * cell = [tableView dequeueReusableCellWithIdentifier:@"WenTiZiXunListCellId" forIndexPath:indexPath];
+    YiHuiFuCell * cell = [tableView dequeueReusableCellWithIdentifier:@"YiHuiFuCellId" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if (self.yiHuiFuAry.count != 0)
     {
         ConsultListModel * model = [self.yiHuiFuAry objectAtIndex:indexPath.row];
-        [cell.userIcon sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:nil];
+        [cell.userIcon sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:[UIImage imageNamed:@"user"]];
         cell.userName.text = [NSString stringWithFormat:@"%@%@问:", model.class_name ,model.student_name];
         cell.questionLabel.text = model.question;
-        [cell.userIconT sd_setImageWithURL:[NSURL URLWithString:model.t_headimg] placeholderImage:nil];
+        [cell.userIconT sd_setImageWithURL:[NSURL URLWithString:model.t_headimg] placeholderImage:[UIImage imageNamed:@"user"]];
         cell.userNameT.text = [NSString stringWithFormat:@"%@%@老师%@回复:", model.class_name, model.course_name, model.teacher_name];
         cell.questionLabelT.text = model.answer;
     }
@@ -173,7 +175,22 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 171;
+    
+    NSInteger width = kScreenWidth - 30;
+    
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
+    
+    if (self.yiHuiFuAry.count != 0) {
+        ConsultListModel * model = [self.yiHuiFuAry objectAtIndex:indexPath.row];
+        CGSize size = [model.question boundingRectWithSize:CGSizeMake(width, 100000) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+        CGSize size1 = [model.answer boundingRectWithSize:CGSizeMake(width, 100000) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+
+        return 142 + size.height + size1.height;
+        
+    }else
+    {
+        return 0;
+    }
     
 }
 

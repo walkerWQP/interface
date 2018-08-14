@@ -29,7 +29,7 @@
 @property (nonatomic, strong) UICollectionView * HomePageCollectionView;
 @property (nonatomic, retain) UICollectionViewFlowLayout * layout;
 @property (nonatomic, strong) NSMutableArray * homePageAry;
-
+@property (nonatomic, assign) NSInteger force;
 @end
 
 @implementation HomePageViewController
@@ -67,7 +67,89 @@
         [self.homePageAry addObject:dic];
     }
     
+   
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(qiangzhiGengXin:) name:@"qiangzhiGengXin" object:nil];
+//    [self setHuoQuShangXianBanBen];
 }
+
+//- (void)qiangzhiGengXin:(NSNotification *)nofity
+//{
+//}
+
+//- (void)setHuoQuShangXianBanBen
+//{
+//    NSDictionary * dic = @{@"system":@"2"};
+//    [[HttpRequestManager sharedSingleton] POST:versionGetVersion parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+//        NSLog(@"%@", responseObject);
+//        //一句代码实现检测更新
+//        self.force = [[[responseObject objectForKey:@"data"] objectForKey:@"force"] integerValue];
+//
+//        [self hsUpdateApp:[[responseObject objectForKey:@"data"] objectForKey:@"version"] force:[[[responseObject objectForKey:@"data"] objectForKey:@"force"] integerValue]];
+//        
+//        [SingletonHelper manager].version = [[responseObject objectForKey:@"data"] objectForKey:@"version"];
+//        [SingletonHelper manager].force = [[[responseObject objectForKey:@"data"] objectForKey:@"force"] integerValue];
+//        
+//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//        NSLog(@"%@", error);
+//    }];
+//}
+//
+///**
+// *  天朝专用检测app更新
+// */
+//-(void)hsUpdateApp:(NSString *)version  force:(NSInteger)force
+//{
+//    //2先获取当前工程项目版本号
+//    NSDictionary *infoDic=[[NSBundle mainBundle] infoDictionary];
+//    NSString *currentVersion=[infoDic[@"CFBundleShortVersionString"] stringByReplacingOccurrencesOfString:@"."withString:@""];
+//    
+//    NSString * versinNew  = [version stringByReplacingOccurrencesOfString:@"."withString:@""];
+//    //3从网络获取appStore版本号
+//    
+//        if([currentVersion integerValue] < [versinNew integerValue])
+//        {
+//            [self setGengXinNeiRon:force];
+//            
+//        }else{
+//            NSLog(@"版本号好像比商店大噢!检测到不需要更新");
+//        }
+//   
+//}
+//
+//- (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    if (self.force == 1) {
+//        if(buttonIndex==0)
+//        {
+//            //6此处加入应用在app store的地址，方便用户去更新，一种实现方式如下：
+//            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/id%@?ls=1&mt=8", STOREAPPID]];
+//            [[UIApplication sharedApplication] openURL:url];
+//        }
+//    }else
+//    {
+//        //5实现跳转到应用商店进行更新
+//        if(buttonIndex==1)
+//        {
+//            //6此处加入应用在app store的地址，方便用户去更新，一种实现方式如下：
+//            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/id%@?ls=1&mt=8", STOREAPPID]];
+//            [[UIApplication sharedApplication] openURL:url];
+//        }
+//    
+//    }
+//}
+//
+//- (void)setGengXinNeiRon:(NSInteger)force
+//{
+//    if (force == 1) {
+//        UIAlertView * neironAlertView = [[UIAlertView alloc] initWithTitle:@"版本有更新,请前往appstore下载" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+//        [neironAlertView show];
+//    }else
+//    {
+//         UIAlertView * neironAlertView = [[UIAlertView alloc] initWithTitle:@"版本有更新,请前往appstore下载" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+//        [neironAlertView show];
+//    }
+//
+//}
 
 - (NSMutableArray *)homePageAry
 {

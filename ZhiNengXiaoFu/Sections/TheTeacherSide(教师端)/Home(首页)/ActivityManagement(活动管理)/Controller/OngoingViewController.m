@@ -11,6 +11,7 @@
 #import "OngoingModel.h"
 #import "JingJiActivityDetailsViewController.h"
 
+
 @interface OngoingViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) NSMutableArray  *ongoingArr;
@@ -29,8 +30,8 @@
     return _ongoingArr;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.page = 1;
     [self makeOngoingViewControllerUI];
     //下拉刷新
@@ -45,6 +46,11 @@
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
     [self.ongoingCollectionView addSubview:self.zanwushuju];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
 }
 
 - (void)loadNewTopic {

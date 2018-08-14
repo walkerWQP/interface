@@ -34,7 +34,7 @@
     if (self == [super initWithFrame:frame]) {
         self.frame = CGRectMake(0, 0, KScreenWidth, KScreenHeight);
         self.backgroundColor = self.backgroundColor = RGBA(51, 51, 51, 0.3);
-        self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, KScreenHeight, KScreenWidth, 260)];
+        self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, KScreenHeight, KScreenWidth, 300)];
         self.bgView.backgroundColor = [UIColor whiteColor];
         [self addSubview:self.bgView];
         

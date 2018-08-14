@@ -45,7 +45,7 @@
     OngoingViewController *ongoingVC = [[OngoingViewController alloc]init];
     //即将开始
     IsAboutToBeginViewController *isAboutToBeginVC = [[IsAboutToBeginViewController alloc]init];
-    //明日预告
+    //已结束
     TomorrowViewController *tomorrowVC = [[TomorrowViewController alloc]init];
     
     NSArray *childVC = [NSArray arrayWithObjects:ongoingVC,isAboutToBeginVC,tomorrowVC, nil];

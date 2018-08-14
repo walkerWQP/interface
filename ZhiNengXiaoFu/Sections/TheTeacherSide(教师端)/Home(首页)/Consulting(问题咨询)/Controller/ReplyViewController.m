@@ -39,19 +39,24 @@
     self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 60, 60)];
     self.headImgView.layer.masksToBounds = YES;
     self.headImgView.layer.cornerRadius = 30;
-    self.headImgView.image = [UIImage imageNamed:@"user2"];
+    if ([self.headImg isEqualToString:@""]) {
+        self.headImgView.image = [UIImage imageNamed:@"user"];
+    } else {
+        [self.headImgView sd_setImageWithURL:[NSURL URLWithString:self.headImg] placeholderImage:nil];
+    }
+    
     [self.bgView addSubview:self.headImgView];
     
     self.problemLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + self.headImgView.frame.size.width, 10, self.bgView.frame.size.width - self.headImgView.frame.size.width - 30, 30)];
     self.problemLabel.textColor = titlColor;
     self.problemLabel.font = titFont;
-    self.problemLabel.text = @"八一班黎明问:";
+    self.problemLabel.text = self.nameStr;
     [self.bgView addSubview:self.problemLabel];
     
     self.problemContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10 + self.headImgView.frame.size.height, self.bgView.frame.size.width - 20, 30)];
     self.problemContentLabel.textColor = titlColor;
     self.problemContentLabel.font = titFont;
-    self.problemContentLabel.text = @"学校运动会是什么时候?";
+    self.problemContentLabel.text = self.problemStr;
     [self.bgView addSubview:self.problemContentLabel];
     
     self.lineView = [[UIView alloc] initWithFrame:CGRectMake(10,self.headImgView.frame.size.height + self.problemContentLabel.frame.size.height + 20, self.bgView.frame.size.width - 20, 1)];

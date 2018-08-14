@@ -7,21 +7,31 @@
 //
 
 #import "ClassDetailsViewController.h"
-#import "ClassDetailsCell.h"
+#import "ClassDetailsTableViewCell.h"
 #import "ClassDetailsModel.h"
 #import "NoticeViewController.h"
 #import "ClassNoticeViewController.h"
 #import "TongZhiDetailsViewController.h"
 
-@interface ClassDetailsViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@interface ClassDetailsViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, assign) NSInteger     page;
 @property (nonatomic, strong) UIImageView * zanwushuju;
-
+@property (nonatomic, strong) NSMutableArray *bannerArr;
+@property (nonatomic, strong) NSMutableArray  *classDetailsArr;
+@property (nonatomic, strong) UITableView *classDetailsTableView;
+@property (nonatomic, strong) UIImageView  *headImgView;
 
 @end
 
 @implementation ClassDetailsViewController
+
+- (NSMutableArray *)bannerArr {
+    if (!_bannerArr) {
+        _bannerArr = [NSMutableArray array];
+    }
+    return _bannerArr;
+}
 
 - (NSMutableArray *)classDetailsArr {
     if (!_classDetailsArr) {
@@ -30,30 +40,41 @@
     return _classDetailsArr;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self getBannersURLData];
+    
+    self.page  = 1;
+    
+    //下拉刷新
+    self.classDetailsTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.classDetailsTableView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.classDetailsTableView.mj_header beginRefreshing];
+    //上拉刷新
+    self.classDetailsTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.title = self.titleStr;
-    self.page  = 1;
-    [self makeClassDetailsViewControllerUI];
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     [button setTitle:@"发布" forState:UIControlStateNormal];
     button.titleLabel.font = titFont;
     [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     
+    [self.view addSubview:self.classDetailsTableView];
+    [self.classDetailsTableView registerClass:[ClassDetailsTableViewCell class] forCellReuseIdentifier:@"ClassDetailsTableViewCellID"];
+    self.classDetailsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
     self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
-    [self.view addSubview:self.zanwushuju];
-    //下拉刷新
-    self.classDetailsCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
-    //自动更改透明度
-    self.classDetailsCollectionView.mj_header.automaticallyChangeAlpha = YES;
-    //进入刷新状态
-    [self.classDetailsCollectionView.mj_header beginRefreshing];
-    //上拉刷新
-    self.classDetailsCollectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    [self.classDetailsTableView addSubview:self.zanwushuju];
+    
 }
 
 - (void)loadNewTopic {
@@ -67,15 +88,46 @@
     [self getNoticeListData:self.page];
 }
 
+- (void)getBannersURLData {
+    NSDictionary *dic = @{@"key":[UserManager key],@"t_id":@"3"};
+    NSLog(@"%@",[UserManager key]);
+    [[HttpRequestManager sharedSingleton] POST:bannersURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.bannerArr = [BannerModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            
+//            if (self.bannerArr.count == 0) {
+//                self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
+//            } else {
+//                BannerModel * model = [self.bannerArr objectAtIndex:0];
+//                [self.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+//                [self.classDetailsTableView reloadData];
+//            }
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
+
 - (void)getNoticeListData:(NSInteger)page {
     
     NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
     NSDictionary *dic = @{@"key":key, @"page":[NSString stringWithFormat:@"%ld",page], @"is_school":@"0",@"class_id":self.ID};
     [[HttpRequestManager sharedSingleton] POST:noticeListURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         //结束头部刷新
-        [self.classDetailsCollectionView.mj_header endRefreshing];
+        [self.classDetailsTableView.mj_header endRefreshing];
         //结束尾部刷新
-        [self.classDetailsCollectionView.mj_footer endRefreshing];
+        [self.classDetailsTableView.mj_footer endRefreshing];
+        
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
             NSMutableArray *arr = [ClassDetailsModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
@@ -86,7 +138,7 @@
                 self.zanwushuju.alpha = 1;
             } else {
                 self.zanwushuju.alpha = 0;
-                [self.classDetailsCollectionView reloadData];
+                [self.classDetailsTableView reloadData];
             }
             
             
@@ -103,81 +155,159 @@
     
 }
 
-
-- (void)makeClassDetailsViewControllerUI {
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
-    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    layout.sectionInset = UIEdgeInsetsMake(190, 0, 0, 0);
-    self.classDetailsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - 70) collectionViewLayout:layout];
-    self.classDetailsCollectionView.backgroundColor = backColor;
-    self.classDetailsCollectionView.delegate = self;
-    self.classDetailsCollectionView.dataSource = self;
-    [self.view addSubview:self.classDetailsCollectionView];
-    
-    [self.classDetailsCollectionView registerClass:[ClassDetailsCell class] forCellWithReuseIdentifier:ClassDetailsCell_CollectionView];
-    
-    self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
-    self.headImgView.backgroundColor = [UIColor clearColor];
-    [self.classDetailsCollectionView addSubview:self.headImgView];
-    self.headImgView.image = [UIImage imageNamed:@"banner"];
+- (UITableView *)classDetailsTableView
+{
+    if (!_classDetailsTableView) {
+        self.classDetailsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStyleGrouped];
+        self.classDetailsTableView.delegate = self;
+        self.classDetailsTableView.dataSource = self;
+    }
+    return _classDetailsTableView;
 }
 
-#pragma mark - <UICollectionViewDelegate, UICollectionViewDataSource>
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+//侧滑允许编辑cell
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.classDetailsArr.count;
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    //添加一个删除按钮
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        NSLog(@"点击删除");
+        //先删数据 再删UI
+        ClassDetailsModel * model = [self.classDetailsArr objectAtIndex:indexPath.row];
+        [self.classDetailsArr removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self deleteNoticeURLForData:model.ID];
+        
+    }];
+    
+    
+    return @[deleteAction];
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    ClassDetailsModel *model = [self.classDetailsArr objectAtIndex:indexPath.row];
-    
-    UICollectionViewCell *gridcell = nil;
-    ClassDetailsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ClassDetailsCell_CollectionView forIndexPath:indexPath];
-    cell.headImgView.image = [UIImage imageNamed:@"通知图标"];
-    cell.titleLabel.text = model.title;
-//    cell.subjectsLabel.text = model.abstract;
-    cell.timeLabel.text = model.create_time;
-    gridcell = cell;
-    return gridcell;
+- (void)deleteNoticeURLForData:(NSString *)ID {
+     NSDictionary *dic = @{@"key":[UserManager key],@"id":ID};
+    [[HttpRequestManager sharedSingleton] POST:deleteNoticeURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+            
+            [self.classDetailsArr removeAllObjects];
+            [self.classDetailsTableView reloadData];
+            [self getNoticeListData:1];
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return nil;
+}
+
+//有时候tableview的底部视图也会出现此现象对应的修改就好了
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return nil;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        return 1;
+    } else {
+        return self.classDetailsArr.count;
+    }
     
 }
 
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 20;
+    if (indexPath.section == 0) {
+        static NSString *CellIdentifier = @"TableViewCell";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        } else {
+            //删除cell中的子对象,刷新覆盖问题。
+            while ([cell.contentView.subviews lastObject] != nil) {
+                [(UIView*)[cell.contentView.subviews lastObject] removeFromSuperview];
+            }
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
+        
+        if (self.bannerArr.count == 0) {
+            
+        } else {
+            BannerModel *model = [self.bannerArr objectAtIndex:indexPath.row];
+            if (model.img == nil) {
+                imgs.image = [UIImage imageNamed:@"banner"];
+            } else {
+                [imgs sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+            }
+            
+        }
+        
+        [cell addSubview:imgs];
+        return cell;
+    } else {
+        ClassDetailsTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ClassDetailsTableViewCellID" forIndexPath:indexPath];
+        ClassDetailsModel * model = [self.classDetailsArr objectAtIndex:indexPath.row];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.headImgView.image = [UIImage imageNamed:@"通知图标"];
+        cell.titleLabel.text = model.title;
+        //    cell.subjectsLabel.text = model.abstract;
+        cell.timeLabel.text = model.create_time;
+        return cell;
+    }
     
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGSize itemSize = CGSizeZero;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return 170;
+    } else {
+        return 80;
+    }
     
-    itemSize = CGSizeMake(APP_WIDTH, 70);
-    
-    return itemSize;
 }
 
-
-//点击响应方法
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSLog(@"%ld",indexPath.row);
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     ClassDetailsModel *model = [self.classDetailsArr objectAtIndex:indexPath.row];
     TongZhiDetailsViewController *tongZhiDetailsVC = [[TongZhiDetailsViewController alloc] init];
     if (model.ID == nil) {
         [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
     } else {
         tongZhiDetailsVC.tongZhiId = model.ID;
+        tongZhiDetailsVC.typeStr = @"1";
         [self.navigationController pushViewController:tongZhiDetailsVC animated:YES];
     }
-   
-//    NoticeViewController *noticeVC = [NoticeViewController new];
-//    [self.navigationController pushViewController:noticeVC animated:YES];
-    
- }
+}
+
 
 - (void)rightBtn : (UIButton *)sender {
     

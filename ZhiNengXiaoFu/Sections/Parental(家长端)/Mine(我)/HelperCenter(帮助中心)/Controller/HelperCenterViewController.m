@@ -18,6 +18,9 @@
 @property (nonatomic, strong) HelperCenterModel * helperCenterModel;
 @property (nonatomic, strong) UIWebView * webView;
 @property (nonatomic, strong) UIView * back;
+
+@property (nonatomic, strong) NSMutableArray *bannerArr;
+
 @end
 
 @implementation HelperCenterViewController
@@ -33,7 +36,43 @@
     [self.HelperCenterTableView registerClass:[ClassHomePageItemCell class] forCellReuseIdentifier:@"ClassHomePageItemCellId"];
     self.HelperCenterTableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
     [self setNetWork];
+    
+    [self getBannersURLData];
+
 }
+
+- (NSMutableArray *)bannerArr {
+    if (!_bannerArr) {
+        _bannerArr = [NSMutableArray array];
+    }
+    return _bannerArr;
+}
+
+
+- (void)getBannersURLData {
+    NSDictionary *dic = @{@"key":[UserManager key],@"t_id":@"7"};
+    NSLog(@"%@",[UserManager key]);
+    [[HttpRequestManager sharedSingleton] POST:bannersURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.bannerArr = [BannerModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            
+            [self.HelperCenterTableView reloadData];
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
+
 
 - (void)setNetWork
 {
@@ -103,7 +142,12 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
-        imgs.image = [UIImage imageNamed:@"bannerHelper"];
+        if (self.bannerArr.count == 0) {
+            //            imgs.image = [UIImage imageNamed:@"教师端活动管理banner"];
+        } else {
+            BannerModel * model = [self.bannerArr objectAtIndex:0];
+            [imgs sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"bannerHelper"]];
+        }
         [cell addSubview:imgs];
         return cell;
     }else

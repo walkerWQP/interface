@@ -20,6 +20,7 @@
 @property (nonatomic, strong) UICollectionView *schoolNoticeCollectionView;
 @property (nonatomic, strong) UIImageView  *headImgView;
 
+@property (nonatomic, strong) NSMutableArray *bannerArr;
 
 @end
 
@@ -45,8 +46,46 @@
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
     [self.schoolNoticeCollectionView addSubview:self.zanwushuju];
-    
+    [self getBannersURLData];
 }
+
+- (NSMutableArray *)bannerArr {
+    if (!_bannerArr) {
+        _bannerArr = [NSMutableArray array];
+    }
+    return _bannerArr;
+}
+
+- (void)getBannersURLData {
+    NSDictionary *dic = @{@"key":[UserManager key],@"t_id":@"5"};
+    NSLog(@"%@",[UserManager key]);
+    [[HttpRequestManager sharedSingleton] POST:bannersURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.bannerArr = [BannerModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            
+            if (self.bannerArr.count == 0) {
+                self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
+            } else {
+                BannerModel * model = [self.bannerArr objectAtIndex:0];
+                [self.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+                [self.schoolNoticeCollectionView reloadData];
+            }
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
+
 
 - (void)loadNewTopic {
     self.page = 1;
@@ -110,7 +149,7 @@
     self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
     self.headImgView.backgroundColor = [UIColor clearColor];
     [self.schoolNoticeCollectionView addSubview:self.headImgView];
-    self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
+//    self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
 }
 
 #pragma mark - <UICollectionViewDelegate, UICollectionViewDataSource>

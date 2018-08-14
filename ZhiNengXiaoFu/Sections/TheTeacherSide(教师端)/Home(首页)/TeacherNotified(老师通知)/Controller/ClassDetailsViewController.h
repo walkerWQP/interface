@@ -11,9 +11,7 @@
 @interface ClassDetailsViewController : BaseViewController
 
 @property (nonatomic, strong) NSString        *titleStr;
-@property (nonatomic, strong) NSMutableArray  *classDetailsArr;
-@property (nonatomic, strong) UICollectionView *classDetailsCollectionView;
-@property (nonatomic, strong) UIImageView  *headImgView;
+
 @property (nonatomic, strong) NSString  *ID;
 
 @end

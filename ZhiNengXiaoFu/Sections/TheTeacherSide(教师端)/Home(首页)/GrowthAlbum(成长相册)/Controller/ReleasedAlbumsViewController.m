@@ -8,9 +8,10 @@
 
 #import "ReleasedAlbumsViewController.h"
 #import "PublishJobModel.h"
+#import <Photos/Photos.h>
 
 
-@interface ReleasedAlbumsViewController ()<HQPickerViewDelegate,LQPhotoPickerViewDelegate>
+@interface ReleasedAlbumsViewController ()<PickerViewResultDelegate,LQPhotoPickerViewDelegate>
 
 @property (nonatomic, strong) UILabel   *nameLabel;
 @property (nonatomic, strong) UIButton  *nameBtn;
@@ -50,6 +51,9 @@
     [super viewDidLoad];
     self.title = @"发布";
     self.view.backgroundColor = backColor;
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+        
+    }];
     [self makeReleasedAlbumsViewControllerUI];
 }
 
@@ -63,7 +67,7 @@
     
     self.nameBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.nameLabel.frame.size.height + 50, APP_WIDTH - 40, 40)];
     self.nameBtn.backgroundColor = [UIColor whiteColor];
-    [self.nameBtn setTitle:@"请选择科目类型" forState:UIControlStateNormal];
+    [self.nameBtn setTitle:@"请选择班级" forState:UIControlStateNormal];
     self.nameBtn.layer.masksToBounds = YES;
     self.nameBtn.layer.cornerRadius = 5;
     self.nameBtn.layer.borderColor = fengeLineColor.CGColor;
@@ -221,11 +225,17 @@
             for (PublishJobModel * model in self.publishJobArr) {
                 [ary addObject:[NSString stringWithFormat:@"%@", model.name]];
             }
+            PickerView *vi = [[PickerView alloc] init];
+            vi.array = ary;
             
-            HQPickerView *picker = [[HQPickerView alloc]initWithFrame:self.view.bounds];
-            picker.delegate = self ;
-            picker.customArr = ary;
-            [self.view addSubview:picker];
+            vi.type = PickerViewTypeHeigh;
+            vi.selectComponent = 0;
+            vi.delegate = self;
+            [[[UIApplication sharedApplication] keyWindow] addSubview:vi];
+//            HQPickerView *picker = [[HQPickerView alloc]initWithFrame:self.view.bounds];
+//            picker.delegate = self ;
+//            picker.customArr = ary;
+//            [self.view addSubview:picker];
             
             if (self.publishJobArr.count == 0) {
                 [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
@@ -247,14 +257,21 @@
         
     }];
 }
+-(void)pickerView:(UIView *)pickerView result:(NSString *)string index:(NSInteger)index{
 
-- (void)pickerView:(UIPickerView *)pickerView didSelectText:(NSString *)text  index:(NSInteger)index{
-    [self.nameBtn setTitle:text forState:UIControlStateNormal];
+    [self.nameBtn setTitle:string forState:UIControlStateNormal];
     PublishJobModel *model = [self.publishJobArr objectAtIndex:index];
     self.courseID = model.ID;
     NSLog(@"%@",model.ID);
-    
 }
+
+//- (void)pickerView:(UIPickerView *)pickerView didSelectText:(NSString *)text  index:(NSInteger)index{
+//    [self.nameBtn setTitle:text forState:UIControlStateNormal];
+//    PublishJobModel *model = [self.publishJobArr objectAtIndex:index];
+//    self.courseID = model.ID;
+//    NSLog(@"%@",model.ID);
+//
+//}
 
 
 @end

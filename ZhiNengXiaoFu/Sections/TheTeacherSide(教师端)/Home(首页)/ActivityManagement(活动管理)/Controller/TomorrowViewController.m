@@ -29,8 +29,8 @@
    return _tomorrowArr;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.page = 1;
     [self makeTomorrowViewControllerUI];
     //下拉刷新
@@ -45,6 +45,11 @@
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
     [self.tomorrowCollectionView addSubview:self.zanwushuju];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
 }
 
 - (void)loadNewTopic {

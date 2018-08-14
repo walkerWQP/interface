@@ -12,16 +12,26 @@
 #import "PublishJobViewController.h"
 #import "WorkDetailsViewController.h"
 
+
 @interface HomeWorkViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * homeWorkTableView;
 @property (nonatomic, strong) NSMutableArray * homeWorkArr;
+@property (nonatomic, strong) UIImageView  *headImgView;
 @property (nonatomic, strong) UIImageView *zanwushuju;
 @property (nonatomic, assign) NSInteger   page;
+@property (nonatomic, strong) NSMutableArray *bannerArr;
 
 @end
 
 @implementation HomeWorkViewController
+
+- (NSMutableArray *)bannerArr {
+    if (!_bannerArr) {
+        _bannerArr = [NSMutableArray array];
+    }
+    return _bannerArr;
+}
 
 - (NSMutableArray *)homeWorkArr {
     if (!_homeWorkArr) {
@@ -30,22 +40,10 @@
     return _homeWorkArr;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    self.title = self.titleStr;
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.page = 1;
-    
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    [button setTitle:@"发布" forState:UIControlStateNormal];
-    button.titleLabel.font = titFont;
-    [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    
-  
-    [self.view addSubview:self.homeWorkTableView];
-    [self.homeWorkTableView registerClass:[TongZhiCell class] forCellReuseIdentifier:@"TongZhiCellId"];
-    self.homeWorkTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self getBannersURLData];
     
     //下拉刷新
     self.homeWorkTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
@@ -56,11 +54,27 @@
     //上拉刷新
     self.homeWorkTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     
+    
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.title = self.titleStr;
+    
+    [self.view addSubview:self.homeWorkTableView];
+    [self.homeWorkTableView registerClass:[TongZhiCell class] forCellReuseIdentifier:@"TongZhiCellId"];
+    self.homeWorkTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    [button setTitle:@"发布" forState:UIControlStateNormal];
+    button.titleLabel.font = titFont;
+    [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
     [self.self.homeWorkTableView addSubview:self.zanwushuju];
-    
+  
+    [self getBannersURLData];
 }
 
 - (void)loadNewTopic {
@@ -74,6 +88,30 @@
     [self getWorkHomeWorkListData:self.page];
 }
 
+- (void)getBannersURLData {
+    NSDictionary *dic = @{@"key":[UserManager key],@"t_id":@"4"};
+    NSLog(@"%@",[UserManager key]);
+    [[HttpRequestManager sharedSingleton] POST:bannersURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.bannerArr = [BannerModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+           
+            [self.homeWorkTableView reloadData];
+
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
+
 //删除作业
 - (void)WorkDeleteHomeWorkData:(NSString *)workID {
     NSDictionary *dic = @{@"key":[UserManager key],@"id":workID};
@@ -83,6 +121,7 @@
             [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
             
             [self.homeWorkArr removeAllObjects];
+            [self.homeWorkTableView reloadData];
             [self getWorkHomeWorkListData:1];
             
             
@@ -115,7 +154,7 @@
             }
             if (self.homeWorkArr.count == 0) {
                 self.zanwushuju.alpha = 1;
-                [self.homeWorkTableView reloadData];
+//                [self.homeWorkTableView reloadData];
             } else {
                 self.zanwushuju.alpha = 0;
                 [self.homeWorkTableView reloadData];
@@ -139,7 +178,7 @@
 - (UITableView *)homeWorkTableView
 {
     if (!_homeWorkTableView) {
-        self.homeWorkTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.homeWorkTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStyleGrouped];
         self.homeWorkTableView.delegate = self;
         self.homeWorkTableView.dataSource = self;
     }
@@ -150,18 +189,55 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
 }
-//执行删除操作
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"删除删除删除删除删除删除删除删除删除");
-    HomeWorkModel * model = [self.homeWorkArr objectAtIndex:indexPath.row];
-    [self WorkDeleteHomeWorkData:model.ID];
-    
-}
-//侧滑出现的文字
-- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return @"删除";
-}
+////执行删除操作
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+//    NSLog(@"删除删除删除删除删除删除删除删除删除");
+//    HomeWorkModel * model = [self.homeWorkArr objectAtIndex:indexPath.row];
+//    [self WorkDeleteHomeWorkData:model.ID];
+//
+//}
+////侧滑出现的文字
+//- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return @"删除";
+//}
 
+//#pragma Mark 左滑按钮 iOS8以上
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    //添加一个删除按钮
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        NSLog(@"点击删除");
+        //先删数据 再删UI
+        HomeWorkModel * model = [self.homeWorkArr objectAtIndex:indexPath.row];
+        [self.homeWorkArr removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self WorkDeleteHomeWorkData:model.ID];
+    }];
+
+//    //添加一个编辑按钮
+//    UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"修改" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+//
+//        NSLog(@"点击修改");
+//        HomeWorkModel *model = self.homeWorkArr[indexPath.row];
+//        PublishJobViewController *publishJobVC = [[PublishJobViewController alloc] init];
+//        if (self.ID == nil) {
+//            [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+//        } else {
+//            publishJobVC.classID = self.ID;
+//            publishJobVC.ID  = model.ID;
+//            publishJobVC.title = model.title;
+//            publishJobVC.content = model.course_name;
+//            publishJobVC.course_id = model.ID;
+//            [self.navigationController pushViewController:publishJobVC animated:YES];
+//        }
+//
+//
+//    }];
+//    editAction.backgroundColor = [UIColor greenColor];
+    
+    return @[deleteAction];
+}
 
 
 
@@ -211,7 +287,17 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
-        imgs.image = [UIImage imageNamed:@"banner"];
+        if (self.bannerArr.count == 0) {
+
+        } else {
+            BannerModel *model = [self.bannerArr objectAtIndex:indexPath.row];
+            if (model.img == nil) {
+                imgs.image = [UIImage imageNamed:@"banner"];
+            } else {
+                [imgs sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+            }
+
+        }
         [cell addSubview:imgs];
         return cell;
     } else {
@@ -242,6 +328,7 @@
     WorkDetailsViewController * workDetailsVC = [[WorkDetailsViewController alloc] init];
     HomeWorkModel *model = [self.homeWorkArr objectAtIndex:indexPath.row];
     workDetailsVC.workId = model.ID;
+    workDetailsVC.typeID = @"1";
     [self.navigationController pushViewController:workDetailsVC animated:YES];
 }
 

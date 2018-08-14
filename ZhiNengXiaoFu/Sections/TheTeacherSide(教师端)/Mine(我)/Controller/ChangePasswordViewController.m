@@ -95,6 +95,14 @@
 
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    NSCharacterSet *characterSet = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFJHIGKLMNOPQRSTUVWXYZ1234567890"] invertedSet];
+    NSString *filtered = [[string componentsSeparatedByCharactersInSet:characterSet] componentsJoinedByString:@""];
+    return [string isEqualToString:filtered];
+    
+}
+
 - (void)submitBtn : (UIButton *)sender {
     NSLog(@"提交");
     

@@ -43,8 +43,10 @@
 #import "UIColor+HexString.h"
 #import "WPopupMenu.h" //popView
 #import "BannerModel.h"
+#import "JurisdictionMethod.h"
 #endif /* PrefixHeader_pch */
-
+#import "PickerView.h"
+#define STOREAPPID @"1424842152"
 
 
 

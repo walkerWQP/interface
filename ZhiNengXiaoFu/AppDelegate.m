@@ -10,30 +10,30 @@
 #import "TotalTabBarController.h"
 #import "ChooseHomeViewController.h"
 #import "LoginHomePageViewController.h"
+//相册权限
+#import <AssetsLibrary/AssetsLibrary.h>
+//相机权限
+#import <AVFoundation/AVCaptureDevice.h>
+#import "TheGuideViewController.h"
 @interface AppDelegate ()
-
+@property (nonatomic, assign) NSInteger force;
 @end
 
 @implementation AppDelegate
 
 
-
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+
+    
+    //设置引导页面
+    [self setGuideViewWithUIWindow:self.window];
     
      [NSThread sleepForTimeInterval:2];
 
     [AMapServices sharedServices].apiKey = @"0a06fef6aaa158c44f0d88f5728b4c6c";
 
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] == nil) {
-        LoginHomePageViewController * loginHomePageVC = [[LoginHomePageViewController alloc] init];
-        self.window.rootViewController = loginHomePageVC;
-    }else
-    {
-        TotalTabBarController * totalTabBarVC = [[TotalTabBarController alloc] init];
-        self.window.rootViewController = totalTabBarVC;
-    }
+   
 
     IQKeyboardManager * manager = [IQKeyboardManager sharedManager];
     manager.enable = YES;
@@ -42,6 +42,123 @@
     manager.enableAutoToolbar = YES;
     
     return YES;
+}
+
+
+//设置引导页面
+
+- (void)setGuideViewWithUIWindow:(UIWindow *)window {
+    
+    // 2设置窗口的根控制器
+    //如何知道第一次使用这个版本？比较上次的使用情况
+    NSString *versionKey = (__bridge NSString *)kCFBundleVersionKey;
+    // 从沙盒中取出上次存储的软件版本号(取出用户上次的使用记录)
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *lastVersion = [defaults objectForKey:versionKey];
+    // 获得当前打开软件的版本号
+    NSString *currentVersion = [NSBundle mainBundle].infoDictionary[versionKey];
+    // 当前版本号 == 上次使用的版本：显示
+    if ([currentVersion isEqualToString:lastVersion]) {
+       
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] == nil) {
+            LoginHomePageViewController * loginHomePageVC = [[LoginHomePageViewController alloc] init];
+            self.window.rootViewController = loginHomePageVC;
+        }else
+        {
+            TotalTabBarController * totalTabBarVC = [[TotalTabBarController alloc] init];
+            self.window.rootViewController = totalTabBarVC;
+        }
+        
+        [self setHuoQuShangXianBanBen];
+
+    } else { // 当前版本号 != 上次使用的版本：显示版本新特性
+        
+        //展示弹出框
+        
+        TheGuideViewController *guide = [[TheGuideViewController alloc]init];
+//        UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:guide];
+        window.rootViewController = guide;
+        // 存储这次使用的软件版本
+        [defaults setObject:currentVersion forKey:versionKey];
+        [defaults synchronize];
+    }
+    
+
+}
+
+- (void)setHuoQuShangXianBanBen
+{
+    NSDictionary * dic = @{@"system":@"2"};
+    [[HttpRequestManager sharedSingleton] POST:versionGetVersion parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        //一句代码实现检测更新
+        self.force = [[[responseObject objectForKey:@"data"] objectForKey:@"force"] integerValue];
+        
+        [self hsUpdateApp:[[responseObject objectForKey:@"data"] objectForKey:@"version"] force:[[[responseObject objectForKey:@"data"] objectForKey:@"force"] integerValue]];
+        
+        [SingletonHelper manager].version = [[responseObject objectForKey:@"data"] objectForKey:@"version"];
+        [SingletonHelper manager].force = [[[responseObject objectForKey:@"data"] objectForKey:@"force"] integerValue];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
+}
+
+/**
+ *  天朝专用检测app更新
+ */
+-(void)hsUpdateApp:(NSString *)version  force:(NSInteger)force
+{
+    //2先获取当前工程项目版本号
+    NSDictionary *infoDic=[[NSBundle mainBundle] infoDictionary];
+    NSString *currentVersion=[infoDic[@"CFBundleShortVersionString"] stringByReplacingOccurrencesOfString:@"."withString:@""];
+    
+    NSString * versinNew  = [version stringByReplacingOccurrencesOfString:@"."withString:@""];
+    //3从网络获取appStore版本号
+    
+    if([currentVersion integerValue] < [versinNew integerValue])
+    {
+        [self setGengXinNeiRon:force];
+        
+    }else{
+        NSLog(@"版本号好像比商店大噢!检测到不需要更新");
+    }
+    
+}
+
+- (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (self.force == 1) {
+        if(buttonIndex==0)
+        {
+            //6此处加入应用在app store的地址，方便用户去更新，一种实现方式如下：
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/id%@?ls=1&mt=8", STOREAPPID]];
+            [[UIApplication sharedApplication] openURL:url];
+        }
+    }else
+    {
+        //5实现跳转到应用商店进行更新
+        if(buttonIndex==1)
+        {
+            //6此处加入应用在app store的地址，方便用户去更新，一种实现方式如下：
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/id%@?ls=1&mt=8", STOREAPPID]];
+            [[UIApplication sharedApplication] openURL:url];
+        }
+        
+    }
+}
+
+- (void)setGengXinNeiRon:(NSInteger)force
+{
+    if (force == 1) {
+        UIAlertView * neironAlertView = [[UIAlertView alloc] initWithTitle:@"版本有更新,请前往appstore下载" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [neironAlertView show];
+    }else
+    {
+        UIAlertView * neironAlertView = [[UIAlertView alloc] initWithTitle:@"版本有更新,请前往appstore下载" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [neironAlertView show];
+    }
+    
 }
 
 
@@ -59,6 +176,11 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+    if ([SingletonHelper manager].force == 1) {
+
+        [self hsUpdateApp:[SingletonHelper manager].version force:[SingletonHelper manager].force];
+    }
+//
 }
 
 

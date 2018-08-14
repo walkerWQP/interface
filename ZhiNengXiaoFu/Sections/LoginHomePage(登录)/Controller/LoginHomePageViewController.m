@@ -234,9 +234,12 @@
             NSString * system = [[SingletonHelper manager] encode:@"ios"];
 
             NSDictionary * dic = @{@"usernum":self.zhangHaoTextField.text, @"password":passwordStr, @"identity":chooseLoginState, @"system":system, @"sign":newstr};
+            [WProgressHUD showHUDShowText:@"加载中..."];
+
             [[HttpRequestManager sharedSingleton] POST:LOGIN parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
                 NSLog(@"%@",responseObject);
-                
+                [WProgressHUD hideAllHUDAnimated:YES];
+
                 if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
                     
                     
@@ -298,6 +301,8 @@
                 
             } failure:^(NSURLSessionDataTask *task, NSError *error) {
                 NSLog(@"%@", error);
+                [WProgressHUD hideAllHUDAnimated:YES];
+
             }];
      }
         

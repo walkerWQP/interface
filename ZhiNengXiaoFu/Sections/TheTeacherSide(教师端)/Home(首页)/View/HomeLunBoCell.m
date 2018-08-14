@@ -16,10 +16,39 @@
     if (self) {
         [self addSubview:self.cycleScrollView2];
         
-        [self loadTicketTop];
+        [self getClassData];
+
         
     }
     return self;
+}
+
+- (void)getClassData {
+    
+    NSDictionary *dic = @{@"key":[UserManager key], @"t_id":@"1"};
+    [[HttpRequestManager sharedSingleton] POST:bannersURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            NSMutableArray * ary = [BannerModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            for (BannerModel * model in ary) {
+                [self.dataHeaderSourceAryImg addObject:model.img];
+            }
+            
+            [self loadTicketTop];
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
 }
 
 - (NSMutableArray *)dataHeaderSourceAryImg
@@ -34,9 +63,9 @@
 {
     //网络加载 --- 创建带标题的图片轮播器
     
-    [self.dataHeaderSourceAryImg addObject:[UIImage imageNamed:@"教师端活动管理banner"]];
-    [self.dataHeaderSourceAryImg addObject:[UIImage imageNamed:@"banner"]];
-    [self.dataHeaderSourceAryImg addObject:[UIImage imageNamed:@"bannerHelper"]];
+//    [self.dataHeaderSourceAryImg addObject:[UIImage imageNamed:@"教师端活动管理banner"]];
+//    [self.dataHeaderSourceAryImg addObject:[UIImage imageNamed:@"banner"]];
+//    [self.dataHeaderSourceAryImg addObject:[UIImage imageNamed:@"bannerHelper"]];
     
     
     if (kScreenWidth == 414) {
@@ -55,7 +84,7 @@
     
     //             --- 模拟加载延迟
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.cycleScrollView2.localizationImageNamesGroup = self.dataHeaderSourceAryImg;
+        self.cycleScrollView2.imageURLStringsGroup = self.dataHeaderSourceAryImg;
         
     });
     

@@ -9,7 +9,7 @@
 #import "JingJiActivityDetailsViewController.h"
 #import "TongZhiDetailsCell.h"
 #import "JingJiHuoDongListModel.h"
-
+#import "ChangeActivitiesViewController.h"
 #import <WebKit/WebKit.h>
 #import "UIView+XXYViewFrame.h"
 @interface JingJiActivityDetailsViewController ()<UITableViewDelegate, UITableViewDataSource,WKUIDelegate,WKNavigationDelegate>
@@ -23,16 +23,45 @@
 
 @implementation JingJiActivityDetailsViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.title = @"竞技活动详情";
-    self.view.backgroundColor = [UIColor whiteColor];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
     [self setNetWork];
     [self.view addSubview:self.JingJiActivityDetailsTableView];
     
     [self.JingJiActivityDetailsTableView registerNib:[UINib nibWithNibName:@"TongZhiDetailsCell" bundle:nil] forCellReuseIdentifier:@"TongZhiDetailsCellId"];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    self.title = @"竞技活动详情";
+    self.view.backgroundColor = [UIColor whiteColor];
+    if ([self.typeStr isEqualToString:@"1"] || [self.typeStr isEqualToString:@"3"]) {
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        [button setTitle:@"修改" forState:UIControlStateNormal];
+        button.titleLabel.font = titFont;
+        [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]  initWithCustomView:button];
+        
+    } else {
+        
+    }
+
+}
+
+- (void)rightBtn:(UIButton *)sender {
+    NSLog(@"点击修改");
+    
+    ChangeActivitiesViewController *ChangeActivitiesVC = [ChangeActivitiesViewController new];
+    ChangeActivitiesVC.ID = self.jingJiHuoDongListModol.ID;
+    ChangeActivitiesVC.titleStr = self.jingJiHuoDongListModol.title;
+    ChangeActivitiesVC.introduction = self.jingJiHuoDongListModol.introduction;
+    ChangeActivitiesVC.start = self.jingJiHuoDongListModol.start;
+    ChangeActivitiesVC.end = self.jingJiHuoDongListModol.end;
+    
+    [self.navigationController pushViewController:ChangeActivitiesVC animated:YES];
+    
 }
 
 - (UITableView *)JingJiActivityDetailsTableView
@@ -55,6 +84,9 @@
     [[HttpRequestManager sharedSingleton] POST:activityDetail parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+             self.Hnew = 0;
+            self.tongZhiDetailsCell.CommunityDetailsImageViewHegit.constant = 0;
+             [self.tongZhiDetailsCell.PicView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
             self.jingJiHuoDongListModol = [JingJiHuoDongListModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
             
             [self configureImage];

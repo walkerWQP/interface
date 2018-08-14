@@ -11,6 +11,7 @@
 #import "TongZhiDetailsModel.h"
 #import <WebKit/WebKit.h>
 #import "UIView+XXYViewFrame.h"
+#import "ChangeViewController.h"
 
 @interface WorkDetailsViewController ()<UITableViewDelegate, UITableViewDataSource,WKUIDelegate,WKNavigationDelegate>
 
@@ -23,16 +24,33 @@
 
 @implementation WorkDetailsViewController
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self setNetWork];
+    [self.view addSubview:self.WorkDetailsTableView];
+    
+    [self.WorkDetailsTableView registerNib:[UINib nibWithNibName:@"TongZhiDetailsCell" bundle:nil] forCellReuseIdentifier:@"TongZhiDetailsCellId"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"作业详情";
     self.view.backgroundColor = [UIColor whiteColor];
+
+    if ([self.typeID isEqualToString:@"1"]) {
+        NSLog(@"1");
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        [button setTitle:@"修改" forState:UIControlStateNormal];
+        button.titleLabel.font = titFont;
+        [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+        
+        
+    } else {
+        NSLog(@"2");
+    }
     
-    [self setNetWork];
-    [self.view addSubview:self.WorkDetailsTableView];
-    
-    [self.WorkDetailsTableView registerNib:[UINib nibWithNibName:@"TongZhiDetailsCell" bundle:nil] forCellReuseIdentifier:@"TongZhiDetailsCellId"];
 }
 
 - (NSMutableArray *)imgAry
@@ -55,6 +73,23 @@
     return _WorkDetailsTableView;
 }
 
+- (void)rightBtn:(UIButton *)sender {
+    NSLog(@"点击修改");
+    ChangeViewController *changeVC = [ChangeViewController new];
+    if (self.workId != nil) {
+        changeVC.ID = self.workId;
+        changeVC.titleStr = self.workDetailsModel.title;
+        changeVC.content = self.workDetailsModel.content;
+        [self.navigationController pushViewController:changeVC animated:YES];
+    } else {
+        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重新加载"];
+    }
+    
+   
+    
+    
+}
+
 - (void)setNetWork
 {
     NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
@@ -63,6 +98,8 @@
         NSLog(@"%@", responseObject);
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             self.workDetailsModel = [TongZhiDetailsModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+
+            
 //            [self.imgAry addObject:self.workDetailsModel.img];
             [self configureImage];
             

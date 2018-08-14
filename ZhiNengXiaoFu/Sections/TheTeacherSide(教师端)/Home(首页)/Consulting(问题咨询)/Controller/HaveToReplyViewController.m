@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UICollectionView *haveToReplyCollectionView;
 @property (nonatomic, assign) NSInteger     page;
 @property (nonatomic, strong) UIImageView *zanwushuju;
+@property (nonatomic, strong) PersonInformationModel * personInfo;
 
 @end
 
@@ -28,11 +29,9 @@
     return _haveToReplyArr;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.page = 1;
-    
-    [self makeHaveToReplyViewControllerUI];
     //下拉刷新
     self.haveToReplyCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
     //自动更改透明度
@@ -41,6 +40,14 @@
     [self.haveToReplyCollectionView.mj_header beginRefreshing];
     //上拉刷新
     self.haveToReplyCollectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    
+    [self makeHaveToReplyViewControllerUI];
+    
     self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
@@ -130,10 +137,27 @@
     UICollectionViewCell *gridcell = nil;
     HaveToReplyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:HaveToReplyCell_CollectionView forIndexPath:indexPath];
     ConsultListModel *model = [self.haveToReplyArr objectAtIndex:indexPath.row];
-    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.s_headimg]];
+    if ([model.s_headimg isEqualToString:@""]) {
+        
+        cell.headImgView.image = [UIImage imageNamed:@"user"];
+       
+    } else {
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:nil];
+    }
+    
+    
     cell.problemLabel.text = [NSString stringWithFormat:@"%@%@问:", model.class_name ,model.student_name];
     cell.problemContentLabel.text = model.question;
-    [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:model.t_headimg] placeholderImage:nil];
+    if (model.t_headimg == nil) {
+        if ([self.personInfo.head_img isEqualToString:@""]) {
+            cell.headImageView.image = [UIImage imageNamed:@"user"];
+        } else {
+            [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:nil];
+        }
+    } else {
+        [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:model.t_headimg] placeholderImage:nil];
+    }
+    
     cell.replyLabel.text = [NSString stringWithFormat:@"%@%@老师%@回复:", model.class_name, model.course_name, model.teacher_name];
     cell.replyContentLabel.text = model.answer;
     gridcell = cell;
@@ -150,7 +174,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGSize itemSize = CGSizeZero;
     
-    itemSize = CGSizeMake(APP_WIDTH, APP_HEIGHT * 0.3);
+    itemSize = CGSizeMake(APP_WIDTH, APP_HEIGHT * 0.3 + 10);
     
     return itemSize;
 }

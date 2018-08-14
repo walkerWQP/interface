@@ -21,4 +21,10 @@
 @property (nonatomic, strong) PersonInformationModel * personInfoModel;
 
 @property (nonatomic, strong) TeacherZaiXianDetailsModel * teacherZaiXianDetailsModel;
+
+@property (nonatomic, assign) int  stateNewXiang;
+
+@property (nonatomic, assign) NSInteger force;
+@property (nonatomic, copy) NSString * version;
+
 @end

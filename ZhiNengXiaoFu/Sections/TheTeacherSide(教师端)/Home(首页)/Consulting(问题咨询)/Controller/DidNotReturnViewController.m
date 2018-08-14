@@ -11,12 +11,15 @@
 #import "ConsultListModel.h"
 #import "ReplyViewController.h"
 
+
 @interface DidNotReturnViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) NSMutableArray  *didNotReturnArr;
 @property (nonatomic, strong) UICollectionView *didNotReturnCollectionView;
 @property (nonatomic, assign) NSInteger    page;
 @property (nonatomic, strong) UIImageView *zanwushuju;
+@property (nonatomic, strong) PersonInformationModel * personInfo;
+@property (nonatomic, assign) NSInteger   typeID;
 
 
 @end
@@ -30,10 +33,9 @@
     return _didNotReturnArr;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.page = 1;
-    [self makeDidNotReturnViewControllerUI];
     //下拉刷新
     self.didNotReturnCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
     //自动更改透明度
@@ -42,6 +44,13 @@
     [self.didNotReturnCollectionView.mj_header beginRefreshing];
     //上拉刷新
     self.didNotReturnCollectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self makeDidNotReturnViewControllerUI];
+    
     self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
@@ -74,8 +83,9 @@
                 [self.didNotReturnArr addObject:model];
             }
             if (self.didNotReturnArr.count == 0) {
+                [self.didNotReturnArr removeAllObjects];
                 self.zanwushuju.alpha = 1;
-                //                [self.publicClassCollectionView reloadData];
+                [self.didNotReturnCollectionView reloadData];
             } else {
                 self.zanwushuju.alpha = 0;
                 [self.didNotReturnCollectionView reloadData];
@@ -122,19 +132,42 @@
     UICollectionViewCell *gridcell = nil;
     DidNotReturnCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DidNotReturnCell_CollectionView forIndexPath:indexPath];
     ConsultListModel *model = [self.didNotReturnArr objectAtIndex:indexPath.row];
-    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:nil];
+
+    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:[UIImage imageNamed:@"user"]];
+    if (model.s_headimg == nil) {
+        if (self.personInfo.head_img == nil) {
+            cell.headImgView.image = [UIImage imageNamed:@"user"];
+        } else {
+            [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:nil];
+        }
+    } else {
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.t_headimg] placeholderImage:nil];
+    }
+
     cell.problemLabel.text = [NSString stringWithFormat:@"%@%@问:", model.class_name ,model.student_name];
     cell.problemContentLabel.text = model.question;
-//    [cell.answerBtn addTarget:self action:@selector(answerBtn:) forControlEvents:UIControlEventTouchUpInside];
+    self.typeID = indexPath.row;
+    [cell.answerBtn addTarget:self action:@selector(answerBtn:) forControlEvents:UIControlEventTouchUpInside];
     gridcell = cell;
     return gridcell;
     
 }
 
-//- (void)answerBtn : (UIButton *)sender {
-//    NSLog(@"点击回答咨询");
-//    
-//}
+- (void)answerBtn : (UIButton *)sender {
+    NSLog(@"点击回答咨询");
+    ConsultListModel *model = [self.didNotReturnArr objectAtIndex:self.typeID];
+    ReplyViewController *replyVC = [[ReplyViewController alloc] init];
+    if (model.ID == nil) {
+        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+    } else {
+        replyVC.ID = model.ID;
+        replyVC.headImg = model.s_headimg;
+        replyVC.nameStr = [NSString stringWithFormat:@"%@%@问:",model.class_name,model.student_name];
+        replyVC.problemStr =  model.question;
+        [self.navigationController pushViewController:replyVC animated:YES];
+    }
+    
+}
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     
@@ -161,6 +194,9 @@
         [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
     } else {
         replyVC.ID = model.ID;
+        replyVC.headImg = model.s_headimg;
+        replyVC.nameStr = [NSString stringWithFormat:@"%@%@问:",model.class_name,model.student_name];
+        replyVC.problemStr =  model.question;
         [self.navigationController pushViewController:replyVC animated:YES];
     }
    

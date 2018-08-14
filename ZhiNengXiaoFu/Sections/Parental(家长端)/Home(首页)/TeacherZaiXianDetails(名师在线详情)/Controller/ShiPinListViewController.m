@@ -13,8 +13,9 @@
 
 @property (nonatomic, strong) UITableView * shiPinListTableView;
 @property (nonatomic, strong) UIImageView * zanwushuju;
-
+@property (nonatomic, assign) NSInteger     page;
 @property (nonatomic, strong) NSMutableArray * shiPinListAry;
+
 @end
 
 @implementation ShiPinListViewController
@@ -34,7 +35,14 @@
     self.shiPinListTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.shiPinListTableView registerClass:[ShiPinListCell class] forCellReuseIdentifier:@"ShiPinListCellId"];
     
-    [self setNetWork];
+    //下拉刷新
+    self.shiPinListTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.shiPinListTableView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.shiPinListTableView.mj_header beginRefreshing];
+    //上拉刷新
+    self.shiPinListTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     
 }
 
@@ -46,12 +54,26 @@
     return _shiPinListAry;
 }
 
-- (void)setNetWork
+- (void)loadNewTopic {
+    self.page = 1;
+    [self.shiPinListAry removeAllObjects];
+    [self setNetWork:self.page];
+}
+
+- (void)loadMoreTopic {
+    self.page += 1;
+    [self setNetWork:self.page];
+}
+
+- (void)setNetWork:(NSInteger)page
 {
-    NSDictionary * dic = @{@"key":[UserManager key], @"teacher_id":[NSString stringWithFormat:@"%ld", self.teacherZaiXianDetailsModel.teacher_id]};
+    NSDictionary * dic = @{@"key":[UserManager key], @"teacher_id":[NSString stringWithFormat:@"%ld", self.teacherZaiXianDetailsModel.teacher_id], @"page":[NSString stringWithFormat:@"%ld",page]};
     [[HttpRequestManager sharedSingleton] POST:onlineTheTeacherList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
-        
+        //结束头部刷新
+        [self.shiPinListTableView.mj_header endRefreshing];
+        //结束尾部刷新
+        [self.shiPinListTableView.mj_footer endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             NSMutableArray *arr = [SchoolDongTaiModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
             for (SchoolDongTaiModel *model in arr) {

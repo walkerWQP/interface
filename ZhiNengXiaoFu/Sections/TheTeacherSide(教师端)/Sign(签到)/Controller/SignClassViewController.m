@@ -62,7 +62,7 @@
     [self.view addSubview:self.titleView];
     
     self.rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-    [self.rightBtn setTitle:@"选择班级" forState:UIControlStateNormal];
+    [self.rightBtn setTitle:@"切换班级" forState:UIControlStateNormal];
     self.rightBtn.titleLabel.font = titFont;
     [self.rightBtn addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];

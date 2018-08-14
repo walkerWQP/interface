@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UITableView *schoolDynamicTableView;
 @property (nonatomic, strong) NSMutableArray *schoolDynamicArr;
 @property (nonatomic, assign) NSInteger     page;
+@property (nonatomic, strong) NSMutableArray *bannerArr;
 
 @end
 
@@ -27,7 +28,12 @@
     return _schoolDynamicArr;
 }
 
-
+- (NSMutableArray *)bannerArr {
+    if (!_bannerArr) {
+        _bannerArr = [NSMutableArray array];
+    }
+    return _bannerArr;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -41,6 +47,8 @@
     [self.view addSubview:self.schoolDynamicTableView];
     self.schoolDynamicTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
+    [self getBannersURLData];
+
     [self.schoolDynamicTableView registerClass:[TeacherTongZhiCell class] forCellReuseIdentifier:@"TeacherTongZhiCellId"];
     //下拉刷新
     self.schoolDynamicTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
@@ -63,6 +71,29 @@
     [self setNetWork:self.page];
 }
 
+- (void)getBannersURLData {
+    NSDictionary *dic = @{@"key":[UserManager key],@"t_id":@"6"};
+    NSLog(@"%@",[UserManager key]);
+    [[HttpRequestManager sharedSingleton] POST:bannersURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.bannerArr = [BannerModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            
+            [self.schoolDynamicTableView reloadData];
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
 
 - (void)setNetWork:(NSInteger)page
 {
@@ -164,7 +195,12 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
-        imgs.image = [UIImage imageNamed:@"banner"];
+        if (self.bannerArr.count == 0) {
+            //            imgs.image = [UIImage imageNamed:@"教师端活动管理banner"];
+        } else {
+            BannerModel * model = [self.bannerArr objectAtIndex:0];
+            [imgs sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"教师端活动管理banner"]];
+        }
         [cell addSubview:imgs];
         return cell;
     }else

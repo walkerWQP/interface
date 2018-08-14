@@ -12,14 +12,16 @@
 #import "DingWeiViewController.h"
 #import "QianDaoModel.h"
 #import "QianDaoInModel.h"
-@interface QianDaoViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property (nonatomic,weak) CLPlayerView *playerView;
 
+@interface QianDaoViewController ()<UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, weak) CLPlayerView *playerView;
 @property (nonatomic, strong) UITableView * QianDaoTableView;
 @property (nonatomic, strong) NSMutableArray * QianDaoAry;
 @property (nonatomic, strong) UIView * backView;
 @property (nonatomic, strong) QianDaoModel * qianDaoModel;
 @property (nonatomic, strong) UIImageView * close;
+
 @end
 
 @implementation QianDaoViewController
@@ -145,8 +147,8 @@
 {
     if (indexPath.section == 0) {
         QianDaoPsersonCell * cell = [tableView dequeueReusableCellWithIdentifier:@"QianDaoPsersonCellId" forIndexPath:indexPath];
-        cell.itemLabel.text = [UserManager getUserObject].name;
-        [cell.itemImg sd_setImageWithURL:[NSURL URLWithString:[UserManager getUserObject].head_img] placeholderImage:[UIImage imageNamed:@"user"]];
+        cell.itemLabel.text = self.qianDaoModel.name;
+        [cell.itemImg sd_setImageWithURL:[NSURL URLWithString:self.qianDaoModel.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
         cell.selectionStyle =  UITableViewCellSelectionStyleNone;
         return cell;
     }else

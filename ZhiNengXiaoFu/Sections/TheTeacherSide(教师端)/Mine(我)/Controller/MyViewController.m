@@ -15,6 +15,7 @@
 #import "LoginHomePageViewController.h"
 #import "OffTheListViewController.h"
 #import "ChangePasswordViewController.h"
+#import "OngoingTableViewController.h"
 
 @interface MyViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -38,8 +39,8 @@
     self.view.backgroundColor = backColor;
     self.title = @"我";
     
-    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助1",@"请假列表",@"修改密码", nil];
-    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码", nil];
+    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助1",@"请假列表",@"修改密码",@"已发布", nil];
+    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码",@"已发布的活动", nil];
     
     for (int i = 0; i < imgAry.count; i++) {
         NSString * img  = [imgAry objectAtIndex:i];
@@ -73,7 +74,7 @@
     if (section == 0) {
         return 1;
     } else if (section == 1) {
-        return 3;
+        return 4;
     } else {
         return 1;
     }
@@ -175,6 +176,14 @@
                 NSLog(@"修改密码");
                 ChangePasswordViewController *changePasswordVC = [[ChangePasswordViewController alloc] init];
                 [self.navigationController pushViewController:changePasswordVC animated:YES];
+            }
+                break;
+            case 3:
+            {
+                NSLog(@"我的活动");
+                OngoingTableViewController *ongoingTableViewC = [[OngoingTableViewController alloc] init];
+                [self.navigationController pushViewController:ongoingTableViewC animated:YES];
+                
             }
                 break;
                 

@@ -7,7 +7,7 @@
 //
 
 #import "LQImgPickerActionSheet.h"
-
+#import <Photos/Photos.h>
 @implementation LQImgPickerActionSheet
 
 - (instancetype)init
@@ -27,23 +27,53 @@
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     [alertVC addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
     [alertVC addAction:[UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        if (!imaPic) {
-            imaPic = [[UIImagePickerController alloc] init];
+        
+        
+
+        //判断是否具有相机权限
+     if ([JurisdictionMethod videoJurisdiction]) {
+            //打开照相机拍照
+         if ([JurisdictionMethod libraryJurisdiction]) {
+             
+         
+                  if (!imaPic) {
+                      imaPic = [[UIImagePickerController alloc] init];
+                  }
+                  if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+                      imaPic.sourceType = UIImagePickerControllerSourceTypeCamera;
+                      imaPic.delegate = self;
+                      [viewController presentViewController:imaPic animated:YES completion:nil];
+                  }
+           }else
+           {
+               [[JurisdictionMethod shareJurisdictionMethod] libraryJurisdictionAlert];
+
+           }
+          
+        }else{
+            [[JurisdictionMethod shareJurisdictionMethod] photoJurisdictionAlert];
         }
-        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            imaPic.sourceType = UIImagePickerControllerSourceTypeCamera;
-            imaPic.delegate = self;
-            [viewController presentViewController:imaPic animated:YES completion:nil];
-        }
+        
+       
     }]];
+    
     [alertVC addAction:[UIAlertAction actionWithTitle:@"相册中选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self loadImgDataAndShowAllGroup];
+        //判断是否具有相机权限
+        if ([JurisdictionMethod libraryJurisdiction]) {
+            //打开图库
+            [self loadImgDataAndShowAllGroup];
+        }else{
+            [[JurisdictionMethod shareJurisdictionMethod] libraryJurisdictionAlert];
+        }
+        
     }]];
     
     
     [controller presentViewController:alertVC animated:YES completion:nil];
 
 }
+
+
 #pragma mark - 加载照片数据
 - (void)loadImgDataAndShowAllGroup{
     if (!_arrSelected) {
@@ -84,25 +114,36 @@
     if (theImage) {
         // 保存图片到相册中
         MImaLibTool *imgLibTool = [MImaLibTool shareMImaLibTool];
+        
+            
+            
         [imgLibTool.lib writeImageToSavedPhotosAlbum:[theImage CGImage] orientation:(ALAssetOrientation)[theImage imageOrientation] completionBlock:^(NSURL *assetURL, NSError *error){
             if (error) {
+
+             [picker dismissViewControllerAnimated:NO completion:nil];
+
             } else {
                 
                 //获取图片路径
                 [imgLibTool.lib assetForURL:assetURL resultBlock:^(ALAsset *asset) {
                     if (asset) {
-                        
                         [_arrSelected addObject:asset];
                         [self finishSelectImg];
                         [picker dismissViewControllerAnimated:NO completion:nil];
+
                     }
                 } failureBlock:^(NSError *error) {
-                    
+                    [picker dismissViewControllerAnimated:NO completion:nil];
+
                 }];
             }
         }];
+        
+
     }
 }
+
+
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     

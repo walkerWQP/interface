@@ -12,7 +12,10 @@
 
 #endif /* URLMacro_h */
 
-#define YUMING  @"http://www.ksznxt.com/"
+//正式
+//#define YUMING  @"http://www.ksznxt.com/"
+//测试
+#define YUMING    @"http://school.ksznxt.com/"
 
 //登录接口
 #define LOGIN  [NSString stringWithFormat:@"%@index/login/login",YUMING]
@@ -32,6 +35,12 @@
 
 //老师发布通知
 #define publishURL [NSString stringWithFormat:@"%@index/notice/publish",YUMING]
+
+//修改通知
+#define updateNoticeURL [NSString stringWithFormat:@"%@index/notice/update_notice",YUMING]
+
+//删除通知
+#define deleteNoticeURL [NSString stringWithFormat:@"%@index/notice/delete_notice",YUMING]
 
 //家长查看通知列表
 #define JIAZHANGCHAKANTONGZHILIEBIAO [NSString stringWithFormat:@"%@index/notice/get_notice",YUMING]
@@ -57,6 +66,8 @@
 
 //老师删除作业
 #define workDeleteHomeWork [NSString stringWithFormat:@"%@index/work/delete_homework",YUMING]
+//教师修改作业
+#define updateHomeWork [NSString stringWithFormat:@"%@index/work/update_homework",YUMING]
 
 //问题咨询模块
 //家长获取学生所在班级老师信息
@@ -84,6 +95,15 @@
 //教师、家长查看活动列表
 #define activityActivityList [NSString stringWithFormat:@"%@index/activity/activity_list",YUMING]
 
+//教师修改活动
+#define updateActivityURL [NSString stringWithFormat:@"%@index/activity/update_activity",YUMING]
+
+//教师查看自己发布的活动列表
+#define myPublishURL [NSString stringWithFormat:@"%@index/activity/my_publish",YUMING]
+
+//教师删除活动
+#define deleteActivityURL [NSString stringWithFormat:@"%@index/activity/delete_activity",YUMING]
+
 //教师、家长查看活动详情
 #define activityDetail [NSString stringWithFormat:@"%@index/activity/detail",YUMING]
 
@@ -93,6 +113,9 @@
 
 //家长、教师查看请假列表
 #define leaveLeaveList  [NSString stringWithFormat:@"%@index/leave/leave_list",YUMING]
+
+//根据学生信息获取当天请假信息
+#define studentTodayLeaveURL  [NSString stringWithFormat:@"%@index/leave/student_today_leave",YUMING]
 
 //家长、教师查看请假详情
 #define leaveLeaveDetail [NSString stringWithFormat:@"%@index/leave/leave_detail",YUMING]
@@ -171,3 +194,9 @@
  9 请假列表banner图
  */
 #define bannersURL [NSString stringWithFormat:@"%@index/banner/banners",YUMING]
+
+
+//获取上线最新版本信息
+#define versionGetVersion [NSString stringWithFormat:@"%@index/version/get_version",YUMING]
+
+

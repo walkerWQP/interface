@@ -11,5 +11,8 @@
 @interface ReplyViewController : BaseViewController
 
 @property (nonatomic, strong) NSString     *ID;
+@property (nonatomic, strong) NSString     *headImg;
+@property (nonatomic, strong) NSString     *nameStr;
+@property (nonatomic, strong) NSString     *problemStr;
 
 @end

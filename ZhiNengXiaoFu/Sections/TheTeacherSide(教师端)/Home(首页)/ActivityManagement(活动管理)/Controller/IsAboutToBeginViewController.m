@@ -29,8 +29,8 @@
     return _isAboutToBeginArr;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.page = 1;
     [self makeIsAboutToBeginViewControllerUI];
     //下拉刷新
@@ -45,6 +45,11 @@
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
     [self.isAboutToBeginCollectionView addSubview:self.zanwushuju];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
 }
 
 - (void)loadNewTopic {
@@ -155,6 +160,7 @@
         [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
     } else {
         jingJiActivityDetailsVC.JingJiActivityDetailsId = model.ID;
+        
         [self.navigationController pushViewController:jingJiActivityDetailsVC animated:YES];
     }
     

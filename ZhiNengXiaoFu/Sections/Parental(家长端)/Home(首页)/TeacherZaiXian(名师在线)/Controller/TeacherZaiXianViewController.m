@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UITableView * TeacherZaiXianTableView;
 @property (nonatomic, strong) NSMutableArray * TeacherZaiXianAry;
 @property (nonatomic, assign) NSInteger     page;
+@property (nonatomic, strong) NSMutableArray *bannerArr;
 
 @end
 
@@ -31,7 +32,8 @@
     [self.TeacherZaiXianTableView registerClass:[TeacherZhuanLanCell class] forCellReuseIdentifier:@"TeacherZhuanLanCellId"];
     
 //    [self setNetWork];
-    
+    [self getBannersURLData];
+
     //下拉刷新
     self.TeacherZaiXianTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
     //自动更改透明度
@@ -41,6 +43,38 @@
     //上拉刷新
     self.TeacherZaiXianTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
 }
+
+- (NSMutableArray *)bannerArr {
+    if (!_bannerArr) {
+        _bannerArr = [NSMutableArray array];
+    }
+    return _bannerArr;
+}
+
+- (void)getBannersURLData {
+    NSDictionary *dic = @{@"key":[UserManager key],@"t_id":@"8"};
+    NSLog(@"%@",[UserManager key]);
+    [[HttpRequestManager sharedSingleton] POST:bannersURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.bannerArr = [BannerModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            
+            [self.TeacherZaiXianTableView reloadData];
+            
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+    }];
+}
+
 
 - (void)loadNewTopic {
     self.page = 1;
@@ -97,7 +131,7 @@
 - (UITableView *)TeacherZaiXianTableView
 {
     if (!_TeacherZaiXianTableView) {
-        self.TeacherZaiXianTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.TeacherZaiXianTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64) style:UITableViewStyleGrouped];
         self.TeacherZaiXianTableView.delegate = self;
         self.TeacherZaiXianTableView.dataSource = self;
     }
@@ -184,7 +218,12 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
-        imgs.image = [UIImage imageNamed:@"banner"];
+        if (self.bannerArr.count == 0) {
+            //            imgs.image = [UIImage imageNamed:@"教师端活动管理banner"];
+        } else {
+            BannerModel * model = [self.bannerArr objectAtIndex:0];
+            [imgs sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"banner"]];
+        }
         [cell addSubview:imgs];
         return cell;
     }else

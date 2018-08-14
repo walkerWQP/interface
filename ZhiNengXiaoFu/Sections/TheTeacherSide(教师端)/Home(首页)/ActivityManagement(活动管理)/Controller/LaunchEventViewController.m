@@ -8,8 +8,8 @@
 
 #import "LaunchEventViewController.h"
 #import "TeacherNotifiedModel.h"
-
-@interface LaunchEventViewController ()<UITextFieldDelegate,HZQDatePickerViewDelegate,LQPhotoPickerViewDelegate,HQPickerViewDelegate,UIScrollViewDelegate> {
+#import <Photos/Photos.h>
+@interface LaunchEventViewController ()<UITextFieldDelegate,HZQDatePickerViewDelegate,LQPhotoPickerViewDelegate,PickerViewResultDelegate,UIScrollViewDelegate> {
     HZQDatePickerView *_pikerView;
 }
 
@@ -66,6 +66,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"发布活动";
+    
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+        
+    }];
     [self makeLaunchEventViewControllerUI];
 }
 
@@ -158,12 +162,17 @@
     self.classBtn.layer.cornerRadius = 5;
     self.classBtn.layer.borderColor = fengeLineColor.CGColor;
     self.classBtn.layer.borderWidth = 1.0f;
-    [self.classBtn setTitle:@"请选择" forState:UIControlStateNormal];
+    [self.classBtn setTitle:@"请选择班级" forState:UIControlStateNormal];
     self.classBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     self.classBtn.titleLabel.font = contentFont;
     [self.classBtn setTitleColor:backTitleColor forState:UIControlStateNormal];
     [self.classBtn addTarget:self action:@selector(classBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.launchEventScrollView addSubview:self.classBtn];
+    
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(self.classBtn.frame.size.width - 30, 15, 10, 10)];
+    imgView.image = [UIImage imageNamed:@"下拉"];
+    [self.classBtn addSubview:imgView];
+    
     
     self.introductionLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + self.timeLabel.frame.size.height + self.timeView.frame.size.height + self.classLabel.frame.size.height + self.classBtn.frame.size.height + 40, APP_WIDTH - 20, 30)];
     self.introductionLabel.text = @"活动简介";
@@ -260,7 +269,7 @@
         }
     }
     
-    if ([self.classBtn.titleLabel.text isEqualToString:@"请选择"]) {
+    if ([self.classBtn.titleLabel.text isEqualToString:@"请选择班级"]) {
         [WProgressHUD showErrorAnimatedText:@"请选择班级"];
         return;
     }
@@ -355,11 +364,11 @@
             }
         }
         
-        [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+//        [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      {
          NSLog(@"%@", error);
-         
+         [WProgressHUD hideAllHUDAnimated:YES];
          
      }];
     
@@ -415,8 +424,8 @@
     
 }
 
-- (void)pickerView:(UIPickerView *)pickerView didSelectText:(NSString *)text  index:(NSInteger)index{
-    [self.classBtn setTitle:text forState:UIControlStateNormal];
+-(void)pickerView:(UIView *)pickerView result:(NSString *)string index:(NSInteger)index{
+    [self.classBtn setTitle:string forState:UIControlStateNormal];
     [self.classBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     TeacherNotifiedModel *model = [self.jobManagementArr objectAtIndex:index];
     if (model.ID == nil) {
@@ -428,6 +437,20 @@
     
     NSLog(@"%@",model.ID);
 }
+
+//- (void)pickerView:(UIPickerView *)pickerView didSelectText:(NSString *)text  index:(NSInteger)index{
+//    [self.classBtn setTitle:text forState:UIControlStateNormal];
+//    [self.classBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    TeacherNotifiedModel *model = [self.jobManagementArr objectAtIndex:index];
+//    if (model.ID == nil) {
+//        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+//    } else {
+//        self.ID = model.ID;
+//    }
+//
+//
+//    NSLog(@"%@",model.ID);
+//}
 
 - (void)getClassData {
     
@@ -441,11 +464,17 @@
             for (TeacherNotifiedModel * model in self.jobManagementArr) {
                 [ary addObject:[NSString stringWithFormat:@"%@", model.name]];
             }
+            PickerView *vi = [[PickerView alloc] init];
+            vi.array = ary;
             
-            HQPickerView *picker = [[HQPickerView alloc]initWithFrame:self.view.bounds];
-            picker.delegate = self ;
-            picker.customArr = ary;
-            [self.view addSubview:picker];
+            vi.type = PickerViewTypeHeigh;
+            vi.selectComponent = 0;
+            vi.delegate = self;
+            [[[UIApplication sharedApplication] keyWindow] addSubview:vi];
+//            HQPickerView *picker = [[HQPickerView alloc]initWithFrame:self.view.bounds];
+//            picker.delegate = self ;
+//            picker.customArr = ary;
+//            [self.view addSubview:picker];
             
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {

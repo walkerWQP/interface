@@ -7,7 +7,7 @@
 //
 
 #import "ClassNoticeViewController.h"
-
+#import <Photos/Photos.h>
 @interface ClassNoticeViewController ()<UITextFieldDelegate,LQPhotoPickerViewDelegate>
 
 //通知名称
@@ -44,6 +44,10 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     
     [self makeClassNoticeViewControllerUI];
+    
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+        
+    }];
 }
 
 - (void)makeClassNoticeViewControllerUI {
@@ -63,7 +67,7 @@
     self.noticeNameTextField.layer.borderColor = fengeLineColor.CGColor;
     self.noticeNameTextField.layer.borderWidth = 1.0f;
     self.noticeNameTextField.font = contentFont;
-    self.noticeNameTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入通知分类" attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:157/255.0 green:157/255.0 blue:157/255.0 alpha:1.0]}];
+    self.noticeNameTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入通知标题" attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:157/255.0 green:157/255.0 blue:157/255.0 alpha:1.0]}];
     self.noticeNameTextField.delegate = self;
     self.noticeNameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [self.view addSubview:self.noticeNameTextField];
@@ -97,6 +101,18 @@
     self.myPicture.backgroundColor = [UIColor redColor];
     [self.view addSubview:self.myPicture];
     
+    
+//    //判断是否具有相机权限
+//    if ([JurisdictionMethod videoJurisdiction]) {
+//
+//    }else{
+//        [[JurisdictionMethod shareJurisdictionMethod] photoJurisdictionAlert];
+//
+//    }
+    
+    
+    
+    //打开照相机拍照
     if (!self.LQPhotoPicker_superView)
     {
         self.LQPhotoPicker_superView = self.myPicture;
@@ -109,11 +125,12 @@
     }
 }
 
+
 - (void)rightBtn : (UIButton *)sender {
     NSLog(@"发送通知");
     if ([self.noticeNameTextField.text isEqualToString:@""]) {
-        NSLog(@"请输入通知分类");
-        [WProgressHUD showErrorAnimatedText:@"通知分类不能为空"];
+        NSLog(@"请输入通知标题");
+        [WProgressHUD showErrorAnimatedText:@"通知标题不能为空"];
         return;
     }
     
@@ -178,7 +195,7 @@
                 dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.noticeNameTextField.text,@"content":self.noticeContentTextView.text,@"img":@""};
                 [self postDataForRelease:dataDic];
             } else {
-                
+            
                 dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.noticeNameTextField.text,@"content":self.noticeContentTextView.text,@"img":self.imgFiledArr};
                 [self postDataForRelease:dataDic];
             }
@@ -187,14 +204,17 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+//                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                NSDictionary *dataDic = [NSDictionary dictionary];
+                dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.noticeNameTextField.text,@"content":self.noticeContentTextView.text,@"img":@""};
+                [self postDataForRelease:dataDic];
             }
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
          NSLog(@"%@", error);
          [WProgressHUD hideAllHUDAnimated:YES];
-         
+        
      }];
     
 }

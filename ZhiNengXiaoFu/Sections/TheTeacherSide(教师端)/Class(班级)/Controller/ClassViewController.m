@@ -51,7 +51,7 @@
 }
 
 - (void)getBannersURLData {
-    NSDictionary *dic = @{@"key":[UserManager key],@"t_id":@"3"};
+    NSDictionary *dic = @{@"key":[UserManager key],@"t_id":@"2"};
     NSLog(@"%@",[UserManager key]);
     [[HttpRequestManager sharedSingleton] POST:bannersURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
@@ -124,7 +124,6 @@
     self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
     self.headImgView.backgroundColor = [UIColor clearColor];
     [self.classCollectionView addSubview:self.headImgView];
-    self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
 }
 
 #pragma mark - <UICollectionViewDelegate, UICollectionViewDataSource>

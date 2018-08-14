@@ -11,6 +11,8 @@
 #import "TongZhiDetailsModel.h"
 #import <WebKit/WebKit.h>
 #import "UIView+XXYViewFrame.h"
+#import "ChangeViewController.h"
+
 @interface TongZhiDetailsViewController ()<UITableViewDelegate, UITableViewDataSource,WKUIDelegate,WKNavigationDelegate>
 
 @property (nonatomic, strong) UITableView * tongZhiDetailsTableView;
@@ -22,19 +24,47 @@
 
 @implementation TongZhiDetailsViewController
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self setNetWork];
+    [self.view addSubview:self.tongZhiDetailsTableView];
+    [self.tongZhiDetailsTableView registerNib:[UINib nibWithNibName:@"TongZhiDetailsCell" bundle:nil] forCellReuseIdentifier:@"TongZhiDetailsCellId"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"通知详情";
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.hidesBackButton = YES;
+    if ([self.typeStr isEqualToString:@"1"]) {
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        [button setTitle:@"修改" forState:UIControlStateNormal];
+        button.titleLabel.font = titFont;
+        [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    } else {
+        
+    }
 
-    [self setNetWork];
-    [self.view addSubview:self.tongZhiDetailsTableView];
+}
+
+- (void)rightBtn:(UIButton *)sender {
+    NSLog(@"点击修改");
+    ChangeViewController *ChangeVC = [ChangeViewController new];
     
-    [self.tongZhiDetailsTableView registerNib:[UINib nibWithNibName:@"TongZhiDetailsCell" bundle:nil] forCellReuseIdentifier:@"TongZhiDetailsCellId"];
+    if (self.tongZhiId != nil) {
+        ChangeVC.ID = self.tongZhiId;
+        ChangeVC.titleStr = self.tongZhiDetailsModel.title;
+        ChangeVC.content = self.tongZhiDetailsModel.content;
+        ChangeVC.typeID = @"1";
+        [self.navigationController pushViewController:ChangeVC animated:YES];
+    } else {
+        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重新加载"];
+    }
     
 }
+
 
 - (UITableView *)tongZhiDetailsTableView
 {

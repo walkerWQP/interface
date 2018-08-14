@@ -15,7 +15,7 @@
 #import "ChooseHomeViewController.h"
 //教师端
 #import "HomeViewController.h"
-#import "ClassViewController.h"
+#import "TheClassInformationViewController.h"
 #import "SignClassViewController.h"
 #import "MyViewController.h"
 
@@ -44,7 +44,7 @@
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"2"]) {
         [self setupChildViewController:@"首页" viewController:[HomeViewController new] image:@"首页图标" selectedImage:@"首页图标拷贝"];
         
-        [self setupChildViewController:@"班级管理" viewController:[ClassViewController new] image:@"班级管理" selectedImage:@"班级管理1"];
+        [self setupChildViewController:@"班级管理" viewController:[TheClassInformationViewController new] image:@"班级管理" selectedImage:@"班级管理1"];
         
         [self setupChildViewController:@"到校情况" viewController:[SignClassViewController new] image:@"到校情况2" selectedImage:@"到校情况"];
         

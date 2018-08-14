@@ -9,7 +9,7 @@
 #import "MyZiXunViewController.h"
 #import "HQPickerView.h"
 #import "UserGetStuTeaModel.h"
-@interface MyZiXunViewController ()<UITextViewDelegate, HQPickerViewDelegate>
+@interface MyZiXunViewController ()<UITextViewDelegate, PickerViewResultDelegate>
 
 @property (nonatomic, strong) UITextView * myZiXunTextView;
 @property (nonatomic, strong) UILabel * chooseTeacherLabel;
@@ -82,7 +82,8 @@
         NSLog(@"%@", responseObject);
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
-
+            
+            [self.navigationController popViewControllerAnimated:YES];
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
@@ -114,10 +115,18 @@
                 [ary addObject:[NSString stringWithFormat:@"%@ (%@)", model.teacher_name, model.course_name]];
             }
             
-            HQPickerView *picker = [[HQPickerView alloc]initWithFrame:self.view.bounds];
-            picker.delegate = self ;
-            picker.customArr = ary;
-            [self.view addSubview:picker];
+            PickerView *vi = [[PickerView alloc] init];
+            vi.array = ary;
+
+            vi.type = PickerViewTypeHeigh;
+            vi.selectComponent = 0;
+            vi.delegate = self;
+            [[[UIApplication sharedApplication] keyWindow] addSubview:vi];
+
+//            HQPickerView *picker = [[HQPickerView alloc]initWithFrame:self.view.bounds];
+//            picker.delegate = self ;
+//            picker.customArr = ary;
+//            [self.view addSubview:picker];
         }else
         {
             
@@ -130,8 +139,9 @@
   
 }
 
-- (void)pickerView:(UIPickerView *)pickerView didSelectText:(NSString *)text  index:(NSInteger)index{
-    self.chooseTeacherLabel.text = [NSString stringWithFormat:@"  %@", text];
+-(void)pickerView:(UIView *)pickerView result:(NSString *)string index:(NSInteger)index{
+    
+    self.chooseTeacherLabel.text = [NSString stringWithFormat:@"  %@", string];
     if (self.courseAry.count == 0) {
         
     }else
@@ -139,6 +149,7 @@
         self.userGetStuTeaModel = [self.courseAry objectAtIndex:index];
     }
 }
+
 
 
 #pragma mark - UITextViewDelegate

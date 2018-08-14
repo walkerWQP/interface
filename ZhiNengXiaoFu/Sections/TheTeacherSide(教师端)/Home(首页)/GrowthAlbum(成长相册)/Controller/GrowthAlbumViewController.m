@@ -36,13 +36,22 @@
     return _publishJobArr;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.webView.backgroundColor = RGB(220, 243, 236);
+    self.view.backgroundColor = RGB(220, 243, 236);
+    self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, -APP_NAVH, APP_WIDTH, APP_HEIGHT)];
+    self.bgView.backgroundColor = [UIColor redColor];
+    //RGB(220, 243, 236);
+    [self.view addSubview:self.bgView];
+    [self prepareViews];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = self.webTitle;
     NSLog(@"%@",self.classID);
-    self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT)];
-    self.bgView.backgroundColor = backColor;
-    [self.view addSubview:self.bgView];
+    
     self.rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 90, 30)];
     [self.rightBtn setTitle:@"选择班级" forState:UIControlStateNormal];
     self.rightBtn.titleLabel.font = titFont;
@@ -50,7 +59,7 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];
     self.view.backgroundColor = [UIColor greenColor];
     
-    [self prepareViews];
+    
 }
 
 - (void)rightBtn:(UIButton *)sender {
@@ -119,7 +128,7 @@
     [[HttpRequestManager sharedSingleton] POST:getURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             self.bgView.hidden = YES;
-            self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, -80, APP_WIDTH, APP_HEIGHT + 90)];
+            self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, - APP_NAVH, APP_WIDTH, APP_HEIGHT + APP_NAVH)];
             self.bgView.backgroundColor = backColor;
             [self.view addSubview:self.bgView];
             [self cleanCacheAndCookie];
@@ -214,9 +223,7 @@
     
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    //    [SVProgressHUD show];
-}
+
 -(void)webViewDidStartLoad:(UIWebView *)webView {
     
 }

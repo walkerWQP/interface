@@ -10,6 +10,7 @@
 #import "TotalNumberCell.h"
 #import "TotalNumberModel.h"
 #import "QianDaoViewController.h"
+#import "LeaveTheDetailsViewController.h"
 
 @interface AskLeaveViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -132,12 +133,35 @@
     
     NSLog(@"%ld",indexPath.row);
     TotalNumberModel *model = [self.askLeaveArr objectAtIndex:indexPath.row];
-    QianDaoViewController *qianDaoVC = [[QianDaoViewController alloc] init];
-    if (model.ID == nil) {
-        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
-    } else {
-        qianDaoVC.studentId = model.ID;
-        [self.navigationController pushViewController:qianDaoVC animated:YES];
+    LeaveTheDetailsViewController *LeaveTheDetailsVC = [[LeaveTheDetailsViewController alloc] init];
+    switch (model.is_leave) {
+        case 1:
+        {
+            NSLog(@"请假");
+            if (model.ID == nil) {
+                [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+            } else {
+                LeaveTheDetailsVC.typeStr = @"1";
+                LeaveTheDetailsVC.studentID= model.ID;
+                
+                [self.navigationController pushViewController:LeaveTheDetailsVC animated:YES];
+            }
+        }
+            break;
+        case 2:
+        {
+            NSLog(@"逃学");
+            
+        }
+            break;
+        case 3:
+        {
+            NSLog(@"签到");
+        }
+            break;
+            
+        default:
+            break;
     }
     
 }
