@@ -178,7 +178,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGSize itemSize = CGSizeZero;
     
-    itemSize = CGSizeMake(APP_WIDTH, APP_HEIGHT * 0.3);
+    itemSize = CGSizeMake(APP_WIDTH, APP_HEIGHT * 0.3 + 30);
     
     return itemSize;
 }

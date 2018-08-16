@@ -20,11 +20,11 @@
 #import "UIButton+WCustomIcon.h"
 #import "WTextView.h"
 #import "JohnTopTitleView.h"
-#import <AFNetworking.h>
+#import <AFNetworking/AFNetworking.h>
 #import "HttpRequestManager.h"
 #import "Encryption.h"
 #import "SingletonHelper.h"
-#import <MJExtension.h>
+#import <MJExtension/MJExtension.h>
 #import "EasyShowView.h"
 #import <WebKit/WebKit.h>
 #import "BusinessDetailController.h"
@@ -46,8 +46,11 @@
 #import "JurisdictionMethod.h"
 #endif /* PrefixHeader_pch */
 #import "PickerView.h"
+#import <LTScrollView/LTScrollView-Swift.h>
+#import <LTScrollView/LTScrollView-umbrella.h>
 #define STOREAPPID @"1424842152"
 
+#define kIPhoneX ([UIScreen mainScreen].bounds.size.height == 812.0)
 
 
 

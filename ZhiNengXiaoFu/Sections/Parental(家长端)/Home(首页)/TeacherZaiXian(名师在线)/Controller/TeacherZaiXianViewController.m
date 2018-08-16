@@ -7,15 +7,17 @@
 //
 
 #import "TeacherZaiXianViewController.h"
-#import "TeacherZhuanLanCell.h"
+#import "TeacherListNCell.h"
 #import "TeacherZaiXianDetailsViewController.h"
 #import "TeacherZaiXianModel.h"
+#import "PrefixHeader.pch"
+
 @interface TeacherZaiXianViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * TeacherZaiXianTableView;
 @property (nonatomic, strong) NSMutableArray * TeacherZaiXianAry;
 @property (nonatomic, assign) NSInteger     page;
-@property (nonatomic, strong) NSMutableArray *bannerArr;
+@property (nonatomic, strong) UIImageView * zanwushuju;
 
 @end
 
@@ -27,12 +29,22 @@
     self.title = @"名师在线";
     self.view.backgroundColor = [UIColor whiteColor];
     
+    if (@available(iOS 11.0, *)) {
+        self.TeacherZaiXianTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    
     [self.view addSubview:self.TeacherZaiXianTableView];
     self.TeacherZaiXianTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.TeacherZaiXianTableView registerClass:[TeacherZhuanLanCell class] forCellReuseIdentifier:@"TeacherZhuanLanCellId"];
+    [self.TeacherZaiXianTableView registerNib:[UINib nibWithNibName:@"TeacherListNCell" bundle:nil] forCellReuseIdentifier:@"TeacherListNCellId"];
+
     
-//    [self setNetWork];
-    [self getBannersURLData];
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 300, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.view addSubview:self.zanwushuju];
+    
 
     //下拉刷新
     self.TeacherZaiXianTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
@@ -44,36 +56,6 @@
     self.TeacherZaiXianTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
 }
 
-- (NSMutableArray *)bannerArr {
-    if (!_bannerArr) {
-        _bannerArr = [NSMutableArray array];
-    }
-    return _bannerArr;
-}
-
-- (void)getBannersURLData {
-    NSDictionary *dic = @{@"key":[UserManager key],@"t_id":@"8"};
-    NSLog(@"%@",[UserManager key]);
-    [[HttpRequestManager sharedSingleton] POST:bannersURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-            
-            self.bannerArr = [BannerModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
-            
-            [self.TeacherZaiXianTableView reloadData];
-            
-            
-        } else {
-            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
-                [UserManager logoOut];
-            } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
-                
-            }
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
-    }];
-}
 
 
 - (void)loadNewTopic {
@@ -89,8 +71,8 @@
 
 - (void)setNetWork:(NSInteger)page
 {
-    NSDictionary * dic = @{@"key":[UserManager key], @"page":[NSString stringWithFormat:@"%ld",page]};
-    [[HttpRequestManager sharedSingleton] POST:onlineVideoList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+    NSDictionary * dic = @{@"key":[UserManager key], @"page":[NSString stringWithFormat:@"%ld",page], @"t_id":[NSString stringWithFormat:@"%ld", [SingletonHelper manager].teacherZaiXianId]};
+    [[HttpRequestManager sharedSingleton] POST:indexOnlineVideoListByType parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         //结束头部刷新
         [self.TeacherZaiXianTableView.mj_header endRefreshing];
         //结束尾部刷新
@@ -102,6 +84,12 @@
                 [self.TeacherZaiXianAry addObject:model];
             }
             
+            if (self.TeacherZaiXianAry.count == 0) {
+                self.zanwushuju.alpha = 1;
+
+            } else {
+                self.zanwushuju.alpha = 0;
+            }
             
             [self.TeacherZaiXianTableView reloadData];
             
@@ -131,7 +119,8 @@
 - (UITableView *)TeacherZaiXianTableView
 {
     if (!_TeacherZaiXianTableView) {
-        self.TeacherZaiXianTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64) style:UITableViewStyleGrouped];
+        
+        self.TeacherZaiXianTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 180 + 45, kScreenWidth, kScreenHeight - 180 - 45 - 64) style:UITableViewStylePlain];
         self.TeacherZaiXianTableView.delegate = self;
         self.TeacherZaiXianTableView.dataSource = self;
     }
@@ -141,12 +130,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 0;
-    }else
-    {
-        return 40;
-    }
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -155,29 +139,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
-        return nil;
-    }else
-    {
-        UIView * teacherZhuanLanView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
-        teacherZhuanLanView.backgroundColor = [UIColor whiteColor];
-        UIView * lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 10)];
-        lineView.backgroundColor = COLOR(247, 247, 247, 1);
-        [teacherZhuanLanView addSubview:lineView];
-        
-        UIImageView * teacherZhuanLanImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 20, 16, 16)];
-        teacherZhuanLanImg.image = [UIImage imageNamed:@"名师专栏"];
-        [teacherZhuanLanView addSubview:teacherZhuanLanImg];
-        
-        
-        UILabel * teacherZhuanLanLabel = [[UILabel alloc] initWithFrame:CGRectMake(teacherZhuanLanImg.frame.origin.x + teacherZhuanLanImg.frame.size.width + 10, 18, 70, 20)];
-        teacherZhuanLanLabel.text = @"名师专栏";
-        teacherZhuanLanLabel.font = [UIFont systemFontOfSize:14];
-        teacherZhuanLanLabel.textColor = [UIColor blackColor];
-        [teacherZhuanLanView addSubview:teacherZhuanLanLabel];
-
-        return teacherZhuanLanView;
-    }
+    return nil;
 }
 
 //有时候tableview的底部视图也会出现此现象对应的修改就好了
@@ -188,90 +150,101 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 1;
-    }else
-    {
         return self.TeacherZaiXianAry.count;
-    }
+   
+    
     
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (indexPath.section == 0) {
-        static NSString *CellIdentifier = @"TableViewCell";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-        }else{
-            //删除cell中的子对象,刷新覆盖问题。
-            while ([cell.contentView.subviews lastObject] != nil) {
-                [(UIView*)[cell.contentView.subviews lastObject] removeFromSuperview];
-            }
-        }
+        TeacherListNCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TeacherListNCellId" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
-        if (self.bannerArr.count == 0) {
-            //            imgs.image = [UIImage imageNamed:@"教师端活动管理banner"];
-        } else {
-            BannerModel * model = [self.bannerArr objectAtIndex:0];
-            [imgs sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"banner"]];
-        }
-        [cell addSubview:imgs];
-        return cell;
-    }else
-    {
-        TeacherZhuanLanCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TeacherZhuanLanCellId" forIndexPath:indexPath];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (self.TeacherZaiXianAry.count != 0) {
+       if (self.TeacherZaiXianAry.count != 0) {
+
             TeacherZaiXianModel * model = [self.TeacherZaiXianAry objectAtIndex:indexPath.row];
-            [cell.UserIcon sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
-            cell.UserName.text = model.name;
-            cell.titleLabel.text = model.title;
-            cell.subTitleLabel.text = model.honor;
-            cell.timeLabel.text = model.create_time;
-            if (model.is_charge == 1) {
-                cell.stateLabel.text = @"收费课";
+            [cell.TeacherListNImg sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"缩略图"]];
+            cell.TeacherListNTitleLabel.text = model.title;
+            if (model.view > 9999) {
+                CGFloat num = model.view / 10000;
+                cell.TeacherListNBoFangCi.text = [NSString stringWithFormat:@"%.1f万次播放", num];
             }else
             {
-                cell.stateLabel.text = @"公开课";
-                
+                cell.TeacherListNBoFangCi.text = [NSString stringWithFormat:@"%ld次播放", model.view];
+
             }
-        }
-        
+            cell.TeacherListNFenLeiLabel.text = [NSString stringWithFormat:@"所属分类:%@", model.t_name];
+            
+            if (model.label.count == 0) {
+                cell.TeacherListNOneImg.alpha = 0;
+                cell.TeacherListNTwoImg.alpha = 0;
+                cell.TeacherListNThreeImg.alpha = 0;
+                
+                cell.TeacherListNOneLabel.alpha = 0;
+                cell.TeacherListNTwoLabel.alpha = 0;
+                cell.TeacherListNThreeLabel.alpha = 0;
+            }else if (model.label.count == 1)
+            {
+                cell.TeacherListNOneImg.alpha = 1;
+                cell.TeacherListNTwoImg.alpha = 0;
+                cell.TeacherListNThreeImg.alpha = 0;
+                
+                cell.TeacherListNOneLabel.alpha = 1;
+                cell.TeacherListNTwoLabel.alpha = 0;
+                cell.TeacherListNThreeLabel.alpha = 0;
+                cell.TeacherListNOneLabel.text = [model.label objectAtIndex:0];
+                
+            }else if (model.label.count == 2)
+            {
+                cell.TeacherListNOneImg.alpha = 1;
+                cell.TeacherListNTwoImg.alpha = 1;
+                cell.TeacherListNThreeImg.alpha = 0;
+                
+                cell.TeacherListNOneLabel.alpha = 1;
+                cell.TeacherListNTwoLabel.alpha = 1;
+                cell.TeacherListNThreeLabel.alpha = 0;
+                cell.TeacherListNOneLabel.text = [model.label objectAtIndex:0];
+                cell.TeacherListNTwoLabel.text = [model.label objectAtIndex:1];
+            }else if (model.label.count == 3)
+            {
+                cell.TeacherListNOneImg.alpha = 1;
+                cell.TeacherListNTwoImg.alpha = 1;
+                cell.TeacherListNThreeImg.alpha = 1;
+                
+                cell.TeacherListNOneLabel.alpha = 1;
+                cell.TeacherListNTwoLabel.alpha = 1;
+                cell.TeacherListNThreeLabel.alpha = 1;
+                cell.TeacherListNOneLabel.text = [model.label objectAtIndex:0];
+                cell.TeacherListNTwoLabel.text = [model.label objectAtIndex:1];
+                cell.TeacherListNThreeLabel.text = [model.label objectAtIndex:2];
+            }
+       }
         return cell;
-    }
+     
+    
     
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        return 170;
-    }else
-    {
-        return 90;
-    }
+        return 125;
     
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
         if (self.TeacherZaiXianAry.count != 0) {
             TeacherZaiXianDetailsViewController * teacherZaiXianDetailsVC = [[TeacherZaiXianDetailsViewController alloc] init];
             TeacherZaiXianModel * model = [self.TeacherZaiXianAry objectAtIndex:indexPath.row];
             teacherZaiXianDetailsVC.teacherZaiXianDetailsId = model.ID;
             [self.navigationController pushViewController:teacherZaiXianDetailsVC animated:YES];
         }
-    }
    
 }
 

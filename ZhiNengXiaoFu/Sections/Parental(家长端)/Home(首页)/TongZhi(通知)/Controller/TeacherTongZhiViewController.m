@@ -110,9 +110,14 @@
 - (UITableView *)teacherTongZhiTableView
 {
     if (!_teacherTongZhiTableView) {
-        self.teacherTongZhiTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.teacherTongZhiTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH - APP_TABH + 10) style:UITableViewStylePlain];
+        self.teacherTongZhiTableView.backgroundColor = backColor;
+
         self.teacherTongZhiTableView.delegate = self;
         self.teacherTongZhiTableView.dataSource = self;
+        _teacherTongZhiTableView.estimatedRowHeight = 0;
+        _teacherTongZhiTableView.estimatedSectionHeaderHeight = 0;
+        _teacherTongZhiTableView.estimatedSectionFooterHeight = 0;
     }
     return _teacherTongZhiTableView;
 }

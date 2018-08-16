@@ -76,7 +76,7 @@
 - (void)makeLaunchEventViewControllerUI {
     
     self.launchEventScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT)];
-    self.launchEventScrollView.backgroundColor = [UIColor greenColor];
+    self.launchEventScrollView.backgroundColor = backColor;
     self.launchEventScrollView.contentSize = CGSizeMake(APP_WIDTH, APP_HEIGHT * 1.2);
     self.launchEventScrollView.bounces = YES;
     self.launchEventScrollView.indicatorStyle = UIScrollViewIndicatorStyleDefault;

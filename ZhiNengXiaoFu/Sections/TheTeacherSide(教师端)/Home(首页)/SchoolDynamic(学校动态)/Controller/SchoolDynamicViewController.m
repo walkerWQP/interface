@@ -137,7 +137,7 @@
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.sectionInset = UIEdgeInsetsMake(190, 0, 0, 0);
-    self.schoolDynamicCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - 70) collectionViewLayout:layout];
+    self.schoolDynamicCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) collectionViewLayout:layout];
     self.schoolDynamicCollectionView.backgroundColor = backColor;
     self.schoolDynamicCollectionView.delegate = self;
     self.schoolDynamicCollectionView.dataSource = self;

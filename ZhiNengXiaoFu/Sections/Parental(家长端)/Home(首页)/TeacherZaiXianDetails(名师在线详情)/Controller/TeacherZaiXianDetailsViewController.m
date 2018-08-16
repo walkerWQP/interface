@@ -14,7 +14,7 @@
 
 #import "CLPlayerView.h"
 #import "UIView+CLSetRect.h"
-#import "SchoolDongTaiModel.h"
+#import "TeacherZaiXianModel.h"
 
 @interface TeacherZaiXianDetailsViewController ()
 @property (nonatomic,weak) CLPlayerView *playerView;
@@ -28,8 +28,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = COLOR(246, 246, 246, 1);
-    self.title = @"名师在线";
+    self.view.backgroundColor = [UIColor whiteColor];
+//    self.title = @"名师在线";
     
    
     [self setNetWork:self.teacherZaiXianDetailsId];
@@ -42,7 +42,7 @@
 - (void)shiPinList:(NSNotification *)nofity
 {
   
-   SchoolDongTaiModel * model =  [[nofity object] objectForKey:@"SchoolDongTaiModel"];
+   TeacherZaiXianModel * model =  [[nofity object] objectForKey:@"SchoolDongTaiModel"];
     [self.playerView removeFromSuperview];
     [_playerView destroyPlayer];
     _playerView = nil;
@@ -52,15 +52,18 @@
 -  (void)setNetWorkN:(NSString *)str
 {
     NSDictionary * dic = @{@"key":[UserManager key], @"id":str};
-    [[HttpRequestManager sharedSingleton] POST:onlineVideoDetail parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+    [[HttpRequestManager sharedSingleton] POST:indexOnlineVideoById parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         
-        if ([[responseObject objectForKey:@"status"] integerValue] == 200 )
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200)
         {
             self.teacherZaiXianDetailsModel = [TeacherZaiXianDetailsModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+            self.title = self.teacherZaiXianDetailsModel.title;
 
-            if ([self.teacherZaiXianDetailsModel.video isEqualToString:@""]) {
+            if ([self.teacherZaiXianDetailsModel.video_url isEqualToString:@""]) {
                 
-                
+                UIImageView * back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
+                [back sd_setImageWithURL:[NSURL URLWithString:self.teacherZaiXianDetailsModel.img] placeholderImage:nil];
+                [self.view addSubview:back];
             }else
             {
                 [self setBoFang];
@@ -94,16 +97,19 @@
 - (void)setNetWork:(NSString *)str
 {
     NSDictionary * dic = @{@"key":[UserManager key], @"id":str};
-    [[HttpRequestManager sharedSingleton] POST:onlineVideoDetail parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+    [[HttpRequestManager sharedSingleton] POST:indexOnlineVideoById parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
        
         self.teacherZaiXianDetailsModel = [TeacherZaiXianDetailsModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+        self.title = self.teacherZaiXianDetailsModel.title;
         [self createUI];
 
         if ([[responseObject objectForKey:@"status"] integerValue] == 200 )
         {
             
-            if ([self.teacherZaiXianDetailsModel.video isEqualToString:@""]) {
-
+            if ([self.teacherZaiXianDetailsModel.video_url isEqualToString:@""]) {
+                UIImageView * back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
+                [back sd_setImageWithURL:[NSURL URLWithString:self.teacherZaiXianDetailsModel.img] placeholderImage:nil];
+                [self.view addSubview:back];
             }else
             {
                 [self setBoFang];
@@ -161,7 +167,7 @@
     //    _playerView.strokeColor = [UIColor redColor];
     //视频地址
     //     _playerView.url = [NSURL URLWithString:@"http://c31.aipai.com/user/128/31977128/1006/card/44340096/card.mp4?l=f&ip=1"];
-    _playerView.url = [NSURL URLWithString:self.teacherZaiXianDetailsModel.video];
+    _playerView.url = [NSURL URLWithString:self.teacherZaiXianDetailsModel.video_url];
     //播放
     [_playerView playVideo];
     //返回按钮点击事件回调
@@ -198,7 +204,7 @@
 
 
 - (void)createUI{
-    NSArray *titleArray = [NSArray arrayWithObjects:@"课程管理",@"视频目录", nil];
+    NSArray *titleArray = [NSArray arrayWithObjects:@"视频介绍",@"相关推荐", nil];
     self.titleView.title = titleArray;
     [self.titleView setupViewControllerWithFatherVC:self childVC:[self setChildVC]];
     [self.view addSubview:self.titleView];

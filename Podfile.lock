@@ -21,6 +21,7 @@ PODS:
     - AMapFoundation-NO-IDFA (~> 1.4)
   - AMapSearch-NO-IDFA (6.1.1):
     - AMapFoundation-NO-IDFA (~> 1.4)
+  - LTScrollView (0.1.7)
   - MJExtension (3.0.15.1)
   - MJRefresh (3.1.15.3)
   - SDCycleScrollView (1.75):
@@ -35,6 +36,7 @@ DEPENDENCIES:
   - AMap3DMap-NO-IDFA
   - AMapLocation-NO-IDFA
   - AMapSearch-NO-IDFA
+  - LTScrollView
   - MJExtension (~> 3.0.15.1)
   - MJRefresh
   - SDCycleScrollView
@@ -48,6 +50,7 @@ SPEC REPOS:
     - AMapFoundation-NO-IDFA
     - AMapLocation-NO-IDFA
     - AMapSearch-NO-IDFA
+    - LTScrollView
     - MJExtension
     - MJRefresh
     - SDCycleScrollView
@@ -60,12 +63,13 @@ SPEC CHECKSUMS:
   AMapFoundation-NO-IDFA: 128ccf9249abc9de1661b935f01d116700583691
   AMapLocation-NO-IDFA: a75b762ae9a90840ce683de12504ac843a9f3b6c
   AMapSearch-NO-IDFA: 848e148a31876217a1094e6be3448e95d1688b6a
+  LTScrollView: d7e8aeb7552b7d073475af49b0f67fc39b1980f0
   MJExtension: 19bc33ce2eee2d319760f5622562cf581a6ff756
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
   SDCycleScrollView: 884b88f0266dd4708a0e1934975c69cb971707b1
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
 
-PODFILE CHECKSUM: cc48fb3ea74bffe401a58f3bb10c1f0c1ac55515
+PODFILE CHECKSUM: 7d7bcb11fdf09b2b61cd8125c014caa635630d51
 
 COCOAPODS: 1.5.3

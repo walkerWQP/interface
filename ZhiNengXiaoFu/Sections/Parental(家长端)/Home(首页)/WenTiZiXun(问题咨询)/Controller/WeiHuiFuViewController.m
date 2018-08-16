@@ -114,9 +114,14 @@
 - (UITableView *)WeiHuiFuTableView
 {
     if (!_WeiHuiFuTableView) {
-        self.WeiHuiFuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64 - 40) style:UITableViewStyleGrouped];
+        self.WeiHuiFuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64 - 40) style:UITableViewStylePlain];
+        self.WeiHuiFuTableView.backgroundColor = backColor;
+
         self.WeiHuiFuTableView.delegate = self;
         self.WeiHuiFuTableView.dataSource = self;
+        _WeiHuiFuTableView.estimatedRowHeight = 0;
+        _WeiHuiFuTableView.estimatedSectionHeaderHeight = 0;
+        _WeiHuiFuTableView.estimatedSectionFooterHeight = 0;
     }
     return _WeiHuiFuTableView;
 }

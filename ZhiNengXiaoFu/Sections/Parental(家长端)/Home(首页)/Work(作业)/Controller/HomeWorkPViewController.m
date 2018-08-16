@@ -128,9 +128,14 @@
 - (UITableView *)HomeWorkPTableView
 {
     if (!_HomeWorkPTableView) {
-        self.HomeWorkPTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.HomeWorkPTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, APP_HEIGHT - APP_TABH - 18) style:UITableViewStylePlain];
+        self.HomeWorkPTableView.backgroundColor =backColor;
+
         self.HomeWorkPTableView.delegate = self;
         self.HomeWorkPTableView.dataSource = self;
+        _HomeWorkPTableView.estimatedRowHeight = 0;
+        _HomeWorkPTableView.estimatedSectionHeaderHeight = 0;
+        _HomeWorkPTableView.estimatedSectionFooterHeight = 0;
     }
     return _HomeWorkPTableView;
 }

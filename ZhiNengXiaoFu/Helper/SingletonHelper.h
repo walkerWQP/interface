@@ -27,4 +27,7 @@
 @property (nonatomic, assign) NSInteger force;
 @property (nonatomic, copy) NSString * version;
 
+@property (nonatomic, assign) NSInteger  teacherZaiXianId;
+
+
 @end

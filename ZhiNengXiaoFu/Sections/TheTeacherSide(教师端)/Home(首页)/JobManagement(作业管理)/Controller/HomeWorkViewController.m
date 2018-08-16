@@ -96,7 +96,13 @@
             
             self.bannerArr = [BannerModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
            
-            [self.homeWorkTableView reloadData];
+            if (self.bannerArr.count == 0) {
+                self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
+            } else {
+                BannerModel * model = [self.bannerArr objectAtIndex:0];
+                [self.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+                [self.homeWorkTableView reloadData];
+            }
 
             
         } else {
@@ -178,9 +184,13 @@
 - (UITableView *)homeWorkTableView
 {
     if (!_homeWorkTableView) {
-        self.homeWorkTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStyleGrouped];
+        self.homeWorkTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStylePlain];
+        self.homeWorkTableView.backgroundColor = backColor;
         self.homeWorkTableView.delegate = self;
         self.homeWorkTableView.dataSource = self;
+        self.homeWorkTableView.estimatedRowHeight = 0;
+        self.homeWorkTableView.estimatedSectionHeaderHeight = 0;
+        self.homeWorkTableView.estimatedSectionFooterHeight = 0;
     }
     return _homeWorkTableView;
 }

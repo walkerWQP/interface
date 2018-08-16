@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface TheClassInformationViewController : BaseViewController
+@interface TheClassInformationViewController : UIViewController
 
 @property (nonatomic, strong) NSString    *ID;
 

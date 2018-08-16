@@ -96,13 +96,13 @@
             
             self.bannerArr = [BannerModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
             
-//            if (self.bannerArr.count == 0) {
-//                self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
-//            } else {
-//                BannerModel * model = [self.bannerArr objectAtIndex:0];
-//                [self.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
-//                [self.classDetailsTableView reloadData];
-//            }
+            if (self.bannerArr.count == 0) {
+                self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
+            } else {
+                BannerModel * model = [self.bannerArr objectAtIndex:0];
+                [self.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+                [self.classDetailsTableView reloadData];
+            }
             
             
         } else {
@@ -158,9 +158,13 @@
 - (UITableView *)classDetailsTableView
 {
     if (!_classDetailsTableView) {
-        self.classDetailsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStyleGrouped];
+        self.classDetailsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStylePlain];
+        self.classDetailsTableView.backgroundColor = backColor;
         self.classDetailsTableView.delegate = self;
         self.classDetailsTableView.dataSource = self;
+        self.classDetailsTableView.estimatedRowHeight = 0;
+        self.classDetailsTableView.estimatedSectionHeaderHeight = 0;
+        self.classDetailsTableView.estimatedSectionFooterHeight = 0;
     }
     return _classDetailsTableView;
 }

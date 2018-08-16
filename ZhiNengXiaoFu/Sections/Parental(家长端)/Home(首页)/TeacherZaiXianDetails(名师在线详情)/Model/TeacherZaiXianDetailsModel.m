@@ -9,8 +9,18 @@
 #import "TeacherZaiXianDetailsModel.h"
 
 @implementation TeacherZaiXianDetailsModel
+
 + (NSDictionary *)replacedKeyFromPropertyName {
     
     return @{@"ID": @"id"};
+}
+
+
+- (NSMutableArray *)label
+{
+    if (!_label) {
+        self.label = [@[]mutableCopy];
+    }
+    return _label;
 }
 @end

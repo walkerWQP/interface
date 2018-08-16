@@ -7,7 +7,7 @@
 //
 
 #import "PersonInformationModel.h"
-#import <MJExtension.h>
+#import <MJExtension/MJExtension.h>
 @implementation PersonInformationModel
 
 + (NSDictionary *)replacedKeyFromPropertyName {

@@ -107,9 +107,14 @@
 - (UITableView *)HeartHealtyTableView
 {
     if (!_HeartHealtyTableView) {
-        self.HeartHealtyTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.HeartHealtyTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight  - 40 - APP_NAVH) style:UITableViewStylePlain];
         self.HeartHealtyTableView.delegate = self;
         self.HeartHealtyTableView.dataSource = self;
+        self.HeartHealtyTableView.backgroundColor = backColor;
+
+        _HeartHealtyTableView.estimatedRowHeight = 0;
+        _HeartHealtyTableView.estimatedSectionHeaderHeight = 0;
+        _HeartHealtyTableView.estimatedSectionFooterHeight = 0;
     }
     return _HeartHealtyTableView;
 }

@@ -23,7 +23,7 @@
 - (void)makeSchoolDynamicCellCellUI {
     
     self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0 , kScreenWidth, 10)];
-    self.lineView.backgroundColor = dividerColor;
+    self.lineView.backgroundColor = backColor;
     [self.contentView addSubview:self.lineView];
     self.backgroundColor = [UIColor whiteColor];
     self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.lineView.frame.origin.y + self.lineView.frame.size.height + 15, 40, 40)];
@@ -42,7 +42,7 @@
     [self.contentView addSubview:self.subjectsLabel];
     
     self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 90, self.subjectsLabel.frame.origin.y, 80, 30)];
-    self.timeLabel.textColor = contentColor;
+    self.timeLabel.textColor = RGB(170, 170, 170);
     self.timeLabel.font = contentFont;
     [self.contentView addSubview:self.timeLabel];
     

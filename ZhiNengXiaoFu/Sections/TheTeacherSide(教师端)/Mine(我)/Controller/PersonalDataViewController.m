@@ -37,6 +37,7 @@
 - (UITableView *)personalDataTableView {
     if (!_personalDataTableView) {
         self.personalDataTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64) style:UITableViewStylePlain];
+        self.personalDataTableView.backgroundColor = backColor;
         self.personalDataTableView.dataSource = self;
         self.personalDataTableView.delegate = self;
         self.personalDataTableView.separatorStyle = UITableViewCellEditingStyleNone;

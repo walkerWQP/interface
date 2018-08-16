@@ -45,7 +45,7 @@
     self.titleLabel.font = titFont;
     [self.view addSubview:self.titleLabel];
     
-    self.titleField = [[UITextField alloc] initWithFrame:CGRectMake(20, self.titleLabel.frame.size.height + 50, APP_WIDTH - 40, 40)];
+    self.titleField = [[UITextField alloc] initWithFrame:CGRectMake(20, self.titleLabel.frame.size.height + 40, APP_WIDTH - 40, 40)];
     self.titleField.backgroundColor = [UIColor whiteColor];
     self.titleField.layer.masksToBounds = YES;
     self.titleField.layer.cornerRadius = 5;
@@ -72,9 +72,9 @@
     
     self.contentLabel.tintColor = titlColor;
     self.contentLabel.font = titFont;
-    [self.view addSubview:self.titleLabel];
+    [self.view addSubview:self.contentLabel];
     
-    self.contentTextView = [[WTextView alloc] initWithFrame:CGRectMake(20, 70 + self.titleField.frame.size.height + self.titleLabel.frame.size.height + self.contentLabel.frame.size.height, APP_WIDTH - 40, APP_HEIGHT * 0.3)];
+    self.contentTextView = [[WTextView alloc] initWithFrame:CGRectMake(20, 60 + self.titleField.frame.size.height + self.titleLabel.frame.size.height + self.contentLabel.frame.size.height, APP_WIDTH - 40, APP_HEIGHT * 0.3)];
     self.contentTextView.backgroundColor = [UIColor whiteColor];
     self.contentTextView.layer.masksToBounds = YES;
     self.contentTextView.layer.cornerRadius = 5;
@@ -91,7 +91,7 @@
     self.contentTextView.text = self.content;
     [self.view addSubview:self.contentTextView];
     
-    self.changeBtn = [[UIButton alloc] initWithFrame:CGRectMake(20, 90 + self.titleField.frame.size.height + self.titleLabel.frame.size.height + self.contentLabel.frame.size.height + self.contentTextView.frame.size.height, APP_WIDTH - 40, 40)];
+    self.changeBtn = [[UIButton alloc] initWithFrame:CGRectMake(20, 100 + self.titleField.frame.size.height + self.titleLabel.frame.size.height + self.contentLabel.frame.size.height + self.contentTextView.frame.size.height, APP_WIDTH - 40, 40)];
     self.changeBtn.backgroundColor = THEMECOLOR;
     [self.changeBtn setTitle:@"发布修改" forState:UIControlStateNormal];
     self.changeBtn.layer.masksToBounds = YES;
@@ -143,6 +143,7 @@
 
 //修改通知
 - (void)UpdateNoticeURLData:(NSDictionary *)dic {
+    
     [[HttpRequestManager sharedSingleton] POST:updateNoticeURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
@@ -164,8 +165,11 @@
 }
 
 //修改作业
-- (void)UpdateHomeWorkData:(NSDictionary *)dic {
+- (void)UpdateHomeWorkData:(NSDictionary *)dic
+{
+    
     [[HttpRequestManager sharedSingleton] POST:updateHomeWork parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+      
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
             [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];

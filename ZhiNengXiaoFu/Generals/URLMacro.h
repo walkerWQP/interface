@@ -13,9 +13,9 @@
 #endif /* URLMacro_h */
 
 //正式
-//#define YUMING  @"http://www.ksznxt.com/"
+#define YUMING  @"http://www.ksznxt.com/"
 //测试
-#define YUMING    @"http://school.ksznxt.com/"
+//#define YUMING    @"http://school.ksznxt.com/"
 
 //登录接口
 #define LOGIN  [NSString stringWithFormat:@"%@index/login/login",YUMING]
@@ -199,4 +199,15 @@
 //获取上线最新版本信息
 #define versionGetVersion [NSString stringWithFormat:@"%@index/version/get_version",YUMING]
 
+//获取视频类型列表
+#define indexOnlineVideoTypeList [NSString stringWithFormat:@"%@index/online/video_type_list",YUMING]
+
+//名师在线获取视频列表
+#define indexOnlineVideoListByType [NSString stringWithFormat:@"%@index/online/video_list_by_type",YUMING]
+
+//名师在线获取视频详情
+#define indexOnlineVideoById [NSString stringWithFormat:@"%@index/online/video_by_id",YUMING]
+
+//获取视频推荐列表
+#define indexOnlineGetRelated [NSString stringWithFormat:@"%@index/online/get_related",YUMING]
 

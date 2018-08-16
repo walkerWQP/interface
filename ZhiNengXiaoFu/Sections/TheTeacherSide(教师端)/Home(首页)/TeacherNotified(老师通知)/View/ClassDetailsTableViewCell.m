@@ -22,12 +22,12 @@
 
 - (void)makeClassDetailsCellCellUI {
     self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0 , kScreenWidth, 10)];
-    self.lineView.backgroundColor = dividerColor;
+    self.lineView.backgroundColor = backColor;
     [self.contentView addSubview:self.lineView];
     
     self.backgroundColor = [UIColor whiteColor];
     
-    self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 20, 60, 60)];
+    self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 60, 60)];
     self.headImgView.layer.cornerRadius = self.headImgView.frame.size.width/2.0;
     self.headImgView.layer.masksToBounds = YES;
     [self.contentView addSubview:self.headImgView];
@@ -43,7 +43,7 @@
     [self.contentView addSubview:self.subjectsLabel];
     
     self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 90, self.subjectsLabel.frame.origin.y + 20, 80, 30)];
-    self.timeLabel.textColor = contentColor;
+    self.timeLabel.textColor = RGB(170, 170, 170);
     self.timeLabel.font = contentFont;
     [self.contentView addSubview:self.timeLabel];
     

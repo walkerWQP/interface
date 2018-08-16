@@ -60,17 +60,32 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self getClassURLData];
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"2"]) {
+
+    
+        [self getClassURLData];
+    }else
+    {
+        [self setNetWork:@""];
+    }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.frame = CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT);
+    self.view.backgroundColor = backColor;
     self.title = @"班级信息";
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"2"]) {
+
     self.rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
     [self.rightBtn setTitle:@"切换班级" forState:UIControlStateNormal];
     self.rightBtn.titleLabel.font = titFont;
     [self.rightBtn addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];
+    }else{
+        
+    }
     
 }
 
@@ -201,19 +216,20 @@
 
 - (void)makeTheClassInformationViewControllerUI:(ClassHomeModel *)model {
     
-  
-    
-    self.backImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.backImgView.hidden = YES;
+    self.backImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_TABH - APP_NAVH)];
+    self.backImgView.backgroundColor = backColor;
     self.backImgView.image = [UIImage imageNamed:@"背景图"];
     [self.view addSubview:self.backImgView];
     
+    self.headImgView.hidden = YES;
     self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, APP_WIDTH - 40, APP_HEIGHT * 0.15)];
     self.headImgView.image = [UIImage imageNamed:@"班级信息"];
     [self.backImgView addSubview:self.headImgView];
     
    
-    
-    self.bgView = [[UIView alloc] initWithFrame:CGRectMake(40, self.headImgView.frame.size.height + 40, APP_WIDTH - 80, APP_HEIGHT * 0.65)];
+    self.bgView.hidden = YES;
+    self.bgView = [[UIView alloc] initWithFrame:CGRectMake(40, self.headImgView.frame.size.height + 40, APP_WIDTH - 80, APP_HEIGHT * 0.63)];
     self.bgView.backgroundColor = whiteTMColor;
     [self.backImgView addSubview:self.bgView];
     
@@ -253,11 +269,6 @@
         
     }
     self.hnew = self.chargeLabel.frame.size.height + self.chargeLabel.frame.origin.y + 30 * model.teachers.count;
-
-   
-    
-   
-    
     
     self.numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, self.hnew + 10, self.chargeLabel.frame.size.width, 20)];
     self.numberLabel.text = @"班级人数:";
@@ -270,7 +281,7 @@
     self.numberPeopleLabel.textColor = titlColor;
     self.numberPeopleLabel.font = titFont;
     [self.bgView addSubview:self.numberPeopleLabel];
-//
+
     self.remarkLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, self.numberLabel.frame.origin.y + self.numberLabel.frame.size.height + 10, self.chargeLabel.frame.size.width, 20)];
     self.remarkLabel.text = @"班级寄语:";
     self.remarkLabel.textColor = [UIColor blackColor];

@@ -10,13 +10,12 @@
 
 @interface TeacherZaiXianDetailsModel : NSObject
 
-@property (nonatomic, copy) NSString * head_img;
-@property (nonatomic, copy) NSString * honor;
-@property (nonatomic, copy) NSString * introduce;
 @property (nonatomic, copy) NSString * ID;
 @property (nonatomic, copy) NSString * name;
-@property (nonatomic, copy) NSString * video;
-@property (nonatomic, assign) NSInteger  teacher_id;
+@property (nonatomic, copy) NSString * video_url;
 @property (nonatomic, copy) NSString * img;
-
+@property (nonatomic, copy) NSString * title;
+@property (nonatomic, copy) NSString * content;
+@property (nonatomic, strong) NSMutableArray * label;
+@property (nonatomic, assign) NSInteger  t_id;
 @end

@@ -42,7 +42,7 @@
     self.titleSegment = [[UISegmentedControl alloc]initWithFrame:CGRectMake(0, 0, ViewWidth,_titleHeight)];
     self.titleSegment.tintColor = [UIColor clearColor];
     NSDictionary* selectedTextAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15.0f],
-                                             NSForegroundColorAttributeName: [UIColor colorWithRed:173 / 255.0 green:228 / 255.0 blue:211 / 255.0 alpha:1]};
+                                             NSForegroundColorAttributeName: contentColor};
     [self.titleSegment setTitleTextAttributes:selectedTextAttributes forState:UIControlStateSelected];//设置文字属性
     NSDictionary* unselectedTextAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15.0f],
                                                NSForegroundColorAttributeName: [UIColor colorWithRed:51 / 255.0 green:51 / 255.0 blue:51 / 255.0 alpha:1]};
@@ -61,7 +61,7 @@
     
     //底部线
     self.lineView = [[UIView alloc]init];
-    self.lineView.backgroundColor = [UIColor colorWithRed:173 / 255.0 green:228 / 255.0 blue:211 / 255.0 alpha:1];
+    self.lineView.backgroundColor = contentColor;
     [self addSubview:self.lineView];
 
 }

@@ -53,7 +53,9 @@
     } else {
         [self setupChildViewController:@"首页" viewController:[HomePageViewController new] image:@"首页图标" selectedImage:@"首页图标拷贝"];
         
-        [self setupChildViewController:@"班级信息" viewController:[ClassHomeViewController new] image:@"班级管理" selectedImage:@"班级管理1"];
+        [self setupChildViewController:@"班级信息" viewController:[TheClassInformationViewController new] image:@"班级管理" selectedImage:@"班级管理1"];
+
+//        [self setupChildViewController:@"班级信息" viewController:[ClassHomeViewController new] image:@"班级管理" selectedImage:@"班级管理1"];
         
         [self setupChildViewController:@"进出安全" viewController:[QianDaoViewController new] image:@"到校情况2" selectedImage:@"到校情况"];
         

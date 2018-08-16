@@ -141,9 +141,13 @@
 
 - (UITableView *)schoolDynamicTableView {
     if (!_schoolDynamicTableView) {
-        self.schoolDynamicTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64) style:UITableViewStyleGrouped];
+        self.schoolDynamicTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH) style:UITableViewStylePlain];
+        self.schoolDynamicTableView.backgroundColor = backColor;
         self.schoolDynamicTableView.delegate = self;
         self.schoolDynamicTableView.dataSource = self;
+        _schoolDynamicTableView.estimatedRowHeight = 0;
+        _schoolDynamicTableView.estimatedSectionHeaderHeight = 0;
+        _schoolDynamicTableView.estimatedSectionFooterHeight = 0;
     }
     return _schoolDynamicTableView;
 }

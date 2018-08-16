@@ -22,6 +22,20 @@
 
 @implementation LeaveListViewController
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self getBannersURLData];
+    //下拉刷新
+    self.leaveListTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.leaveListTableView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.leaveListTableView.mj_header beginRefreshing];
+    //上拉刷新
+    self.leaveListTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -35,15 +49,7 @@
 
     [self.view addSubview:self.leaveListTableView];
     [self.leaveListTableView registerClass:[LeaveListItemCell class] forCellReuseIdentifier:@"LeaveListItemCellId"];
-    //下拉刷新
-    self.leaveListTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
-    //自动更改透明度
-    self.leaveListTableView.mj_header.automaticallyChangeAlpha = YES;
-    //进入刷新状态
-    [self.leaveListTableView.mj_header beginRefreshing];
-    //上拉刷新
-    self.leaveListTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
-    [self getBannersURLData];
+    
 }
 
 - (NSMutableArray *)bannerArr {

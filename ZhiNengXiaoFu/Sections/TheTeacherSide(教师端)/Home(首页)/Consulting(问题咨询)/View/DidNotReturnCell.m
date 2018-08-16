@@ -27,11 +27,13 @@
     [self.contentView addSubview:self.headImgView];
     
     self.problemLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + self.headImgView.frame.size.width, 10, self.contentView.frame.size.width - self.headImgView.frame.size.width - 30, 30)];
-    self.problemLabel.textColor = titlColor;
-    self.problemLabel.font = titFont;
+    self.problemLabel.textColor = [UIColor blackColor];
+    self.problemLabel.font = [UIFont systemFontOfSize:16];
     [self.contentView addSubview:self.problemLabel];
     
-    self.problemContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10 + self.headImgView.frame.size.height, self.contentView.frame.size.width - 20, 30)];
+    self.problemContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10 + self.headImgView.frame.size.height, self.contentView.frame.size.width - 20, 60)];
+    self.problemContentLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.problemContentLabel.numberOfLines = 0;
     self.problemContentLabel.textColor = titlColor;
     self.problemContentLabel.font = titFont;
     [self.contentView addSubview:self.problemContentLabel];

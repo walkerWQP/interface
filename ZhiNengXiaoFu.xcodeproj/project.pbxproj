@@ -101,6 +101,10 @@
 		042AA45B211D8CA800E3AACB /* ClassHomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 042AA45A211D8CA800E3AACB /* ClassHomeModel.m */; };
 		04324DBE21056EE6003789D7 /* ChooseHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04324DBD21056EE6003789D7 /* ChooseHomeViewController.m */; };
 		04324DC12105A6C7003789D7 /* LoginHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04324DC02105A6C7003789D7 /* LoginHomePageViewController.m */; };
+		0432F2C12123C96900E78FB4 /* TeacherZaiXianTotalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0432F2C02123C96900E78FB4 /* TeacherZaiXianTotalViewController.m */; };
+		0432F2C42123CB0D00E78FB4 /* LTHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0432F2C32123CB0D00E78FB4 /* LTHeaderView.m */; };
+		0432F2C82123F99800E78FB4 /* TeacherListNCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0432F2C62123F99800E78FB4 /* TeacherListNCell.m */; };
+		0432F2C92123F99800E78FB4 /* TeacherListNCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0432F2C72123F99800E78FB4 /* TeacherListNCell.xib */; };
 		0437ACE9210B12B3008DAC39 /* LeaveRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0437ACE5210B12B2008DAC39 /* LeaveRequestViewController.m */; };
 		043F38DB21016DB600115A55 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 043F38DA21016DB600115A55 /* AppDelegate.m */; };
 		043F38DE21016DB600115A55 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043F38DD21016DB600115A55 /* ViewController.m */; };
@@ -169,6 +173,7 @@
 		04F6956F211C40E600F9D2E2 /* UIViewController+CLPlayerRotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F69563211C40E600F9D2E2 /* UIViewController+CLPlayerRotation.m */; };
 		04F69570211C40E600F9D2E2 /* CLPlayer.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04F69568211C40E600F9D2E2 /* CLPlayer.bundle */; };
 		04F69573211C410D00F9D2E2 /* UIView+CLSetRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F69572211C410D00F9D2E2 /* UIView+CLSetRect.m */; };
+		498C64A662A4583AE32A8276 /* Pods_ZhiNengXiaoFu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F26DFE770CB62B912B7D395A /* Pods_ZhiNengXiaoFu.framework */; };
 		9813959E2105E61E00CDE2BA /* MyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9813958B2105E61E00CDE2BA /* MyViewController.m */; };
 		9813959F2105E61E00CDE2BA /* ClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 981395902105E61E00CDE2BA /* ClassViewController.m */; };
 		983CD955211152130050508C /* BusinessDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 983CD954211152130050508C /* BusinessDetailController.m */; };
@@ -282,7 +287,6 @@
 		98E33E85211823800098C241 /* LeaveTheDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E33E84211823800098C241 /* LeaveTheDetailsCell.m */; };
 		98E33E88211851730098C241 /* TotalNumberModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E33E87211851730098C241 /* TotalNumberModel.m */; };
 		98E69522211C1FDF00660B14 /* PublicClassModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E69521211C1FDF00660B14 /* PublicClassModel.m */; };
-		AB9AE7EF90ECD4FF56ADE6CC /* libPods-ZhiNengXiaoFu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DEA638256AADE5C8E411ACF /* libPods-ZhiNengXiaoFu.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -479,6 +483,13 @@
 		04324DBD21056EE6003789D7 /* ChooseHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChooseHomeViewController.m; sourceTree = "<group>"; };
 		04324DBF2105A6C7003789D7 /* LoginHomePageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginHomePageViewController.h; sourceTree = "<group>"; };
 		04324DC02105A6C7003789D7 /* LoginHomePageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginHomePageViewController.m; sourceTree = "<group>"; };
+		0432F2BF2123C96900E78FB4 /* TeacherZaiXianTotalViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TeacherZaiXianTotalViewController.h; sourceTree = "<group>"; };
+		0432F2C02123C96900E78FB4 /* TeacherZaiXianTotalViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TeacherZaiXianTotalViewController.m; sourceTree = "<group>"; };
+		0432F2C22123CB0D00E78FB4 /* LTHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHeaderView.h; sourceTree = "<group>"; };
+		0432F2C32123CB0D00E78FB4 /* LTHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHeaderView.m; sourceTree = "<group>"; };
+		0432F2C52123F99800E78FB4 /* TeacherListNCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TeacherListNCell.h; sourceTree = "<group>"; };
+		0432F2C62123F99800E78FB4 /* TeacherListNCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TeacherListNCell.m; sourceTree = "<group>"; };
+		0432F2C72123F99800E78FB4 /* TeacherListNCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TeacherListNCell.xib; sourceTree = "<group>"; };
 		0437ACE5210B12B2008DAC39 /* LeaveRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaveRequestViewController.m; sourceTree = "<group>"; };
 		0437ACE6210B12B2008DAC39 /* LeaveRequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaveRequestViewController.h; sourceTree = "<group>"; };
 		043F38D621016DB600115A55 /* ZhiNengXiaoFu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZhiNengXiaoFu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -618,7 +629,6 @@
 		04F69568211C40E600F9D2E2 /* CLPlayer.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CLPlayer.bundle; sourceTree = "<group>"; };
 		04F69571211C410C00F9D2E2 /* UIView+CLSetRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CLSetRect.h"; sourceTree = "<group>"; };
 		04F69572211C410D00F9D2E2 /* UIView+CLSetRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CLSetRect.m"; sourceTree = "<group>"; };
-		6DEA638256AADE5C8E411ACF /* libPods-ZhiNengXiaoFu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZhiNengXiaoFu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		97E480AB68F52C70A0E84853 /* Pods-ZhiNengXiaoFu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhiNengXiaoFu.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZhiNengXiaoFu/Pods-ZhiNengXiaoFu.release.xcconfig"; sourceTree = "<group>"; };
 		9813955E2105E41B00CDE2BA /* MaceColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaceColor.h; sourceTree = "<group>"; };
 		9813958A2105E61E00CDE2BA /* MyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyViewController.h; sourceTree = "<group>"; };
@@ -849,6 +859,7 @@
 		98E69520211C1FDF00660B14 /* PublicClassModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublicClassModel.h; sourceTree = "<group>"; };
 		98E69521211C1FDF00660B14 /* PublicClassModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PublicClassModel.m; sourceTree = "<group>"; };
 		E9EF48CA703F38D41C8D8940 /* Pods-ZhiNengXiaoFu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhiNengXiaoFu.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZhiNengXiaoFu/Pods-ZhiNengXiaoFu.debug.xcconfig"; sourceTree = "<group>"; };
+		F26DFE770CB62B912B7D395A /* Pods_ZhiNengXiaoFu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZhiNengXiaoFu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -856,7 +867,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB9AE7EF90ECD4FF56ADE6CC /* libPods-ZhiNengXiaoFu.a in Frameworks */,
+				498C64A662A4583AE32A8276 /* Pods_ZhiNengXiaoFu.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1013,6 +1024,8 @@
 		0413D68F210EA52B00CB34A6 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0432F2BF2123C96900E78FB4 /* TeacherZaiXianTotalViewController.h */,
+				0432F2C02123C96900E78FB4 /* TeacherZaiXianTotalViewController.m */,
 				0413D692210EA53A00CB34A6 /* TeacherZaiXianViewController.h */,
 				0413D693210EA53A00CB34A6 /* TeacherZaiXianViewController.m */,
 			);
@@ -1031,8 +1044,13 @@
 		0413D691210EA52B00CB34A6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0432F2C22123CB0D00E78FB4 /* LTHeaderView.h */,
+				0432F2C32123CB0D00E78FB4 /* LTHeaderView.m */,
 				0413D695210EAE9400CB34A6 /* TeacherZhuanLanCell.h */,
 				0413D696210EAE9400CB34A6 /* TeacherZhuanLanCell.m */,
+				0432F2C52123F99800E78FB4 /* TeacherListNCell.h */,
+				0432F2C62123F99800E78FB4 /* TeacherListNCell.m */,
+				0432F2C72123F99800E78FB4 /* TeacherListNCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3048,7 +3066,7 @@
 		F1498AB69964EAF91B5B6160 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6DEA638256AADE5C8E411ACF /* libPods-ZhiNengXiaoFu.a */,
+				F26DFE770CB62B912B7D395A /* Pods_ZhiNengXiaoFu.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3065,6 +3083,7 @@
 				043F38D321016DB600115A55 /* Frameworks */,
 				043F38D421016DB600115A55 /* Resources */,
 				796AA49054CDB2D6A6BE99C2 /* [CP] Copy Pods Resources */,
+				FE1045501072DE30CEE0A990 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3166,6 +3185,7 @@
 				0409A4372119754C004A9DB6 /* close@3x.png in Resources */,
 				0409A4332119754C004A9DB6 /* ico_check_select@3x.png in Resources */,
 				98E33E6F2117E2800098C241 /* HZQDatePickerView.xib in Resources */,
+				0432F2C92123F99800E78FB4 /* TeacherListNCell.xib in Resources */,
 				0409A4362119754C004A9DB6 /* ico_check_nomal@3x.png in Resources */,
 				0409A4312119754C004A9DB6 /* none.png in Resources */,
 				0471BED02122AB1F00E7E22B /* YiHuiFuCell.xib in Resources */,
@@ -3215,12 +3235,10 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ZhiNengXiaoFu/Pods-ZhiNengXiaoFu-resources.sh",
 				"${PODS_ROOT}/AMap3DMap-NO-IDFA/MAMapKit.framework/AMap.bundle",
-				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AMap.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3245,6 +3263,36 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		FE1045501072DE30CEE0A990 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ZhiNengXiaoFu/Pods-ZhiNengXiaoFu-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/LTScrollView/LTScrollView.framework",
+				"${BUILT_PRODUCTS_DIR}/MJExtension/MJExtension.framework",
+				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
+				"${BUILT_PRODUCTS_DIR}/SDCycleScrollView/SDCycleScrollView.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/WebViewJavascriptBridge/WebViewJavascriptBridge.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LTScrollView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDCycleScrollView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebViewJavascriptBridge.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZhiNengXiaoFu/Pods-ZhiNengXiaoFu-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -3255,6 +3303,7 @@
 				04868CD12122CEA9008A19EE /* PickerView.m in Sources */,
 				0429F612210C6BEC00C32957 /* TongZhiCell.m in Sources */,
 				04F6956D211C40E600F9D2E2 /* UINavigationController+CLPlayerRotation.m in Sources */,
+				0432F2C12123C96900E78FB4 /* TeacherZaiXianTotalViewController.m in Sources */,
 				045216FE211072FC009C2A8C /* DingWeiViewController.m in Sources */,
 				98AD7EC2210F11BD00641231 /* ClassDetailsViewController.m in Sources */,
 				98D89E0621105CC000355626 /* HuoDongYiJieShuViewController.m in Sources */,
@@ -3366,6 +3415,7 @@
 				0428109B2108070F00E2CA14 /* TuiChuLoginCell.m in Sources */,
 				042AA43B211D276300E3AACB /* ParentXueTangModel.m in Sources */,
 				98D89DB82110054100355626 /* TotalNumberViewController.m in Sources */,
+				0432F2C82123F99800E78FB4 /* TeacherListNCell.m in Sources */,
 				04251B9A2115453B0090CD3C /* ConsultListModel.m in Sources */,
 				045A94F12112E41D00030E56 /* IQTextView.m in Sources */,
 				042810942108070F00E2CA14 /* ClassHomeViewController.m in Sources */,
@@ -3427,6 +3477,7 @@
 				98D89E0D21106D4D00355626 /* ChangePasswordViewController.m in Sources */,
 				98AD7EBF210F11BD00641231 /* HomeLunBoCell.m in Sources */,
 				0429F5ED210C113400C32957 /* LeaveDetailsDownCell.m in Sources */,
+				0432F2C42123CB0D00E78FB4 /* LTHeaderView.m in Sources */,
 				045A94F52112E41D00030E56 /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				0409A4202119754C004A9DB6 /* MFlowLayOut.m in Sources */,
 				045A94C92112D65200030E56 /* UserManager.m in Sources */,
@@ -3669,6 +3720,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E9EF48CA703F38D41C8D8940 /* Pods-ZhiNengXiaoFu.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3694,6 +3746,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 97E480AB68F52C70A0E84853 /* Pods-ZhiNengXiaoFu.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

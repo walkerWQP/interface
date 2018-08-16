@@ -20,5 +20,9 @@
 @property (nonatomic, copy) NSString * price;
 
 @property (nonatomic, copy) NSString * title;
+@property (nonatomic, copy) NSString * img;
+@property (nonatomic, strong) NSMutableArray * label;
+@property (nonatomic, copy) NSString * t_name;
+@property (nonatomic, assign) NSInteger view;
 
 @end

@@ -28,11 +28,15 @@
     [self.contentView addSubview:self.headImgView];
     
     self.problemLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + self.headImgView.frame.size.width, 10, self.contentView.frame.size.width - self.headImgView.frame.size.width - 30, 30)];
-    self.problemLabel.textColor = titlColor;
-    self.problemLabel.font = titFont;
+    self.problemLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.problemLabel.numberOfLines = 0;
+    self.problemLabel.textColor = [UIColor blackColor];
+    self.problemLabel.font = [UIFont systemFontOfSize:16];
     [self.contentView addSubview:self.problemLabel];
     
-    self.problemContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10 + self.headImgView.frame.size.height, self.contentView.frame.size.width - 20, 30)];
+    self.problemContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10 + self.headImgView.frame.size.height, self.contentView.frame.size.width - 20, 60)];
+    self.problemContentLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.problemContentLabel.numberOfLines = 0;
     self.problemContentLabel.textColor = titlColor;
     self.problemContentLabel.font = titFont;
     [self.contentView addSubview:self.problemContentLabel];
@@ -47,12 +51,14 @@
     [self.contentView addSubview:self.headImageView];
     
     self.replyLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.headImageView.frame.size.width + 20, self.headImgView.frame.size.height + self.problemContentLabel.frame.size.height + self.lineView.frame.size.height + 30, self.contentView.frame.size.width - self.headImageView.frame.size.width - 30, 30)];
+
     self.replyLabel.textColor = titlColor;
     self.replyLabel.font = titFont;
     [self.contentView addSubview:self.replyLabel];
     
-    self.replyContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.headImgView.frame.size.height + self.problemContentLabel.frame.size.height + self.lineView.frame.size.height + self.headImageView.frame.size.height + 20, self.contentView.frame.size.width - 30, 40)];
-//    self.replyContentLabel.backgroundColor = [UIColor redColor];
+    self.replyContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.headImgView.frame.size.height + self.problemContentLabel.frame.size.height + self.lineView.frame.size.height + self.headImageView.frame.size.height + 20, self.contentView.frame.size.width - 30, 60)];
+    self.replyContentLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.replyContentLabel.numberOfLines = 0;
     self.replyContentLabel.textColor = titlColor;
     self.replyContentLabel.font = titFont;
     [self.contentView addSubview:self.replyContentLabel];

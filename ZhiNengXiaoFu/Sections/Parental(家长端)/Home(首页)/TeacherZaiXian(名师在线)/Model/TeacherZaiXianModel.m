@@ -7,12 +7,21 @@
 //
 
 #import "TeacherZaiXianModel.h"
-
+#import "PrefixHeader.pch"
 @implementation TeacherZaiXianModel
 
 + (NSDictionary *)replacedKeyFromPropertyName {
     
     return @{@"ID": @"id"};
+}
+
+
+- (NSMutableArray *)label
+{
+    if (!_label) {
+        self.label = [@[]mutableCopy];
+    }
+    return _label;
 }
 
 @end

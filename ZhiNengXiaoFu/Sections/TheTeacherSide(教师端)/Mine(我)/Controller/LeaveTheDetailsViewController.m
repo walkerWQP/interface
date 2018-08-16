@@ -219,13 +219,13 @@
     self.typeImgView.image = [UIImage imageNamed:@"请加状态"];
     [self.typeView addSubview:self.typeImgView];
     
-    self.typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.typeImgView.frame.size.width + 20, 10, APP_WIDTH * 0.6, 30)];
+    self.typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.typeImgView.frame.size.width + 20, 12, APP_WIDTH * 0.6, 30)];
     self.typeLabel.text = @"请假状态";
     self.typeLabel.textColor = titlColor;
     self.typeLabel.font = titFont;
     [self.typeView addSubview:self.typeLabel];
     
-    self.statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 100, 5, 90, 30)];
+    self.statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 100, 12, 90, 30)];
     self.statusLabel.font = titFont;
     if ([self.typeStr isEqualToString:@"1"]) {
         if (self.toSchoolSituationModel.status == 0) {
@@ -280,7 +280,7 @@
     self.noteView.backgroundColor = [UIColor whiteColor];
     [self.bgView addSubview:self.noteView];
     
-    self.noteImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 22, 28)];
+    self.noteImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 25, 25)];
     self.noteImgView.image = [UIImage imageNamed:@"备注"];
     [self.noteView addSubview:self.noteImgView];
     
@@ -298,7 +298,7 @@
     
     if ([self.typeStr isEqualToString:@"1"]) {
         if (self.toSchoolSituationModel.status == 0) {
-            self.noteTextView.placeholder = @"请输入审核内容";
+            self.noteTextView.placeholder = @"未备注";
         } else if (self.toSchoolSituationModel.status == 1) {
             self.noteTextView.text = self.toSchoolSituationModel.remark;
         }

@@ -26,6 +26,7 @@
 
 - (void)makeAdviceFeedbackViewControllerUI {
     
+    self.view.backgroundColor = backColor;
     self.contentTextView = [[WTextView alloc] initWithFrame:CGRectMake(20, 40, APP_WIDTH - 40, APP_HEIGHT * 0.3)];
     self.contentTextView.backgroundColor = [UIColor whiteColor];
 //    self.contentTextView.layer.masksToBounds = YES;

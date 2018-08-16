@@ -11,7 +11,7 @@
 #import "AdviceFeedbackViewController.h"
 #import "HelperCenterModel.h"
 
-@interface HelperCenterViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface HelperCenterViewController ()<UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate>
 
 @property (nonatomic, strong) UITableView * HelperCenterTableView;
 @property (nonatomic, strong) NSMutableArray * HelperCenterAry;
@@ -277,7 +277,7 @@
                 [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", self.helperCenterModel.phone]]]];
             }
             
-            if (indexPath.row) {
+            if (indexPath.row == 1) {
                 NSLog(@"qq联系");
                 UIWebView *webView = [[UIWebView alloc] init];
                 

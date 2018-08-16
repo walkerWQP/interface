@@ -77,7 +77,7 @@
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
-    self.totalNumberCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_HEIGHT * 0.15) collectionViewLayout:layout];
+    self.totalNumberCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) collectionViewLayout:layout];
     self.totalNumberCollectionView.backgroundColor = backColor;
     self.totalNumberCollectionView.delegate = self;
     self.totalNumberCollectionView.dataSource = self;
@@ -100,7 +100,7 @@
     UICollectionViewCell *gridcell = nil;
     TotalNumberCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TotalNumberCell_CollectionView forIndexPath:indexPath];
     TotalNumberModel *model = [self.totalNumberArr objectAtIndex:indexPath.row];
-    if (model.head_img == nil) {
+    if (model.head_img == nil || [model.head_img isEqualToString:@""]) {
         cell.headImgView.image = [UIImage imageNamed:@"user"];
     } else {
         [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];

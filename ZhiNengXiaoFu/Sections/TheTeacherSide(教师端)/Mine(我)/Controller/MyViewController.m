@@ -63,6 +63,7 @@
 - (UITableView *)myTabelView {
     if (!_myTabelView) {
         self.myTabelView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStyleGrouped];
+        self.myTabelView.backgroundColor = backColor;
         self.myTabelView.delegate = self;
         self.myTabelView.dataSource = self;
         self.myTabelView.separatorStyle = UITableViewCellEditingStyleNone;
@@ -97,7 +98,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
-    headerView.backgroundColor = [UIColor colorWithRed:245 / 255.0 green:245 / 255.0 blue:245 / 255.0 alpha:1];
+    headerView.backgroundColor = backColor;
     return headerView;
 }
 

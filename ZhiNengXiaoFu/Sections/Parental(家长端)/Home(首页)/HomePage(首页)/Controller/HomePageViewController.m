@@ -23,7 +23,7 @@
 #import "GrowthAlbumViewController.h"
 #import "CourseManagementViewController.h"
 #import "ChengZhangXiangCeViewController.h"
-
+#import "TeacherZaiXianTotalViewController.h"
 @interface HomePageViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView * HomePageCollectionView;
@@ -232,7 +232,7 @@
 
         }else if (indexPath.row == 4)
         {
-            TeacherZaiXianViewController * teacherZaiXianVC = [[TeacherZaiXianViewController alloc] init];
+            TeacherZaiXianTotalViewController * teacherZaiXianVC = [[TeacherZaiXianTotalViewController alloc] init];
             [self.navigationController pushViewController:teacherZaiXianVC animated:YES];
         }else if (indexPath.row == 5) {
            ParentXueTangViewController * parentXueTangVC = [[ParentXueTangViewController alloc] init];

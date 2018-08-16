@@ -51,7 +51,7 @@
     [self.imgView addSubview:self.detailsLabel];
     
     self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, self.imgView.frame.size.height, kScreenWidth, 10)];
-    self.lineView.backgroundColor = dividerColor;
+    self.lineView.backgroundColor = backColor;
     [self.contentView addSubview:self.lineView];
     
     

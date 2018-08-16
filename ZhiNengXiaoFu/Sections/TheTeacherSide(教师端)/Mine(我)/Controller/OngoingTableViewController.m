@@ -106,7 +106,8 @@
 - (UITableView *)ongoingTableView
 {
     if (!_ongoingTableView) {
-        self.ongoingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.ongoingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStyleGrouped];
+        self.ongoingTableView.backgroundColor = backColor;
         self.ongoingTableView.delegate = self;
         self.ongoingTableView.dataSource = self;
     }

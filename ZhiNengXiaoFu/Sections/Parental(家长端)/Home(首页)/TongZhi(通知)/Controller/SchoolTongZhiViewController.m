@@ -25,6 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor colorWithRed:247 / 255.0 green:247 / 255.0 blue:247 / 255.0 alpha:1];
     self.title = @"学校通知";
     self.page = 1;
     [self.view addSubview:self.schoolTongZhiTableView];
@@ -110,9 +111,14 @@
 - (UITableView *)schoolTongZhiTableView
 {
     if (!_schoolTongZhiTableView) {
-        self.schoolTongZhiTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.schoolTongZhiTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH - APP_TABH + 10) style:UITableViewStylePlain];
+        self.schoolTongZhiTableView.backgroundColor = backColor;
+
         self.schoolTongZhiTableView.delegate = self;
         self.schoolTongZhiTableView.dataSource = self;
+        _schoolTongZhiTableView.estimatedRowHeight = 0;
+        _schoolTongZhiTableView.estimatedSectionHeaderHeight = 0;
+        _schoolTongZhiTableView.estimatedSectionFooterHeight = 0;
     }
     return _schoolTongZhiTableView;
 }

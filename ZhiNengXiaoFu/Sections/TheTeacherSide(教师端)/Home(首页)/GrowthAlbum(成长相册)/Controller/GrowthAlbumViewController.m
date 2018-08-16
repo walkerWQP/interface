@@ -38,11 +38,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.webView.backgroundColor = RGB(220, 243, 236);
-    self.view.backgroundColor = RGB(220, 243, 236);
+    self.webView.backgroundColor = backColor;
+    self.view.backgroundColor = backColor;
     self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, -APP_NAVH, APP_WIDTH, APP_HEIGHT)];
-    self.bgView.backgroundColor = [UIColor redColor];
-    //RGB(220, 243, 236);
+    self.bgView.backgroundColor = backColor;
     [self.view addSubview:self.bgView];
     [self prepareViews];
 }
@@ -53,7 +52,7 @@
     NSLog(@"%@",self.classID);
     
     self.rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 90, 30)];
-    [self.rightBtn setTitle:@"选择班级" forState:UIControlStateNormal];
+    [self.rightBtn setTitle:@"切换班级" forState:UIControlStateNormal];
     self.rightBtn.titleLabel.font = titFont;
     [self.rightBtn addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];

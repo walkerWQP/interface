@@ -35,6 +35,7 @@
 
 - (void)makeChangePasswordViewControllerUI {
     
+    self.view.backgroundColor = backColor;
     self.oldPasswordImgView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 105, 20, 20)];
     self.oldPasswordImgView.image = [UIImage imageNamed:@"密码"];
     [self.view addSubview:self.oldPasswordImgView];
@@ -51,7 +52,7 @@
     [self.view addSubview:self.lineView];
     
     self.ImgView = [[UIImageView alloc] initWithFrame:CGRectMake(20, self.oldPasswordText.frame.size.height + 125, 20, 20)];
-    self.ImgView.image = [UIImage imageNamed:@"密码"];
+    self.ImgView.image = [UIImage imageNamed:@"密码1"];
     [self.view addSubview:self.ImgView];
     
     self.passwordText = [[UITextField alloc] initWithFrame:CGRectMake(50, self.oldPasswordText.frame.size.height + 120, self.oldPasswordText.frame.size.width, 30)];
@@ -66,7 +67,7 @@
     [self.view addSubview:self.lineView1];
     
     self.ImgView1 = [[UIImageView alloc] initWithFrame:CGRectMake(20, self.oldPasswordText.frame.size.height + self.passwordText.frame.size.height + 145, 20, 20)];
-    self.ImgView1.image = [UIImage imageNamed:@"密码"];
+    self.ImgView1.image = [UIImage imageNamed:@"密码1"];
     [self.view addSubview:self.ImgView1];
     
     self.againText = [[UITextField alloc] initWithFrame:CGRectMake(50, self.oldPasswordText.frame.size.height + self.passwordText.frame.size.height + 140, APP_WIDTH - 60, 30)];

@@ -21,6 +21,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.\
     
+    self.view.backgroundColor = [UIColor whiteColor];
     self.KeChengJieShaoTableView.delegate = self;
     self.KeChengJieShaoTableView.dataSource = self;
     
@@ -32,7 +33,8 @@
 - (UITableView *)KeChengJieShaoTableView
 {
     if (!_KeChengJieShaoTableView) {
-        self.KeChengJieShaoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.KeChengJieShaoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 200 - APP_NAVH - 40) style:UITableViewStyleGrouped];
+        self.KeChengJieShaoTableView.backgroundColor = [UIColor whiteColor];
         self.KeChengJieShaoTableView.delegate = self;
         self.KeChengJieShaoTableView.dataSource = self;
     }
@@ -78,10 +80,10 @@
   
     KeChengJieShaonCell * cell = [tableView dequeueReusableCellWithIdentifier:@"KeChengJieShaonCellId" forIndexPath:indexPath];
     cell.selectionStyle =  UITableViewCellSelectionStyleNone;
-    [cell.userImg sd_setImageWithURL:[NSURL URLWithString:self.teacherZaiXianDetailsModel.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
-    cell.userNName.text = self.teacherZaiXianDetailsModel.name;
-    cell.jieShaoLabel.text = self.teacherZaiXianDetailsModel.honor;
-    cell.shanChangConnectLabel.text = self.teacherZaiXianDetailsModel.introduce;
+//    [cell.userImg sd_setImageWithURL:[NSURL URLWithString:self.teacherZaiXianDetailsModel.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
+//    cell.userNName.text = self.teacherZaiXianDetailsModel.name;
+//    cell.jieShaoLabel.text = self.teacherZaiXianDetailsModel.honor;
+    cell.shanChangConnectLabel.text = self.teacherZaiXianDetailsModel.content;
     return cell;
 }
 
@@ -90,8 +92,8 @@
     NSInteger width = kScreenWidth - 30;
     
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
-    CGSize size = [self.teacherZaiXianDetailsModel.introduce boundingRectWithSize:CGSizeMake(width, 1000000) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
-    return 150 + size.height;
+    CGSize size = [self.teacherZaiXianDetailsModel.content boundingRectWithSize:CGSizeMake(width, 1000000) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+    return 30 + size.height;
     
 }
 

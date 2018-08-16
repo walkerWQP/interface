@@ -32,6 +32,7 @@
 
 - (void)makeReplyViewControllerUI {
     
+    self.view.backgroundColor = backColor;
     self.bgView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, APP_WIDTH - 20, APP_HEIGHT * 0.23)];
     self.bgView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.bgView];

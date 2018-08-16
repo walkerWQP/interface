@@ -1,3 +1,4 @@
+source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '9.0'
 target "ZhiNengXiaoFu" do
 pod 'AFNetworking'
@@ -9,4 +10,7 @@ pod 'AMapSearch-NO-IDFA'
 pod 'AMapLocation-NO-IDFA'
 pod 'MJRefresh'
 pod 'WebViewJavascriptBridge'
+#注意此处需要添加use_frameworks!
+use_frameworks!
+pod 'LTScrollView'
 end
