@@ -10,6 +10,7 @@
 #import "TeacherTongZhiCell.h"
 #import "SchoolDongTaiDetailsViewController.h"
 #import "SchoolDongTaiModel.h"
+
 @interface SchoolDongTaiViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *schoolDynamicTableView;
@@ -39,7 +40,8 @@
     [super viewDidLoad];
     if (@available(iOS 11.0, *)) {
         self.schoolDynamicTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    } else {
+    } else
+    {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
     self.title = @"学校动态";
@@ -86,9 +88,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -116,9 +119,10 @@
                 [UserManager logoOut];
             }else
             {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -230,7 +234,7 @@
         return 170;
     }else
     {
-        return 110;
+        return 110 + 9;
     }
      
 }

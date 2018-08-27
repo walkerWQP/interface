@@ -15,4 +15,5 @@
 @property (nonatomic, retain) NSMutableArray * dataHeaderSourceAry;
 @property (nonatomic, retain) NSMutableArray * dataHeaderSourceAryImg;
 
+- (void)getClassData;
 @end

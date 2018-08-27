@@ -33,7 +33,7 @@
     return _didNotReturnArr;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {   //未回复
     [super viewWillAppear:animated];
     self.page = 1;
     //下拉刷新
@@ -95,8 +95,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -107,7 +109,7 @@
 - (void)makeDidNotReturnViewControllerUI {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    layout.sectionInset = UIEdgeInsetsMake(20, 0, 0, 0);
+    layout.sectionInset = UIEdgeInsetsMake(10, 0, 0, 0);
     self.didNotReturnCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH - 40) collectionViewLayout:layout];
     self.didNotReturnCollectionView.backgroundColor = backColor;
     self.didNotReturnCollectionView.delegate = self;
@@ -138,10 +140,10 @@
         if (self.personInfo.head_img == nil) {
             cell.headImgView.image = [UIImage imageNamed:@"user"];
         } else {
-            [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:nil];
+            [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
         }
     } else {
-        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.t_headimg] placeholderImage:nil];
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.t_headimg] placeholderImage:[UIImage imageNamed:@"user"]];
     }
 
     cell.problemLabel.text = [NSString stringWithFormat:@"%@%@问:", model.class_name ,model.student_name];

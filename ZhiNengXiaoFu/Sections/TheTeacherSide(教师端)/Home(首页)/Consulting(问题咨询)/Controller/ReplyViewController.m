@@ -43,7 +43,7 @@
     if ([self.headImg isEqualToString:@""]) {
         self.headImgView.image = [UIImage imageNamed:@"user"];
     } else {
-        [self.headImgView sd_setImageWithURL:[NSURL URLWithString:self.headImg] placeholderImage:nil];
+        [self.headImgView sd_setImageWithURL:[NSURL URLWithString:self.headImg] placeholderImage:[UIImage imageNamed:@"user"]];
     }
     
     [self.bgView addSubview:self.headImgView];
@@ -111,8 +111,10 @@
                 if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                     [UserManager logoOut];
                 } else {
-                    [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                    
                 }
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
             }
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
             

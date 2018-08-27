@@ -99,9 +99,10 @@
                 [UserManager logoOut];
             }else
             {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         
         
@@ -113,7 +114,7 @@
 - (UITableView *)YiHuiFuTableView
 {
     if (!_YiHuiFuTableView) {
-        self.YiHuiFuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64 - 40) style:UITableViewStylePlain];
+        self.YiHuiFuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH - 40) style:UITableViewStylePlain];
         self.YiHuiFuTableView.backgroundColor = backColor;
         self.YiHuiFuTableView.delegate = self;
         self.YiHuiFuTableView.dataSource = self;

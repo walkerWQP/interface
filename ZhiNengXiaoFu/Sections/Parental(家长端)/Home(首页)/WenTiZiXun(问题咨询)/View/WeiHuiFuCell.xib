@@ -61,7 +61,6 @@
                     </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AYf-qX-VLK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="10"/>
-                        <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="10" id="tmj-eB-K4q"/>
                         </constraints>
@@ -88,6 +87,7 @@
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
                 <outlet property="WeiHuiFuBtn" destination="qpT-gL-uw2" id="y3U-kS-bVY"/>
+                <outlet property="WeiHuiFuLineView" destination="AYf-qX-VLK" id="ots-yh-qs0"/>
                 <outlet property="WeiHuiFuNameLabel" destination="NkS-QW-JTJ" id="tct-kj-4FS"/>
                 <outlet property="WeiHuiFuQuestionLabel" destination="PXz-I5-qZo" id="E0j-oD-O7Z"/>
                 <outlet property="WeiHuiFuUserIconImg" destination="weK-cM-p92" id="J5C-84-qQj"/>

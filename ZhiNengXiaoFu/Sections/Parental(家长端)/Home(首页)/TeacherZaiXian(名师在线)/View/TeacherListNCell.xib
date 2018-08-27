@@ -99,8 +99,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bcA-Xe-KmS">
-                        <rect key="frame" x="15" y="115" width="290" height="10"/>
-                        <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                        <rect key="frame" x="0.0" y="115" width="320" height="10"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="10" id="nzX-b2-31T"/>
                         </constraints>
@@ -113,7 +112,7 @@
                     <constraint firstItem="4B1-so-5OH" firstAttribute="bottom" secondItem="w1O-N5-pei" secondAttribute="bottom" id="BuG-6j-8Ho"/>
                     <constraint firstItem="4B1-so-5OH" firstAttribute="leading" secondItem="w1O-N5-pei" secondAttribute="trailing" constant="10" id="For-NO-mx0"/>
                     <constraint firstItem="OQ2-Mu-KwL" firstAttribute="bottom" secondItem="kUa-Ny-tj0" secondAttribute="bottom" id="JmL-hH-MBI"/>
-                    <constraint firstItem="bcA-Xe-KmS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Nzk-AQ-SPi"/>
+                    <constraint firstItem="bcA-Xe-KmS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Nzk-AQ-SPi"/>
                     <constraint firstItem="tW4-fi-7d6" firstAttribute="top" secondItem="qW5-7F-aWT" secondAttribute="bottom" constant="8" id="Q1t-Yb-d8f"/>
                     <constraint firstItem="Rab-Yj-lir" firstAttribute="leading" secondItem="FEd-ig-jK2" secondAttribute="leading" id="Rpx-bG-0yw"/>
                     <constraint firstItem="Rab-Yj-lir" firstAttribute="trailing" secondItem="FEd-ig-jK2" secondAttribute="trailing" id="X3V-o2-U3y"/>
@@ -135,7 +134,7 @@
                     <constraint firstItem="bcA-Xe-KmS" firstAttribute="top" secondItem="w1O-N5-pei" secondAttribute="bottom" constant="10" id="qBG-6e-Tjk"/>
                     <constraint firstAttribute="trailing" secondItem="KDH-AC-F5m" secondAttribute="trailing" constant="10" id="qa0-5x-gGx"/>
                     <constraint firstItem="kUa-Ny-tj0" firstAttribute="top" secondItem="tW4-fi-7d6" secondAttribute="top" id="qfT-K1-i8r"/>
-                    <constraint firstAttribute="trailing" secondItem="bcA-Xe-KmS" secondAttribute="trailing" constant="15" id="rUR-U5-HbO"/>
+                    <constraint firstAttribute="trailing" secondItem="bcA-Xe-KmS" secondAttribute="trailing" id="rUR-U5-HbO"/>
                     <constraint firstItem="FEd-ig-jK2" firstAttribute="leading" secondItem="kUa-Ny-tj0" secondAttribute="trailing" constant="8" id="tRs-2O-WHp"/>
                     <constraint firstItem="0MO-SJ-FpE" firstAttribute="leading" secondItem="tW4-fi-7d6" secondAttribute="leading" id="voq-Pb-igy"/>
                     <constraint firstItem="tW4-fi-7d6" firstAttribute="leading" secondItem="w1O-N5-pei" secondAttribute="trailing" constant="10" id="yls-fk-hnh"/>
@@ -153,6 +152,7 @@
                 <outlet property="TeacherListNTitleLabel" destination="qW5-7F-aWT" id="FkP-Me-abN"/>
                 <outlet property="TeacherListNTwoImg" destination="OQ2-Mu-KwL" id="vQc-3d-SGn"/>
                 <outlet property="TeacherListNTwoLabel" destination="kUa-Ny-tj0" id="Y8z-nu-PUe"/>
+                <outlet property="lineView" destination="bcA-Xe-KmS" id="MkI-Qq-m1F"/>
             </connections>
             <point key="canvasLocation" x="35" y="105.5"/>
         </tableViewCell>

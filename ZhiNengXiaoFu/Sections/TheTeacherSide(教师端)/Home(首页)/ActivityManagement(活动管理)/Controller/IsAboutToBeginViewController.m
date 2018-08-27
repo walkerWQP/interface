@@ -29,7 +29,7 @@
     return _isAboutToBeginArr;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {  //即将开始
     [super viewWillAppear:animated];
     self.page = 1;
     [self makeIsAboutToBeginViewControllerUI];
@@ -85,13 +85,16 @@
             }
             
         } else {
+            
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
+
             }else
             {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         [self.isAboutToBeginCollectionView reloadData];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -102,7 +105,7 @@
 - (void)makeIsAboutToBeginViewControllerUI {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    layout.sectionInset = UIEdgeInsetsMake(20, 0, 0, 0);
+    layout.sectionInset = UIEdgeInsetsMake(10, 0, 0, 0);
     self.isAboutToBeginCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH - 40) collectionViewLayout:layout];
     self.isAboutToBeginCollectionView.backgroundColor = backColor;
     self.isAboutToBeginCollectionView.delegate = self;
@@ -137,7 +140,7 @@
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     
-    return 20;
+    return 10;
     
 }
 

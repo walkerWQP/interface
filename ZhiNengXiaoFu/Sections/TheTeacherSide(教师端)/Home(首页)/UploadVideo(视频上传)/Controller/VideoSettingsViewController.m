@@ -148,7 +148,7 @@
     self.yuanLabel.font = contentFont;
     [self.costView addSubview:self.yuanLabel];
     
-    self.costTextField = [[UITextField alloc] initWithFrame:CGRectMake(self.costView.frame.size.width - self.yuanLabel.frame.size.width - 20 - APP_WIDTH * 0.4, 10, APP_WIDTH * .4, 30)];
+    self.costTextField = [[UITextField alloc] initWithFrame:CGRectMake(self.costView.frame.size.width - self.yuanLabel.frame.size.width - 20 - APP_WIDTH * 0.4, 10, APP_WIDTH * 0.4, 30)];
     self.costTextField.backgroundColor = [UIColor whiteColor];
     self.costTextField.font = contentFont;
     self.costTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入金额" attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:157/255.0 green:157/255.0 blue:157/255.0 alpha:1.0]}];
@@ -214,9 +214,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -255,9 +256,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         

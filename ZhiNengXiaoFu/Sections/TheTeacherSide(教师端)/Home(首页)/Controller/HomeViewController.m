@@ -20,6 +20,8 @@
 #import "TeacherNotifiedViewController.h"
 #import "TongZhiViewController.h"
 #import "PublishJobModel.h"
+#import "OffTheListViewController.h"
+#import "NewGuidelinesViewController.h"
 
 
 @interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
@@ -62,8 +64,8 @@
     [self.HomeCollectionView registerClass:[HomeLunBoCell class] forCellWithReuseIdentifier:@"HomePageLunBoCellId"];
     [self.HomeCollectionView registerClass:[HomeItemCell class] forCellWithReuseIdentifier:@"HomePageItemCellId"];
     
-    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"课程管理",@"成长相册",@"活动管理",@"问题咨询",@"学校通知",@"学校动态1", nil];
-    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"右脑开发",@"成长相册",@"活动管理",@"问题咨询",@"学校通知",@"学校动态", nil];
+    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"成长相册",@"活动管理",@"问题咨询",@"学校通知",@"学校动态1",@"请假列表1",@"新生指南", nil];
+    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"成长相册",@"活动管理",@"问题咨询",@"学校通知",@"学校动态",@"请假列表",@"新生指南", nil];
     
     for (int i = 0; i < imgAry.count; i++) {
         NSString * img  = [imgAry objectAtIndex:i];
@@ -137,15 +139,20 @@
                 
             }
                 break;
+//            case 2:
+//            {
+//                NSLog(@"点击右脑开发");
+////                CourseManagementViewController *courseManagementVC = [[CourseManagementViewController alloc] init];
+////                [self.navigationController pushViewController:courseManagementVC animated:YES];
+//                GrowthAlbumViewController *growthAlbumVC = [[GrowthAlbumViewController alloc] init];
+//                growthAlbumVC.urlStr = brainURL;
+//                growthAlbumVC.webTitle = @"右脑开发";
+//                growthAlbumVC.typeID = @"1";
+//                [self.navigationController pushViewController:growthAlbumVC animated:YES];
+//
+//            }
+//                break;
             case 2:
-            {
-                NSLog(@"点击课程管理");
-                CourseManagementViewController *courseManagementVC = [[CourseManagementViewController alloc] init];
-                [self.navigationController pushViewController:courseManagementVC animated:YES];
-                
-            }
-                break;
-            case 3:
             {
                 NSLog(@"点击成长相册");
                 [self getClassURLData];
@@ -160,7 +167,7 @@
 //
 //            }
 //                break;
-            case 4:
+            case 3:
             {
                 NSLog(@"点击活动管理");
                 ActivityManagementViewController *activityManagementVC = [[ActivityManagementViewController alloc] init];
@@ -169,7 +176,7 @@
                 
             }
                 break;
-            case 5:
+            case 4:
             {
                 NSLog(@"点击问题咨询");
                 ConsultingViewController *consultingVC = [[ConsultingViewController alloc] init];
@@ -177,7 +184,7 @@
                 
             }
                 break;
-            case 6:
+            case 5:
             {
                 NSLog(@"点击学校通知");
                 SchoolNoticeViewController *schoolNoticeVC = [[SchoolNoticeViewController alloc] init];
@@ -188,12 +195,29 @@
                
             }
                 break;
-            case 7:
+            case 6:
             {
                 NSLog(@"点击学校动态");
                 SchoolDynamicViewController *schoolDynamicVC = [[SchoolDynamicViewController alloc] init];
                 [self.navigationController pushViewController:schoolDynamicVC animated:YES];
 
+            }
+                break;
+            case 7:
+            {
+                NSLog(@"点击请假列表");
+                OffTheListViewController *offTheListVC = [OffTheListViewController new];
+                [self.navigationController pushViewController:offTheListVC animated:YES];
+                
+            }
+                break;
+                
+            case 8:
+            {
+                NSLog(@"点击新生指南");
+                NewGuidelinesViewController *newGuidelinesVC = [NewGuidelinesViewController new];
+                [self.navigationController pushViewController:newGuidelinesVC animated:YES];
+                
             }
                 break;
                 
@@ -224,9 +248,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -243,8 +268,9 @@
             for (PublishJobModel * model in self.publishJobArr) {
                 [ary addObject:[NSString stringWithFormat:@"%@", model.ID]];
             }
-            NSLog(@"%@",ary[0]);
-            if (ary[0] == nil) {
+            
+
+            if (ary.count == 0) {
                 [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
             } else {
                 [self postDataForGetURL:ary[0]];
@@ -254,9 +280,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         

@@ -298,9 +298,12 @@
             } else {
                 if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                     [UserManager logoOut];
-                } else {
-                    [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                } else
+                {
+                    
                 }
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
             }
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
             [WProgressHUD hideAllHUDAnimated:YES];
@@ -360,8 +363,9 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                    [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         
 //        [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
@@ -464,13 +468,19 @@
             for (TeacherNotifiedModel * model in self.jobManagementArr) {
                 [ary addObject:[NSString stringWithFormat:@"%@", model.name]];
             }
-            PickerView *vi = [[PickerView alloc] init];
-            vi.array = ary;
+            if (ary.count == 0) {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+            } else {
+                PickerView *vi = [[PickerView alloc] init];
+                vi.array = ary;
+                
+                vi.type = PickerViewTypeHeigh;
+                vi.selectComponent = 0;
+                vi.delegate = self;
+                [[[UIApplication sharedApplication] keyWindow] addSubview:vi];
+            }
             
-            vi.type = PickerViewTypeHeigh;
-            vi.selectComponent = 0;
-            vi.delegate = self;
-            [[[UIApplication sharedApplication] keyWindow] addSubview:vi];
+            
 //            HQPickerView *picker = [[HQPickerView alloc]initWithFrame:self.view.bounds];
 //            picker.delegate = self ;
 //            picker.customArr = ary;
@@ -480,9 +490,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

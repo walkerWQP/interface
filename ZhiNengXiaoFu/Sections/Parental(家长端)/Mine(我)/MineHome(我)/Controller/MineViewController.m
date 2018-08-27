@@ -55,10 +55,24 @@
     [self.mineTabelView registerClass:[MinePersonXiXinCell class] forCellReuseIdentifier:@"MinePersonXiXinCellId"];
     [self.mineTabelView registerClass:[TuiChuLoginCell class] forCellReuseIdentifier:@"TuiChuLoginCellId"];
     
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"personInfo"];
-    self.personInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    
+//    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"personInfo"];
+//    self.personInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    [self setNetWork];
     self.mineTabelView.separatorStyle = UITableViewCellSeparatorStyleNone;
+}
+
+
+- (void)setNetWork
+{
+    NSDictionary * dic = @{@"key":[UserManager key]};
+    
+    [[HttpRequestManager sharedSingleton] POST:getUserInfoURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        self.personInfo = [PersonInformationModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+        [self.mineTabelView reloadData];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
 }
 
 
@@ -72,8 +86,10 @@
 
 - (UITableView *)mineTabelView
 {
-    if (!_mineTabelView) {
-        self.mineTabelView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+    if (!_mineTabelView)
+    {
+        self.mineTabelView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH) style:UITableViewStylePlain];
+        self.mineTabelView.backgroundColor = backColor;
         self.mineTabelView.delegate = self;
         self.mineTabelView.dataSource = self;
     }
@@ -134,6 +150,7 @@
         MinePersonXiXinCell * cell = [tableView dequeueReusableCellWithIdentifier:@"MinePersonXiXinCellId" forIndexPath:indexPath];
         cell.userName.text = self.personInfo.name;
         cell.userZiLiao.text = @"我的资料";
+        
         [cell.userImg sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
@@ -199,7 +216,8 @@
 {
    
     [UserManager logoOut];
-    
+    [WProgressHUD showSuccessfulAnimatedText:@"退出成功"];
+
 }
 
 - (void)didReceiveMemoryWarning {

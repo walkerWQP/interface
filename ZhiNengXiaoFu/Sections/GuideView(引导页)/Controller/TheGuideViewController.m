@@ -121,21 +121,7 @@
     imageView.userInteractionEnabled = YES;
     UITapGestureRecognizer * imageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(start:)];
     [imageView addGestureRecognizer:imageTap];
-    // 1.添加开始按钮
-    //    [self setupStartButton:imageView];
-    
-    
-   
-    //    UILabel * tiyan = [[UILabel alloc] initWithFrame:CGRectMake(self.view.width * 0.5 - 50, self.view.height - 87, 100, 40)];
-    //    tiyan.textColor = [UIColor whiteColor];
-    //    tiyan.text = @"立即体验";
-    //    tiyan.textAlignment = NSTextAlignmentCenter;
-    //    tiyan.layer.cornerRadius = 4;
-    //    tiyan.layer.masksToBounds = YES;
-    //    tiyan.backgroundColor = [UIColor colorWithRed:251 / 255.0 green:199 / 255.0 blue:0 alpha:1];
-    //    [imageView addSubview:tiyan];
-    // 2.添加分享按钮
-    //[self setupShareButton:imageView];
+
 }
 
 - (void)start:(UITapGestureRecognizer *)sender

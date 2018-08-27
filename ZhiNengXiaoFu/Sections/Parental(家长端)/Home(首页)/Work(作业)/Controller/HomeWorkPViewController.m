@@ -17,6 +17,8 @@
 
 @property (nonatomic, assign) NSInteger     page;
 @property (nonatomic, strong) NSMutableArray *bannerArr;
+@property (nonatomic, strong) UIImageView *zanwushuju;
+
 
 @end
 
@@ -39,6 +41,11 @@
     [self.HomeWorkPTableView.mj_header beginRefreshing];
     //上拉刷新
     self.HomeWorkPTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.HomeWorkPTableView addSubview:self.zanwushuju];
     
     [self getBannersURLData];
 
@@ -66,9 +73,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -97,19 +105,28 @@
         [self.HomeWorkPTableView.mj_footer endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             NSMutableArray *arr = [WorkModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
+            
             for (WorkModel *model in arr) {
                 [self.HomeWorkPAry addObject:model];
             }
-            [self.HomeWorkPTableView reloadData];
+            
+            if (self.HomeWorkPAry.count == 0) {
+                self.zanwushuju.alpha = 1;
+            } else {
+                self.zanwushuju.alpha = 0;
+                [self.HomeWorkPTableView reloadData];
+            }
+            
         }else
         {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             }else
             {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

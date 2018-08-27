@@ -29,7 +29,7 @@
    return _tomorrowArr;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {   //已结束
     [super viewWillAppear:animated];
     self.page = 1;
     [self makeTomorrowViewControllerUI];
@@ -84,13 +84,17 @@
                 [self.tomorrowCollectionView reloadData];
             }
             
-        } else {
+        } else
+        {
+
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
+
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         [self.tomorrowCollectionView reloadData];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -101,7 +105,7 @@
 - (void)makeTomorrowViewControllerUI {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    layout.sectionInset = UIEdgeInsetsMake(20, 0, 0, 0);
+    layout.sectionInset = UIEdgeInsetsMake(10, 0, 0, 0);
     self.tomorrowCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH - 40) collectionViewLayout:layout];
     self.tomorrowCollectionView.backgroundColor = backColor;
     self.tomorrowCollectionView.delegate = self;
@@ -137,7 +141,7 @@
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     
-    return 20;
+    return 10;
     
 }
 

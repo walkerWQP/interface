@@ -100,18 +100,17 @@
                 self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
             } else {
                 BannerModel * model = [self.bannerArr objectAtIndex:0];
-                [self.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+                [self.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"教师端活动管理banner"]];
                 [self.classDetailsTableView reloadData];
             }
-            
             
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
-                
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -120,8 +119,7 @@
 
 - (void)getNoticeListData:(NSInteger)page {
     
-    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
-    NSDictionary *dic = @{@"key":key, @"page":[NSString stringWithFormat:@"%ld",page], @"is_school":@"0",@"class_id":self.ID};
+    NSDictionary *dic = @{@"key":[UserManager key], @"page":[NSString stringWithFormat:@"%ld",page], @"is_school":@"0",@"class_id":self.ID};
     [[HttpRequestManager sharedSingleton] POST:noticeListURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         //结束头部刷新
         [self.classDetailsTableView.mj_header endRefreshing];
@@ -146,8 +144,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -155,8 +155,7 @@
     
 }
 
-- (UITableView *)classDetailsTableView
-{
+- (UITableView *)classDetailsTableView {
     if (!_classDetailsTableView) {
         self.classDetailsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStylePlain];
         self.classDetailsTableView.backgroundColor = backColor;
@@ -208,8 +207,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -269,7 +270,7 @@
             if (model.img == nil) {
                 imgs.image = [UIImage imageNamed:@"banner"];
             } else {
-                [imgs sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+                [imgs sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"banner"]];
             }
             
         }

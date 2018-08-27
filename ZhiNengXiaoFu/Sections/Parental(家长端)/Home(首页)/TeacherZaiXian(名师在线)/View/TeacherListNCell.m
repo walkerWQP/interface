@@ -15,6 +15,7 @@
     // Initialization code
     self.TeacherListNImg.layer.cornerRadius = 4;
     self.TeacherListNImg.layer.masksToBounds = YES;
+    self.lineView.backgroundColor = backColor;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

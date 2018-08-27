@@ -28,11 +28,11 @@
     self.backgroundColor = [UIColor whiteColor];
     
     self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 60, 60)];
-    self.headImgView.layer.cornerRadius = self.headImgView.frame.size.width/2.0;
-    self.headImgView.layer.masksToBounds = YES;
+//    self.headImgView.layer.cornerRadius = self.headImgView.frame.size.width/2.0;
+//    self.headImgView.layer.masksToBounds = YES;
     [self.contentView addSubview:self.headImgView];
     
-    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + self.headImgView.frame.size.width, self.lineView.frame.origin.y + self.lineView.frame.size.height + 10, APP_WIDTH * 0.6, 30)];
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + self.headImgView.frame.size.width, self.lineView.frame.origin.y + self.lineView.frame.size.height + 20, APP_WIDTH - 30 - self.headImgView.frame.size.width, 30)];
     self.titleLabel.font = titFont;
     self.titleLabel.textColor = titlColor;
     [self.contentView addSubview:self.titleLabel];

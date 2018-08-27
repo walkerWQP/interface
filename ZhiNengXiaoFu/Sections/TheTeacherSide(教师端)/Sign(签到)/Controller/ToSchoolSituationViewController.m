@@ -49,9 +49,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -68,7 +69,7 @@
     if (self.toSchoolSituationModel.head_img == nil) {
         self.headImgView.image = [UIImage imageNamed:@"user"];
     } else {
-        [self.headImgView sd_setImageWithURL:[NSURL URLWithString:self.toSchoolSituationModel.head_img] placeholderImage:nil];
+        [self.headImgView sd_setImageWithURL:[NSURL URLWithString:self.toSchoolSituationModel.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
     }
     [self.view addSubview:self.headImgView];
     

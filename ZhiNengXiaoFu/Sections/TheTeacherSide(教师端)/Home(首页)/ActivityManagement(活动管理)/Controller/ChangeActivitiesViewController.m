@@ -131,7 +131,7 @@
     self.introductionLabel.font = contentFont;
     [self.launchEventScrollView addSubview:self.introductionLabel];
     
-    self.introductionTextView = [[WTextView alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + self.timeLabel.frame.size.height + self.timeView.frame.size.height + self.introductionLabel.frame.size.height + 40, APP_WIDTH - 20, 100)];
+    self.introductionTextView = [[WTextView alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + self.timeLabel.frame.size.height + self.timeView.frame.size.height + self.introductionLabel.frame.size.height + 40, APP_WIDTH - 20, 200)];
     self.introductionTextView.backgroundColor = [UIColor whiteColor];
     self.introductionTextView.layer.masksToBounds = YES;
     self.introductionTextView.layer.cornerRadius = 5;
@@ -223,8 +223,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             }
+            
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         

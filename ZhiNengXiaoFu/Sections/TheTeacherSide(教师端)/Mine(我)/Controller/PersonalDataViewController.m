@@ -24,19 +24,30 @@
     [super viewDidLoad];
     self.title = @"个人资料";
     self.view.backgroundColor = backColor;
-
+    [self setUser];
     self.personalDataTableView.separatorStyle =  UITableViewCellSeparatorStyleNone;
     self.nameArr = [NSMutableArray arrayWithObjects:@"头像",@"姓名",@"手机", @"账号", @"学校", nil];
     [self.view addSubview:self.personalDataTableView];
     [self.personalDataTableView registerClass:[PersonInfomationCell class] forCellReuseIdentifier:@"PersonInfomationCellId"];
     [self.personalDataTableView registerClass:[PersonIconCell class] forCellReuseIdentifier:@"PersonIconCellId"];
-    self.personInfo = [UserManager getUserObject];
+    
+}
+
+- (void)setUser {
+    NSDictionary * dic = @{@"key":[UserManager key]};
+    [[HttpRequestManager sharedSingleton] POST:getUserInfoURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        self.personInfo = [PersonInformationModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+        [self.personalDataTableView reloadData];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
 }
 
 
 - (UITableView *)personalDataTableView {
     if (!_personalDataTableView) {
-        self.personalDataTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64) style:UITableViewStylePlain];
+        self.personalDataTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH) style:UITableViewStylePlain];
         self.personalDataTableView.backgroundColor = backColor;
         self.personalDataTableView.dataSource = self;
         self.personalDataTableView.delegate = self;
@@ -61,7 +72,7 @@
         if (self.personInfo.head_img == nil) {
             cell.iConImg.image = [UIImage imageNamed:@"user"];
         } else {
-            [cell.iConImg sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:nil];
+            [cell.iConImg sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
         }
         return cell;
     } else {

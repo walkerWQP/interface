@@ -78,9 +78,10 @@
                 [UserManager logoOut];
             }else
             {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

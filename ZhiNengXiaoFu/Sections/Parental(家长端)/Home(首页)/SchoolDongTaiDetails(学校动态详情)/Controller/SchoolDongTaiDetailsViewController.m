@@ -53,7 +53,7 @@
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             self.workDetailsModel = [WorkDetailsModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
             [self.imgAry addObject:self.workDetailsModel.img];
-            [self configureImage];
+//            [self configureImage];
             
             [self.schoolDongTaiDetailsTableView reloadData];
         }else
@@ -62,9 +62,10 @@
                 [UserManager logoOut];
             }else
             {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);

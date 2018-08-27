@@ -73,6 +73,7 @@
 
 - (void)getOffTheListData:(NSInteger)page {
     
+    
     NSDictionary *dic = @{@"key":[UserManager key],@"page":[NSString stringWithFormat:@"%ld",page]};
     [[HttpRequestManager sharedSingleton] POST:leaveLeaveList parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         //结束头部刷新
@@ -92,14 +93,14 @@
                 [self.offTheListCollectionView reloadData];
             }
             
-            
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -109,8 +110,8 @@
 - (void)makeOffTheListViewControllerUI {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    layout.sectionInset = UIEdgeInsetsMake(190, 0, 0, 0);
-    self.offTheListCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - 60) collectionViewLayout:layout];
+    layout.sectionInset = UIEdgeInsetsMake(180, 0, 0, 0);
+    self.offTheListCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) collectionViewLayout:layout];
     self.offTheListCollectionView.backgroundColor = backColor;
     self.offTheListCollectionView.delegate = self;
     self.offTheListCollectionView.dataSource = self;
@@ -143,18 +144,18 @@
                 self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
             } else {
                 BannerModel * model = [self.bannerArr objectAtIndex:0];
-                [self.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+                [self.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"教师端活动管理banner"]];
                 [self.offTheListCollectionView reloadData];
             }
-            
             
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -175,10 +176,10 @@
     UICollectionViewCell *gridcell = nil;
     OffTheListCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:OffTheListCell_CollectionView forIndexPath:indexPath];
     OffTheListModel *model = [self.offTheListArr objectAtIndex:indexPath.row];
-    if (model.head_img == nil) {
+    if (model.head_img == nil || [model.head_img isEqualToString:@""]) {
         cell.headImgView.image = [UIImage imageNamed:@"user"];
     } else {
-        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
     }
     cell.nameLabel.text = model.name;
     cell.timeLabel.text = [NSString stringWithFormat:@"%@:  %@%@%@",@"请假时间",model.start,@"至",model.end];
@@ -198,7 +199,7 @@
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     
-    return 20;
+    return 10;
     
 }
 

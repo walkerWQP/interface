@@ -16,4 +16,6 @@
 
 @property (nonatomic, strong) NSString *classID;
 
+@property (nonatomic, strong) NSString  *typeID;
+
 @end

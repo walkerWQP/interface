@@ -70,15 +70,19 @@
     self.liulanLabel.textColor = COLOR(167, 167, 167, 1);
     [self addSubview:self.liulanLabel];
     
+    self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, self.ShiPinListImg.frame.origin.y + self.ShiPinListImg.frame.size.height + 10, kScreenWidth, 10)];
+    self.lineView.backgroundColor = backColor;
+    [self addSubview:self.lineView];
+
     
-    self.JiShuImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.liulanLabel.frame.origin.x + self.liulanLabel.frame.size.width + 5, self.liulanImg.frame.origin.y - 1, 15, 14)];
-    self.JiShuImg.image = [UIImage imageNamed:@"播放"];
-    [self addSubview:self.JiShuImg];
-    
-    self.jiShuLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.JiShuImg.frame.origin.x + self.JiShuImg.frame.size.width + 5 , self.JiShuImg.frame.origin.y, 40, 12)];
-    self.jiShuLabel.font = [UIFont systemFontOfSize:12];
-    self.jiShuLabel.textColor = COLOR(167, 167, 167, 1);
-    [self addSubview:self.jiShuLabel];
+//    self.JiShuImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.liulanLabel.frame.origin.x + self.liulanLabel.frame.size.width + 5, self.liulanImg.frame.origin.y - 1, 15, 14)];
+//    self.JiShuImg.image = [UIImage imageNamed:@"播放"];
+//    [self addSubview:self.JiShuImg];
+//    
+//    self.jiShuLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.JiShuImg.frame.origin.x + self.JiShuImg.frame.size.width + 5 , self.JiShuImg.frame.origin.y, 40, 12)];
+//    self.jiShuLabel.font = [UIFont systemFontOfSize:12];
+//    self.jiShuLabel.textColor = COLOR(167, 167, 167, 1);
+//    [self addSubview:self.jiShuLabel];
     
     
 }

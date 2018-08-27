@@ -21,6 +21,8 @@
 - (void)makeOngoingCellUI {
     
     self.imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT * 0.3)];
+    self.imgView.contentMode = UIViewContentModeScaleAspectFill;
+    self.imgView.clipsToBounds = YES;
     [self.contentView addSubview:self.imgView];
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.imgView.frame.size.width, 40)];

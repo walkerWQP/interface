@@ -92,8 +92,8 @@
 
 - (void)setNetWork
 {
-    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
-    NSDictionary * dic = @{@"key":key, @"id":self.workId};
+    
+    NSDictionary * dic = @{@"key":[UserManager key], @"id":self.workId};
     [[HttpRequestManager sharedSingleton] POST:workHomeWorkDetails parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
@@ -114,9 +114,10 @@
                 [UserManager logoOut];
             }else
             {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

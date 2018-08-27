@@ -29,7 +29,7 @@
     return _haveToReplyArr;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {   //已回复
     [super viewWillAppear:animated];
     self.page = 1;
     //下拉刷新
@@ -98,8 +98,10 @@
                 [UserManager logoOut];
             }else
             {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         
        
@@ -113,7 +115,7 @@
 - (void)makeHaveToReplyViewControllerUI {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    layout.sectionInset = UIEdgeInsetsMake(20, 0, 0, 0);
+    layout.sectionInset = UIEdgeInsetsMake(10, 0, 0, 0);
     self.haveToReplyCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH - 40) collectionViewLayout:layout];
     self.haveToReplyCollectionView.backgroundColor = backColor;
     self.haveToReplyCollectionView.delegate = self;
@@ -142,7 +144,7 @@
         cell.headImgView.image = [UIImage imageNamed:@"user"];
        
     } else {
-        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:nil];
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:[UIImage imageNamed:@"user"]];
     }
     
     
@@ -152,10 +154,10 @@
         if ([self.personInfo.head_img isEqualToString:@""]) {
             cell.headImageView.image = [UIImage imageNamed:@"user"];
         } else {
-            [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:nil];
+            [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
         }
     } else {
-        [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:model.t_headimg] placeholderImage:nil];
+        [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:model.t_headimg] placeholderImage:[UIImage imageNamed:@"user"]];
     }
     
     cell.replyLabel.text = [NSString stringWithFormat:@"%@%@老师%@回复:", model.class_name, model.course_name, model.teacher_name];

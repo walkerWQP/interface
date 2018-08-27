@@ -211,3 +211,20 @@
 //获取视频推荐列表
 #define indexOnlineGetRelated [NSString stringWithFormat:@"%@index/online/get_related",YUMING]
 
+//右脑开发
+#define brainURL [NSString stringWithFormat:@"%@index/index/brain",YUMING]
+
+//家长、教师获取新生指南
+#define getGuideURL [NSString stringWithFormat:@"%@index/guide/get_guide",YUMING]
+
+//电子围栏
+//家长添加电子围栏
+#define indexFenceAddFence [NSString stringWithFormat:@"%@index/fence/add_fence",YUMING]
+
+//获取电子围栏列表
+#define indexFenceGetFence [NSString stringWithFormat:@"%@index/fence/get_fence",YUMING]
+
+//家长删除电子围栏
+#define indexFenceDeleteFence [NSString stringWithFormat:@"%@index/fence/delete_fence",YUMING]
+
+

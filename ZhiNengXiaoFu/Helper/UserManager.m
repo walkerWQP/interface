@@ -48,19 +48,19 @@
 
 +(void)logoOut{
     
-    NSString * chooseLoginState = [[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"];
-    PersonInformationModel * model = [UserManager getUserObject];
-    NSDictionary * dic = @{@"uid":model.ID, @"school_id":[NSString stringWithFormat:@"%ld", model.school_id], @"identity":chooseLoginState};
-    [WProgressHUD showHUDShowText:@"加载中..."];
-
-    [[HttpRequestManager sharedSingleton] POST:TUICHULOGIN parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSLog(@"%@", responseObject);
-        [WProgressHUD hideAllHUDAnimated:YES];
+//    NSString * chooseLoginState = [[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"];
+//    PersonInformationModel * model = [UserManager getUserObject];
+//    NSDictionary * dic = @{@"uid":model.ID, @"school_id":[NSString stringWithFormat:@"%ld", model.school_id], @"identity":chooseLoginState};
+//    [WProgressHUD showHUDShowText:@"加载中..."];
+//
+//    [[HttpRequestManager sharedSingleton] POST:TUICHULOGIN parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+//        NSLog(@"%@", responseObject);
+//        [WProgressHUD hideAllHUDAnimated:YES];
 
 //        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
-           [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
-            
+//           [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+    
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"chooseLoginState"];
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"personInfo"];
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"key"];
@@ -107,17 +107,26 @@
             
 //        }
         
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"%@", error);
-        [WProgressHUD hideAllHUDAnimated:YES];
-
-    }];
+//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//        NSLog(@"%@", error);
+//        [WProgressHUD hideAllHUDAnimated:YES];
+//
+//    }];
     
 }
 
 +(NSString  *)key
 {
     NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
+    
+    
+    if (key == nil) {
+        key = @"";
+    }else
+    {
+       
+
+    }
     return key;
 }
 

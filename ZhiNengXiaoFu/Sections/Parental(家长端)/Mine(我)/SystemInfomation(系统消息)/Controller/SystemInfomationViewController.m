@@ -30,7 +30,7 @@
 - (UITableView *)systemInfomationTableView
 {
     if (!_systemInfomationTableView) {
-        self.systemInfomationTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.systemInfomationTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStylePlain];
         self.systemInfomationTableView.dataSource = self;
         self.systemInfomationTableView.delegate = self;
     }

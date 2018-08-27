@@ -17,6 +17,7 @@
     self.userIcon.layer.masksToBounds = YES;
     self.userIconT.layer.cornerRadius = 20;
     self.userIconT.layer.masksToBounds = YES;
+    self.lineViewT.backgroundColor = backColor;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

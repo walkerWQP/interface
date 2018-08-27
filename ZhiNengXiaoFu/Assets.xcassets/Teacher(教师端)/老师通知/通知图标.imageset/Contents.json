@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "通知图标.png",
+      "filename" : "“喇叭”的副本-1.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "通知图标@2x.png",
+      "filename" : "喇叭.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "通知图标@3x.png",
+      "filename" : "“喇叭”的副本.png",
       "scale" : "3x"
     }
   ],

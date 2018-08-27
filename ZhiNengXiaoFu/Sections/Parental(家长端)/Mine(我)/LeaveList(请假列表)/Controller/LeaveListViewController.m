@@ -11,12 +11,15 @@
 #import "LeaveRequestViewController.h"
 #import "LeaveDetailsViewController.h"
 #import "LeaveListModel.h"
+
 @interface LeaveListViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * leaveListTableView;
 @property (nonatomic, strong) NSMutableArray * leaveListAry;
 @property (nonatomic, assign) NSInteger     page;
 @property (nonatomic, strong) NSMutableArray *bannerArr;
+
+@property (nonatomic, strong) UIImageView *zanwushuju;
 
 @end
 
@@ -34,6 +37,11 @@
     //上拉刷新
     self.leaveListTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.leaveListTableView addSubview:self.zanwushuju];
+    
 }
 
 - (void)viewDidLoad {
@@ -48,6 +56,7 @@
     [self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:15], NSFontAttributeName, nil] forState:UIControlStateNormal];
 
     [self.view addSubview:self.leaveListTableView];
+    self.leaveListTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.leaveListTableView registerClass:[LeaveListItemCell class] forCellReuseIdentifier:@"LeaveListItemCellId"];
     
 }
@@ -74,9 +83,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -110,6 +120,12 @@
             for (LeaveListModel *model in arr) {
                 [self.leaveListAry addObject:model];
             }
+            
+            if (self.leaveListAry.count == 0) {
+                self.zanwushuju.alpha = 1;
+            } else {
+                self.zanwushuju.alpha = 0;
+            }
             [self.leaveListTableView reloadData];
         }else
         {
@@ -117,9 +133,10 @@
                 [UserManager logoOut];
             }else
             {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -130,7 +147,7 @@
 - (UITableView *)leaveListTableView
 {
     if (!_leaveListTableView) {
-        self.leaveListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64) style:UITableViewStyleGrouped];
+        self.leaveListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH) style:UITableViewStylePlain];
         self.leaveListTableView.dataSource = self;
         self.leaveListTableView.delegate = self;
     }

@@ -45,14 +45,14 @@
     backImg.image = [UIImage imageNamed:@"背景"];
     [self.view addSubview:backImg];
     
-    UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(20, 25, kScreenWidth - 40, 400)];
+    UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(20, 40, kScreenWidth - 40, 400)];
     backView.backgroundColor = [UIColor colorWithRed:255 / 255.0 green:255 / 255.0 blue:255 / 255.0 alpha:0.8];
     backView.layer.cornerRadius = 8;
     backView.layer.masksToBounds = YES;
     [self.view addSubview:backView];
     
-    self.parentChooseState = 1;
-    self.teacherChooseState = 0;
+    self.parentChooseState = 0;
+    self.teacherChooseState = 1;
     
     
     
@@ -127,7 +127,7 @@
     
     //家长选择
     self.parentChooseBtn = [[UIButton alloc] initWithFrame:CGRectMake(parentLabel.frame.origin.x - 20, self.chooseBtn.frame.origin.y, 15, 15)];
-    [self.parentChooseBtn setBackgroundImage:[UIImage imageNamed:@"对勾"] forState:UIControlStateNormal];
+    [self.parentChooseBtn setBackgroundImage:[UIImage imageNamed:@"圆角矩形"] forState:UIControlStateNormal];
     [self.parentChooseBtn addTarget:self action:@selector(parentChooseBtn:) forControlEvents:UIControlEventTouchDown];
     self.parentChooseBtn.userInteractionEnabled = YES;
     [self.view addSubview:self.parentChooseBtn];
@@ -141,7 +141,7 @@
     
     //教师选择
     self.teacherChooseBtn = [[UIButton alloc] initWithFrame:CGRectMake(teacherLabel.frame.origin.x - 20, self.chooseBtn.frame.origin.y, 15, 15)];
-    [self.teacherChooseBtn setBackgroundImage:[UIImage imageNamed:@"圆角矩形"] forState:UIControlStateNormal];
+    [self.teacherChooseBtn setBackgroundImage:[UIImage imageNamed:@"对勾"] forState:UIControlStateNormal];
     [self.teacherChooseBtn addTarget:self action:@selector(teacherChooseBtn:) forControlEvents:UIControlEventTouchDown];
     self.teacherChooseBtn.userInteractionEnabled = YES;
     [self.view addSubview:self.teacherChooseBtn];
@@ -159,8 +159,9 @@
     
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"shifouJizhuLogin"] isEqualToString:@"1"]) {
-        self.zhangHaoTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"userName"];
-        self.miMaTextfield.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"userMiMa"];
+        
+        self.zhangHaoTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"TeacherUserName"];
+        self.miMaTextfield.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"TeacherUserMiMa"];
         self.jizhuLoginChooseState = 1;
         [self.chooseBtn setBackgroundImage:[UIImage imageNamed:@"对勾"] forState:UIControlStateNormal];
     }else
@@ -178,6 +179,14 @@
     self.teacherChooseState = 0;
     [self.parentChooseBtn setBackgroundImage:[UIImage imageNamed:@"对勾"] forState:UIControlStateNormal];
     [self.teacherChooseBtn setBackgroundImage:[UIImage imageNamed:@"圆角矩形"] forState:UIControlStateNormal];
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"ParentUserName"] == nil) {
+        
+    }else
+    {
+         self.zhangHaoTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"ParentUserName"];
+        self.miMaTextfield.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"ParentUserMiMa"];
+    }
 
 }
 
@@ -188,11 +197,21 @@
     self.parentChooseState = 0;
     [self.teacherChooseBtn setBackgroundImage:[UIImage imageNamed:@"对勾"] forState:UIControlStateNormal];
     [self.parentChooseBtn setBackgroundImage:[UIImage imageNamed:@"圆角矩形"] forState:UIControlStateNormal];
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"TeacherUserName"] == nil) {
+        
+    }else
+    {
+        self.zhangHaoTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"TeacherUserName"];
+        self.miMaTextfield.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"TeacherUserMiMa"];
+    }
 }
 
 - (void)chooseBtn:(UIButton *)sender
 {
-    if (self.jizhuLoginChooseState == 0) {
+    if (self.jizhuLoginChooseState == 0)
+    {
+        
         [self.chooseBtn setBackgroundImage:[UIImage imageNamed:@"对勾"] forState:UIControlStateNormal];
         self.jizhuLoginChooseState = 1;
       
@@ -241,20 +260,31 @@
                 [WProgressHUD hideAllHUDAnimated:YES];
 
                 if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-                    
-                    
+
+
                     if (self.jizhuLoginChooseState == 1) {
                      
                         [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"shifouJizhuLogin"];
-                        [[NSUserDefaults standardUserDefaults] setObject:self.zhangHaoTextField.text forKey:@"userName"];
-                        [[NSUserDefaults standardUserDefaults] setObject:self.miMaTextfield.text forKey:@"userMiMa"];
+                        if (self.teacherChooseState == 1) {
+                            [[NSUserDefaults standardUserDefaults] setObject:self.zhangHaoTextField.text forKey:@"TeacherUserName"];
+                            [[NSUserDefaults standardUserDefaults] setObject:self.miMaTextfield.text forKey:@"TeacherUserMiMa"];
+                        }else if (self.parentChooseState == 1)
+                        {
+                            [[NSUserDefaults standardUserDefaults] setObject:self.zhangHaoTextField.text forKey:@"ParentUserName"];
+                            [[NSUserDefaults standardUserDefaults] setObject:self.miMaTextfield.text forKey:@"ParentUserMiMa"];
+                        }
+                        
+                       
+                      
                         
                     }else
                     {
                         
                         [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"shifouJizhuLogin"];
-                        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"userName"];
-                        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"userMiMa"];
+                        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"TeacherUserName"];
+                        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"TeacherUserMiMa"];
+                        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"ParentUserName"];
+                        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"ParentUserMiMa"];
                     }
                     
                     

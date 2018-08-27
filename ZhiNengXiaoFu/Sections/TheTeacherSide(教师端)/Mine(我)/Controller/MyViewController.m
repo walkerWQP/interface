@@ -16,12 +16,14 @@
 #import "OffTheListViewController.h"
 #import "ChangePasswordViewController.h"
 #import "OngoingTableViewController.h"
+#import "PersonInformationModel.h"
 
 @interface MyViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView    *myTabelView;
 @property (nonatomic, strong) NSMutableArray *myArr;
 @property (nonatomic, strong) PersonInformationModel * personInfo;
+@property (nonatomic, strong) PersonInformationModel * model;
 
 @end
 
@@ -38,7 +40,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = backColor;
     self.title = @"我";
-    
+    [self setUser];
     NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助1",@"请假列表",@"修改密码",@"已发布", nil];
     NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码",@"已发布的活动", nil];
     
@@ -59,10 +61,22 @@
     self.myTabelView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
+- (void)setUser {
+    NSDictionary * dic = @{@"key":[UserManager key]};
+    [[HttpRequestManager sharedSingleton] POST:getUserInfoURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        self.model = [PersonInformationModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+        [self.myTabelView reloadData];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
+}
+
+
 
 - (UITableView *)myTabelView {
     if (!_myTabelView) {
-        self.myTabelView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStyleGrouped];
+        self.myTabelView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStylePlain];
         self.myTabelView.backgroundColor = backColor;
         self.myTabelView.delegate = self;
         self.myTabelView.dataSource = self;
@@ -86,9 +100,9 @@
     if (section == 0) {
         return 0;
     }else if (section == 1) {
-        return 20;
+        return 10;
     } else {
-        return 20;
+        return 10;
     }
 }
 
@@ -97,7 +111,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
+    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 10)];
     headerView.backgroundColor = backColor;
     return headerView;
 }
@@ -111,16 +125,20 @@
     return 3;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0)
+    {
         MyInformationCell * cell = [tableView dequeueReusableCellWithIdentifier:@"MyInformationCellId" forIndexPath:indexPath];
-        cell.userName.text = self.personInfo.name;
+        cell.userName.text = self.model.name;
         cell.userZiLiao.text = @"我的资料";
        
-        if (self.personInfo.head_img == nil) {
+        if (self.model.head_img == nil)
+        {
             cell.userImg.image = [UIImage imageNamed:@"user"];
-        } else {
-             [cell.userImg sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:nil];
+        } else
+        {
+            [cell.userImg sd_setImageWithURL:[NSURL URLWithString:self.model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
@@ -132,7 +150,8 @@
         cell.itemImg.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
         cell.itemLabel.text = [dic objectForKey:@"title"];
         return cell;
-    } else {
+    } else
+    {
         ExitCell *  cell = [tableView dequeueReusableCellWithIdentifier:@"ExitCellId" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell.exitBtn addTarget:self action:@selector(exitBtn:) forControlEvents:UIControlEventTouchUpInside];
@@ -196,7 +215,8 @@
     }
 }
 
-- (void)exitBtn : (UIButton *)sender {
+- (void)exitBtn : (UIButton *)sender
+{
     NSLog(@"点击退出");
     UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:@"确定要退出登录吗?" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *alertT = [UIAlertAction actionWithTitle:@"退出登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -216,6 +236,8 @@
 - (void)tuichuLogin
 {
     [UserManager logoOut];
+    [WProgressHUD showSuccessfulAnimatedText:@"退出成功"];
+
 }
 
 @end

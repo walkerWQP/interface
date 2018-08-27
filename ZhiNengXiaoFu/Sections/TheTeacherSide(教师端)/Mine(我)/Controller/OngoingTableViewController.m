@@ -93,9 +93,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         [self.ongoingTableView reloadData];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -106,10 +107,13 @@
 - (UITableView *)ongoingTableView
 {
     if (!_ongoingTableView) {
-        self.ongoingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStyleGrouped];
+        self.ongoingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStylePlain];
         self.ongoingTableView.backgroundColor = backColor;
         self.ongoingTableView.delegate = self;
         self.ongoingTableView.dataSource = self;
+        self.ongoingTableView.estimatedRowHeight = 0;
+        self.ongoingTableView.estimatedSectionHeaderHeight = 0;
+        self.ongoingTableView.estimatedSectionFooterHeight = 0;
     }
     return _ongoingTableView;
 }
@@ -154,8 +158,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -201,7 +207,7 @@
         if ([model.img isEqualToString:@""]) {
             cell.imgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
         } else {
-            [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+            [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"教师端活动管理banner"]];
         }
         cell.titleLabel.text = model.title;
         cell.timeLabel.text = [NSString stringWithFormat:@"活动日期:%@-%@", model.start, model.end];;

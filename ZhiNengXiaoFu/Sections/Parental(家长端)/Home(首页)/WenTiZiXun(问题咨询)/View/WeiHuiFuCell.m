@@ -15,6 +15,7 @@
     // Initialization code
     self.WeiHuiFuUserIconImg.layer.cornerRadius = 20;
     self.WeiHuiFuUserIconImg.layer.masksToBounds = YES;
+    self.WeiHuiFuLineView.backgroundColor = backColor;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

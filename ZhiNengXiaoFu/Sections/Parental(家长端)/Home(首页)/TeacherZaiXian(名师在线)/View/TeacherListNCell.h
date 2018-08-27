@@ -21,5 +21,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *TeacherListNThreeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *TeacherListNBoFangCi;
 @property (weak, nonatomic) IBOutlet UILabel *TeacherListNFenLeiLabel;
+@property (weak, nonatomic) IBOutlet UIView *lineView;
 
 @end

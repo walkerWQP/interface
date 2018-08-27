@@ -29,10 +29,6 @@
     self.view.backgroundColor = backColor;
     self.contentTextView = [[WTextView alloc] initWithFrame:CGRectMake(20, 40, APP_WIDTH - 40, APP_HEIGHT * 0.3)];
     self.contentTextView.backgroundColor = [UIColor whiteColor];
-//    self.contentTextView.layer.masksToBounds = YES;
-//    self.contentTextView.layer.cornerRadius = 5;
-//    self.contentTextView.layer.borderColor = fengeLineColor.CGColor;
-//    self.contentTextView.layer.borderWidth = 1.0f;
     self.contentTextView.font = contentFont;
     self.contentTextView.placeholder = @"请输入反馈内容...";
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -78,8 +74,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         

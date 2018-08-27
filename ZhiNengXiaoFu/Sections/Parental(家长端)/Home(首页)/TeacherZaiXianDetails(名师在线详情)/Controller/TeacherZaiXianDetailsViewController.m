@@ -74,6 +74,8 @@
         {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
             }else if ([[responseObject objectForKey:@"status"] integerValue] == 405)
             {
                 UIImageView * back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
@@ -120,6 +122,8 @@
         {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
             }else if ([[responseObject objectForKey:@"status"] integerValue] == 405)
             {
                 UIImageView * back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];

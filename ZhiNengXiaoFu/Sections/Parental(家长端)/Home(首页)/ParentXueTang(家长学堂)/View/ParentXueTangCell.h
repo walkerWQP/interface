@@ -25,4 +25,7 @@
 
 @property (nonatomic, strong) UILabel * jiShuLabel;
 
+@property (nonatomic, strong) UIView * lineView;
+
+
 @end

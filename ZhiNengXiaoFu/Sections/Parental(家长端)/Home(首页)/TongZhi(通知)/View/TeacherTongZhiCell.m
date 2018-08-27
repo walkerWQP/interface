@@ -33,7 +33,7 @@
 
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.imgView.frame.size.width + self.imgView.frame.origin.x + 16, 26, self.frame.size.width - 10 - (self.imgView.frame.size.width + self.imgView.frame.origin.x + 16), 16)];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.imgView.frame.size.width + self.imgView.frame.origin.x + 16, 26, kScreenWidth - 10 - (self.imgView.frame.size.width + self.imgView.frame.origin.x + 16), 16)];
         self.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:15];
         self.titleLabel.textColor = COLOR(51, 51, 51, 1);
         
@@ -64,8 +64,8 @@
 - (UIView *)lineView
 {
     if (!_lineView) {
-        self.lineView = [[UIView alloc] initWithFrame:CGRectMake(10, 109, kScreenWidth - 20, 1)];
-        self.lineView.backgroundColor = dividerColor;
+        self.lineView = [[UIView alloc] initWithFrame:CGRectMake(10, 109, kScreenWidth - 20, 10)];
+        self.lineView.backgroundColor = backColor;
     }
     return _lineView;
 }

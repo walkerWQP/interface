@@ -10,7 +10,7 @@
 #import "ClassDetailsCell.h"
 #import "SchoolDynamicModel.h"
 #import "NoticeViewController.h"
-#import "SchoolDongTaiDetailsViewController.h"
+#import "TongZhiDetailsViewController.h"
 
 @interface SchoolNoticeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -25,6 +25,13 @@
 @end
 
 @implementation SchoolNoticeViewController
+
+- (NSMutableArray *)schoolNoticeArr {
+    if (!_schoolNoticeArr) {
+        _schoolNoticeArr = [NSMutableArray array];
+    }
+    return _schoolNoticeArr;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -68,7 +75,7 @@
                 self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
             } else {
                 BannerModel * model = [self.bannerArr objectAtIndex:0];
-                [self.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+                [self.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"教师端活动管理banner"]];
                 [self.schoolNoticeCollectionView reloadData];
             }
             
@@ -77,9 +84,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -100,8 +108,8 @@
 
 - (void)getNoticeListData:(NSInteger)page {
     
-    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
-    NSDictionary *dic = @{@"key":key, @"page":[NSString stringWithFormat:@"%ld",page],@"is_school":@"1"};
+    
+    NSDictionary *dic = @{@"key":[UserManager key], @"page":[NSString stringWithFormat:@"%ld",page],@"is_school":@"1"};
     [[HttpRequestManager sharedSingleton] POST:noticeListURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         //结束头部刷新
         [self.schoolNoticeCollectionView.mj_header endRefreshing];
@@ -125,8 +133,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -137,7 +147,7 @@
 - (void)mkeSchoolNoticeViewControllerUI {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    layout.sectionInset = UIEdgeInsetsMake(190, 0, 0, 0);
+    layout.sectionInset = UIEdgeInsetsMake(180, 0, 0, 0);
     self.schoolNoticeCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) collectionViewLayout:layout];
     self.schoolNoticeCollectionView.backgroundColor = backColor;
     self.schoolNoticeCollectionView.delegate = self;
@@ -149,7 +159,7 @@
     self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
     self.headImgView.backgroundColor = [UIColor clearColor];
     [self.schoolNoticeCollectionView addSubview:self.headImgView];
-//    self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
+
 }
 
 #pragma mark - <UICollectionViewDelegate, UICollectionViewDataSource>
@@ -167,7 +177,8 @@
     
     UICollectionViewCell *gridcell = nil;
     ClassDetailsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ClassDetailsCell_CollectionView forIndexPath:indexPath];
-    cell.headImgView.image = [UIImage imageNamed:@"通知图标"];
+    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"通知图标"]];
+    //[UIImage imageNamed:@"通知图标"];
     cell.titleLabel.text = model.title;
     //    cell.subjectsLabel.text = model.abstract;
     cell.timeLabel.text = model.create_time;
@@ -178,7 +189,7 @@
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     
-    return 20;
+    return 10;
     
 }
 
@@ -194,18 +205,13 @@
 //点击响应方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-//    ClassDetailsModel *model = [self.schoolNoticeArr objectAtIndex:indexPath.row];
-//    TongZhiDetailsViewController *tongZhiDetailsVC = [[TongZhiDetailsViewController alloc] init];
-//    tongZhiDetailsVC.tongZhiId = model.ID;
-//    [self.navigationController pushViewController:tongZhiDetailsVC animated:YES];
-    
     SchoolDynamicModel *model = [self.schoolNoticeArr objectAtIndex:indexPath.row];
-    SchoolDongTaiDetailsViewController *schoolDongTaiDetailsVC = [[SchoolDongTaiDetailsViewController alloc] init];
+    TongZhiDetailsViewController *tongZhiDetailsVC = [[TongZhiDetailsViewController alloc] init];
     if (model.ID == nil) {
         [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
     } else {
-        schoolDongTaiDetailsVC.schoolDongTaiId = model.ID;
-        [self.navigationController pushViewController:schoolDongTaiDetailsVC animated:YES];
+        tongZhiDetailsVC.tongZhiId = model.ID;
+        [self.navigationController pushViewController:tongZhiDetailsVC animated:YES];
     }
     
     

@@ -24,6 +24,7 @@
 #import "CourseManagementViewController.h"
 #import "ChengZhangXiangCeViewController.h"
 #import "TeacherZaiXianTotalViewController.h"
+#import "NewGuidelinesViewController.h"
 @interface HomePageViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView * HomePageCollectionView;
@@ -39,7 +40,7 @@
     // Do any additional setup after loading the view.
     
     self.layout = [[UICollectionViewFlowLayout alloc] init];
-    self.HomePageCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64) collectionViewLayout:self.layout];
+    self.HomePageCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH) collectionViewLayout:self.layout];
 
     self.HomePageCollectionView.backgroundColor = [UIColor whiteColor];
 
@@ -56,8 +57,8 @@
     [self.HomePageCollectionView registerClass:[HomePageLunBoCell class] forCellWithReuseIdentifier:@"HomePageLunBoCellId"];
     [self.HomePageCollectionView registerClass:[HomePageItemCell class] forCellWithReuseIdentifier:@"HomePageItemCellId"];
     
-    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"课堂查询",@"成长手册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态", nil];
-    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"右脑开发",@"成长相册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态", nil];
+    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"成长手册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态",@"新生指南", nil];
+    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"成长相册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态",@"新生指南", nil];
 
     for (int i = 0; i < imgAry.count; i++)
     {
@@ -151,6 +152,11 @@
 //
 //}
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.HomePageCollectionView reloadData];
+}
+
 - (NSMutableArray *)homePageAry
 {
     if (!_homePageAry) {
@@ -180,6 +186,7 @@
     
     if (indexPath.section == 0) {
         HomePageLunBoCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomePageLunBoCellId" forIndexPath:indexPath];
+        [cell getClassData];
         return cell;
     }else
     {
@@ -221,34 +228,46 @@
         {
             HomeWorkPViewController * homeWorkVC = [[HomeWorkPViewController alloc] init];
             [self.navigationController pushViewController:homeWorkVC animated:YES];
-        }else if (indexPath.row == 2)
-        {
-            CourseManagementViewController *courseManagementVC = [[CourseManagementViewController alloc] init];
-            [self.navigationController pushViewController:courseManagementVC animated:YES];
-        }else if (indexPath.row == 3)
+        }
+        
+//        else if (indexPath.row == 2)
+//        {
+//            GrowthAlbumViewController * growthAlbumVC = [[GrowthAlbumViewController alloc] init];
+////            CourseManagementViewController *courseManagementVC = [[CourseManagementViewController alloc] init];
+//            growthAlbumVC.webTitle = @"右脑开发";
+//            growthAlbumVC.urlStr = brainURL;
+//            growthAlbumVC.typeID = @"1";
+//
+//           [self.navigationController pushViewController:growthAlbumVC animated:YES];
+//        }
+        else if (indexPath.row == 2)
         {
             ChengZhangXiangCeViewController * chengzhang = [[ChengZhangXiangCeViewController alloc] init];
             [self.navigationController pushViewController:chengzhang animated:YES];
 
-        }else if (indexPath.row == 4)
+        }else if (indexPath.row == 3)
         {
             TeacherZaiXianTotalViewController * teacherZaiXianVC = [[TeacherZaiXianTotalViewController alloc] init];
             [self.navigationController pushViewController:teacherZaiXianVC animated:YES];
-        }else if (indexPath.row == 5) {
+        }else if (indexPath.row == 4) {
            ParentXueTangViewController * parentXueTangVC = [[ParentXueTangViewController alloc] init];
             [self.navigationController pushViewController:parentXueTangVC animated:YES];
-        }else if (indexPath.row == 6)
+        }else if (indexPath.row == 5)
         {
             WenTiZiXunViewController * wenTiZiXunVC = [[WenTiZiXunViewController alloc] init];
             [self.navigationController pushViewController:wenTiZiXunVC animated:YES];
-        }else if (indexPath.row == 7)
+        }else if (indexPath.row == 6)
         {
             CompetitiveActivityViewController * comeptitiveActivityVC = [[CompetitiveActivityViewController alloc] init];
             [self.navigationController pushViewController:comeptitiveActivityVC animated:YES];
-        }else if (indexPath.row == 8)
+        }else if (indexPath.row == 7)
         {
             SchoolDongTaiViewController * schoolDongTaiVC = [[SchoolDongTaiViewController alloc] init];
             [self.navigationController pushViewController:schoolDongTaiVC animated:YES];
+        }else if (indexPath.row == 8)
+        {
+            NewGuidelinesViewController *newGuidelinesVC = [NewGuidelinesViewController new];
+            [self.navigationController pushViewController:newGuidelinesVC animated:YES];
         }
         
     }

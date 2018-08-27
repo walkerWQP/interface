@@ -25,7 +25,11 @@
     
     self.backgroundColor = [UIColor whiteColor];
     
-    self.imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT * 0.3)];
+    self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 10)];
+    self.lineView.backgroundColor = backColor;
+    [self.contentView addSubview:self.lineView];
+    
+    self.imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.lineView.frame.size.height, APP_WIDTH, APP_HEIGHT * 0.3)];
     [self.contentView addSubview:self.imgView];
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.imgView.frame.size.width, 40)];
@@ -50,9 +54,7 @@
     self.detailsLabel.textAlignment = NSTextAlignmentCenter;
     [self.imgView addSubview:self.detailsLabel];
     
-    self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, self.imgView.frame.size.height, kScreenWidth, 10)];
-    self.lineView.backgroundColor = backColor;
-    [self.contentView addSubview:self.lineView];
+    
     
     
 }

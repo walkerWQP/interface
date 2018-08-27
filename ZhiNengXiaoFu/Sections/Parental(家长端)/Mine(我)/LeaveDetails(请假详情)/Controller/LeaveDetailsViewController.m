@@ -38,8 +38,7 @@
     [self setUser];
 }
 
-- (void)setUser
-{
+- (void)setUser {
     NSDictionary * dic = @{@"key":[UserManager key]};
     [[HttpRequestManager sharedSingleton] POST:getUserInfoURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
@@ -63,9 +62,10 @@
                 [UserManager logoOut];
             }else
             {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -75,7 +75,7 @@
 - (UITableView *)leaveDetailsTableView
 {
     if (!_leaveDetailsTableView) {
-        self.leaveDetailsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.leaveDetailsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH) style:UITableViewStyleGrouped];
         self.leaveDetailsTableView.dataSource = self;
         self.leaveDetailsTableView.delegate = self;
     }
@@ -117,6 +117,8 @@
         }
         cell.LeaveDetailsDownLeaveSeason.text = self.leaveListModel.reason;
         cell.LeaveDetailsDownBeiZhu.text = self.leaveListModel.remark;
+        cell.selectionStyle =  UITableViewCellSelectionStyleNone;
+
         return cell;
     }
 }

@@ -16,7 +16,7 @@
     if (self) {
         [self addSubview:self.cycleScrollView2];
         
-        [self getClassData];
+//        [self getClassData];
 //        [self loadTicketTop];
 
     }
@@ -24,8 +24,15 @@
 }
 
 
-- (void)getClassData {
+- (void)getClassData
+{
     
+
+    if (self.dataHeaderSourceAryImg.count != 0) {
+        
+    }else
+    {
+    self.dataHeaderSourceAryImg = [@[]mutableCopy];
     NSDictionary *dic = @{@"key":[UserManager key], @"t_id":@"1"};
     [[HttpRequestManager sharedSingleton] POST:bannersURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         
@@ -42,14 +49,16 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
     }];
+    }
 }
 
 - (NSMutableArray *)dataHeaderSourceAryImg
@@ -80,7 +89,7 @@
     self.cycleScrollView2.delegate = self;
     
 //    self.cycleScrollView2.dotColor = [UIColor whiteColor]; // 自定义分页控件小圆标颜色
-    self.cycleScrollView2.placeholderImage = [UIImage imageNamed:@"placeholder"];
+    self.cycleScrollView2.placeholderImage = [UIImage imageNamed:@"banner"];
     [self addSubview:self.cycleScrollView2];
     
     //             --- 模拟加载延迟

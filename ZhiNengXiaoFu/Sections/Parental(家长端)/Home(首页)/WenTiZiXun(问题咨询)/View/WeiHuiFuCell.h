@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *WeiHuiFuNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *WeiHuiFuQuestionLabel;
 @property (weak, nonatomic) IBOutlet UIButton *WeiHuiFuBtn;
+@property (weak, nonatomic) IBOutlet UIView *WeiHuiFuLineView;
 
 @end

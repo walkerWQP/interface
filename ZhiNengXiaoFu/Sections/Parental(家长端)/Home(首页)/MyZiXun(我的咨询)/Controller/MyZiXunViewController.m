@@ -101,8 +101,8 @@
 
 - (void)chooseTeacherTap:(UITapGestureRecognizer *)sender
 {
-    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
-    NSDictionary * dic = @{@"key":key};
+    
+    NSDictionary * dic = @{@"key":[UserManager key]};
     [[HttpRequestManager sharedSingleton] POST:UserGetStudentTeachers parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {

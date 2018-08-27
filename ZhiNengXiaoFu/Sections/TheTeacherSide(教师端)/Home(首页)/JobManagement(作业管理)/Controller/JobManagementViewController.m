@@ -35,21 +35,32 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self getBannersURLData];
+    //下拉刷新
+    self.jobManagementCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.jobManagementCollectionView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.jobManagementCollectionView.mj_header beginRefreshing];
+   
 }
+
+- (void)loadNewTopic {
+    [self.jobManagementArr removeAllObjects];
+    [self.bannerArr removeAllObjects];
+    [self getBannersURLData];
+    [self getClassData];
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"作业管理";
-    
-    [self getClassData];
-    
+
     self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
     [self.view addSubview:self.zanwushuju];
     
-   
     [self makeJobManagementViewControllerUI];
     
 }
@@ -58,7 +69,8 @@
    
     NSDictionary *dic = @{@"key":[UserManager key]};
     [[HttpRequestManager sharedSingleton] POST:getClassURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        
+        //结束头部刷新
+        [self.jobManagementCollectionView.mj_header endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
             self.jobManagementArr = [TeacherNotifiedModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
@@ -74,8 +86,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -87,6 +101,8 @@
     NSDictionary *dic = @{@"key":[UserManager key],@"t_id":@"2"};
     NSLog(@"%@",[UserManager key]);
     [[HttpRequestManager sharedSingleton] POST:bannersURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        //结束头部刷新
+        [self.jobManagementCollectionView.mj_header endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
             self.bannerArr = [BannerModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
@@ -94,7 +110,7 @@
                 self.headImgView.image = [UIImage imageNamed:@"教师端活动管理banner"];
             } else {
                 BannerModel * model = [self.bannerArr objectAtIndex:0];
-                [self.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+                [self.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"教师端活动管理banner"]];
                 [self.jobManagementCollectionView reloadData];
             }
             
@@ -103,9 +119,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -116,7 +133,7 @@
 - (void)makeJobManagementViewControllerUI {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    layout.sectionInset = UIEdgeInsetsMake(190, 0, 0, 0);
+    layout.sectionInset = UIEdgeInsetsMake(180, 0, 0, 0);
     self.jobManagementCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT) collectionViewLayout:layout];
     self.jobManagementCollectionView.backgroundColor = backColor;
     self.jobManagementCollectionView.delegate = self;
@@ -156,7 +173,7 @@
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     
-    return 20;
+    return 10;
     
 }
 

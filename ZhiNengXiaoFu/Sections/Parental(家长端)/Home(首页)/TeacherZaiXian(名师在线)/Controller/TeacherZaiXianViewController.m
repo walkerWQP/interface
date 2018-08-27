@@ -45,6 +45,7 @@
     self.zanwushuju.alpha = 0;
     [self.view addSubview:self.zanwushuju];
     
+    self.glt_scrollView = self.TeacherZaiXianTableView;
 
     //下拉刷新
     self.TeacherZaiXianTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
@@ -99,9 +100,10 @@
                 [UserManager logoOut];
             }else
             {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
@@ -119,8 +121,8 @@
 - (UITableView *)TeacherZaiXianTableView
 {
     if (!_TeacherZaiXianTableView) {
-        
-        self.TeacherZaiXianTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 180 + 45, kScreenWidth, kScreenHeight - 180 - 45 - 64) style:UITableViewStylePlain];
+          CGFloat H = kIPhoneX ? (self.view.bounds.size.height - 64 - 24 - 34) : self.view.bounds.size.height - 64;
+        self.TeacherZaiXianTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, H) style:UITableViewStylePlain];
         self.TeacherZaiXianTableView.delegate = self;
         self.TeacherZaiXianTableView.dataSource = self;
     }

@@ -55,18 +55,18 @@
 
 @implementation LeaveTheDetailsViewController
 
-
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.title = @"请假详情";
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     if ([self.typeStr isEqualToString:@"1"]) {
         [self getDataFromLeaveLeaveDetail:self.studentID];
     } else {
         [self getLeaveLeaveDetailData];
     }
-    
-    
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.title = @"请假详情";
 }
 
 - (void)getDataFromLeaveLeaveDetail:(NSString *)studentId {
@@ -81,9 +81,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -103,9 +104,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -137,22 +139,20 @@
     self.backView.backgroundColor = TEACHERTHEMECOLOR;
     [self.firstView addSubview:self.backView];
     
-    self.userIconImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.backView.frame.size.width / 2 -35, 4, 70, 70)];
+    self.userIconImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.backView.frame.size.width / 2 - 35, 4, 70, 70)];
     if ([self.typeStr isEqualToString:@"1"]) {
-        if (self.headImg == nil) {
+        if (self.self.toSchoolSituationModel.head_img == nil || [self.toSchoolSituationModel.head_img isEqualToString:@""]) {
             self.userIconImg.image = [UIImage imageNamed:@"user"];
         } else {
-            [self.userIconImg sd_setImageWithURL:[NSURL URLWithString:self.toSchoolSituationModel.head_img] placeholderImage:nil];
+            [self.userIconImg sd_setImageWithURL:[NSURL URLWithString:self.toSchoolSituationModel.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
         }
     } else {
-        if (self.headImg == nil) {
+        if (self.headImg == nil || [self.headImg isEqualToString:@""]) {
             self.userIconImg.image = [UIImage imageNamed:@"user"];
         } else {
-            [self.userIconImg sd_setImageWithURL:[NSURL URLWithString:self.headImg] placeholderImage:nil];
+            [self.userIconImg sd_setImageWithURL:[NSURL URLWithString:self.headImg] placeholderImage:[UIImage imageNamed:@"user"]];
         }
     }
-    
-    
     self.userIconImg.layer.cornerRadius = 35;
     self.userIconImg.layer.masksToBounds = YES;
     [self.backView addSubview:self.userIconImg];
@@ -204,7 +204,6 @@
     }
     
     [self.StartEndView addSubview:self.EndLabel];
-    
     
     
     self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 220, APP_WIDTH, APP_HEIGHT - 230)];
@@ -361,9 +360,10 @@
                 if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                     [UserManager logoOut];
                 } else {
-                    [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                     
                 }
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
             }
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
             

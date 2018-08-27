@@ -52,6 +52,10 @@
 		0413D6BD210F06C900CB34A6 /* ParentXueTangCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0413D6BC210F06C900CB34A6 /* ParentXueTangCell.m */; };
 		0413D6C4210F198E00CB34A6 /* WenTiZiXunViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0413D6C3210F198E00CB34A6 /* WenTiZiXunViewController.m */; };
 		041482DE2117D8F300C2AED2 /* LeaveListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 041482DD2117D8F300C2AED2 /* LeaveListModel.m */; };
+		0415B339212D11EC00A17D1D /* BaiduPanoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0415B338212D11EC00A17D1D /* BaiduPanoSDK.framework */; };
+		0415B33B212D121500A17D1D /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0415B33A212D121500A17D1D /* libstdc++.6.0.9.tbd */; };
+		0415B33E212D134C00A17D1D /* BaiDuQuanJingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415B33D212D134C00A17D1D /* BaiDuQuanJingViewController.m */; };
+		0415B341212D39BC00A17D1D /* WeiLanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415B340212D39BC00A17D1D /* WeiLanViewController.m */; };
 		04251B9421153EE50090CD3C /* YiHuiFuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04251B9321153EE50090CD3C /* YiHuiFuViewController.m */; };
 		04251B9721153EF90090CD3C /* WeiHuiFuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04251B9621153EF90090CD3C /* WeiHuiFuViewController.m */; };
 		04251B9A2115453B0090CD3C /* ConsultListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04251B992115453B0090CD3C /* ConsultListModel.m */; };
@@ -77,6 +81,10 @@
 		042810A52108070F00E2CA14 /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042810802108070F00E2CA14 /* HomePageViewController.m */; };
 		042810A62108070F00E2CA14 /* HomePageItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 042810832108070F00E2CA14 /* HomePageItemCell.m */; };
 		042810A72108070F00E2CA14 /* HomePageLunBoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 042810862108070F00E2CA14 /* HomePageLunBoCell.m */; };
+		042895D3212E892400044E0B /* WeiLanListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042895D2212E892400044E0B /* WeiLanListViewController.m */; };
+		042895D6212E8EFC00044E0B /* WeiLanListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 042895D5212E8EFC00044E0B /* WeiLanListModel.m */; };
+		042895DA212E988F00044E0B /* WeiLanListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 042895D8212E988F00044E0B /* WeiLanListCell.m */; };
+		042895DB212E988F00044E0B /* WeiLanListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042895D9212E988F00044E0B /* WeiLanListCell.xib */; };
 		0429F5E6210C000A00C32957 /* LeaveDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0429F5E5210C000A00C32957 /* LeaveDetailsViewController.m */; };
 		0429F5E9210C014500C32957 /* LeaveDetailsHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0429F5E8210C014500C32957 /* LeaveDetailsHeaderCell.m */; };
 		0429F5ED210C113400C32957 /* LeaveDetailsDownCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0429F5EB210C113400C32957 /* LeaveDetailsDownCell.m */; };
@@ -205,6 +213,7 @@
 		989BFE1921088D6C007A69A5 /* SchoolDongTaiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE1821088D6C007A69A5 /* SchoolDongTaiViewController.m */; };
 		989BFE1C21088DA2007A69A5 /* JohnTopTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE1A21088DA2007A69A5 /* JohnTopTitleView.m */; };
 		989BFE3121088E04007A69A5 /* CompetitiveActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE2F21088E04007A69A5 /* CompetitiveActivityViewController.m */; };
+		98A26352212BA57E0080EFA4 /* NewGuidelinesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A26351212BA57E0080EFA4 /* NewGuidelinesViewController.m */; };
 		98A49434211578B8002A4C97 /* SchoolDynamicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A49433211578B8002A4C97 /* SchoolDynamicModel.m */; };
 		98AD7EA5210F11BD00641231 /* HaveToReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AD7E3A210F11BC00641231 /* HaveToReplyViewController.m */; };
 		98AD7EA6210F11BD00641231 /* DidNotReturnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AD7E3B210F11BC00641231 /* DidNotReturnViewController.m */; };
@@ -387,6 +396,12 @@
 		0413D6C3210F198E00CB34A6 /* WenTiZiXunViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WenTiZiXunViewController.m; sourceTree = "<group>"; };
 		041482DC2117D8F300C2AED2 /* LeaveListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LeaveListModel.h; sourceTree = "<group>"; };
 		041482DD2117D8F300C2AED2 /* LeaveListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LeaveListModel.m; sourceTree = "<group>"; };
+		0415B338212D11EC00A17D1D /* BaiduPanoSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduPanoSDK.framework; sourceTree = "<group>"; };
+		0415B33A212D121500A17D1D /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
+		0415B33C212D134C00A17D1D /* BaiDuQuanJingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaiDuQuanJingViewController.h; sourceTree = "<group>"; };
+		0415B33D212D134C00A17D1D /* BaiDuQuanJingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaiDuQuanJingViewController.m; sourceTree = "<group>"; };
+		0415B33F212D39BC00A17D1D /* WeiLanViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeiLanViewController.h; sourceTree = "<group>"; };
+		0415B340212D39BC00A17D1D /* WeiLanViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeiLanViewController.m; sourceTree = "<group>"; };
 		04251B9221153EE50090CD3C /* YiHuiFuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YiHuiFuViewController.h; sourceTree = "<group>"; };
 		04251B9321153EE50090CD3C /* YiHuiFuViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YiHuiFuViewController.m; sourceTree = "<group>"; };
 		04251B9521153EF90090CD3C /* WeiHuiFuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeiHuiFuViewController.h; sourceTree = "<group>"; };
@@ -436,6 +451,13 @@
 		042810842108070F00E2CA14 /* HomePageLunBoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageLunBoCell.h; sourceTree = "<group>"; };
 		042810852108070F00E2CA14 /* HomePageItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageItemCell.h; sourceTree = "<group>"; };
 		042810862108070F00E2CA14 /* HomePageLunBoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageLunBoCell.m; sourceTree = "<group>"; };
+		042895D1212E892400044E0B /* WeiLanListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeiLanListViewController.h; sourceTree = "<group>"; };
+		042895D2212E892400044E0B /* WeiLanListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeiLanListViewController.m; sourceTree = "<group>"; };
+		042895D4212E8EFC00044E0B /* WeiLanListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeiLanListModel.h; sourceTree = "<group>"; };
+		042895D5212E8EFC00044E0B /* WeiLanListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeiLanListModel.m; sourceTree = "<group>"; };
+		042895D7212E988F00044E0B /* WeiLanListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeiLanListCell.h; sourceTree = "<group>"; };
+		042895D8212E988F00044E0B /* WeiLanListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeiLanListCell.m; sourceTree = "<group>"; };
+		042895D9212E988F00044E0B /* WeiLanListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeiLanListCell.xib; sourceTree = "<group>"; };
 		0429F5E4210C000A00C32957 /* LeaveDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LeaveDetailsViewController.h; sourceTree = "<group>"; };
 		0429F5E5210C000A00C32957 /* LeaveDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LeaveDetailsViewController.m; sourceTree = "<group>"; };
 		0429F5E7210C014500C32957 /* LeaveDetailsHeaderCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LeaveDetailsHeaderCell.h; sourceTree = "<group>"; };
@@ -694,6 +716,8 @@
 		989BFE1B21088DA2007A69A5 /* JohnTopTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JohnTopTitleView.h; sourceTree = "<group>"; };
 		989BFE2F21088E04007A69A5 /* CompetitiveActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompetitiveActivityViewController.m; sourceTree = "<group>"; };
 		989BFE3021088E04007A69A5 /* CompetitiveActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompetitiveActivityViewController.h; sourceTree = "<group>"; };
+		98A26350212BA57E0080EFA4 /* NewGuidelinesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewGuidelinesViewController.h; sourceTree = "<group>"; };
+		98A26351212BA57E0080EFA4 /* NewGuidelinesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewGuidelinesViewController.m; sourceTree = "<group>"; };
 		98A49432211578B8002A4C97 /* SchoolDynamicModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SchoolDynamicModel.h; sourceTree = "<group>"; };
 		98A49433211578B8002A4C97 /* SchoolDynamicModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SchoolDynamicModel.m; sourceTree = "<group>"; };
 		98AD7E3A210F11BC00641231 /* HaveToReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HaveToReplyViewController.m; sourceTree = "<group>"; };
@@ -867,7 +891,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0415B33B212D121500A17D1D /* libstdc++.6.0.9.tbd in Frameworks */,
 				498C64A662A4583AE32A8276 /* Pods_ZhiNengXiaoFu.framework in Frameworks */,
+				0415B339212D11EC00A17D1D /* BaiduPanoSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1413,6 +1439,12 @@
 				0428105F2108070F00E2CA14 /* QianDaoViewController.m */,
 				045216FC211072FC009C2A8C /* DingWeiViewController.h */,
 				045216FD211072FC009C2A8C /* DingWeiViewController.m */,
+				0415B33C212D134C00A17D1D /* BaiDuQuanJingViewController.h */,
+				0415B33D212D134C00A17D1D /* BaiDuQuanJingViewController.m */,
+				0415B33F212D39BC00A17D1D /* WeiLanViewController.h */,
+				0415B340212D39BC00A17D1D /* WeiLanViewController.m */,
+				042895D1212E892400044E0B /* WeiLanListViewController.h */,
+				042895D2212E892400044E0B /* WeiLanListViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1424,6 +1456,9 @@
 				042810612108070F00E2CA14 /* QianDaoItemCell.m */,
 				042810622108070F00E2CA14 /* QianDaoPsersonCell.h */,
 				042810642108070F00E2CA14 /* QianDaoPsersonCell.m */,
+				042895D7212E988F00044E0B /* WeiLanListCell.h */,
+				042895D8212E988F00044E0B /* WeiLanListCell.m */,
+				042895D9212E988F00044E0B /* WeiLanListCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1963,6 +1998,7 @@
 		043F38CD21016DB600115A55 = {
 			isa = PBXGroup;
 			children = (
+				0415B338212D11EC00A17D1D /* BaiduPanoSDK.framework */,
 				043F38D821016DB600115A55 /* ZhiNengXiaoFu */,
 				043F38F421016DB800115A55 /* ZhiNengXiaoFuTests */,
 				043F38FF21016DB800115A55 /* ZhiNengXiaoFuUITests */,
@@ -2374,6 +2410,8 @@
 				04AB4DA8211853840070E548 /* QianDaoModel.m */,
 				04AB4DAA211855260070E548 /* QianDaoInModel.h */,
 				04AB4DAB211855260070E548 /* QianDaoInModel.m */,
+				042895D4212E8EFC00044E0B /* WeiLanListModel.h */,
+				042895D5212E8EFC00044E0B /* WeiLanListModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2424,6 +2462,7 @@
 		981395602105E61E00CDE2BA /* Home(首页) */ = {
 			isa = PBXGroup;
 			children = (
+				98A2634F212BA5440080EFA4 /* NewGuidelines(新生指南) */,
 				98AD7E62210F11BC00641231 /* ActivityManagement(活动管理) */,
 				98AD7E38210F11BC00641231 /* Consulting(问题咨询) */,
 				98AD7E72210F11BD00641231 /* Controller */,
@@ -2616,6 +2655,15 @@
 				989822B7211AF6DA00D547C0 /* WPublicManager.m */,
 			);
 			path = "提示效果";
+			sourceTree = "<group>";
+		};
+		98A2634F212BA5440080EFA4 /* NewGuidelines(新生指南) */ = {
+			isa = PBXGroup;
+			children = (
+				98A26350212BA57E0080EFA4 /* NewGuidelinesViewController.h */,
+				98A26351212BA57E0080EFA4 /* NewGuidelinesViewController.m */,
+			);
+			path = "NewGuidelines(新生指南)";
 			sourceTree = "<group>";
 		};
 		98AD7E38210F11BC00641231 /* Consulting(问题咨询) */ = {
@@ -3066,6 +3114,7 @@
 		F1498AB69964EAF91B5B6160 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0415B33A212D121500A17D1D /* libstdc++.6.0.9.tbd */,
 				F26DFE770CB62B912B7D395A /* Pods_ZhiNengXiaoFu.framework */,
 			);
 			name = Frameworks;
@@ -3143,7 +3192,7 @@
 						CreatedOnToolsVersion = 9.4.1;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -3195,6 +3244,7 @@
 				0429F5EE210C113400C32957 /* LeaveDetailsDownCell.xib in Resources */,
 				043F38E921016DB700115A55 /* LaunchScreen.storyboard in Resources */,
 				0409A4382119754C004A9DB6 /* close@2x.png in Resources */,
+				042895DB212E988F00044E0B /* WeiLanListCell.xib in Resources */,
 				045A94F62112E41D00030E56 /* IQKeyboardManager.bundle in Resources */,
 				04868CD62122CF1A008A19EE /* City.plist in Resources */,
 				0409A4292119754C004A9DB6 /* MGroupCell.xib in Resources */,
@@ -3360,6 +3410,7 @@
 				98AD7EC1210F11BD00641231 /* SchoolNoticeViewController.m in Sources */,
 				0429F619210C772000C32957 /* TongZhiDetailsViewController.m in Sources */,
 				04251B9721153EF90090CD3C /* WeiHuiFuViewController.m in Sources */,
+				042895D6212E8EFC00044E0B /* WeiLanListModel.m in Sources */,
 				043F39842101CFCB00115A55 /* MASCompositeConstraint.m in Sources */,
 				9813959E2105E61E00CDE2BA /* MyViewController.m in Sources */,
 				043F393E2101852500115A55 /* TotalTabBarController.m in Sources */,
@@ -3380,6 +3431,7 @@
 				98B6B6D32106BC4000146DFD /* PersonalDataViewController.m in Sources */,
 				98E33E7C2117FA580098C241 /* OffTheListCell.m in Sources */,
 				0409A4242119754C004A9DB6 /* SDLoopProgressView.m in Sources */,
+				042895D3212E892400044E0B /* WeiLanListViewController.m in Sources */,
 				983CD955211152130050508C /* BusinessDetailController.m in Sources */,
 				989382DF21226A60007A9EBD /* ToSchoolSituationModel.m in Sources */,
 				045A95082113119700030E56 /* WorkDetailsViewController.m in Sources */,
@@ -3393,6 +3445,7 @@
 				043F38EC21016DB700115A55 /* main.m in Sources */,
 				047FB2212114038400AED26D /* UserGetStuTeaModel.m in Sources */,
 				98AD7EA9210F11BD00641231 /* HaveToReplyCell.m in Sources */,
+				042895DA212E988F00044E0B /* WeiLanListCell.m in Sources */,
 				98D89DEF21103C8E00355626 /* SingletonHelper.m in Sources */,
 				98AD7EC7210F11BD00641231 /* TeacherNotifiedCell.m in Sources */,
 				0409A41F2119754C004A9DB6 /* LQImgPickerActionSheet.m in Sources */,
@@ -3466,6 +3519,7 @@
 				98AD7EC0210F11BD00641231 /* HomeItemCell.m in Sources */,
 				98ADABC4210B034200491AD5 /* HomeworkCell.m in Sources */,
 				98AD7EB9210F11BD00641231 /* PublishJobViewController.m in Sources */,
+				98A26352212BA57E0080EFA4 /* NewGuidelinesViewController.m in Sources */,
 				04F69569211C40E600F9D2E2 /* CLSlider.m in Sources */,
 				98AD7EB6210F11BD00641231 /* OngoingViewController.m in Sources */,
 				0413D6AD210EF9C800CB34A6 /* ShiPinListCell.m in Sources */,
@@ -3486,6 +3540,7 @@
 				042AA44E211D58EA00E3AACB /* XXYActionSheetView.m in Sources */,
 				98AD7ECA210F163000641231 /* TheClassInformationViewController.m in Sources */,
 				045A94FD2112E41D00030E56 /* IQUIViewController+Additions.m in Sources */,
+				0415B33E212D134C00A17D1D /* BaiDuQuanJingViewController.m in Sources */,
 				045A94FE2112E41D00030E56 /* IQKeyboardReturnKeyHandler.m in Sources */,
 				0409A43B2119754C004A9DB6 /* LQPhotoViewCell.m in Sources */,
 				047FB21E2114009C00AED26D /* HQPickerView.m in Sources */,
@@ -3522,6 +3577,7 @@
 				98D89DB5211002C200355626 /* SignClassViewController.m in Sources */,
 				0428109E2108070F00E2CA14 /* PersonInfomationCell.m in Sources */,
 				98AD7EAA210F11BD00641231 /* DidNotReturnCell.m in Sources */,
+				0415B341212D39BC00A17D1D /* WeiLanViewController.m in Sources */,
 				045A94F22112E41D00030E56 /* IQToolbar.m in Sources */,
 				042810A52108070F00E2CA14 /* HomePageViewController.m in Sources */,
 				042810972108070F00E2CA14 /* LeaveListItemCell.m in Sources */,
@@ -3723,9 +3779,13 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Henan Duxiu Technology Co., Ltd. (NBZT2UT4S6)";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = NBZT2UT4S6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhiNengXiaoFu/Generals/PrefixHeader.pch";
 				INFOPLIST_FILE = ZhiNengXiaoFu/Info.plist;
@@ -3736,8 +3796,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.DuXiuKeJi.YiShanZhiHui;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "b3f4eab9-a3b2-426d-821d-b76e146bfdb0";
+				PROVISIONING_PROFILE_SPECIFIER = yishanzhihuiDis;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -3749,9 +3809,13 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Henan Duxiu Technology Co., Ltd. (NBZT2UT4S6)";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = NBZT2UT4S6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhiNengXiaoFu/Generals/PrefixHeader.pch";
 				INFOPLIST_FILE = ZhiNengXiaoFu/Info.plist;
@@ -3762,8 +3826,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.DuXiuKeJi.YiShanZhiHui;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "b3f4eab9-a3b2-426d-821d-b76e146bfdb0";
+				PROVISIONING_PROFILE_SPECIFIER = yishanzhihuiDis;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

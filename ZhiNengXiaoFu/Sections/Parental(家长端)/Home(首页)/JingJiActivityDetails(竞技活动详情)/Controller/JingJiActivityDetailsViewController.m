@@ -12,6 +12,7 @@
 #import "ChangeActivitiesViewController.h"
 #import <WebKit/WebKit.h>
 #import "UIView+XXYViewFrame.h"
+
 @interface JingJiActivityDetailsViewController ()<UITableViewDelegate, UITableViewDataSource,WKUIDelegate,WKNavigationDelegate>
 @property (nonatomic, strong) UITableView * JingJiActivityDetailsTableView;
 @property (nonatomic, strong) JingJiHuoDongListModel * jingJiHuoDongListModol;
@@ -50,6 +51,7 @@
 
 }
 
+
 - (void)rightBtn:(UIButton *)sender {
     NSLog(@"点击修改");
     
@@ -79,8 +81,8 @@
 
 - (void)setNetWork
 {
-    NSString * key = [[NSUserDefaults standardUserDefaults] objectForKey:@"key"];
-    NSDictionary * dic = @{@"key":key, @"id":self.JingJiActivityDetailsId};
+    
+    NSDictionary * dic = @{@"key":[UserManager key], @"id":self.JingJiActivityDetailsId};
     [[HttpRequestManager sharedSingleton] POST:activityDetail parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
@@ -98,9 +100,10 @@
                 [UserManager logoOut];
             }else
             {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

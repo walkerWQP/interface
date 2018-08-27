@@ -226,10 +226,14 @@
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
             } else {
                NSDictionary *dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.jobNameTextField.text,@"content":self.jobContentTextView.text,@"course_id":self.courseID,@"img":@""};
                 [self PostWorkPusblishData:dataDic];
             }
+            
+            
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -256,9 +260,10 @@
                 if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                     [UserManager logoOut];
                 } else {
-                    [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                     
                 }
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
             }
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
             [WProgressHUD hideAllHUDAnimated:YES];
@@ -285,10 +290,6 @@
             vi.selectComponent = 0;
             vi.delegate = self;
             [[[UIApplication sharedApplication] keyWindow] addSubview:vi];
-//            HQPickerView *picker = [[HQPickerView alloc]initWithFrame:self.view.bounds];
-//            picker.delegate = self ;
-//            picker.customArr = ary;
-//            [self.view addSubview:picker];
             
             if (self.publishJobArr.count == 0) {
                 [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
@@ -302,9 +303,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -324,18 +326,6 @@
     
 }
 
-//- (void)pickerView:(UIPickerView *)pickerView didSelectText:(NSString *)text  index:(NSInteger)index{
-//    [self.subjectsBtn setTitle:text forState:UIControlStateNormal];
-//    PublishJobModel *model = [self.publishJobArr objectAtIndex:index];
-//    if (model.ID == nil) {
-//        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
-//    } else {
-//      self.courseID = model.ID;
-//    }
-//
-//    NSLog(@"%@",model.ID);
-//
-//}
 
 
 

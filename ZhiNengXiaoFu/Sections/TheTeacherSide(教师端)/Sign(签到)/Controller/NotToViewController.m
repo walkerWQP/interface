@@ -29,11 +29,27 @@
     return _notToArr;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    //下拉刷新
+    self.notToCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.notToCollectionView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.notToCollectionView.mj_header beginRefreshing];
+}
+
+- (void)loadNewTopic {
+    
+    [self.notToArr removeAllObjects];
+    [self getClassConditionURLData:@"3"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // 未到
     // 总数
-    [self getClassConditionURLData:@"3"];
+    
     self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
@@ -45,6 +61,8 @@
     
     NSDictionary *dic = @{@"key":[UserManager key],@"class_id":self.ID,@"type":type};
     [[HttpRequestManager sharedSingleton] POST:classConditionURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        //结束头部刷新
+        [self.notToCollectionView.mj_header endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
             self.notToArr = [TotalNumberModel mj_objectArrayWithKeyValuesArray:[[responseObject objectForKey:@"data"] objectForKey:@"students"]];
@@ -60,9 +78,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -73,7 +92,7 @@
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
-    self.notToCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) collectionViewLayout:layout];
+    self.notToCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH - APP_TABH - 40) collectionViewLayout:layout];
     self.notToCollectionView.backgroundColor = backColor;
     self.notToCollectionView.delegate = self;
     self.notToCollectionView.dataSource = self;
@@ -99,14 +118,14 @@
     if (model.head_img == nil || [model.head_img isEqualToString:@""]) {
         cell.headImgView.image = [UIImage imageNamed:@"user"];
     } else {
-        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
     }
     cell.nameLabel.text = model.name;
     if (model.is_leave == 1) { //1请假
         cell.nameLabel.textColor = THEMECOLOR;
-    } else if (model.is_leave == 2) { //2逃学
+    } else if (model.is_leave == 2) { //2未到
         cell.nameLabel.textColor = [UIColor redColor];
-    } else if (model.is_leave == 3) { //3签到
+    } else if (model.is_leave == 3) { //3已到
         cell.nameLabel.textColor = titlColor;
     }
     gridcell = cell;

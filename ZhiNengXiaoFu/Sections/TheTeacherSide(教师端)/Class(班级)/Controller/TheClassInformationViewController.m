@@ -9,7 +9,9 @@
 #import "TheClassInformationViewController.h"
 #import "ClassHomeModel.h"
 #import "PublishJobModel.h"
-@interface TheClassInformationViewController ()<WPopupMenuDelegate>
+@interface TheClassInformationViewController ()<WPopupMenuDelegate,UIWebViewDelegate,UIScrollViewDelegate>
+
+@property (nonatomic, strong) UIScrollView   *theClassInformationScrollView;
 
 @property (nonatomic, strong) UIImageView    *backImgView;
 @property (nonatomic, strong) UIImageView    *headImgView;
@@ -19,7 +21,7 @@
 @property (nonatomic, strong) UILabel        *chargeNameLabel;
 //课任教师
 @property (nonatomic, strong) UILabel        *teachersLabel;
-@property (nonatomic, strong) UILabel        *teachersNameLael;
+@property (nonatomic, strong) UIButton        *teachersBtn;
 //班委班干
 @property (nonatomic, strong) UILabel       *dryLabel;
 @property (nonatomic, strong) UILabel       *dryNameLabel;
@@ -40,9 +42,20 @@
 
 @property (nonatomic, strong) UIButton       *rightBtn;
 
+@property (nonatomic, strong) NSMutableArray *buttonArr;
+
+@property (nonatomic, strong) UIWebView * webView;
+
 @end
 
 @implementation TheClassInformationViewController
+
+- (NSMutableArray *)buttonArr {
+    if (!_buttonArr) {
+        _buttonArr = [NSMutableArray array];
+    }
+    return _buttonArr;
+}
 
 - (NSMutableArray *)classNameArr {
     if (!_classNameArr) {
@@ -62,11 +75,8 @@
     [super viewWillAppear:animated];
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"2"]) {
-
-    
         [self getClassURLData];
-    }else
-    {
+    } else {
         [self setNetWork:@""];
     }
 }
@@ -88,6 +98,12 @@
     }
     
 }
+
+
+
+
+
+
 
 - (void)rightBtn:(UIButton *)sender {
     NSLog(@"点击选择班级");
@@ -124,9 +140,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -163,15 +180,14 @@
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             ClassHomeModel * model = [ClassHomeModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
             [self makeTheClassInformationViewControllerUI:model];
-        }else
-        {
+        } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
-            }else
-            {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+            } else {
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         
         
@@ -196,8 +212,13 @@
             if (self.publishJobArr.count == 0) {
                 [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             } else {
-                self.ID = ary[0];
-                [self setNetWork:self.ID];
+                if (ary.count == 0) {
+                    [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                } else {
+                    self.ID = ary[0];
+                    [self setNetWork:self.ID];
+                }
+                
             }
             
             
@@ -205,9 +226,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -216,11 +238,26 @@
 
 - (void)makeTheClassInformationViewControllerUI:(ClassHomeModel *)model {
     
+    self.theClassInformationScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH)];
+    self.theClassInformationScrollView.backgroundColor = backColor;
+    self.theClassInformationScrollView.contentSize = CGSizeMake(APP_WIDTH, APP_HEIGHT * 1.2);
+    self.theClassInformationScrollView.bounces = YES;
+    self.theClassInformationScrollView.indicatorStyle = UIScrollViewIndicatorStyleDefault;
+    
+    self.theClassInformationScrollView.maximumZoomScale = 2.0;//最多放大到两倍
+    self.theClassInformationScrollView.minimumZoomScale = 0.5;//最多缩小到0.5倍
+    //设置是否允许缩放超出倍数限制，超出后弹回
+    self.theClassInformationScrollView.bouncesZoom = YES;
+    //设置委托
+    self.theClassInformationScrollView.delegate = self;
+    
+    [self.view addSubview:self.theClassInformationScrollView];
+    
     self.backImgView.hidden = YES;
-    self.backImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_TABH - APP_NAVH)];
+    self.backImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT * 1.2)];
     self.backImgView.backgroundColor = backColor;
     self.backImgView.image = [UIImage imageNamed:@"背景图"];
-    [self.view addSubview:self.backImgView];
+    [self.theClassInformationScrollView addSubview:self.backImgView];
     
     self.headImgView.hidden = YES;
     self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, APP_WIDTH - 40, APP_HEIGHT * 0.15)];
@@ -229,7 +266,7 @@
     
    
     self.bgView.hidden = YES;
-    self.bgView = [[UIView alloc] initWithFrame:CGRectMake(40, self.headImgView.frame.size.height + 40, APP_WIDTH - 80, APP_HEIGHT * 0.63)];
+    self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, self.headImgView.frame.size.height + 40, APP_WIDTH, APP_HEIGHT * 1.2)];
     self.bgView.backgroundColor = whiteTMColor;
     [self.backImgView addSubview:self.bgView];
     
@@ -245,7 +282,7 @@
     self.chargeLabel.font = titFont;
     [self.bgView addSubview:self.chargeLabel];
     
-    self.chargeNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.chargeLabel.frame.size.width + 30, 80, 100, 20)];
+    self.chargeNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.chargeLabel.frame.size.width + 30, 80, 200, 20)];
     self.chargeNameLabel.text = model.adviser_name;
     self.chargeNameLabel.textColor = titlColor;
     self.chargeNameLabel.font = titFont;
@@ -258,14 +295,30 @@
     self.teachersLabel.font = titFont;
     [self.bgView addSubview:self.teachersLabel];
     
+    self.bgView.userInteractionEnabled = YES;
+    self.backImgView.userInteractionEnabled = YES;
+    
     for (int i = 0; i < model.teachers.count; i++ ) {
-        self.teachersNameLael = [[UILabel alloc] initWithFrame:CGRectMake(self.teachersLabel.frame.size.width + 30, self.chargeLabel.frame.size.height + self.chargeLabel.frame.origin.y  + 10 * (i + 1) + 20 * (i), 200, 20)];
+        self.teachersBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.teachersLabel.frame.size.width + 30, self.chargeLabel.frame.size.height + self.chargeLabel.frame.origin.y  + 10 * (i + 1) + 20 * (i), 200, 20)];
         NSDictionary * dic = [model.teachers objectAtIndex:i];
-        self.teachersNameLael.text = [NSString stringWithFormat:@"%@(%@)",[dic objectForKey:@"teacher_name"], [dic objectForKey:@"course_name"]];
-        self.teachersNameLael.textColor = titlColor;
-        self.teachersNameLael.font = titFont;
-        self.teachersNameLael.textAlignment = NSTextAlignmentLeft;
-        [self.bgView addSubview:self.teachersNameLael];
+        if ([[dic objectForKey:@"teacher_mobile"] isEqualToString:@""] || [dic objectForKey:@"teacher_mobile"] == nil) {
+            [self.teachersBtn setTitle:[NSString stringWithFormat:@"%@(%@)",[dic objectForKey:@"teacher_name"], [dic objectForKey:@"course_name"]] forState:UIControlStateNormal];
+        } else {
+            [self.teachersBtn setTitle:[NSString stringWithFormat:@"%@(%@)-%@",[dic objectForKey:@"teacher_name"], [dic objectForKey:@"course_name"],[dic objectForKey:@"teacher_mobile"]] forState:UIControlStateNormal];
+        }
+        
+        self.teachersBtn.tag = i;
+        [self.buttonArr addObject:self.teachersBtn];
+        //.text = [NSString stringWithFormat:];
+        [self.teachersBtn addTarget:self action:@selector(teachersBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [self.teachersBtn setTitleColor:titlColor forState:UIControlStateNormal];
+        self.teachersBtn.titleLabel.font = titFont;
+        self.teachersBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        self.teachersBtn.userInteractionEnabled = YES;
+        
+        [self.bgView addSubview:self.teachersBtn];
+       
+        
         
     }
     self.hnew = self.chargeLabel.frame.size.height + self.chargeLabel.frame.origin.y + 30 * model.teachers.count;
@@ -276,7 +329,7 @@
     self.numberLabel.font = titFont;
     [self.bgView addSubview:self.numberLabel];
 
-    self.numberPeopleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.numberLabel.frame.size.width + 30, self.hnew + 10, self.teachersNameLael.frame.size.width, 20)];
+    self.numberPeopleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.numberLabel.frame.size.width + 30, self.hnew + 10, self.teachersBtn.frame.size.width, 20)];
     self.numberPeopleLabel.text = [NSString stringWithFormat:@"%ld人", model.num];
     self.numberPeopleLabel.textColor = titlColor;
     self.numberPeopleLabel.font = titFont;
@@ -298,5 +351,104 @@
     
     
 }
+
+- (void)teachersBtn:(UIButton *)sender {
+    
+    NSArray *array = [sender.titleLabel.text componentsSeparatedByString:@"-"];//从字符-中分隔成2个元素的数组
+    if([sender.titleLabel.text rangeOfString:@"-"].location !=NSNotFound)
+    {
+        NSLog(@"yes");
+        NSString *nameStr = array[0];
+        NSString *phoneStr = array[1];
+        
+        if ([phoneStr isEqualToString:@""] || phoneStr == nil) {
+            [WProgressHUD showErrorAnimatedText:@"暂无电话"];
+        } else {
+            UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"确定要拨打%@的电话吗?",nameStr] message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+            
+            UIAlertAction *alertT = [UIAlertAction actionWithTitle:phoneStr style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+                if (self.webView == nil) {
+                    self.webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+                }
+                [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", phoneStr]]]];
+                
+            }];
+            
+            UIAlertAction *alertF = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+                NSLog(@"点击了取消");
+                
+            }];
+            
+            
+            [actionSheet addAction:alertT];
+            
+            [actionSheet addAction:alertF];
+            
+            [self presentViewController:actionSheet animated:YES completion:nil];
+        }
+    } else {
+        NSLog(@"no");
+    }
+    
+}
+
+#pragma mark - UIScrollViewDelegate
+//返回缩放时所使用的UIView对象
+- (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView{
+    return scrollView;
+}
+
+//开始缩放时调用
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view{
+    
+}
+
+//结束缩放时调用，告知缩放比例
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale{
+    
+}
+
+//已经缩放时调用
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView{
+    
+}
+
+//确定是否可以滚动到顶部
+- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView{
+    return YES;
+}
+
+//滚动到顶部时调用
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView{
+    
+}
+
+//已经滚动时调用
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+}
+
+//开始进行拖动时调用
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    
+}
+
+//抬起手指停止拖动时调用，布尔值确定滚动到最后位置时是否需要减速
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    
+}
+
+//如果上面的方法决定需要减速继续滚动，则调用该方法，可以读取contentOffset属性，判断用户抬手位置（不是最终停止位置）
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+    
+}
+
+//减速完毕停止滚动时调用，这里的读取contentOffset属性就是最终停止位置
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    
+}
+
 
 @end

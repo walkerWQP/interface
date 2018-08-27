@@ -22,8 +22,8 @@
 - (void)makeClassDetailsCellCellUI {
     self.backgroundColor = [UIColor whiteColor];
     self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 60, 60)];
-    self.headImgView.layer.cornerRadius = self.headImgView.frame.size.width/2.0;
-    self.headImgView.layer.masksToBounds = YES;
+//    self.headImgView.layer.cornerRadius = self.headImgView.frame.size.width/2.0;
+//    self.headImgView.layer.masksToBounds = YES;
     [self.contentView addSubview:self.headImgView];
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + self.headImgView.frame.size.width, (self.contentView.frame.size.height - 30) / 2, APP_WIDTH * 0.6, 30)];

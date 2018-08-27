@@ -30,8 +30,22 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    //下拉刷新
+    self.totalNumberCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.totalNumberCollectionView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.totalNumberCollectionView.mj_header beginRefreshing];
+    
+}
+
+- (void)loadNewTopic {
+    
+    [self.totalNumberArr removeAllObjects];
     [self getClassConditionURLData:@"1"];
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -45,10 +59,14 @@
     [self makeTotalNumberViewControllerUI];
 }
 
+
+
 - (void)getClassConditionURLData:(NSString *)type {
     
     NSDictionary *dic = @{@"key":[UserManager key],@"class_id":self.ID,@"type":type};
     [[HttpRequestManager sharedSingleton] POST:classConditionURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        //结束头部刷新
+        [self.totalNumberCollectionView.mj_header endRefreshing];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
            self.totalNumberArr = [TotalNumberModel mj_objectArrayWithKeyValuesArray:[[responseObject objectForKey:@"data"] objectForKey:@"students"]];
@@ -64,9 +82,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -77,7 +96,7 @@
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
-    self.totalNumberCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) collectionViewLayout:layout];
+    self.totalNumberCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH -APP_TABH - 40) collectionViewLayout:layout];
     self.totalNumberCollectionView.backgroundColor = backColor;
     self.totalNumberCollectionView.delegate = self;
     self.totalNumberCollectionView.dataSource = self;
@@ -103,7 +122,7 @@
     if (model.head_img == nil || [model.head_img isEqualToString:@""]) {
         cell.headImgView.image = [UIImage imageNamed:@"user"];
     } else {
-        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
     }
     cell.nameLabel.text = model.name;
     if (model.is_leave == 1) { //1请假

@@ -30,8 +30,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"dingwei"] style:UIBarButtonItemStyleDone target:self action:@selector(dingweiClick:)];
-    self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"2"]) {
+
+    }else
+    {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"dingwei"] style:UIBarButtonItemStyleDone target:self action:@selector(dingweiClick:)];
+        self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
+    }
     
     
     self.view.backgroundColor = [UIColor whiteColor];
@@ -40,24 +45,34 @@
      @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:18],NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:173/ 255.0 green:228 / 255.0 blue: 211 / 255.0 alpha:1];
     self.navigationController.navigationBar.translucent = NO;
-
-    [self setNetWork];
     
     [self.view addSubview:self.QianDaoTableView];
-    
-    
-    
+        
     [self.QianDaoTableView registerClass:[QianDaoPsersonCell class] forCellReuseIdentifier:@"QianDaoPsersonCellId"];
     [self.QianDaoTableView registerClass:[QianDaoItemCell class] forCellReuseIdentifier:@"QianDaoItemCellId"];
 
     self.QianDaoTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+   
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    //下拉刷新
+    self.QianDaoTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(setNetWork)];
+    //自动更改透明度
+    self.QianDaoTableView.mj_header.automaticallyChangeAlpha = YES;
+    [self.QianDaoTableView.mj_header beginRefreshing];
 }
 
 - (void)setNetWork
 {
+    [self.QianDaoAry removeAllObjects];
+
     NSLog(@"%@",self.studentId);
     NSDictionary * dic  = [NSDictionary dictionary];
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"2"]) {
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"2"])
+    {
         dic = @{@"key":[UserManager key], @"student_id":self.studentId};
 
     }else
@@ -67,7 +82,7 @@
     }
     [[HttpRequestManager sharedSingleton] POST:recordURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
-        
+         [self.QianDaoTableView.mj_header endRefreshing];
         self.qianDaoModel = [QianDaoModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
         
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
@@ -75,13 +90,16 @@
             [self.QianDaoTableView reloadData];
         }else
         {
-            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402)
+            {
                 [UserManager logoOut];
+
             }else
             {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -101,9 +119,10 @@
 - (UITableView *)QianDaoTableView
 {
     if (!_QianDaoTableView) {
-        self.QianDaoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.QianDaoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH - APP_TABH) style:UITableViewStylePlain];
         self.QianDaoTableView.delegate = self;
         self.QianDaoTableView.dataSource = self;
+        self.QianDaoTableView.backgroundColor = backColor;
     }
     return _QianDaoTableView;
 }
@@ -157,10 +176,10 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (self.QianDaoAry.count != 0) {
             QianDaoInModel * model = [self.QianDaoAry objectAtIndex:indexPath.row];
-            if (model.type == 1) {
+            if (model.type == 1)
+            {
                 cell.stateLabel.text = @"进校";
                 cell.stateImg.image = [UIImage imageNamed:@"进校"];
-                
             }else
             {
                 cell.stateLabel.text = @"出校";
@@ -220,7 +239,7 @@
         //    //重复播放，默认不播放
         _playerView.repeatPlay = YES;
         //    //当前控制器是否支持旋转，当前页面支持旋转的时候需要设置，告知播放器
-//        _playerView.isLandscape = YES;
+       _playerView.isLandscape = NO;
         //    //设置等比例全屏拉伸，多余部分会被剪切
         //    _playerView.fillMode = ResizeAspectFill;
         //    //设置进度条背景颜色
@@ -295,7 +314,8 @@
     [self.backView removeFromSuperview];
     [_playerView destroyPlayer];
     _playerView = nil;
-    
+    [_playerView removeFromSuperview];
+
     [self.close removeFromSuperview];
 }
 
@@ -303,25 +323,54 @@
 {
     [self.backView removeFromSuperview];
     [self.close removeFromSuperview];
+    [_playerView removeFromSuperview];
 
     [_playerView destroyPlayer];
     _playerView = nil;
 }
 
 #pragma mark -- 需要设置全局支持旋转方向，然后重写下面三个方法可以让当前页面支持多个方向
-// 是否支持自动转屏
-- (BOOL)shouldAutorotate {
-    return YES;
+//// 是否支持自动转屏
+//- (BOOL)shouldAutorotate {
+//    return NO;
+//}
+//
+////// 支持哪些屏幕方向
+//- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+//    return UIInterfaceOrientationMaskAll;
+//}
+//
+//// 默认的屏幕方向（当前ViewController必须是通过模态出来的UIViewController（模态带导航的无效）方式展现出来的，才会调用这个方法）
+//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+//    return UIInterfaceOrientationPortrait;
+//}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+
+{
+    
+    return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
+    
 }
 
-// 支持哪些屏幕方向
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskAll;
+
+
+- (BOOL)shouldAutorotate
+
+{
+    
+    return NO;
+    
 }
 
-// 默认的屏幕方向（当前ViewController必须是通过模态出来的UIViewController（模态带导航的无效）方式展现出来的，才会调用这个方法）
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return UIInterfaceOrientationPortrait;
+
+
+- (NSUInteger)supportedInterfaceOrientations
+
+{
+    
+    return UIInterfaceOrientationMaskPortrait;
+    
 }
 
 - (void)didReceiveMemoryWarning {

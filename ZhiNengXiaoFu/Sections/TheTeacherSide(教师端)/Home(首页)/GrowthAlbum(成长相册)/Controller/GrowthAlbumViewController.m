@@ -15,13 +15,9 @@
 @interface GrowthAlbumViewController ()<UIWebViewDelegate,WPopupMenuDelegate>
 
 @property (nonatomic, strong) WebViewJavascriptBridge *bridge;
-@property (nonatomic, strong) UIWebView   *webView;
-@property (nonatomic, strong) NSString   *shareURL;
-@property (nonatomic, strong) NSString   *shareTitle;
-@property (nonatomic, strong) NSString   *shareMessage;
-@property (nonatomic, strong) NSString   *shareImgurl;
+@property (nonatomic, strong) UIWebView      *webView;
 @property (nonatomic, strong) NSMutableArray *publishJobArr;
-@property (nonatomic, strong) UIView     *bgView;
+@property (nonatomic, strong) UIView         *bgView;
 
 @property (nonatomic, strong) UIButton       *rightBtn;
 
@@ -40,7 +36,7 @@
     [super viewWillAppear:animated];
     self.webView.backgroundColor = backColor;
     self.view.backgroundColor = backColor;
-    self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, -APP_NAVH, APP_WIDTH, APP_HEIGHT)];
+    self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, -APP_NAVH, APP_WIDTH, APP_HEIGHT - APP_NAVH)];
     self.bgView.backgroundColor = backColor;
     [self.view addSubview:self.bgView];
     [self prepareViews];
@@ -51,12 +47,18 @@
     self.title = self.webTitle;
     NSLog(@"%@",self.classID);
     
-    self.rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 90, 30)];
-    [self.rightBtn setTitle:@"切换班级" forState:UIControlStateNormal];
-    self.rightBtn.titleLabel.font = titFont;
-    [self.rightBtn addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];
-    self.view.backgroundColor = [UIColor greenColor];
+    if ([self.typeID isEqualToString:@"1"]) {
+        
+    } else {
+        self.rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 90, 30)];
+        [self.rightBtn setTitle:@"切换班级" forState:UIControlStateNormal];
+        self.rightBtn.titleLabel.font = titFont;
+        [self.rightBtn addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];
+        self.view.backgroundColor = [UIColor greenColor];
+    }
+    
+    
     
     
 }
@@ -99,9 +101,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -143,9 +146,10 @@
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
             } else {
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                 
             }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -231,6 +235,12 @@
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     //    [SVProgressHUD dismiss];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@""]]];
+    [self.webView removeFromSuperview];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
