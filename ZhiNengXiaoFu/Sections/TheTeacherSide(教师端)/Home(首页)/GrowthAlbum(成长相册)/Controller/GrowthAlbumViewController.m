@@ -57,18 +57,12 @@
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];
         self.view.backgroundColor = [UIColor greenColor];
     }
-    
-    
-    
-    
 }
 
 - (void)rightBtn:(UIButton *)sender {
     
     NSLog(@"点击发布");
     [self getClassURLData];
-
-    
 }
 
 - (void)getClassURLData {

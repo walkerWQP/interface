@@ -15,7 +15,7 @@
 @property (nonatomic, copy) NSString * abstract;
 @property (nonatomic, copy) NSString * create_time;
 
-@property (nonatomic, strong) NSMutableArray * img;
+@property (nonatomic, copy) NSString * img;
 @property (nonatomic, assign) NSInteger  is_school;
 
 @end

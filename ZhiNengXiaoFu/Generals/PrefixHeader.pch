@@ -49,6 +49,8 @@
 #import <LTScrollView/LTScrollView-Swift.h>
 #import <LTScrollView/LTScrollView-umbrella.h>
 #define STOREAPPID @"1424842152"
+#import "UIButton+YasinTimerCategory.h"
+#import "UILabel+TextAlign.h"
 
 #define kIPhoneX ([UIScreen mainScreen].bounds.size.height == 812.0)
 

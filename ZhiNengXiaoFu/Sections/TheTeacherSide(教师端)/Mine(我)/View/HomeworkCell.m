@@ -15,7 +15,7 @@
     if (self) {
         [self addSubview:self.itemImg];
         [self addSubview:self.itemLabel];
-        [self addSubview:self.jiantouImg];
+//        [self addSubview:self.jiantouImg];
         [self addSubview:self.lineView];
     }
     return self;
@@ -39,13 +39,13 @@
     return _itemImg;
 }
 
-- (UIImageView *)jiantouImg {
-    if (!_jiantouImg) {
-        self.jiantouImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 20 - 11.5, 17, 11.5, 16)];
-        self.jiantouImg.image = [UIImage imageNamed:@"more"];
-    }
-    return _jiantouImg;
-}
+//- (UIImageView *)jiantouImg {
+//    if (!_jiantouImg) {
+//        self.jiantouImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 20 - 11.5, 17, 11.5, 16)];
+//        self.jiantouImg.image = [UIImage imageNamed:@"more"];
+//    }
+//    return _jiantouImg;
+//}
 
 - (UIView *)lineView {
     if (!_lineView) {

@@ -25,6 +25,8 @@
 #import "ChengZhangXiangCeViewController.h"
 #import "TeacherZaiXianTotalViewController.h"
 #import "NewGuidelinesViewController.h"
+#import "JiuQinGuanLiViewController.h"
+
 @interface HomePageViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView * HomePageCollectionView;
@@ -58,7 +60,7 @@
     [self.HomePageCollectionView registerClass:[HomePageItemCell class] forCellWithReuseIdentifier:@"HomePageItemCellId"];
     
     NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"成长手册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态",@"新生指南", nil];
-    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"成长相册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态",@"新生指南", nil];
+    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"成长相册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态",@"新生指南",nil];
 
     for (int i = 0; i < imgAry.count; i++)
     {
@@ -184,7 +186,8 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         HomePageLunBoCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomePageLunBoCellId" forIndexPath:indexPath];
         [cell getClassData];
         return cell;
@@ -201,10 +204,11 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        if (kScreenWidth == 414) {
+    if (indexPath.section == 0)
+    {
+        if (kScreenWidth == 414)
+        {
             return CGSizeMake(kScreenWidth, 200);
-            
         }else
         {
             return CGSizeMake(kScreenWidth, 170);
@@ -269,6 +273,10 @@
             NewGuidelinesViewController *newGuidelinesVC = [NewGuidelinesViewController new];
             [self.navigationController pushViewController:newGuidelinesVC animated:YES];
         }
+//        else if (indexPath.row == 9)
+//        {
+//           
+//        }
         
     }
     

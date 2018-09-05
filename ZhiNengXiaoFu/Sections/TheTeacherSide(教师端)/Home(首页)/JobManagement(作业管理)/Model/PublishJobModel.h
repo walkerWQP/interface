@@ -13,5 +13,5 @@
 @property (nonatomic, strong) NSString   *ID;
 @property (nonatomic, strong) NSString   *name;
 @property (nonatomic, strong) NSString   *teacher_mobile;
-
+@property (nonatomic, strong) NSString   *head_img;
 @end

@@ -341,12 +341,13 @@
     self.remarkLabel.font = titFont;
     [self.bgView addSubview:self.remarkLabel];
 
-    self.remarksLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.remarkLabel.frame.size.width + 30,  self.remarkLabel.frame.origin.y , self.bgView.frame.size.width - self.remarkLabel.frame.size.width - 50, 90)];
+    self.remarksLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.remarkLabel.frame.size.width + 30,  self.remarkLabel.frame.origin.y , self.bgView.frame.size.width - self.remarkLabel.frame.size.width - 50, 180)];
     self.remarksLabel.text = model.message;
     self.remarksLabel.textColor = titlColor;
     self.remarksLabel.font = titFont;
     self.remarksLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.remarksLabel.numberOfLines = 0;
+    self.remarksLabel.isTop = YES;
     [self.bgView addSubview:self.remarksLabel];
     
     

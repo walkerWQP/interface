@@ -83,6 +83,13 @@
         
         // 给最后一个imageView添加按钮
         if (i == HMNewfeatureImageCount - 1) {
+            
+            UILabel * tiaoguo = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 70, 30, 50, 20)];
+            tiaoguo.text = @"跳过";
+            tiaoguo.textColor = [UIColor blackColor];
+            tiaoguo.font = [UIFont systemFontOfSize:16];
+            [imageView addSubview:tiaoguo];
+            
             [self setupLastImageView:imageView];
         }
     }
@@ -118,6 +125,8 @@
  */
 - (void)setupLastImageView:(UIImageView *)imageView
 {
+    
+    
     imageView.userInteractionEnabled = YES;
     UITapGestureRecognizer * imageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(start:)];
     [imageView addGestureRecognizer:imageTap];

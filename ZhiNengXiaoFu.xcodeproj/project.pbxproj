@@ -107,6 +107,12 @@
 		042AA452211D79C100E3AACB /* HelperCenterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 042AA451211D79C100E3AACB /* HelperCenterModel.m */; };
 		042AA457211D853F00E3AACB /* ChengZhangXiangCeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042AA456211D853F00E3AACB /* ChengZhangXiangCeViewController.m */; };
 		042AA45B211D8CA800E3AACB /* ClassHomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 042AA45A211D8CA800E3AACB /* ClassHomeModel.m */; };
+		042D6F0E21378BEC0004978E /* SleepManagementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042D6F0D21378BEC0004978E /* SleepManagementViewController.m */; };
+		042D6F112137977F0004978E /* YiZhuQinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042D6F102137977F0004978E /* YiZhuQinViewController.m */; };
+		042D6F14213797950004978E /* WeiZhuQinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042D6F13213797950004978E /* WeiZhuQinViewController.m */; };
+		042D6F172137D1250004978E /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 042D6F152137D1240004978E /* CircleView.m */; };
+		042D6F1A2137E3760004978E /* JiuQinStuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 042D6F192137E3760004978E /* JiuQinStuCell.m */; };
+		042DFB702138F14700EDD989 /* StudentJiuQinModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 042DFB6F2138F14700EDD989 /* StudentJiuQinModel.m */; };
 		04324DBE21056EE6003789D7 /* ChooseHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04324DBD21056EE6003789D7 /* ChooseHomeViewController.m */; };
 		04324DC12105A6C7003789D7 /* LoginHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04324DC02105A6C7003789D7 /* LoginHomePageViewController.m */; };
 		0432F2C12123C96900E78FB4 /* TeacherZaiXianTotalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0432F2C02123C96900E78FB4 /* TeacherZaiXianTotalViewController.m */; };
@@ -172,6 +178,10 @@
 		04AB4DA5211841820070E548 /* JingJiHuoDongListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AB4DA4211841820070E548 /* JingJiHuoDongListModel.m */; };
 		04AB4DA9211853840070E548 /* QianDaoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AB4DA8211853840070E548 /* QianDaoModel.m */; };
 		04AB4DAC211855260070E548 /* QianDaoInModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AB4DAB211855260070E548 /* QianDaoInModel.m */; };
+		04D04538213633BA0066D3AC /* JiuQinGuanLiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D04537213633BA0066D3AC /* JiuQinGuanLiViewController.m */; };
+		04D0453B21363B720066D3AC /* JiuQinPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D0453A21363B720066D3AC /* JiuQinPersonCell.m */; };
+		04D0453F2136728A0066D3AC /* JiuQinItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D0453D2136728A0066D3AC /* JiuQinItemCell.m */; };
+		04D045402136728A0066D3AC /* JiuQinItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D0453E2136728A0066D3AC /* JiuQinItemCell.xib */; };
 		04F69569211C40E600F9D2E2 /* CLSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F69559211C40E600F9D2E2 /* CLSlider.m */; };
 		04F6956A211C40E600F9D2E2 /* AILoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F6955C211C40E600F9D2E2 /* AILoadingView.m */; };
 		04F6956B211C40E600F9D2E2 /* UITabBarController+CLPlayerRotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F6955E211C40E600F9D2E2 /* UITabBarController+CLPlayerRotation.m */; };
@@ -199,6 +209,8 @@
 		9883A1C9212189CD00E5BB07 /* OngoingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9883A1C8212189CD00E5BB07 /* OngoingTableViewCell.m */; };
 		9883A1CC2121949700E5BB07 /* ClassDetailsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9883A1CB2121949700E5BB07 /* ClassDetailsTableViewCell.m */; };
 		9883A1CF2121A0A100E5BB07 /* ToSchoolSituationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9883A1CE2121A0A100E5BB07 /* ToSchoolSituationViewController.m */; };
+		98849A05213F629C000722D5 /* UIButton+YasinTimerCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 98849A04213F629C000722D5 /* UIButton+YasinTimerCategory.m */; };
+		98849A21213FB93A000722D5 /* UILabel+TextAlign.m in Sources */ = {isa = PBXBuildFile; fileRef = 98849A20213FB93A000722D5 /* UILabel+TextAlign.m */; };
 		989382DF21226A60007A9EBD /* ToSchoolSituationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 989382DE21226A60007A9EBD /* ToSchoolSituationModel.m */; };
 		989382E221227A91007A9EBD /* OngoingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989382E121227A91007A9EBD /* OngoingTableViewController.m */; };
 		989822BA211AF6DA00D547C0 /* UIView+GoodView.m in Sources */ = {isa = PBXBuildFile; fileRef = 989822B6211AF6DA00D547C0 /* UIView+GoodView.m */; };
@@ -213,6 +225,7 @@
 		989BFE1921088D6C007A69A5 /* SchoolDongTaiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE1821088D6C007A69A5 /* SchoolDongTaiViewController.m */; };
 		989BFE1C21088DA2007A69A5 /* JohnTopTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE1A21088DA2007A69A5 /* JohnTopTitleView.m */; };
 		989BFE3121088E04007A69A5 /* CompetitiveActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989BFE2F21088E04007A69A5 /* CompetitiveActivityViewController.m */; };
+		98A1DB39213E6ECC0016230A /* BindMobilePhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A1DB38213E6ECC0016230A /* BindMobilePhoneViewController.m */; };
 		98A26352212BA57E0080EFA4 /* NewGuidelinesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A26351212BA57E0080EFA4 /* NewGuidelinesViewController.m */; };
 		98A49434211578B8002A4C97 /* SchoolDynamicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A49433211578B8002A4C97 /* SchoolDynamicModel.m */; };
 		98AD7EA5210F11BD00641231 /* HaveToReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AD7E3A210F11BC00641231 /* HaveToReplyViewController.m */; };
@@ -501,6 +514,18 @@
 		042AA456211D853F00E3AACB /* ChengZhangXiangCeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChengZhangXiangCeViewController.m; sourceTree = "<group>"; };
 		042AA459211D8CA800E3AACB /* ClassHomeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClassHomeModel.h; sourceTree = "<group>"; };
 		042AA45A211D8CA800E3AACB /* ClassHomeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClassHomeModel.m; sourceTree = "<group>"; };
+		042D6F0C21378BEC0004978E /* SleepManagementViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SleepManagementViewController.h; sourceTree = "<group>"; };
+		042D6F0D21378BEC0004978E /* SleepManagementViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SleepManagementViewController.m; sourceTree = "<group>"; };
+		042D6F0F2137977F0004978E /* YiZhuQinViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YiZhuQinViewController.h; sourceTree = "<group>"; };
+		042D6F102137977F0004978E /* YiZhuQinViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YiZhuQinViewController.m; sourceTree = "<group>"; };
+		042D6F12213797950004978E /* WeiZhuQinViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeiZhuQinViewController.h; sourceTree = "<group>"; };
+		042D6F13213797950004978E /* WeiZhuQinViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeiZhuQinViewController.m; sourceTree = "<group>"; };
+		042D6F152137D1240004978E /* CircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
+		042D6F162137D1250004978E /* CircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleView.h; sourceTree = "<group>"; };
+		042D6F182137E3760004978E /* JiuQinStuCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JiuQinStuCell.h; sourceTree = "<group>"; };
+		042D6F192137E3760004978E /* JiuQinStuCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JiuQinStuCell.m; sourceTree = "<group>"; };
+		042DFB6E2138F14700EDD989 /* StudentJiuQinModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StudentJiuQinModel.h; sourceTree = "<group>"; };
+		042DFB6F2138F14700EDD989 /* StudentJiuQinModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StudentJiuQinModel.m; sourceTree = "<group>"; };
 		04324DBC21056EE6003789D7 /* ChooseHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChooseHomeViewController.h; sourceTree = "<group>"; };
 		04324DBD21056EE6003789D7 /* ChooseHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChooseHomeViewController.m; sourceTree = "<group>"; };
 		04324DBF2105A6C7003789D7 /* LoginHomePageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginHomePageViewController.h; sourceTree = "<group>"; };
@@ -634,6 +659,13 @@
 		04AB4DA8211853840070E548 /* QianDaoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QianDaoModel.m; sourceTree = "<group>"; };
 		04AB4DAA211855260070E548 /* QianDaoInModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QianDaoInModel.h; sourceTree = "<group>"; };
 		04AB4DAB211855260070E548 /* QianDaoInModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QianDaoInModel.m; sourceTree = "<group>"; };
+		04D04536213633BA0066D3AC /* JiuQinGuanLiViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JiuQinGuanLiViewController.h; sourceTree = "<group>"; };
+		04D04537213633BA0066D3AC /* JiuQinGuanLiViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JiuQinGuanLiViewController.m; sourceTree = "<group>"; };
+		04D0453921363B720066D3AC /* JiuQinPersonCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JiuQinPersonCell.h; sourceTree = "<group>"; };
+		04D0453A21363B720066D3AC /* JiuQinPersonCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JiuQinPersonCell.m; sourceTree = "<group>"; };
+		04D0453C2136728A0066D3AC /* JiuQinItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JiuQinItemCell.h; sourceTree = "<group>"; };
+		04D0453D2136728A0066D3AC /* JiuQinItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JiuQinItemCell.m; sourceTree = "<group>"; };
+		04D0453E2136728A0066D3AC /* JiuQinItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JiuQinItemCell.xib; sourceTree = "<group>"; };
 		04F69559211C40E600F9D2E2 /* CLSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLSlider.m; sourceTree = "<group>"; };
 		04F6955A211C40E600F9D2E2 /* CLPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLPlayerView.h; sourceTree = "<group>"; };
 		04F6955B211C40E600F9D2E2 /* UINavigationController+CLPlayerRotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+CLPlayerRotation.h"; sourceTree = "<group>"; };
@@ -687,6 +719,10 @@
 		9883A1CB2121949700E5BB07 /* ClassDetailsTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClassDetailsTableViewCell.m; sourceTree = "<group>"; };
 		9883A1CD2121A0A100E5BB07 /* ToSchoolSituationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToSchoolSituationViewController.h; sourceTree = "<group>"; };
 		9883A1CE2121A0A100E5BB07 /* ToSchoolSituationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToSchoolSituationViewController.m; sourceTree = "<group>"; };
+		98849A03213F629C000722D5 /* UIButton+YasinTimerCategory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+YasinTimerCategory.h"; sourceTree = "<group>"; };
+		98849A04213F629C000722D5 /* UIButton+YasinTimerCategory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+YasinTimerCategory.m"; sourceTree = "<group>"; };
+		98849A1F213FB93A000722D5 /* UILabel+TextAlign.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+TextAlign.h"; sourceTree = "<group>"; };
+		98849A20213FB93A000722D5 /* UILabel+TextAlign.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+TextAlign.m"; sourceTree = "<group>"; };
 		989382DD21226A60007A9EBD /* ToSchoolSituationModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToSchoolSituationModel.h; sourceTree = "<group>"; };
 		989382DE21226A60007A9EBD /* ToSchoolSituationModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToSchoolSituationModel.m; sourceTree = "<group>"; };
 		989382E021227A91007A9EBD /* OngoingTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OngoingTableViewController.h; sourceTree = "<group>"; };
@@ -716,6 +752,8 @@
 		989BFE1B21088DA2007A69A5 /* JohnTopTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JohnTopTitleView.h; sourceTree = "<group>"; };
 		989BFE2F21088E04007A69A5 /* CompetitiveActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompetitiveActivityViewController.m; sourceTree = "<group>"; };
 		989BFE3021088E04007A69A5 /* CompetitiveActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompetitiveActivityViewController.h; sourceTree = "<group>"; };
+		98A1DB37213E6ECC0016230A /* BindMobilePhoneViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BindMobilePhoneViewController.h; sourceTree = "<group>"; };
+		98A1DB38213E6ECC0016230A /* BindMobilePhoneViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BindMobilePhoneViewController.m; sourceTree = "<group>"; };
 		98A26350212BA57E0080EFA4 /* NewGuidelinesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewGuidelinesViewController.h; sourceTree = "<group>"; };
 		98A26351212BA57E0080EFA4 /* NewGuidelinesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewGuidelinesViewController.m; sourceTree = "<group>"; };
 		98A49432211578B8002A4C97 /* SchoolDynamicModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SchoolDynamicModel.h; sourceTree = "<group>"; };
@@ -1466,6 +1504,7 @@
 		042810652108070F00E2CA14 /* Home(首页) */ = {
 			isa = PBXGroup;
 			children = (
+				04D04532213632830066D3AC /* JiuQinGuanLi(就寝管理) */,
 				042AA453211D852500E3AACB /* ChengZhangXiangCe(成长相册) */,
 				042AA43C211D2E5900E3AACB /* ParentXueTangDetails(家长学堂详情) */,
 				047FB2142113EC0D00AED26D /* MyZiXun(我的咨询) */,
@@ -1881,6 +1920,49 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		042D6F08213780900004978E /* SleepManagement(就寝管理) */ = {
+			isa = PBXGroup;
+			children = (
+				042D6F09213780900004978E /* Controller */,
+				042D6F0A213780900004978E /* Model */,
+				042D6F0B213780900004978E /* View */,
+			);
+			path = "SleepManagement(就寝管理)";
+			sourceTree = "<group>";
+		};
+		042D6F09213780900004978E /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				042D6F0C21378BEC0004978E /* SleepManagementViewController.h */,
+				042D6F0D21378BEC0004978E /* SleepManagementViewController.m */,
+				042D6F0F2137977F0004978E /* YiZhuQinViewController.h */,
+				042D6F102137977F0004978E /* YiZhuQinViewController.m */,
+				042D6F12213797950004978E /* WeiZhuQinViewController.h */,
+				042D6F13213797950004978E /* WeiZhuQinViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		042D6F0A213780900004978E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				042DFB6E2138F14700EDD989 /* StudentJiuQinModel.h */,
+				042DFB6F2138F14700EDD989 /* StudentJiuQinModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		042D6F0B213780900004978E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				042D6F162137D1250004978E /* CircleView.h */,
+				042D6F152137D1240004978E /* CircleView.m */,
+				042D6F182137E3760004978E /* JiuQinStuCell.h */,
+				042D6F192137E3760004978E /* JiuQinStuCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		04324DB421056712003789D7 /* LoginHomePage(登录) */ = {
 			isa = PBXGroup;
 			children = (
@@ -2098,6 +2180,10 @@
 				045A94C82112D65200030E56 /* UserManager.m */,
 				98E33E712117E2D90098C241 /* UIColor+HexString.h */,
 				98E33E722117E2D90098C241 /* UIColor+HexString.m */,
+				98849A03213F629C000722D5 /* UIButton+YasinTimerCategory.h */,
+				98849A04213F629C000722D5 /* UIButton+YasinTimerCategory.m */,
+				98849A1F213FB93A000722D5 /* UILabel+TextAlign.h */,
+				98849A20213FB93A000722D5 /* UILabel+TextAlign.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -2416,6 +2502,44 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		04D04532213632830066D3AC /* JiuQinGuanLi(就寝管理) */ = {
+			isa = PBXGroup;
+			children = (
+				04D04533213632830066D3AC /* Controller */,
+				04D04534213632830066D3AC /* Model */,
+				04D04535213632830066D3AC /* View */,
+			);
+			path = "JiuQinGuanLi(就寝管理)";
+			sourceTree = "<group>";
+		};
+		04D04533213632830066D3AC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				04D04536213633BA0066D3AC /* JiuQinGuanLiViewController.h */,
+				04D04537213633BA0066D3AC /* JiuQinGuanLiViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		04D04534213632830066D3AC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		04D04535213632830066D3AC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				04D0453921363B720066D3AC /* JiuQinPersonCell.h */,
+				04D0453A21363B720066D3AC /* JiuQinPersonCell.m */,
+				04D0453C2136728A0066D3AC /* JiuQinItemCell.h */,
+				04D0453D2136728A0066D3AC /* JiuQinItemCell.m */,
+				04D0453E2136728A0066D3AC /* JiuQinItemCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		04F69558211C40E600F9D2E2 /* CLPlayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -2462,6 +2586,7 @@
 		981395602105E61E00CDE2BA /* Home(首页) */ = {
 			isa = PBXGroup;
 			children = (
+				042D6F08213780900004978E /* SleepManagement(就寝管理) */,
 				98A2634F212BA5440080EFA4 /* NewGuidelines(新生指南) */,
 				98AD7E62210F11BC00641231 /* ActivityManagement(活动管理) */,
 				98AD7E38210F11BC00641231 /* Consulting(问题咨询) */,
@@ -2555,6 +2680,8 @@
 				98E33E8121181D200098C241 /* LeaveTheDetailsViewController.m */,
 				989382E021227A91007A9EBD /* OngoingTableViewController.h */,
 				989382E121227A91007A9EBD /* OngoingTableViewController.m */,
+				98A1DB37213E6ECC0016230A /* BindMobilePhoneViewController.h */,
+				98A1DB38213E6ECC0016230A /* BindMobilePhoneViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3238,6 +3365,7 @@
 				0409A4362119754C004A9DB6 /* ico_check_nomal@3x.png in Resources */,
 				0409A4312119754C004A9DB6 /* none.png in Resources */,
 				0471BED02122AB1F00E7E22B /* YiHuiFuCell.xib in Resources */,
+				04D045402136728A0066D3AC /* JiuQinItemCell.xib in Resources */,
 				0409A4262119754C004A9DB6 /* MImaCell.xib in Resources */,
 				0409A4322119754C004A9DB6 /* ico_check_select@2x.png in Resources */,
 				0471BED52122B4D000E7E22B /* KeChengJieShaonCell.xib in Resources */,
@@ -3362,6 +3490,8 @@
 				987209AC211EEB8E009D235D /* BannerModel.m in Sources */,
 				987209A9211ECEB3009D235D /* WPopupMenu.m in Sources */,
 				989BFE3121088E04007A69A5 /* CompetitiveActivityViewController.m in Sources */,
+				98A1DB39213E6ECC0016230A /* BindMobilePhoneViewController.m in Sources */,
+				042D6F1A2137E3760004978E /* JiuQinStuCell.m in Sources */,
 				0413D694210EA53A00CB34A6 /* TeacherZaiXianViewController.m in Sources */,
 				042810A12108070F00E2CA14 /* QianDaoViewController.m in Sources */,
 				98E33E85211823800098C241 /* LeaveTheDetailsCell.m in Sources */,
@@ -3386,8 +3516,10 @@
 				98AD7EAE210F11BD00641231 /* ForClassViewController.m in Sources */,
 				0413D6A1210EE73900CB34A6 /* KeChengJieShaoViewController.m in Sources */,
 				045A94FB2112E41D00030E56 /* IQUIScrollView+Additions.m in Sources */,
+				04D0453B21363B720066D3AC /* JiuQinPersonCell.m in Sources */,
 				0409A4222119754C004A9DB6 /* MHeadImaView.m in Sources */,
 				98AD7EA8210F11BD00641231 /* ConsultingViewController.m in Sources */,
+				042D6F112137977F0004978E /* YiZhuQinViewController.m in Sources */,
 				98DD0C22211D2869004E0773 /* ReleasedAlbumsViewController.m in Sources */,
 				98AD7EA5210F11BD00641231 /* HaveToReplyViewController.m in Sources */,
 				983CD9612111B6E20050508C /* TongZhiModel.m in Sources */,
@@ -3395,11 +3527,13 @@
 				0409A4302119754C004A9DB6 /* JJPhoto.m in Sources */,
 				98D89DFE21105CA000355626 /* WenTiZiXunListCell.m in Sources */,
 				98AD7EAB210F11BD00641231 /* PublicClassViewController.m in Sources */,
+				042D6F14213797950004978E /* WeiZhuQinViewController.m in Sources */,
 				98C01EEA2114442600D625DA /* ClassDetailsModel.m in Sources */,
 				98D89DE721103C7800355626 /* UIView+EasyShowExt.m in Sources */,
 				0413D69E210EE67400CB34A6 /* TeacherZaiXianDetailsViewController.m in Sources */,
 				0429F5E6210C000A00C32957 /* LeaveDetailsViewController.m in Sources */,
 				043F398E2101D02600115A55 /* UIView+CLSetRect.m in Sources */,
+				042DFB702138F14700EDD989 /* StudentJiuQinModel.m in Sources */,
 				0409A42A2119754C004A9DB6 /* MImaCell.m in Sources */,
 				98AD7EAC210F11BD00641231 /* UploadVideoViewController.m in Sources */,
 				9883A1CF2121A0A100E5BB07 /* ToSchoolSituationViewController.m in Sources */,
@@ -3412,6 +3546,7 @@
 				04251B9721153EF90090CD3C /* WeiHuiFuViewController.m in Sources */,
 				042895D6212E8EFC00044E0B /* WeiLanListModel.m in Sources */,
 				043F39842101CFCB00115A55 /* MASCompositeConstraint.m in Sources */,
+				042D6F0E21378BEC0004978E /* SleepManagementViewController.m in Sources */,
 				9813959E2105E61E00CDE2BA /* MyViewController.m in Sources */,
 				043F393E2101852500115A55 /* TotalTabBarController.m in Sources */,
 				045A94CC2112D93200030E56 /* CommonStatus.m in Sources */,
@@ -3422,6 +3557,7 @@
 				04324DBE21056EE6003789D7 /* ChooseHomeViewController.m in Sources */,
 				989382E221227A91007A9EBD /* OngoingTableViewController.m in Sources */,
 				0429F5FF210C626400C32957 /* JingJiActivityDetailsViewController.m in Sources */,
+				98849A05213F629C000722D5 /* UIButton+YasinTimerCategory.m in Sources */,
 				042810992108070F00E2CA14 /* SystemInformationCell.m in Sources */,
 				98AD7EAF210F11BD00641231 /* PublicClassCell.m in Sources */,
 				0429F5F5210C4F1C00C32957 /* SchoolDongTaiDetailsViewController.m in Sources */,
@@ -3481,6 +3617,7 @@
 				9883A1C9212189CD00E5BB07 /* OngoingTableViewCell.m in Sources */,
 				0429F60F210C697900C32957 /* TongZhiViewController.m in Sources */,
 				045A94F42112E41D00030E56 /* IQBarButtonItem.m in Sources */,
+				98849A21213FB93A000722D5 /* UILabel+TextAlign.m in Sources */,
 				04F69573211C410D00F9D2E2 /* UIView+CLSetRect.m in Sources */,
 				042810A72108070F00E2CA14 /* HomePageLunBoCell.m in Sources */,
 				043F39832101CFCB00115A55 /* ViewController+MASAdditions.m in Sources */,
@@ -3502,6 +3639,7 @@
 				045A94FA2112E41D00030E56 /* IQUITextFieldView+Additions.m in Sources */,
 				043F39822101CFCB00115A55 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				983CD9652111B70D0050508C /* TongZhiDetailsCell.m in Sources */,
+				042D6F172137D1250004978E /* CircleView.m in Sources */,
 				98AD7EA7210F11BD00641231 /* ReplyViewController.m in Sources */,
 				98D89DE621103C7800355626 /* EasyShowTypes.m in Sources */,
 				98AD7EA6210F11BD00641231 /* DidNotReturnViewController.m in Sources */,
@@ -3548,6 +3686,7 @@
 				043F39872101CFCB00115A55 /* NSArray+MASAdditions.m in Sources */,
 				042AA440211D2ED800E3AACB /* ParentXueTangDetailsViewController.m in Sources */,
 				9813959F2105E61E00CDE2BA /* ClassViewController.m in Sources */,
+				04D04538213633BA0066D3AC /* JiuQinGuanLiViewController.m in Sources */,
 				98C01EED21144F9200D625DA /* HomeWorkModel.m in Sources */,
 				0409A42C2119754C004A9DB6 /* MGroupCell.m in Sources */,
 				0428109C2108070F00E2CA14 /* MinePersonXiXinCell.m in Sources */,
@@ -3590,6 +3729,7 @@
 				04324DC12105A6C7003789D7 /* LoginHomePageViewController.m in Sources */,
 				043F39882101CFCB00115A55 /* View+MASAdditions.m in Sources */,
 				0409A42F2119754C004A9DB6 /* JJPhotoManeger.m in Sources */,
+				04D0453F2136728A0066D3AC /* JiuQinItemCell.m in Sources */,
 				042AA457211D853F00E3AACB /* ChengZhangXiangCeViewController.m in Sources */,
 				98E33E7F2117FEF00098C241 /* OffTheListModel.m in Sources */,
 				045A94F32112E41D00030E56 /* IQTitleBarButtonItem.m in Sources */,

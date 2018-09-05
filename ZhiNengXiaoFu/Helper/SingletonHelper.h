@@ -29,5 +29,9 @@
 
 @property (nonatomic, assign) NSInteger  teacherZaiXianId;
 
+@property (nonatomic, strong) NSMutableArray * yidaoAry;
+@property (nonatomic, strong) NSMutableArray * weidaoAry;
+
+@property (nonatomic, assign) NSInteger  biaojiJiuQinColor;
 
 @end

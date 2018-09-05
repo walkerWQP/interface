@@ -38,5 +38,13 @@
 @property (nonatomic, copy) NSString * class_name_s;
 //老师班级名称
 @property (nonatomic, strong) NSMutableArray * class_name_t;
+//教师班级id
+@property (nonatomic, strong) NSMutableArray *  class_id_t;
+//是否是班主任0否1是
+@property (nonatomic, assign) NSInteger is_adviser;
+//学校是否开启宿舍管理0否1是
+@property (nonatomic, assign) NSInteger dorm_open;
+
+
 
 @end

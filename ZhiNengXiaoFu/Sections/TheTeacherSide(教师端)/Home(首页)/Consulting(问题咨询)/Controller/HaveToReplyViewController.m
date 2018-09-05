@@ -86,7 +86,6 @@
             
             if (self.haveToReplyArr.count == 0) {
                 self.zanwushuju.alpha = 1;
-                //                [self.publicClassCollectionView reloadData];
             } else {
                 self.zanwushuju.alpha = 0;
                 [self.haveToReplyCollectionView reloadData];

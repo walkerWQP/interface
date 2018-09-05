@@ -138,7 +138,7 @@
                 self.zanwushuju.alpha = 0;
                 [self.classDetailsTableView reloadData];
             }
-            
+
             
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {

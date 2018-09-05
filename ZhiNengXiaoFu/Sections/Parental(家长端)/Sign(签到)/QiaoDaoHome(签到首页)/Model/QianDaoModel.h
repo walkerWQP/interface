@@ -14,5 +14,5 @@
 @property (nonatomic, copy) NSString * name;
 @property (nonatomic, strong) NSMutableArray * record;
 
-
+@property (nonatomic, assign) int nature;
 @end

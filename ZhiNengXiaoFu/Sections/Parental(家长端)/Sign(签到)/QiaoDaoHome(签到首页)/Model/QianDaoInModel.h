@@ -15,5 +15,6 @@
 @property (nonatomic, copy) NSString * video;
 @property (nonatomic, copy) NSString * week;
 
+@property (nonatomic, copy) NSString * ID;
 
 @end

@@ -37,6 +37,8 @@
 //白色透明
 #define whiteTMColor [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.5]
 
+//浅色
+#define qianColor RGB(204, 204, 204)
 
 
 #define dividerColor RGB(238, 238, 238)

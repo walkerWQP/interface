@@ -14,16 +14,20 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self addSubview:self.exitBtn];
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
 
 - (UIButton *)exitBtn {
     if (!_exitBtn) {
-        self.exitBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
+        self.exitBtn = [[UIButton alloc] initWithFrame:CGRectMake(75, 0, kScreenWidth - 150, 50)];
+        self.exitBtn.layer.masksToBounds = YES;
+        self.exitBtn.layer.cornerRadius = 25;
+        self.exitBtn.backgroundColor = THEMECOLOR;
         [self.exitBtn setTitle:@"退出账号" forState:UIControlStateNormal];
-        [self.exitBtn setFont:[UIFont fontWithName:@"PingFangSC-Semibold" size:13]];
-        [self.exitBtn setTitleColor:[UIColor colorWithRed:235 / 255.0 green:7 / 255.0 blue:25 / 255.0 alpha:1] forState:UIControlStateNormal];
+        [self.exitBtn setFont:[UIFont fontWithName:@"PingFangSC-Semibold" size:15]];
+        [self.exitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     }
     return _exitBtn;
 }

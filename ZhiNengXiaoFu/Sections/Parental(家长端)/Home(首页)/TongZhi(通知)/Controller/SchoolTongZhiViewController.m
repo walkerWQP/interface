@@ -165,7 +165,7 @@
     if (self.schoolTongZhiAry.count != 0) {
         TongZhiModel * model = [self.schoolTongZhiAry objectAtIndex:indexPath.row];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.headImgView.image = [UIImage imageNamed:@"通知图标"];
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"通知图标"]];
         cell.titleLabel.text = model.title;
         cell.subjectsLabel.text = model.abstract;
         cell.timeLabel.text = model.create_time;

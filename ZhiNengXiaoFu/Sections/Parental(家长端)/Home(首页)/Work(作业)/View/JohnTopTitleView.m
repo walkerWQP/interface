@@ -12,13 +12,9 @@
 #define ViewHeight self.frame.size.height
 
 @interface JohnTopTitleView ()<UIScrollViewDelegate>{
-    CGFloat _titleHeight;  //标题高度
-    CGFloat _lineViewWidth;  //记录底部线长度
+   
 }
 
-@property (nonatomic,strong) UISegmentedControl *titleSegment;
-
-@property (nonatomic,strong) UIScrollView *pageScrollView;
 
 @property (nonatomic,strong) UIView *lineView;
 
@@ -41,11 +37,21 @@
     _titleHeight = 40.f;
     self.titleSegment = [[UISegmentedControl alloc]initWithFrame:CGRectMake(0, 0, ViewWidth,_titleHeight)];
     self.titleSegment.tintColor = [UIColor clearColor];
-    NSDictionary* selectedTextAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15.0f],
-                                             NSForegroundColorAttributeName: contentColor};
-    [self.titleSegment setTitleTextAttributes:selectedTextAttributes forState:UIControlStateSelected];//设置文字属性
+    
+    if ([SingletonHelper manager].biaojiJiuQinColor == 1) {
+        NSDictionary* selectedTextAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15.0f],
+                                                 NSForegroundColorAttributeName:THEMECOLOR};
+        [self.titleSegment setTitleTextAttributes:selectedTextAttributes forState:UIControlStateSelected];//设置文字属性
+    }else
+    {
+        NSDictionary* selectedTextAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15.0f],
+                                                 NSForegroundColorAttributeName: contentColor};
+        [self.titleSegment setTitleTextAttributes:selectedTextAttributes forState:UIControlStateSelected];//设置文字属性
+    }
+  
+    
     NSDictionary* unselectedTextAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15.0f],
-                                               NSForegroundColorAttributeName: [UIColor colorWithRed:51 / 255.0 green:51 / 255.0 blue:51 / 255.0 alpha:1]};
+                                               NSForegroundColorAttributeName: self.unSelcetColor ? self.unSelcetColor :[UIColor colorWithRed:51 / 255.0 green:51 / 255.0 blue:51 / 255.0 alpha:1]};
     [self.titleSegment setTitleTextAttributes:unselectedTextAttributes forState:UIControlStateNormal];
     [self.titleSegment addTarget:self action:@selector(pageChange:) forControlEvents:UIControlEventValueChanged];
     [self addSubview:self.titleSegment];
@@ -61,7 +67,14 @@
     
     //底部线
     self.lineView = [[UIView alloc]init];
-    self.lineView.backgroundColor = contentColor;
+    if ([SingletonHelper manager].biaojiJiuQinColor == 1) {
+        self.lineView.backgroundColor = THEMECOLOR;
+
+    }else
+    {
+        self.lineView.backgroundColor = contentColor;
+
+    }
     [self addSubview:self.lineView];
 
 }
@@ -77,19 +90,24 @@
 }
 
 #pragma mark - 定制VC
-- (void)setupViewControllerWithFatherVC:(UIViewController *)fatherVC childVC:(NSArray<UIViewController *>*)childVC{
+- (void)setupViewControllerWithFatherVC:(UIViewController *)fatherVC childVC:(NSArray<UIViewController *>*)childVC
+{
+    
     NSInteger page = childVC.count;
     _lineViewWidth = ViewWidth / page;
     self.lineView.frame = CGRectMake(_lineViewWidth / 2 - 40, _titleHeight - 1,80, 1);
     self.pageScrollView.contentSize = CGSizeMake(ViewWidth * page, 0);
     
-    for (NSInteger i = 0; i < page; i ++) {
+    for (NSInteger i = 0; i < page; i ++)
+    {
         UIViewController *vc = [childVC objectAtIndex:i];
         vc.view.frame = CGRectMake(ViewWidth * i, 0, ViewWidth, ViewHeight);
         [fatherVC addChildViewController:vc];
         [self.pageScrollView addSubview:vc.view];
     }
+    
 }
+
 
 #pragma mark - 联动设置
 - (void)pageChange:(UISegmentedControl *)seg{

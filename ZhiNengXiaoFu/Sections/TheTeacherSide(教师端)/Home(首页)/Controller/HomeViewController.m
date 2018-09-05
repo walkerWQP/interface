@@ -22,7 +22,7 @@
 #import "PublishJobModel.h"
 #import "OffTheListViewController.h"
 #import "NewGuidelinesViewController.h"
-
+#import "SleepManagementViewController.h"
 
 @interface HomeViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -64,7 +64,7 @@
     [self.HomeCollectionView registerClass:[HomeLunBoCell class] forCellWithReuseIdentifier:@"HomePageLunBoCellId"];
     [self.HomeCollectionView registerClass:[HomeItemCell class] forCellWithReuseIdentifier:@"HomePageItemCellId"];
     
-    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"成长相册",@"活动管理",@"问题咨询",@"学校通知",@"学校动态1",@"请假列表1",@"新生指南", nil];
+    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"成长相册",@"活动管理",@"问题咨询",@"学校通知",@"学校动态1",@"请假列表1",@"新生指南" , nil];
     NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"成长相册",@"活动管理",@"问题咨询",@"学校通知",@"学校动态",@"请假列表",@"新生指南", nil];
     
     for (int i = 0; i < imgAry.count; i++) {
@@ -220,6 +220,12 @@
                 
             }
                 break;
+//            case 9:
+//            {
+//                 NSLog(@"点击就寝管理");
+//                SleepManagementViewController * sleepManagementVC = [[SleepManagementViewController alloc] init];
+//                [self.navigationController pushViewController:sleepManagementVC animated:YES];
+//            }
                 
             default:
                 break;

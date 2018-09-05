@@ -18,6 +18,7 @@
 #import "PrefixHeader.pch"
 #import "LoginHomePageViewController.h"
 #import "ChangePasswordViewController.h"
+#import "JiuQinGuanLiViewController.h"
 @interface MineViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * mineTabelView;
@@ -39,15 +40,7 @@
     self.navigationController.navigationBar.translucent = NO;
     
     
-    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码", nil];
-    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码", nil];
-    
-    for (int i = 0; i < imgAry.count; i++) {
-        NSString * img  = [imgAry objectAtIndex:i];
-        NSString * title = [TitleAry objectAtIndex:i];
-        NSDictionary * dic = @{@"img":img, @"title":title};
-        [self.mineAry addObject:dic];
-    }
+   
     
     [self.view addSubview:self.mineTabelView];
     
@@ -69,6 +62,28 @@
     [[HttpRequestManager sharedSingleton] POST:getUserInfoURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
         self.personInfo = [PersonInformationModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+        if (self.personInfo.dorm_open == 1) {
+            NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码",@"就寝管理", nil];
+            NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码",@"就寝管理", nil];
+            
+            for (int i = 0; i < imgAry.count; i++) {
+                NSString * img  = [imgAry objectAtIndex:i];
+                NSString * title = [TitleAry objectAtIndex:i];
+                NSDictionary * dic = @{@"img":img, @"title":title};
+                [self.mineAry addObject:dic];
+            }
+        }else
+        {
+            NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表1",@"修改密码", nil];
+            NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码", nil];
+            
+            for (int i = 0; i < imgAry.count; i++) {
+                NSString * img  = [imgAry objectAtIndex:i];
+                NSString * title = [TitleAry objectAtIndex:i];
+                NSDictionary * dic = @{@"img":img, @"title":title};
+                [self.mineAry addObject:dic];
+            }
+        }
         [self.mineTabelView reloadData];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
@@ -102,7 +117,7 @@
         return 1;
     }else if (section == 1)
     {
-        return 3;
+        return self.mineAry.count;
     }else
     {
         return 1;
@@ -201,10 +216,14 @@
         {
             LeaveListViewController * leaveListVC = [[LeaveListViewController alloc] init];
             [self.navigationController pushViewController:leaveListVC animated:YES];
-        }else
+        }else if (indexPath.row == 2)
         {
             ChangePasswordViewController *changePasswordVC = [[ChangePasswordViewController alloc] init];
             [self.navigationController pushViewController:changePasswordVC animated:YES];
+        }else
+        {
+            JiuQinGuanLiViewController * jiuQin = [[JiuQinGuanLiViewController alloc] init];
+            [self.navigationController pushViewController:jiuQin animated:YES];
         }
     }else
     {

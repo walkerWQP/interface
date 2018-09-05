@@ -17,7 +17,7 @@
 #import "ChangePasswordViewController.h"
 #import "OngoingTableViewController.h"
 #import "PersonInformationModel.h"
-
+#import "SleepManagementViewController.h"
 @interface MyViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView    *myTabelView;
@@ -41,18 +41,10 @@
     self.view.backgroundColor = backColor;
     self.title = @"我";
     [self setUser];
-    NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助1",@"请假列表",@"修改密码",@"已发布", nil];
-    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码",@"已发布的活动", nil];
+   
     
-    for (int i = 0; i < imgAry.count; i++) {
-        NSString * img  = [imgAry objectAtIndex:i];
-        NSString * title = [TitleAry objectAtIndex:i];
-        NSDictionary * dic = @{@"img":img, @"title":title};
-        [self.myArr addObject:dic];
-    }
-    
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"personInfo"];
-    self.personInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+//    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"personInfo"];
+//    self.personInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     
     [self.view addSubview:self.myTabelView];
     [self.myTabelView registerClass:[HomeworkCell class] forCellReuseIdentifier:@"HomeworkCellId"];
@@ -66,6 +58,30 @@
     [[HttpRequestManager sharedSingleton] POST:getUserInfoURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
         self.model = [PersonInformationModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+        if (self.model.is_adviser == 1 && self.model.dorm_open == 1) {
+            NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助1",@"请假列表1",@"修改密码",@"已发布", @"就寝管理",nil];
+            NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码",@"已发布的活动", @"就寝管理", nil];
+            
+            for (int i = 0; i < imgAry.count; i++) {
+                NSString * img  = [imgAry objectAtIndex:i];
+                NSString * title = [TitleAry objectAtIndex:i];
+                NSDictionary * dic = @{@"img":img, @"title":title};
+                [self.myArr addObject:dic];
+            }
+        
+        }else
+        {
+            NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助1",@"请假列表1",@"修改密码",@"已发布",nil];
+            NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码",@"已发布的活动", nil];
+            
+            for (int i = 0; i < imgAry.count; i++) {
+                NSString * img  = [imgAry objectAtIndex:i];
+                NSString * title = [TitleAry objectAtIndex:i];
+                NSDictionary * dic = @{@"img":img, @"title":title};
+                [self.myArr addObject:dic];
+            }
+        }
+        
         [self.myTabelView reloadData];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
@@ -89,7 +105,7 @@
     if (section == 0) {
         return 1;
     } else if (section == 1) {
-        return 4;
+        return self.myArr.count;
     } else {
         return 1;
     }
@@ -206,7 +222,12 @@
                 
             }
                 break;
-                
+            case 4:
+            {
+                NSLog(@"点击就寝管理");
+                SleepManagementViewController * sleepManagementVC = [[SleepManagementViewController alloc] init];
+                [self.navigationController pushViewController:sleepManagementVC animated:YES];
+            }
             default:
                 break;
         }

@@ -16,8 +16,9 @@
     if (self) {
         [self addSubview:self.nameLabel];
         [self addSubview:self.titleLabel];
-//        [self addSubview:self.moreImg];
+        [self addSubview:self.moreImg];
         [self addSubview:self.lineView];
+        [self addSubview:self.newTitleLabel];
     }
     return self;
 }
@@ -32,14 +33,26 @@
     return _nameLabel;
 }
 
-//- (UIImageView *)moreImg
-//{
-//    if (!_moreImg) {
-//        self.moreImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 15 - 11.5, 50 / 2 - 8, 11.5, 16)];
-//        self.moreImg.image = [UIImage imageNamed:@"more"];
-//    }
-//    return _moreImg;
-//}
+- (UIImageView *)moreImg
+{
+    if (!_moreImg) {
+        self.moreImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 15 - 6, 50 / 2 - 5, 6, 10)];
+        self.moreImg.image = [UIImage imageNamed:@"箭头new"];
+    }
+    return _moreImg;
+}
+
+- (UILabel *)newTitleLabel
+{
+    if (!_newTitleLabel) {
+        self.newTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 15 - 6 - 15 - 100, 50 / 2 - 10, 100, 20)];
+        self.newTitleLabel.textColor = COLOR(51, 51, 51, 1);
+        self.newTitleLabel.font = [UIFont systemFontOfSize:15];
+        self.newTitleLabel.textAlignment = NSTextAlignmentRight;
+//        self.newTitleLabel.text = @"请绑定手机号";
+    }
+    return _newTitleLabel;
+}
 
 
 - (UILabel *)titleLabel

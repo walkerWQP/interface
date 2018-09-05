@@ -66,8 +66,17 @@
     
     [_mapView addAnnotation:self.annotation];
     
-    self.slider = [[UISlider alloc] initWithFrame:CGRectMake(15, 74, kScreenWidth - 30, 20)];
-    [[[UIApplication sharedApplication] keyWindow] addSubview:self.slider];
+    
+    if ([UIScreen mainScreen].bounds.size.height == 812) {
+        self.slider = [[UISlider alloc] initWithFrame:CGRectMake(15, 124, kScreenWidth - 30, 20)];
+        [[[UIApplication sharedApplication] keyWindow] addSubview:self.slider];
+    }else
+    {
+        self.slider = [[UISlider alloc] initWithFrame:CGRectMake(15, 74, kScreenWidth - 30, 20)];
+        [[[UIApplication sharedApplication] keyWindow] addSubview:self.slider];
+    }
+    
+  
     
     [self.slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
     
@@ -175,9 +184,6 @@
 - (void)longPress:(UITapGestureRecognizer *)gestureRecognizer
 {
     
-//    if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
-//        return;
-//    }
     [_mapView removeAnnotation:_annotation];
     //坐标转换
     CGPoint touchPoint = [gestureRecognizer locationInView:_mapView];

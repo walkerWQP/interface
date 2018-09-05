@@ -20,6 +20,22 @@
     return helper;
 }
 
+- (NSMutableArray *)yidaoAry
+{
+    if (!_yidaoAry) {
+        self.yidaoAry = [@[]mutableCopy];
+    }
+    return _yidaoAry;
+}
+
+- (NSMutableArray *)weidaoAry
+{
+    if (!_weidaoAry) {
+        self.weidaoAry = [@[]mutableCopy];
+    }
+    return _weidaoAry;
+}
+
 - (NSString *)encode:(NSString *)string
 {
     //先将string转换成data

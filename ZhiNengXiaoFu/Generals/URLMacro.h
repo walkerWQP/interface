@@ -13,9 +13,9 @@
 #endif /* URLMacro_h */
 
 //正式
-#define YUMING  @"http://www.ksznxt.com/"
+//#define YUMING  @"http://www.ksznxt.com/"
 //测试
-//#define YUMING    @"http://school.ksznxt.com/"
+#define YUMING    @"http://school.ksznxt.com/"
 
 //登录接口
 #define LOGIN  [NSString stringWithFormat:@"%@index/login/login",YUMING]
@@ -226,5 +226,27 @@
 
 //家长删除电子围栏
 #define indexFenceDeleteFence [NSString stringWithFormat:@"%@index/fence/delete_fence",YUMING]
+
+//宿舍管理模块接口
+//教师获取自己管理的班级（是班主任的班级）
+#define indexDormGetAdviserClass [NSString stringWithFormat:@"%@index/dorm/get_adviser_class",YUMING]
+
+//家长获取学生近三天的进出宿舍记录
+#define indexDormGetDormRecord [NSString stringWithFormat:@"%@index/dorm/get_dorm_record",YUMING]
+
+//教师获取近四天日期列表
+#define indexDormGetFourDayList [NSString stringWithFormat:@"%@index/dorm/get_four_day_list",YUMING]
+
+//教师按班级获取近四天的进出宿舍统计情况
+#define indexDormGetClassDormRecord [NSString stringWithFormat:@"%@index/dorm/get_class_dorm_record",YUMING]
+
+//发送短信验证码
+#define SendCodeURL [NSString stringWithFormat:@"%@index/user/send_code",YUMING]
+
+//绑定手机号码
+#define BindMobileURL [NSString stringWithFormat:@"%@index/user/bind_mobile",YUMING]
+
+//更改绑定手机号码
+#define ChangeMobileURL [NSString stringWithFormat:@"%@index/user/change_mobile",YUMING]
 
 

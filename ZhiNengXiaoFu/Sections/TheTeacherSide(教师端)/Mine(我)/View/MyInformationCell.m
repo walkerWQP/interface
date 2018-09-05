@@ -16,7 +16,7 @@
         [self addSubview:self.userImg];
         [self addSubview:self.userName];
         [self addSubview:self.userZiLiao];
-        [self addSubview:self.nextImg];
+//        [self addSubview:self.nextImg];
     }
     return self;
 }
@@ -48,12 +48,12 @@
 }
 
 
-- (UIImageView *)nextImg {
-    if (!_nextImg) {
-        self.nextImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 20 - 11.5, 45 - 8, 11.5, 16)];
-        self.nextImg.image = [UIImage imageNamed:@"more"];
-    }
-    return _nextImg;
-}
+//- (UIImageView *)nextImg {
+//    if (!_nextImg) {
+//        self.nextImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 20 - 11.5, 45 - 8, 11.5, 16)];
+//        self.nextImg.image = [UIImage imageNamed:@"more"];
+//    }
+//    return _nextImg;
+//}
 
 @end

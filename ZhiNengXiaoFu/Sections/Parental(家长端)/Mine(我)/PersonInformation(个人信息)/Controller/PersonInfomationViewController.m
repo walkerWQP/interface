@@ -10,6 +10,8 @@
 #import "PersonInfomationCell.h"
 #import "PersonIconCell.h"
 #import "PersonInformationModel.h"
+#import "BindMobilePhoneViewController.h"
+
 @interface PersonInfomationViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * personInfomationTableView;
@@ -33,7 +35,6 @@
     [self.view addSubview:self.personInfomationTableView];
     [self.personInfomationTableView registerClass:[PersonInfomationCell class] forCellReuseIdentifier:@"PersonInfomationCellId"];
     [self.personInfomationTableView registerClass:[PersonIconCell class] forCellReuseIdentifier:@"PersonIconCellId"];
-    
 //    self.personInfo = [UserManager getUserObject];
     
     [self setNetWork];
@@ -87,6 +88,17 @@
         PersonInfomationCell * cell = [tableView dequeueReusableCellWithIdentifier:@"PersonInfomationCellId" forIndexPath:indexPath];
         cell.nameLabel.text = [self.nameAry objectAtIndex:indexPath.row];
         cell.selectionStyle =  UITableViewCellSelectionStyleNone;
+        
+        if (indexPath.row == 2) {
+            cell.moreImg.alpha = 1;
+            cell.newTitleLabel.alpha = 1;
+            cell.titleLabel.alpha = 0;
+        }else
+        {
+            cell.moreImg.alpha = 0;
+            cell.newTitleLabel.alpha = 0;
+            cell.titleLabel.alpha = 1;
+        }
 
         if (indexPath.row == 1) {
             cell.titleLabel.text = self.personInfo.name;
@@ -127,6 +139,15 @@
     }else
     {
         return 50;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 2) {
+        BindMobilePhoneViewController * bingMoblie = [[BindMobilePhoneViewController alloc] init];
+        [self.navigationController pushViewController:bingMoblie animated:YES];
+
     }
 }
 

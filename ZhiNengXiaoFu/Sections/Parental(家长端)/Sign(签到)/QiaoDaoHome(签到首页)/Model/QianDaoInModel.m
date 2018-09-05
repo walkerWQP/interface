@@ -7,7 +7,11 @@
 //
 
 #import "QianDaoInModel.h"
-
+#import "PrefixHeader.pch"
 @implementation QianDaoInModel
++ (NSDictionary *)replacedKeyFromPropertyName {
+    
+    return @{@"ID": @"id"};
+}
 
 @end

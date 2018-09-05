@@ -29,6 +29,10 @@
     self.headImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.lineView.frame.origin.y + self.lineView.frame.size.height + 5, 60, 60)];
 //    self.headImgView.layer.cornerRadius = self.headImgView.frame.size.width/2.0;
 //    self.headImgView.layer.masksToBounds = YES;
+    
+    self.headImgView.contentMode = UIViewContentModeScaleAspectFill;
+    self.headImgView.clipsToBounds = YES;
+    
     [self.contentView addSubview:self.headImgView];
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + self.headImgView.frame.size.width,self.lineView.frame.origin.y + self.lineView.frame.size.height + 15, APP_WIDTH - 30 - self.headImgView.frame.size.width, 20)];
