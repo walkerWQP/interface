@@ -19,6 +19,7 @@
 #import "LoginHomePageViewController.h"
 #import "ChangePasswordViewController.h"
 #import "JiuQinGuanLiViewController.h"
+#import "ExitCell.h"
 @interface MineViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * mineTabelView;
@@ -46,12 +47,18 @@
     
     [self.mineTabelView registerClass:[ClassHomePageItemCell class] forCellReuseIdentifier:@"ClassHomePageItemCellId"];
     [self.mineTabelView registerClass:[MinePersonXiXinCell class] forCellReuseIdentifier:@"MinePersonXiXinCellId"];
-    [self.mineTabelView registerClass:[TuiChuLoginCell class] forCellReuseIdentifier:@"TuiChuLoginCellId"];
+    [self.mineTabelView registerClass:[ExitCell class] forCellReuseIdentifier:@"ExitCellId"];
     
 //    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"personInfo"];
 //    self.personInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    [self setNetWork];
+   
     self.mineTabelView.separatorStyle = UITableViewCellSeparatorStyleNone;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.mineAry = [@[]mutableCopy];
+    [self setNetWork];
 }
 
 
@@ -62,7 +69,7 @@
     [[HttpRequestManager sharedSingleton] POST:getUserInfoURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
         self.personInfo = [PersonInformationModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
-        if (self.personInfo.dorm_open == 1) {
+        if (self.personInfo.dorm_open == 1 && self.personInfo.nature == 2) {
             NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码",@"就寝管理", nil];
             NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码",@"就寝管理", nil];
             
@@ -74,7 +81,7 @@
             }
         }else
         {
-            NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表1",@"修改密码", nil];
+            NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码", nil];
             NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码", nil];
             
             for (int i = 0; i < imgAry.count; i++) {
@@ -161,7 +168,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         MinePersonXiXinCell * cell = [tableView dequeueReusableCellWithIdentifier:@"MinePersonXiXinCellId" forIndexPath:indexPath];
         cell.userName.text = self.personInfo.name;
         cell.userZiLiao.text = @"我的资料";
@@ -177,15 +185,17 @@
         NSDictionary * dic = [self.mineAry objectAtIndex:indexPath.row];
         cell.itemImg.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
         cell.itemLabel.text = [dic objectForKey:@"title"];
+        
         return cell;
     }else
     {
-        TuiChuLoginCell *  cell = [tableView dequeueReusableCellWithIdentifier:@"TuiChuLoginCellId" forIndexPath:indexPath];
-        [cell.tuichuLoginBtn addTarget:self action:@selector(tuichuLoginBtn:) forControlEvents:UIControlEventTouchDown];
-        cell.tuichuLoginBtn.userInteractionEnabled = YES;
+        ExitCell *  cell = [tableView dequeueReusableCellWithIdentifier:@"ExitCellId" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
+        [cell.exitBtn addTarget:self action:@selector(tuichuLoginBtn:) forControlEvents:UIControlEventTouchUpInside];
+        cell.userInteractionEnabled = YES;
         return cell;
+        
+      
     }
 }
 
@@ -198,7 +208,7 @@
         return 50;
     }else
     {
-        return 50;
+        return 60;
     }
 }
 
@@ -234,9 +244,20 @@
 - (void)tuichuLoginBtn:(UIButton *)sender
 {
    
-    [UserManager logoOut];
-    [WProgressHUD showSuccessfulAnimatedText:@"退出成功"];
-
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:@"确定要退出登录吗?" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *alertT = [UIAlertAction actionWithTitle:@"退出登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"点击退出登录");
+        [UserManager logoOut];
+        [WProgressHUD showSuccessfulAnimatedText:@"退出成功"];
+    }];
+    UIAlertAction *alertF = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"点击了取消");
+    }];
+    
+    [actionSheet addAction:alertT];
+    [actionSheet addAction:alertF];
+    [self presentViewController:actionSheet animated:YES completion:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning {

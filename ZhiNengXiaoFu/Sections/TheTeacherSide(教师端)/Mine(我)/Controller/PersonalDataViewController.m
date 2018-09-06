@@ -13,21 +13,23 @@
 
 @interface PersonalDataViewController ()<UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) UITableView    *personalDataTableView;
-@property (nonatomic, strong) NSMutableArray *nameArr;
+@property (nonatomic, strong) UITableView    * personalDataTableView;
+@property (nonatomic, strong) NSMutableArray * nameArr;
 @property (nonatomic, strong) PersonInformationModel * personInfo;
-
 
 @end
 
 @implementation PersonalDataViewController
 
-- (void)viewWillAppear:(BOOL)animated {
+
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     [self setUser];
 }
 
 - (void)viewDidLoad {
+
     [super viewDidLoad];
     self.title = @"个人资料";
     self.view.backgroundColor = backColor;
@@ -36,7 +38,6 @@
     [self.view addSubview:self.personalDataTableView];
     [self.personalDataTableView registerClass:[PersonInfomationCell class] forCellReuseIdentifier:@"PersonInfomationCellId"];
     [self.personalDataTableView registerClass:[PersonIconCell class] forCellReuseIdentifier:@"PersonIconCellId"];
-    
 }
 
 - (void)setUser {
@@ -101,7 +102,8 @@
             if (self.personInfo.mobile == nil || [self.personInfo.mobile isEqualToString:@""]) {
                 cell.newTitleLabel.text = @"请绑定手机号";
             } else {
-                cell.newTitleLabel.text = self.personInfo.mobile;
+                NSString *numberString = [self.personInfo.mobile stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
+                cell.newTitleLabel.text = numberString;
             }
             
             
@@ -114,6 +116,11 @@
         return cell;
     }
 }
+
+
+
+
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     

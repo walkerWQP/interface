@@ -16,7 +16,7 @@
 
 @interface TheGuideViewController ()<UIScrollViewDelegate>
 @property (nonatomic, weak) UIPageControl *pageControl;
-
+@property (nonatomic, strong) UILabel * tiaoguo;
 @end
 
 @implementation TheGuideViewController
@@ -84,11 +84,17 @@
         // 给最后一个imageView添加按钮
         if (i == HMNewfeatureImageCount - 1) {
             
-            UILabel * tiaoguo = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 70, 30, 50, 20)];
-            tiaoguo.text = @"跳过";
-            tiaoguo.textColor = [UIColor blackColor];
-            tiaoguo.font = [UIFont systemFontOfSize:16];
-            [imageView addSubview:tiaoguo];
+            if ([UIScreen mainScreen].bounds.size.height == 812) {
+                self.tiaoguo = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 70, 60, 50, 20)];
+            }else
+            {
+                self.tiaoguo = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 70, 30, 50, 20)];
+            }
+            
+            self.tiaoguo.text = @"跳过";
+            self.tiaoguo.textColor = [UIColor blackColor];
+            self.tiaoguo.font = [UIFont systemFontOfSize:16];
+            [imageView addSubview: self.tiaoguo];
             
             [self setupLastImageView:imageView];
         }

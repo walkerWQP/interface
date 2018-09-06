@@ -143,8 +143,6 @@
     self.introductionTextView.text = self.introduction;
     [self.launchEventScrollView addSubview:self.introductionTextView];
     
-   
-    
     self.releaseBtn = [[UIButton alloc] initWithFrame:CGRectMake(20, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + self.timeLabel.frame.size.height + self.timeView.frame.size.height + self.introductionLabel.frame.size.height + self.introductionTextView.frame.size.height + 70, APP_WIDTH - 40, 40)];
     self.releaseBtn.backgroundColor = THEMECOLOR;
     [self.releaseBtn setTitle:@"发布修改" forState:UIControlStateNormal];

@@ -22,10 +22,12 @@
 - (UIButton *)tuichuLoginBtn
 {
     if (!_tuichuLoginBtn) {
-        self.tuichuLoginBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
+        self.tuichuLoginBtn = [[UIButton alloc] initWithFrame:CGRectMake(75, 0, kScreenWidth - 150, 50)];
         [self.tuichuLoginBtn setTitle:@"退出账号" forState:UIControlStateNormal];
         [self.tuichuLoginBtn setFont:[UIFont systemFontOfSize:13]];
         [self.tuichuLoginBtn setTitleColor:[UIColor colorWithRed:235 / 255.0 green:7 / 255.0 blue:25 / 255.0 alpha:1] forState:UIControlStateNormal];
+        
+//        [self.tuichuLoginBtn setBackgroundColor:THEMECOLOR];
     }
     return _tuichuLoginBtn;
 }

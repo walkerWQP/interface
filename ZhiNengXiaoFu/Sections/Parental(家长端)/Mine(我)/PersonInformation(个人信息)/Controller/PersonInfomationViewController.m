@@ -28,7 +28,6 @@
     // Do any additional setup after loading the view.
     self.title = @"个人资料";
     self.view.backgroundColor = [UIColor whiteColor];
-
     
     self.personInfomationTableView.separatorStyle =  UITableViewCellSeparatorStyleNone;
     self.nameAry = [NSMutableArray arrayWithObjects:@"头像",@"名字",@"手机", @"学生类型",@"账号", @"学校", @"所在班级", nil];
@@ -36,7 +35,10 @@
     [self.personInfomationTableView registerClass:[PersonInfomationCell class] forCellReuseIdentifier:@"PersonInfomationCellId"];
     [self.personInfomationTableView registerClass:[PersonIconCell class] forCellReuseIdentifier:@"PersonIconCellId"];
 //    self.personInfo = [UserManager getUserObject];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     [self setNetWork];
 }
 
@@ -76,7 +78,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
+    if (indexPath.row == 0)
+    {
         PersonIconCell * cell = [tableView dequeueReusableCellWithIdentifier:@"PersonIconCellId" forIndexPath:indexPath];
         cell.nameLabel.text = @"头像";
         cell.selectionStyle =  UITableViewCellSelectionStyleNone;
@@ -93,6 +96,13 @@
             cell.moreImg.alpha = 1;
             cell.newTitleLabel.alpha = 1;
             cell.titleLabel.alpha = 0;
+            
+            if (self.personInfo.mobile == nil || [self.personInfo.mobile isEqualToString:@""]) {
+                cell.newTitleLabel.text = @"请绑定手机号";
+            } else {
+                NSString *numberString = [self.personInfo.mobile stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
+                cell.newTitleLabel.text = numberString;
+            }
         }else
         {
             cell.moreImg.alpha = 0;
@@ -146,6 +156,11 @@
 {
     if (indexPath.row == 2) {
         BindMobilePhoneViewController * bingMoblie = [[BindMobilePhoneViewController alloc] init];
+        if (self.personInfo.mobile == nil || [self.personInfo.mobile isEqualToString:@""]) {
+            bingMoblie.typeStr = @"1";
+        } else {
+            bingMoblie.typeStr = @"2";
+        }
         [self.navigationController pushViewController:bingMoblie animated:YES];
 
     }

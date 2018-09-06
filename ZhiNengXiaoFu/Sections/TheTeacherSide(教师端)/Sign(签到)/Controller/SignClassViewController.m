@@ -86,7 +86,7 @@
             self.allStr = @"";
             self.signStr = @"";
             self.no_signStr = @"";
-            self.self.leaveStr = @"";
+            self.leaveStr = @"";
             
             self.allStr = [NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"data"] objectForKey:@"all"]];
             self.signStr = [NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"data"] objectForKey:@"sign"]];

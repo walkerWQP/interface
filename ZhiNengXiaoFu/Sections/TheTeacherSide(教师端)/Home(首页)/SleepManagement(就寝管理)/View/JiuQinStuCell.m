@@ -24,6 +24,10 @@
 {
     if (!_headImg) {
         self.headImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width / 2 - 35, 20, 70, 70)];
+        self.headImg.layer.cornerRadius = 35;
+        self.headImg.layer.masksToBounds = YES;
+        self.headImg.contentMode = UIViewContentModeScaleAspectFill;
+        self.headImg.clipsToBounds = YES;
     }
     return _headImg;
 }

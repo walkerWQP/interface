@@ -28,7 +28,7 @@
     
     
     self.layout = [[UICollectionViewFlowLayout alloc] init];
-    self.WeiZhuQinCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 1, kScreenWidth, kScreenHeight - 287 - APP_NAVH - 40) collectionViewLayout:self.layout];
+    self.WeiZhuQinCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 1, kScreenWidth, kScreenHeight - 287 - APP_NAVH - 40 - 1) collectionViewLayout:self.layout];
     
     self.WeiZhuQinCollectionView.backgroundColor = backColor;
     
@@ -72,7 +72,7 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake((kScreenWidth  - 30 )/ 3, 110);
+    return CGSizeMake((kScreenWidth  - 30 )/ 3, 117);
 }
 
 

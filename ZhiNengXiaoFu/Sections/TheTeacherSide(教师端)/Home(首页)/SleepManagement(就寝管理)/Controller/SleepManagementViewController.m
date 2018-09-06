@@ -42,7 +42,11 @@
 @property (nonatomic, copy) NSString * timeN;
 
 @property (nonatomic, strong) NSDictionary * FourDic;
+
+@property (nonatomic, strong) YiZhuQinViewController *haveToReplyVC;
+@property (nonatomic, strong) WeiZhuQinViewController *didNotReturnVC;
 @end
+
 
 @implementation SleepManagementViewController
 
@@ -137,10 +141,10 @@
 
 - (NSArray <UIViewController *>*)setChildVC{
     //已回复
-    YiZhuQinViewController *haveToReplyVC = [[YiZhuQinViewController alloc]init];
+   self.haveToReplyVC  = [[YiZhuQinViewController alloc]init];
     //未回复
-    WeiZhuQinViewController *didNotReturnVC = [[WeiZhuQinViewController alloc]init];
-    NSArray *childVC = [NSArray arrayWithObjects:haveToReplyVC,didNotReturnVC, nil];
+    self.didNotReturnVC = [[WeiZhuQinViewController alloc]init];
+    NSArray *childVC = [NSArray arrayWithObjects:self.haveToReplyVC,self.didNotReturnVC, nil];
     return childVC;
 }
 
@@ -305,10 +309,12 @@
             
             [SingletonHelper manager].weidaoAry = [StudentJiuQinModel mj_objectArrayWithKeyValuesArray:[[[responseObject objectForKey:@"data"] objectForKey:@"record"] objectForKey:@"no_sign_student"]];
 
+            [self.titleView removeFromSuperview];
             [self.titleView.titleSegment removeAllSegments];
 
             self.titleView = nil;
-            [self.titleView removeFromSuperview];
+            [self.haveToReplyVC.view removeFromSuperview];
+            [self.didNotReturnVC.view removeFromSuperview];
 
             NSArray *titleArray = [NSArray arrayWithObjects:[NSString stringWithFormat:@"已住寝%@", [[self.FourDic objectForKey:@"record"] objectForKey:@"sign_num"]],[NSString stringWithFormat:@"未住寝%@", [[self.FourDic objectForKey:@"record"] objectForKey:@"no_sign_num"]],nil];
             self.titleView.title = titleArray;

@@ -59,7 +59,7 @@
         NSLog(@"%@", responseObject);
         self.model = [PersonInformationModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
         if (self.model.is_adviser == 1 && self.model.dorm_open == 1) {
-            NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助1",@"请假列表1",@"修改密码",@"已发布", @"就寝管理",nil];
+            NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助1",@"请假列表",@"修改密码",@"已发布", @"就寝管理",nil];
             NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码",@"已发布的活动", @"就寝管理", nil];
             
             for (int i = 0; i < imgAry.count; i++) {
@@ -71,7 +71,7 @@
         
         }else
         {
-            NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助1",@"请假列表1",@"修改密码",@"已发布",nil];
+            NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助1",@"请假列表",@"修改密码",@"已发布",nil];
             NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码",@"已发布的活动", nil];
             
             for (int i = 0; i < imgAry.count; i++) {
