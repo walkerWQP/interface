@@ -67,6 +67,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"请假详情";
+    
+    NSUserDefaults*pushJudge = [NSUserDefaults standardUserDefaults];
+    if([[pushJudge objectForKey:@"notify"]isEqualToString:@"push"])
+    {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"返回(1)"] style:UIBarButtonItemStylePlain target:self action:@selector(rebackToRootViewAction)];
+        self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+        NSUserDefaults * pushJudge = [NSUserDefaults standardUserDefaults];
+        [pushJudge setObject: @"" forKey:@"notify"];
+        [pushJudge synchronize];//记得立即同步
+        
+    }else
+    {
+        
+    }
+}
+
+- (void)rebackToRootViewAction
+{
+    NSUserDefaults * pushJudge = [NSUserDefaults standardUserDefaults];
+    [pushJudge setObject:@""forKey:@"notify"];
+    [pushJudge synchronize];//记得立即同步
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)getDataFromLeaveLeaveDetail:(NSString *)studentId {
@@ -101,9 +123,11 @@
             [self makeLeaveTheDetailsViewControllerUI];
             
         } else {
-            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402)
+            {
                 [UserManager logoOut];
-            } else {
+            }else
+            {
                 
             }
             [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
@@ -135,7 +159,7 @@
     self.firstView.backgroundColor = backColor;
     [self.launchEventScrollView addSubview:self.firstView];
     
-    self.backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 155)];
+    self.backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 155)];
     self.backView.backgroundColor = TEACHERTHEMECOLOR;
     [self.firstView addSubview:self.backView];
     
@@ -147,29 +171,29 @@
             [self.userIconImg sd_setImageWithURL:[NSURL URLWithString:self.toSchoolSituationModel.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
         }
     } else {
-        if (self.headImg == nil || [self.headImg isEqualToString:@""]) {
+        if (self.leaveListModel.student_head_img == nil || [self.leaveListModel.student_head_img isEqualToString:@""]) {
             self.userIconImg.image = [UIImage imageNamed:@"user"];
         } else {
-            [self.userIconImg sd_setImageWithURL:[NSURL URLWithString:self.headImg] placeholderImage:[UIImage imageNamed:@"user"]];
+            [self.userIconImg sd_setImageWithURL:[NSURL URLWithString:self.leaveListModel.student_head_img] placeholderImage:[UIImage imageNamed:@"user"]];
         }
     }
     self.userIconImg.layer.cornerRadius = 35;
     self.userIconImg.layer.masksToBounds = YES;
     [self.backView addSubview:self.userIconImg];
     
-    self.userNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.userIconImg.frame.size.height + self.userIconImg.frame.origin.y + 12, kScreenWidth, 17)];
+    self.userNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.userIconImg.frame.size.height + self.userIconImg.frame.origin.y + 12, APP_WIDTH, 17)];
     self.userNameLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:15];
     self.userNameLabel.textColor = [UIColor whiteColor];
     self.userNameLabel.textAlignment = NSTextAlignmentCenter;
     if ([self.typeStr isEqualToString:@"1"]) {
         self.userNameLabel.text = self.toSchoolSituationModel.name;
     } else {
-       self.userNameLabel.text = self.name;
+       self.userNameLabel.text = self.leaveListModel.student_name;
     }
     
     [self.backView addSubview:self.userNameLabel];
     
-    self.StartEndView = [[UIView alloc] initWithFrame:CGRectMake(32, 155 - 85 / 2, kScreenWidth - 64, 85)];
+    self.StartEndView = [[UIView alloc] initWithFrame:CGRectMake(32, 155 - 85 / 2, APP_WIDTH - 64, 85)];
     self.StartEndView.backgroundColor = [UIColor whiteColor];
     self.StartEndView.layer.cornerRadius = 4;
     self.StartEndView.layer.masksToBounds = YES;

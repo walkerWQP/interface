@@ -9,8 +9,12 @@ pod 'AMap3DMap-NO-IDFA'
 pod 'AMapSearch-NO-IDFA'
 pod 'AMapLocation-NO-IDFA'
 pod 'MJRefresh'
+pod 'Masonry'
+pod 'JPush'
 pod 'WebViewJavascriptBridge'
 #注意此处需要添加use_frameworks!
 use_frameworks!
 pod 'LTScrollView'
+pod 'YYKit', '~> 1.0.9'
+pod 'BlocksKit', '~> 2.2.5'
 end

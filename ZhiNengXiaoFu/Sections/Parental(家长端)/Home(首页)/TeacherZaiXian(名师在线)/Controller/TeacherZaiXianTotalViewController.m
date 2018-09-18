@@ -37,6 +37,7 @@
     self.navigationItem.leftBarButtonItem = back;
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
     
+    //获取视频类型列表
     [self getLieBiao];
 }
 
@@ -116,6 +117,7 @@
     return _bannerArr;
 }
 
+#pragma mark - 获取轮播图
 - (void)getBannersURLData {
     NSDictionary *dic = @{@"key":[UserManager key],@"t_id":@"8"};
     NSLog(@"%@",[UserManager key]);

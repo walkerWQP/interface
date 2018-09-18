@@ -68,15 +68,20 @@
     }];
     //播放按钮
     [self.playButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.mas_equalTo(Padding);
-        make.bottom.mas_equalTo(-Padding);
-        make.width.equalTo(self.backButton.mas_height);
+        make.left.mas_equalTo(Padding);
+        make.top.mas_equalTo(15);
+        make.width.mas_equalTo(20);
+        make.height.mas_equalTo(20);
     }];
     //全屏按钮
     [self.fullButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.bottom.mas_equalTo(-Padding);
-        make.top.mas_equalTo(Padding);
-        make.width.equalTo(self.backButton.mas_height);
+//        make.right.bottom.mas_equalTo(-Padding);
+//        make.top.mas_equalTo(Padding);
+        make.right.mas_equalTo(-Padding);
+        make.top.mas_equalTo(15);
+//        make.width.equalTo(self.backButton.mas_height);
+        make.width.mas_equalTo(20);
+        make.height.mas_equalTo(20);
     }];
     //当前播放时间
     [self.currentTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -158,6 +163,7 @@
     }
     return _backButton;
 }
+
 //播放按钮
 - (UIButton *) playButton{
     if (_playButton == nil){
@@ -168,6 +174,7 @@
     }
     return _playButton;
 }
+
 //全屏按钮
 - (UIButton *) fullButton{
     if (_fullButton == nil){

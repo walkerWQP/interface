@@ -97,7 +97,7 @@
     [self.view addSubview:self.uploadPicturesLabel];
     
 
-    self.myPicture = [[UIView alloc] initWithFrame:CGRectMake(10, self.noticeNameLabel.frame.size.height + self.noticeNameTextField.frame.size.height + self.noticeContentLabel.frame.size.height + self.noticeContentTextView.frame.size.height + self.uploadPicturesLabel.frame.size.height + 40, kScreenWidth - 20, 80)];
+    self.myPicture = [[UIView alloc] initWithFrame:CGRectMake(10, self.noticeNameLabel.frame.size.height + self.noticeNameTextField.frame.size.height + self.noticeContentLabel.frame.size.height + self.noticeContentTextView.frame.size.height + self.uploadPicturesLabel.frame.size.height + 40, APP_WIDTH - 20, 80)];
     self.myPicture.backgroundColor = [UIColor redColor];
     [self.view addSubview:self.myPicture];
     
@@ -138,6 +138,11 @@
         NSLog(@"请输入通知内容");
         [WProgressHUD showErrorAnimatedText:@"通知内容不能为空"];
         return;
+    } else if (self.LQPhotoPicker_smallImageArray.count == 0) {
+        NSDictionary *dataDic = [NSDictionary dictionary];
+        
+        dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.noticeNameTextField.text,@"content":self.noticeContentTextView.text,@"img":@""};
+        [self postDataForRelease:dataDic];
     } else {
         [self setShangChuanTupian];
     }
@@ -191,14 +196,10 @@
             }
             NSLog(@"%ld",self.imgFiledArr.count);
             NSDictionary *dataDic = [NSDictionary dictionary];
-            if (self.imgFiledArr.count == 0) {
-                dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.noticeNameTextField.text,@"content":self.noticeContentTextView.text,@"img":@""};
-                [self postDataForRelease:dataDic];
-            } else {
-            
-                dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.noticeNameTextField.text,@"content":self.noticeContentTextView.text,@"img":self.imgFiledArr};
-                [self postDataForRelease:dataDic];
-            }
+    
+            dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.noticeNameTextField.text,@"content":self.noticeContentTextView.text,@"img":self.imgFiledArr};
+            [self postDataForRelease:dataDic];
+           
             
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {

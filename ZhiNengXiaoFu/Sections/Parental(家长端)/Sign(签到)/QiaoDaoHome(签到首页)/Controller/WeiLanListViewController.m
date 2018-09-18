@@ -119,7 +119,7 @@
 - (UITableView *)WeiLanListTableView
 {
     if (!_WeiLanListTableView) {
-        self.WeiLanListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH) style:UITableViewStylePlain];
+        self.WeiLanListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStylePlain];
         self.WeiLanListTableView.backgroundColor = backColor;
         
         _WeiLanListTableView.estimatedRowHeight = 0;

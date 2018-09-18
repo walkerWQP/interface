@@ -18,6 +18,7 @@
 @property (nonatomic, assign) NSInteger     page;
 @property (nonatomic, strong) UIImageView * zanwushuju;
 
+//封装就寝model
 @property (nonatomic, strong) QianDaoModel * qianDaoModel;
 @end
 
@@ -51,12 +52,14 @@
     self.JiuQinGuanLiTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
 }
 
+//下拉刷新
 - (void)loadNewTopic {
     self.page = 1;
     [self.JiuQinGuanLiAry removeAllObjects];
     [self getNetWork:self.page];
 }
 
+//上拉刷新
 - (void)loadMoreTopic {
     self.page += 1;
     [self getNetWork:self.page];
@@ -104,10 +107,11 @@
     }];
 }
 
+//tableview的加载
 - (UITableView *)JiuQinGuanLiTableView
 {
     if (!_JiuQinGuanLiTableView) {
-        self.JiuQinGuanLiTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH) style:UITableViewStylePlain];
+        self.JiuQinGuanLiTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStylePlain];
         self.JiuQinGuanLiTableView.delegate = self;
         self.JiuQinGuanLiTableView.dataSource = self;
         self.JiuQinGuanLiTableView.backgroundColor = [UIColor whiteColor];
@@ -160,7 +164,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
 
    if (indexPath.section == 0) {
         JiuQinPersonCell * cell = [tableView dequeueReusableCellWithIdentifier:@"JiuQinPersonCellId" forIndexPath:indexPath];

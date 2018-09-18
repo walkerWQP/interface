@@ -170,25 +170,28 @@
 
 //侧滑允许编辑cell
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.section == 0) {
+        return NO;
+    }
     return YES;
 }
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    //添加一个删除按钮
-    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-        NSLog(@"点击删除");
-        //先删数据 再删UI
-        ClassDetailsModel * model = [self.classDetailsArr objectAtIndex:indexPath.row];
-        [self.classDetailsArr removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [self deleteNoticeURLForData:model.ID];
-        
-    }];
-    
-    
-    return @[deleteAction];
+        //添加一个删除按钮
+        UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+            NSLog(@"点击删除");
+            //先删数据 再删UI
+            ClassDetailsModel * model = [self.classDetailsArr objectAtIndex:indexPath.row];
+            [self.classDetailsArr removeObjectAtIndex:indexPath.row];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self deleteNoticeURLForData:model.ID];
+            
+        }];
+        return @[deleteAction];
+
 }
 
 - (void)deleteNoticeURLForData:(NSString *)ID {
@@ -261,7 +264,7 @@
             }
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
+        UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
         
         if (self.bannerArr.count == 0) {
             
@@ -302,15 +305,20 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    ClassDetailsModel *model = [self.classDetailsArr objectAtIndex:indexPath.row];
-    TongZhiDetailsViewController *tongZhiDetailsVC = [[TongZhiDetailsViewController alloc] init];
-    if (model.ID == nil) {
-        [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+    if (indexPath.section == 0) {
+        NSLog(@"点击banner");
     } else {
-        tongZhiDetailsVC.tongZhiId = model.ID;
-        tongZhiDetailsVC.typeStr = @"1";
-        [self.navigationController pushViewController:tongZhiDetailsVC animated:YES];
+        ClassDetailsModel *model = [self.classDetailsArr objectAtIndex:indexPath.row];
+        TongZhiDetailsViewController *tongZhiDetailsVC = [[TongZhiDetailsViewController alloc] init];
+        if (model.ID == nil) {
+            [WProgressHUD showErrorAnimatedText:@"数据不正确,请重试"];
+        } else {
+            tongZhiDetailsVC.tongZhiId = model.ID;
+            tongZhiDetailsVC.typeStr = @"1";
+            [self.navigationController pushViewController:tongZhiDetailsVC animated:YES];
+        }
     }
+    
 }
 
 

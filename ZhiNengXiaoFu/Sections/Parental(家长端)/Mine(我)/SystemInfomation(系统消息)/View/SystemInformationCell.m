@@ -33,7 +33,7 @@
 - (UILabel *)titleLabel
 {
     if (!_titleLabel) {
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 15, kScreenWidth - 110 - 20, 20)];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 15, APP_WIDTH - 110 - 20, 20)];
         self.titleLabel.textColor = COLOR(51, 51, 51, 1);
         self.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:15];
         self.titleLabel.numberOfLines = 1;

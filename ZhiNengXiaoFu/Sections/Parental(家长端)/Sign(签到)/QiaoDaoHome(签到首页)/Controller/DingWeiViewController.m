@@ -77,7 +77,7 @@
     self.locationManager = [[AMapLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.distanceFilter = 20;
-    //    UIImageView * dingweiImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    //    UIImageView * dingweiImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT)];
     //    dingweiImg.image = [UIImage imageNamed:@"dingwei1"];
     //    [self.view addSubview:dingweiImg];
     
@@ -353,7 +353,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.dingWeiImg = [[UIButton alloc] initWithFrame:CGRectMake(15, kScreenHeight - 250 - 64, 51, 51)];
+    self.dingWeiImg = [[UIButton alloc] initWithFrame:CGRectMake(15, APP_HEIGHT - 250 - 64, 51, 51)];
     [self.dingWeiImg setBackgroundImage:[UIImage imageNamed:@"定位"] forState:UIControlStateNormal];
     [self.view addSubview:self.dingWeiImg];
     [self.dingWeiImg addTarget:self action:@selector(dingWei:) forControlEvents:UIControlEventTouchDown];

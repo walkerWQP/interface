@@ -147,7 +147,7 @@
 - (UITableView *)leaveListTableView
 {
     if (!_leaveListTableView) {
-        self.leaveListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH) style:UITableViewStylePlain];
+        self.leaveListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStylePlain];
         self.leaveListTableView.dataSource = self;
         self.leaveListTableView.delegate = self;
     }
@@ -192,7 +192,7 @@
             }
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
+        UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
         if (self.bannerArr.count == 0) {
             //            imgs.image = [UIImage imageNamed:@"教师端活动管理banner"];
         } else {

@@ -22,6 +22,8 @@
 @property (nonatomic, strong) QianDaoModel * qianDaoModel;
 @property (nonatomic, strong) UIImageView * close;
 
+@property (nonatomic, strong) UIImageView *zanwushuju;
+
 @end
 
 @implementation QianDaoViewController
@@ -53,11 +55,16 @@
 
     self.QianDaoTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
+    self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
+    self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
+    self.zanwushuju.alpha = 0;
+    [self.QianDaoTableView addSubview:self.zanwushuju];
    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     //下拉刷新
     self.QianDaoTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(setNetWork)];
     //自动更改透明度
@@ -87,6 +94,12 @@
         
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             self.QianDaoAry = [QianDaoInModel mj_objectArrayWithKeyValuesArray:self.qianDaoModel.record];
+            
+            if (self.QianDaoAry.count == 0) {
+                self.zanwushuju.alpha = 1;
+            } else {
+                self.zanwushuju.alpha = 0;
+            }
             [self.QianDaoTableView reloadData];
         }else
         {
@@ -119,7 +132,7 @@
 - (UITableView *)QianDaoTableView
 {
     if (!_QianDaoTableView) {
-        self.QianDaoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH - APP_TABH) style:UITableViewStylePlain];
+        self.QianDaoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH - APP_TABH) style:UITableViewStylePlain];
         self.QianDaoTableView.delegate = self;
         self.QianDaoTableView.dataSource = self;
         self.QianDaoTableView.backgroundColor = backColor;
@@ -222,7 +235,7 @@
     }else
     {
         QianDaoInModel * model = [self.QianDaoAry objectAtIndex:indexPath.row];
-        self.backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+        self.backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT)];
         self.backView.backgroundColor = COLOR(0, 0, 0, 0.2);
         UITapGestureRecognizer * backTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backTap:)];
         self.backView.userInteractionEnabled = YES;
@@ -230,7 +243,7 @@
         [[[UIApplication sharedApplication] keyWindow] addSubview:self.backView];
         
         
-        CLPlayerView *playerView = [[CLPlayerView alloc] initWithFrame:CGRectMake(15, kScreenHeight / 2 - 100, self.view.CLwidth - 30 , 200)];
+        CLPlayerView *playerView = [[CLPlayerView alloc] initWithFrame:CGRectMake(15, APP_HEIGHT / 2 - 100, self.view.CLwidth - 30 , 200)];
         playerView.maskView.fullButton.alpha = 0;
         _playerView = playerView;
         
@@ -272,7 +285,7 @@
             //        _playerView = nil;
             NSLog(@"播放完成");
         }];
-//        UIImageView * img = [[UIImageView alloc] initWithFrame:CGRectMake(15, kScreenHeight / 2 - (kScreenWidth - 30) * 210 / 345 / 2, kScreenWidth - 30 , (kScreenWidth - 30) * 210 / 345)];
+//        UIImageView * img = [[UIImageView alloc] initWithFrame:CGRectMake(15, APP_HEIGHT / 2 - (APP_WIDTH - 30) * 210 / 345 / 2, APP_WIDTH - 30 , (APP_WIDTH - 30) * 210 / 345)];
 //        img.image = [UIImage imageNamed:@"监控"];
 //        UITapGestureRecognizer * imgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgTap:)];
 //        img.userInteractionEnabled = YES;

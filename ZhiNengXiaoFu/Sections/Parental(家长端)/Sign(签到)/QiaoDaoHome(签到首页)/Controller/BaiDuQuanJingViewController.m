@@ -28,7 +28,7 @@
    
     
     // key 为在百度LBS平台上统一申请的接入密钥ak 字符串
-    self.panoramaView = [[BaiduPanoramaView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64) key:@"qCxlqkuChtld3MR5Y22eTBE3qija55GL"];
+    self.panoramaView = [[BaiduPanoramaView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - 64) key:@"qCxlqkuChtld3MR5Y22eTBE3qija55GL"];
     // 为全景设定一个代理
     self.panoramaView.delegate = self;
     [self.view addSubview:self.panoramaView];

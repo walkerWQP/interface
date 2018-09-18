@@ -21,12 +21,12 @@
 
 - (UIButton *)exitBtn {
     if (!_exitBtn) {
-        self.exitBtn = [[UIButton alloc] initWithFrame:CGRectMake(75, 0, kScreenWidth - 150, 50)];
+        self.exitBtn = [[UIButton alloc] initWithFrame:CGRectMake(75, 0, APP_WIDTH - 150, 50)];
         self.exitBtn.layer.masksToBounds = YES;
         self.exitBtn.layer.cornerRadius = 25;
         self.exitBtn.backgroundColor = THEMECOLOR;
         [self.exitBtn setTitle:@"退出账号" forState:UIControlStateNormal];
-        [self.exitBtn setFont:[UIFont fontWithName:@"PingFangSC-Semibold" size:15]];
+        self.exitBtn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:15];
         [self.exitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     }
     return _exitBtn;

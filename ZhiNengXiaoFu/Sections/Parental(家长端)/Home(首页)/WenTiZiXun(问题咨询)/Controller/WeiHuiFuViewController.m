@@ -37,6 +37,11 @@
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
     [self.view addSubview:self.zanwushuju];
+   
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     //下拉刷新
     self.WeiHuiFuTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
     //自动更改透明度
@@ -45,11 +50,6 @@
     [self.WeiHuiFuTableView.mj_header beginRefreshing];
     //上拉刷新
     self.WeiHuiFuTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self loadNewTopic];
 }
 
 - (void)loadNewTopic {
@@ -81,22 +81,26 @@
         [self.WeiHuiFuTableView.mj_header endRefreshing];
         //结束尾部刷新
         [self.WeiHuiFuTableView.mj_footer endRefreshing];
-        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200)
+        {
             NSMutableArray *arr = [ConsultListModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
-            for (ConsultListModel *model in arr) {
+            for (ConsultListModel *model in arr)
+            {
                 [self.WeiHuiFuAry addObject:model];
             }
             
             if (self.WeiHuiFuAry.count == 0) {
                 self.zanwushuju.alpha = 1;
                 
-            } else {
+            }else
+            {
                 self.zanwushuju.alpha = 0;
             }
             [self.WeiHuiFuTableView reloadData];
         }else
         {
-            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402)
+            {
                 [UserManager logoOut];
             }else
             {
@@ -115,7 +119,7 @@
 - (UITableView *)WeiHuiFuTableView
 {
     if (!_WeiHuiFuTableView) {
-        self.WeiHuiFuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH - 40) style:UITableViewStylePlain];
+        self.WeiHuiFuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH - 40) style:UITableViewStylePlain];
         self.WeiHuiFuTableView.backgroundColor = backColor;
 
         self.WeiHuiFuTableView.delegate = self;
@@ -178,14 +182,15 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger width = kScreenWidth - 30;
+    NSInteger width = APP_WIDTH - 30;
     
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
     
-    if (self.WeiHuiFuAry.count != 0) {
+    if (self.WeiHuiFuAry.count != 0)
+    {
         ConsultListModel * model = [self.WeiHuiFuAry objectAtIndex:indexPath.row];
         CGSize size = [model.question boundingRectWithSize:CGSizeMake(width, 100000) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
-        return 130 + size.height;
+        return 130 + size.height - 5;
    
     }else
     {

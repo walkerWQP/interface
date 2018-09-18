@@ -21,7 +21,7 @@
 }
 
 - (void)makeClassDetailsCellCellUI {
-    self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0 , kScreenWidth, 10)];
+    self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0 , APP_WIDTH, 10)];
     self.lineView.backgroundColor = backColor;
     [self.contentView addSubview:self.lineView];
     
@@ -32,7 +32,7 @@
 //    self.headImgView.layer.masksToBounds = YES;
     [self.contentView addSubview:self.headImgView];
     
-    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + self.headImgView.frame.size.width, self.lineView.frame.origin.y + self.lineView.frame.size.height + 20, APP_WIDTH - 30 - self.headImgView.frame.size.width, 30)];
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + self.headImgView.frame.size.width, 15, APP_WIDTH - 30 - self.headImgView.frame.size.width, 30)];
     self.titleLabel.font = titFont;
     self.titleLabel.textColor = titlColor;
     [self.contentView addSubview:self.titleLabel];

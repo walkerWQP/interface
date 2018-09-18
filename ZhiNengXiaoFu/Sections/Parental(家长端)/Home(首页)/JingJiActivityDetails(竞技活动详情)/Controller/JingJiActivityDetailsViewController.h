@@ -11,7 +11,7 @@
 @interface JingJiActivityDetailsViewController : BaseViewController
 
 @property (nonatomic, copy) NSString * JingJiActivityDetailsId;
-@property (nonatomic, copy) NSString  *typeStr;
+@property (nonatomic, copy) NSString   *typeStr;
 @property (nonatomic, strong) NSString *titleStr;
 @property (nonatomic, strong) NSString *introduction;
 @property (nonatomic, strong) NSString *start;

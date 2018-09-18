@@ -44,7 +44,7 @@
 - (UIImageView *)jiantouImg
 {
     if (!_jiantouImg) {
-        self.jiantouImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 20 - 11.5, 17, 11.5, 16)];
+        self.jiantouImg = [[UIImageView alloc] initWithFrame:CGRectMake(APP_WIDTH - 20 - 11.5, 17, 11.5, 16)];
         self.jiantouImg.image = [UIImage imageNamed:@"more"];
         self.jiantouImg.alpha = 0;
     }
@@ -54,7 +54,7 @@
 - (UILabel *)lineView
 {
     if (!_lineView) {
-        self.lineView = [[UILabel alloc] initWithFrame:CGRectMake(18, 49, kScreenWidth - 18, 1)];
+        self.lineView = [[UILabel alloc] initWithFrame:CGRectMake(18, 49, APP_WIDTH - 18, 1)];
         self.lineView.backgroundColor = [UIColor colorWithRed:238 / 255.0 green:238 / 255.0 blue:238 / 255.0 alpha:1];
     }
     return _lineView;

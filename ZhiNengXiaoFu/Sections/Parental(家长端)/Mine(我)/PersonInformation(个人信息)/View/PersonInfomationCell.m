@@ -36,7 +36,7 @@
 - (UIImageView *)moreImg
 {
     if (!_moreImg) {
-        self.moreImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 15 - 6, 50 / 2 - 5, 6, 10)];
+        self.moreImg = [[UIImageView alloc] initWithFrame:CGRectMake(APP_WIDTH - 15 - 6, 50 / 2 - 5, 6, 10)];
         self.moreImg.image = [UIImage imageNamed:@"箭头new"];
     }
     return _moreImg;
@@ -45,7 +45,7 @@
 - (UILabel *)newTitleLabel
 {
     if (!_newTitleLabel) {
-        self.newTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 15 - 6 - 15 - 100, 50 / 2 - 10, 100, 20)];
+        self.newTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 15 - 6 - 15 - 100, 50 / 2 - 10, 100, 20)];
         self.newTitleLabel.textColor = COLOR(51, 51, 51, 1);
         self.newTitleLabel.font = [UIFont systemFontOfSize:15];
         self.newTitleLabel.textAlignment = NSTextAlignmentRight;
@@ -58,7 +58,7 @@
 - (UILabel *)titleLabel
 {
     if (!_titleLabel) {
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 15 - 100, 50 / 2 - 10, 100, 20)];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 15 - 100, 50 / 2 - 10, 100, 20)];
         self.titleLabel.textColor = COLOR(51, 51, 51, 1);
         self.titleLabel.font = [UIFont systemFontOfSize:15];
         self.titleLabel.textAlignment = NSTextAlignmentRight;
@@ -70,7 +70,7 @@
 {
     if (!_lineView) {
         
-        self.lineView = [[UIView alloc] initWithFrame:CGRectMake(20, 49, kScreenWidth - 20, 1)];
+        self.lineView = [[UIView alloc] initWithFrame:CGRectMake(20, 49, APP_WIDTH - 20, 1)];
         self.lineView.backgroundColor = COLOR(232, 232, 232, 1);
     }
     return _lineView;

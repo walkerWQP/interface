@@ -114,9 +114,9 @@
                 self.zanwushuju.alpha = 1;
             } else {
                 self.zanwushuju.alpha = 0;
-                [self.HomeWorkPTableView reloadData];
             }
-            
+            [self.HomeWorkPTableView reloadData];
+
         }else
         {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
@@ -145,7 +145,7 @@
 - (UITableView *)HomeWorkPTableView
 {
     if (!_HomeWorkPTableView) {
-        self.HomeWorkPTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, APP_HEIGHT - APP_TABH - 18) style:UITableViewStylePlain];
+        self.HomeWorkPTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_TABH - 18) style:UITableViewStylePlain];
         self.HomeWorkPTableView.backgroundColor =backColor;
 
         self.HomeWorkPTableView.delegate = self;
@@ -209,7 +209,7 @@
             }
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
+        UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
 //        imgs.image = [UIImage imageNamed:@"banner"];
         
         if (self.bannerArr.count == 0) {
@@ -252,12 +252,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WorkDetailsViewController * workDetailsVC = [[WorkDetailsViewController alloc] init];
-    if (self.HomeWorkPAry.count != 0) {
-        WorkModel * model = [self.HomeWorkPAry objectAtIndex:indexPath.row];
-        workDetailsVC.workId = model.ID;
+    if (indexPath.section == 1) {
+        WorkDetailsViewController * workDetailsVC = [[WorkDetailsViewController alloc] init];
+        if (self.HomeWorkPAry.count != 0) {
+            WorkModel * model = [self.HomeWorkPAry objectAtIndex:indexPath.row];
+            workDetailsVC.workId = model.ID;
+        }
+        [self.navigationController pushViewController:workDetailsVC animated:YES];
     }
-    [self.navigationController pushViewController:workDetailsVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

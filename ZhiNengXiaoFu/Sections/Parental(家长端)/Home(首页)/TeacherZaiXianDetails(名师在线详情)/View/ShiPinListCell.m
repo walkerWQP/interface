@@ -49,7 +49,7 @@
     self.timeLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:self.timeLabel];
     
-    self.lineView = [[UIView alloc] initWithFrame:CGRectMake(15, self.ShiPinListImg.frame.origin.y + self.ShiPinListImg.frame.size.height + 10, kScreenWidth - 15, 1)];
+    self.lineView = [[UIView alloc] initWithFrame:CGRectMake(15, self.ShiPinListImg.frame.origin.y + self.ShiPinListImg.frame.size.height + 10, APP_WIDTH - 15, 1)];
     self.lineView.backgroundColor = COLOR(229, 229, 229, 1);
     [self addSubview:self.lineView];
 

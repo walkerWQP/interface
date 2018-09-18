@@ -6,8 +6,8 @@
 //  Copyright © 2018年 henanduxiu. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface WenTiZiXunViewController : UIViewController
+@interface WenTiZiXunViewController : BaseViewController
 
 @end

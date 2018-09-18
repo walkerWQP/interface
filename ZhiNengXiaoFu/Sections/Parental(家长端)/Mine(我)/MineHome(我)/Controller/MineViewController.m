@@ -57,6 +57,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     self.mineAry = [@[]mutableCopy];
     [self setNetWork];
 }
@@ -110,7 +111,7 @@
 {
     if (!_mineTabelView)
     {
-        self.mineTabelView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH) style:UITableViewStylePlain];
+        self.mineTabelView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStylePlain];
         self.mineTabelView.backgroundColor = backColor;
         self.mineTabelView.delegate = self;
         self.mineTabelView.dataSource = self;
@@ -151,7 +152,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
+    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 20)];
     headerView.backgroundColor = [UIColor colorWithRed:245 / 255.0 green:245 / 255.0 blue:245 / 255.0 alpha:1];
     return headerView;
 }
@@ -182,9 +183,12 @@
         ClassHomePageItemCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ClassHomePageItemCellId" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        NSDictionary * dic = [self.mineAry objectAtIndex:indexPath.row];
-        cell.itemImg.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
-        cell.itemLabel.text = [dic objectForKey:@"title"];
+        if (self.mineAry.count != 0 && self.mineAry.count > indexPath.row ) {
+            NSDictionary * dic = [self.mineAry objectAtIndex:indexPath.row];
+            cell.itemImg.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
+            cell.itemLabel.text = [dic objectForKey:@"title"];
+        }
+      
         
         return cell;
     }else

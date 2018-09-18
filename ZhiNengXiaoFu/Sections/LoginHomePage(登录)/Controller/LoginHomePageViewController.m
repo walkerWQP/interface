@@ -41,11 +41,11 @@
     
     self.title = @"登录";
 
-    UIImageView * backImg  = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    UIImageView * backImg  = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT)];
     backImg.image = [UIImage imageNamed:@"背景"];
     [self.view addSubview:backImg];
     
-    UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(20, 40, kScreenWidth - 40, 400)];
+    UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(20, 40, APP_WIDTH - 40, 400)];
     backView.backgroundColor = [UIColor colorWithRed:255 / 255.0 green:255 / 255.0 blue:255 / 255.0 alpha:0.8];
     backView.layer.cornerRadius = 8;
     backView.layer.masksToBounds = YES;
@@ -53,8 +53,6 @@
     
     self.parentChooseState = 0;
     self.teacherChooseState = 1;
-    
-    
     
     
     //logo
@@ -147,11 +145,11 @@
     [self.view addSubview:self.teacherChooseBtn];
     
     //登录
-    UIButton * loginBtn = [[UIButton alloc] initWithFrame:CGRectMake(40, passWordView.frame.origin.y + passWordView.frame.size.height + 60, kScreenWidth - 80, 50)];
+    UIButton * loginBtn = [[UIButton alloc] initWithFrame:CGRectMake(40, passWordView.frame.origin.y + passWordView.frame.size.height + 60, APP_WIDTH - 80, 50)];
     loginBtn.backgroundColor = COLOR(40, 182, 22, 1);
     [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
     [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [loginBtn setFont:[UIFont systemFontOfSize:17]];
+    loginBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [loginBtn addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchDown];
     loginBtn.userInteractionEnabled = YES;
     [self.view addSubview:loginBtn];
@@ -167,9 +165,13 @@
     }else
     {
         self.jizhuLoginChooseState = 0;
-           [self.chooseBtn setBackgroundImage:[UIImage imageNamed:@"圆角矩形"] forState:UIControlStateNormal];
-
+        [self.chooseBtn setBackgroundImage:[UIImage imageNamed:@"圆角矩形"] forState:UIControlStateNormal];
     }
+    
+    
+    NSLog(@"JPUSHServiceIsRegistrationID%@", [JPUSHService registrationID]);
+    
+    
 }
 
 //家长选择
@@ -260,7 +262,7 @@
                 [WProgressHUD hideAllHUDAnimated:YES];
 
                 if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-
+                    
 
                     if (self.jizhuLoginChooseState == 1) {
                      
@@ -321,6 +323,10 @@
                     
                     [self.zhangHaoTextField resignFirstResponder];
                     [self.miMaTextfield resignFirstResponder];
+                    
+                    
+//                    [self pushJiGuangId];
+
 
                 }else
                 {
@@ -340,6 +346,37 @@
        
     }
 }
+
+//- (void)pushJiGuangId
+//{
+//    if ([JPUSHService registrationID] == nil) {
+//
+//    }else
+//    {
+//
+//        NSDictionary * dic = @{@"push_id":[JPUSHService registrationID], @"system":@"ios"};
+//
+//        [[HttpRequestManager sharedSingleton] POST:UserSavePushId parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+//            NSLog(@"%@", responseObject);
+//
+//            if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+//            }else
+//            {
+//                if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+//                    [UserManager logoOut];
+//                }else
+//                {
+//
+//                }
+//                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+//
+//            }
+//        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//            NSLog(@"%@", error);
+//        }];
+//    }
+//
+//}
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     

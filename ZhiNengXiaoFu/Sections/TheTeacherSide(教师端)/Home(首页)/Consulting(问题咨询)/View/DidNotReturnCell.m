@@ -43,8 +43,10 @@
     [self.contentView addSubview:self.lineView];
     
     self.answerBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.headImgView.frame.size.height + self.problemContentLabel.frame.size.height + 30, 90, 30)];
+    self.answerBtn.layer.masksToBounds = YES;
+    self.answerBtn.layer.cornerRadius  = 5;
     self.answerBtn.titleLabel.font = titFont;
-    self.answerBtn.backgroundColor = THEMECOLOR;
+    self.answerBtn.backgroundColor = RGB(236, 120, 116);
     [self.answerBtn setTitle:@"回答咨询" forState:UIControlStateNormal];
     [self.answerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.answerBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;

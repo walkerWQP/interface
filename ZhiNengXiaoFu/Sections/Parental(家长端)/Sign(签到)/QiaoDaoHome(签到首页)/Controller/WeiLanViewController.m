@@ -68,11 +68,11 @@
     
     
     if ([UIScreen mainScreen].bounds.size.height == 812) {
-        self.slider = [[UISlider alloc] initWithFrame:CGRectMake(15, 124, kScreenWidth - 30, 20)];
+        self.slider = [[UISlider alloc] initWithFrame:CGRectMake(15, 124, APP_WIDTH - 30, 20)];
         [[[UIApplication sharedApplication] keyWindow] addSubview:self.slider];
     }else
     {
-        self.slider = [[UISlider alloc] initWithFrame:CGRectMake(15, 74, kScreenWidth - 30, 20)];
+        self.slider = [[UISlider alloc] initWithFrame:CGRectMake(15, 74, APP_WIDTH - 30, 20)];
         [[[UIApplication sharedApplication] keyWindow] addSubview:self.slider];
     }
     
@@ -96,26 +96,26 @@
 {
     NSDictionary *useInfo = [nofity userInfo];
     NSValue *value = [useInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    self.shuruText.frame = CGRectMake(0, kScreenHeight - [value CGRectValue].size.height - 40, kScreenWidth - 80, 40);
-    self.baoCunBtn.frame = CGRectMake(kScreenWidth - 80, kScreenHeight - [value CGRectValue].size.height - 40, 80, 40);
+    self.shuruText.frame = CGRectMake(0, APP_HEIGHT - [value CGRectValue].size.height - 40, APP_WIDTH - 80, 40);
+    self.baoCunBtn.frame = CGRectMake(APP_WIDTH - 80, APP_HEIGHT - [value CGRectValue].size.height - 40, 80, 40);
 
 }
 
 - (void)keyboardActionHidden:(NSNotification *)nofity
 {
-    self.shuruText.frame = CGRectMake(0, kScreenHeight - 40, kScreenWidth - 80, 40);
-    self.baoCunBtn.frame = CGRectMake(kScreenWidth - 80, kScreenHeight - 40, 80, 40);
+    self.shuruText.frame = CGRectMake(0, APP_HEIGHT - 40, APP_WIDTH - 80, 40);
+    self.baoCunBtn.frame = CGRectMake(APP_WIDTH - 80, APP_HEIGHT - 40, 80, 40);
 
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.shuruText = [[UITextField alloc] initWithFrame:CGRectMake(0, kScreenHeight - 40, kScreenWidth - 80, 40)];
+    self.shuruText = [[UITextField alloc] initWithFrame:CGRectMake(0, APP_HEIGHT - 40, APP_WIDTH - 80, 40)];
     self.shuruText.backgroundColor = [UIColor whiteColor];
     self.shuruText.placeholder = @"   请输入内容";
     [[[UIApplication sharedApplication] keyWindow] addSubview:self.shuruText];
     
-    self.baoCunBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth - 80, kScreenHeight - 40, 80, 40)];
+    self.baoCunBtn = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH - 80, APP_HEIGHT - 40, 80, 40)];
     [self.baoCunBtn setTitle:@"保存" forState:UIControlStateNormal];
     [self.baoCunBtn setTitleColor:THEMECOLOR forState:UIControlStateNormal];
     [self.baoCunBtn setBackgroundColor:[UIColor whiteColor]];

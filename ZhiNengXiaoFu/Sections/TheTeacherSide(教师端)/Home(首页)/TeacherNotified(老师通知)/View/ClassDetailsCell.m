@@ -26,7 +26,7 @@
 //    self.headImgView.layer.masksToBounds = YES;
     [self.contentView addSubview:self.headImgView];
     
-    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + self.headImgView.frame.size.width, (self.contentView.frame.size.height - 30) / 2, APP_WIDTH * 0.6, 30)];
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + self.headImgView.frame.size.width, 5, APP_WIDTH * 0.75, 30)];
     self.titleLabel.font = titFont;
     self.titleLabel.textColor = titlColor;
     [self.contentView addSubview:self.titleLabel];
@@ -37,7 +37,7 @@
     [self.contentView addSubview:self.subjectsLabel];
     
     self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 90, self.titleLabel.frame.size.height + 5, 80, 30)];
-    self.timeLabel.textColor = contentColor;
+    self.timeLabel.textColor = RGB(170, 170, 170);
     self.timeLabel.font = contentFont;
     [self.contentView addSubview:self.timeLabel];
     

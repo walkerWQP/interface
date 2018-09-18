@@ -24,12 +24,37 @@
 
 @implementation TongZhiDetailsViewController
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     [self setNetWork];
     [self.view addSubview:self.tongZhiDetailsTableView];
     [self.tongZhiDetailsTableView registerNib:[UINib nibWithNibName:@"TongZhiDetailsCell" bundle:nil] forCellReuseIdentifier:@"TongZhiDetailsCellId"];
+    
+    
+    NSUserDefaults*pushJudge = [NSUserDefaults standardUserDefaults];
+    if([[pushJudge objectForKey:@"notify"]isEqualToString:@"push"]) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"返回(1)"] style:UIBarButtonItemStylePlain target:self action:@selector(rebackToRootViewAction)];
+        self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+        NSUserDefaults * pushJudge = [NSUserDefaults standardUserDefaults];
+        [pushJudge setObject:@""forKey:@"notify"];
+        [pushJudge synchronize];//记得立即同步
+//       [self.navigationController setNavigationBarHidden:NO animated:YES];
+
+    }else{
+//        self.navigationItem.leftBarButtonItem=nil;
+    }
+    
+  
 }
+
+- (void)rebackToRootViewAction {
+    NSUserDefaults * pushJudge = [NSUserDefaults standardUserDefaults];
+    [pushJudge setObject:@""forKey:@"notify"];
+    [pushJudge synchronize];//记得立即同步
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,15 +62,7 @@
     self.title = @"通知详情";
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.hidesBackButton = YES;
-    if ([self.typeStr isEqualToString:@"1"]) {
-        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-        [button setTitle:@"修改" forState:UIControlStateNormal];
-        button.titleLabel.font = titFont;
-        [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    } else {
-        
-    }
+   
 
 }
 
@@ -69,7 +86,7 @@
 - (UITableView *)tongZhiDetailsTableView
 {
     if (!_tongZhiDetailsTableView) {
-        self.tongZhiDetailsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.tongZhiDetailsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT) style:UITableViewStyleGrouped];
         self.tongZhiDetailsTableView.backgroundColor = [UIColor whiteColor];
         self.tongZhiDetailsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
@@ -92,6 +109,19 @@
             [self.tongZhiDetailsCell.PicView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
             
             self.tongZhiDetailsModel = [TongZhiDetailsModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+            
+            if ([self.typeStr isEqualToString:@"1"]) {
+               if (self.tongZhiDetailsModel.is_school == 0) {
+                    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+                    [button setTitle:@"修改" forState:UIControlStateNormal];
+                    button.titleLabel.font = titFont;
+                    [button addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
+                    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+                }
+               
+            } else {
+                
+            }
             
             [self configureImage];
             
@@ -197,7 +227,7 @@
             
             
             
-            [self.tongZhiDetailsCell.webView loadHTMLString:[NSString stringWithFormat:@"<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'><meta name='apple-mobile-web-app-capable' content='yes'><meta name='apple-mobile-web-app-status-bar-style' content='black'><meta name='format-detection' content='telephone=no'><style type='text/css'>img{width:%fpx}</style>%@", kScreenWidth - 20 , self.tongZhiDetailsModel.content] baseURL:nil];
+            [self.tongZhiDetailsCell.webView loadHTMLString:[NSString stringWithFormat:@"<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'><meta name='apple-mobile-web-app-capable' content='yes'><meta name='apple-mobile-web-app-status-bar-style' content='black'><meta name='format-detection' content='telephone=no'><style type='text/css'>img{width:%fpx}</style>%@", APP_WIDTH - 20 , self.tongZhiDetailsModel.content] baseURL:nil];
             
         }
         
@@ -208,7 +238,7 @@
 
 //- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
 //    // 让webview的内容一直居中显示
-//    scrollView.contentOffset = CGPointMake((scrollView.contentSize.width - kScreenWidth) / 2, scrollView.contentOffset.y);
+//    scrollView.contentOffset = CGPointMake((scrollView.contentSize.width - APP_WIDTH) / 2, scrollView.contentOffset.y);
 //}
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
@@ -221,13 +251,13 @@
         
         
         CGFloat currentHeight = [item doubleValue];
-        NSInteger width = kScreenWidth - 30;
+        NSInteger width = APP_WIDTH - 30;
         
 //        self.titleText = self.tongZhiDetailsModel.title;
         NSDictionary *attributes = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:30]};
         CGSize size = [self.tongZhiDetailsModel.title boundingRectWithSize:CGSizeMake(width, 10000) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
         
-        self.tongZhiDetailsCell.webView.frame = CGRectMake(10, 30 + size.height , kScreenWidth - 20, currentHeight);
+        self.tongZhiDetailsCell.webView.frame = CGRectMake(10, 30 + size.height , APP_WIDTH - 20, currentHeight);
         //                weak_self.communityDetailsCell.communityDetailsHegiht.constant = currentHeight;
         
         self.Hnew = currentHeight;
@@ -249,7 +279,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSInteger width = kScreenWidth - 30;
+    NSInteger width = APP_WIDTH - 30;
     
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:30]};
     CGSize size = [self.tongZhiDetailsModel.title boundingRectWithSize:CGSizeMake(width, 10000) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;

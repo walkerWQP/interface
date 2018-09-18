@@ -24,14 +24,14 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.teachaerBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth / 2 - 100, 150, 200, 50)];
+    self.teachaerBtn = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH / 2 - 100, 150, 200, 50)];
     [self.teachaerBtn setTitle:@"教师端" forState:UIControlStateNormal];
     [self.teachaerBtn setBackgroundColor:COLOR(173, 228, 211, 1)];
     [self.view addSubview:_teachaerBtn];
     [self.teachaerBtn addTarget:self action:@selector(teachaerBtn:) forControlEvents:UIControlEventTouchDown];
     self.teachaerBtn.userInteractionEnabled = YES;
     
-    self.ParentBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth / 2 - 100, 300, 200, 50)];
+    self.ParentBtn = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH / 2 - 100, 300, 200, 50)];
     [self.ParentBtn setTitle:@"家长端" forState:UIControlStateNormal];
     [self.ParentBtn setBackgroundColor:COLOR(173, 228, 211, 1)];
     [self.view addSubview:self.ParentBtn];

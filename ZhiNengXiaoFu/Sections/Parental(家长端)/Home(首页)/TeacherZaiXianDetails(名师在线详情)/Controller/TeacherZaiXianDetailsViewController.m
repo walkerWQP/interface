@@ -61,7 +61,7 @@
 
             if ([self.teacherZaiXianDetailsModel.video_url isEqualToString:@""]) {
                 
-                UIImageView * back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
+                UIImageView * back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 200)];
                 [back sd_setImageWithURL:[NSURL URLWithString:self.teacherZaiXianDetailsModel.img] placeholderImage:nil];
                 [self.view addSubview:back];
             }else
@@ -78,7 +78,7 @@
 
             }else if ([[responseObject objectForKey:@"status"] integerValue] == 405)
             {
-                UIImageView * back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
+                UIImageView * back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 200)];
                 [back sd_setImageWithURL:[NSURL URLWithString:self.teacherZaiXianDetailsModel.img] placeholderImage:nil];
                 [self.view addSubview:back];
             }
@@ -109,7 +109,7 @@
         {
             
             if ([self.teacherZaiXianDetailsModel.video_url isEqualToString:@""]) {
-                UIImageView * back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
+                UIImageView * back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 200)];
                 [back sd_setImageWithURL:[NSURL URLWithString:self.teacherZaiXianDetailsModel.img] placeholderImage:nil];
                 [self.view addSubview:back];
             }else
@@ -126,7 +126,7 @@
 
             }else if ([[responseObject objectForKey:@"status"] integerValue] == 405)
             {
-                UIImageView * back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
+                UIImageView * back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 200)];
                 [back sd_setImageWithURL:[NSURL URLWithString:self.teacherZaiXianDetailsModel.img] placeholderImage:nil];
                 [self.view addSubview:back];
             }

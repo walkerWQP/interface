@@ -22,7 +22,7 @@
 
 - (void)makeSchoolDynamicCellCellUI {
     
-    self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0 , kScreenWidth, 10)];
+    self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0 , APP_WIDTH, 10)];
     self.lineView.backgroundColor = backColor;
     [self.contentView addSubview:self.lineView];
     self.backgroundColor = [UIColor whiteColor];
@@ -35,14 +35,14 @@
     
     [self.contentView addSubview:self.headImgView];
     
-    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + self.headImgView.frame.size.width,self.lineView.frame.origin.y + self.lineView.frame.size.height + 15, APP_WIDTH - 30 - self.headImgView.frame.size.width, 20)];
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(25 + self.headImgView.frame.size.width,self.headImgView.frame.origin.y, APP_WIDTH - 30 - self.headImgView.frame.size.width, 20)];
     self.titleLabel.font = titFont;
     self.titleLabel.textColor = titlColor;
     [self.contentView addSubview:self.titleLabel];
     
-    self.subjectsLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + self.headImgView.frame.size.width, self.titleLabel.frame.size.height+ self.titleLabel.frame.origin.y + 5, APP_WIDTH * 0.6, 20)];
+    self.subjectsLabel = [[UILabel alloc] initWithFrame:CGRectMake(25 + self.headImgView.frame.size.width, self.titleLabel.frame.size.height+ self.titleLabel.frame.origin.y + 20, APP_WIDTH * 0.6, 20)];
     self.subjectsLabel.font = contentFont;
-    self.subjectsLabel.textColor = contentColor;
+    self.subjectsLabel.textColor = RGB(170, 170, 170);;
     [self.contentView addSubview:self.subjectsLabel];
     
     self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 90, self.subjectsLabel.frame.origin.y, 80, 30)];

@@ -200,6 +200,9 @@
 
 //侧滑允许编辑cell
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return NO;
+    }
     return YES;
 }
 
@@ -289,7 +292,7 @@
             }
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
+        UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
         if (self.bannerArr.count == 0) {
 
         } else {
@@ -328,11 +331,16 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    WorkDetailsViewController * workDetailsVC = [[WorkDetailsViewController alloc] init];
-    HomeWorkModel *model = [self.homeWorkArr objectAtIndex:indexPath.row];
-    workDetailsVC.workId = model.ID;
-    workDetailsVC.typeID = @"1";
-    [self.navigationController pushViewController:workDetailsVC animated:YES];
+    if (indexPath.section == 0) {
+        NSLog(@"点击banner");
+    } else {
+        WorkDetailsViewController * workDetailsVC = [[WorkDetailsViewController alloc] init];
+        HomeWorkModel *model = [self.homeWorkArr objectAtIndex:indexPath.row];
+        workDetailsVC.workId = model.ID;
+        workDetailsVC.typeID = @"1";
+        [self.navigationController pushViewController:workDetailsVC animated:YES];
+    }
+    
 }
 
 - (void)rightBtn:(UIButton *)sender {

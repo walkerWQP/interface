@@ -54,7 +54,7 @@
 
 - (UITableView *)personalDataTableView {
     if (!_personalDataTableView) {
-        self.personalDataTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH) style:UITableViewStylePlain];
+        self.personalDataTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStylePlain];
         self.personalDataTableView.backgroundColor = backColor;
         self.personalDataTableView.dataSource = self;
         self.personalDataTableView.delegate = self;
@@ -75,7 +75,10 @@
     if (indexPath.row == 0) {
         PersonIconCell * cell = [tableView dequeueReusableCellWithIdentifier:@"PersonIconCellId" forIndexPath:indexPath];
         cell.nameLabel.text = @"头像";
-        
+
+        cell.selectionStyle =  UITableViewCellSelectionStyleNone;
+
+
         if (self.personInfo.head_img == nil) {
             cell.iConImg.image = [UIImage imageNamed:@"user"];
         } else {

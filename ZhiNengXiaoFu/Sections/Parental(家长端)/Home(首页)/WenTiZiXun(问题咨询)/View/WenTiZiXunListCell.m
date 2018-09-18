@@ -22,7 +22,7 @@
 - (void)creatUI
 {
     
-    self.lineViewT = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 10)];
+    self.lineViewT = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 10)];
     self.lineViewT.backgroundColor = COLOR(247, 247, 247, 1);
     [self addSubview:self.lineViewT];
     
@@ -36,12 +36,12 @@
     self.userName.textColor = COLOR(147, 147, 147, 1);
     [self addSubview:self.userName];
     
-    self.questionLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, self.userIcon.frame.origin.y + self.userIcon.frame.size.height + 5, kScreenWidth - 30, 20)];
+    self.questionLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, self.userIcon.frame.origin.y + self.userIcon.frame.size.height + 5, APP_WIDTH - 30, 20)];
     self.questionLabel.textColor = COLOR(147, 147, 147, 1);
     self.questionLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:self.questionLabel];
     
-    self.lineView = [[UIView alloc] initWithFrame:CGRectMake(15, self.questionLabel.frame.origin.y + self.questionLabel.frame.size.height + 5, kScreenWidth - 15, 1)];
+    self.lineView = [[UIView alloc] initWithFrame:CGRectMake(15, self.questionLabel.frame.origin.y + self.questionLabel.frame.size.height + 5, APP_WIDTH - 15, 1)];
     self.lineView.backgroundColor = COLOR(224, 224, 224, 1);
     [self addSubview:self.lineView];
     
@@ -56,7 +56,7 @@
     self.userNameT.textColor = COLOR(147, 147, 147, 1);
     [self addSubview:self.userNameT];
     
-    self.questionLabelT = [[UILabel alloc] initWithFrame:CGRectMake(15, self.userIconT.frame.origin.y + self.userIconT.frame.size.height + 5, kScreenWidth - 30, 20)];
+    self.questionLabelT = [[UILabel alloc] initWithFrame:CGRectMake(15, self.userIconT.frame.origin.y + self.userIconT.frame.size.height + 5, APP_WIDTH - 30, 20)];
     self.questionLabelT.textColor = COLOR(147, 147, 147, 1);
     self.questionLabelT.font = [UIFont systemFontOfSize:14];
     [self addSubview:self.questionLabelT];

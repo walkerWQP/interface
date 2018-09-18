@@ -178,11 +178,14 @@ typedef NS_ENUM(NSInteger, CLPlayerState) {
     [self setNeedsLayout];
     [self layoutIfNeeded];
 }
--(void)setPlayerItem:(AVPlayerItem *)playerItem{
+
+- (void)setPlayerItem:(AVPlayerItem *)playerItem
+{
     if (_playerItem == playerItem){
         return;
     }
-    if (_playerItem) {
+    if (_playerItem)
+    {
         [[NSNotificationCenter defaultCenter] removeObserver:self
                                                         name:AVPlayerItemDidPlayToEndTimeNotification
                                                       object:_playerItem];
@@ -216,6 +219,7 @@ typedef NS_ENUM(NSInteger, CLPlayerState) {
                         context:nil];
     }
 }
+
 - (void)setState:(CLPlayerState)state{
     _state = state;
     if (state == CLPlayerStateBuffering) {
@@ -234,6 +238,7 @@ typedef NS_ENUM(NSInteger, CLPlayerState) {
         }
     }
 }
+
 #pragma mark - 隐藏或者显示状态栏方法
 - (void)setStatusBarHidden:(BOOL)hidden{
     //设置是否隐藏
@@ -299,12 +304,14 @@ typedef NS_ENUM(NSInteger, CLPlayerState) {
         CMTime duration             = self.playerItem.duration;
         CGFloat totalDuration       = CMTimeGetSeconds(duration);
         [self.maskView.progress setProgress:timeInterval / totalDuration animated:NO];
-    } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
+    } else if ([keyPath isEqualToString:@"playbackBufferEmpty"])
+    {
         // 当缓冲是空的时候
         if (self.playerItem.isPlaybackBufferEmpty) {
             [self bufferingSomeSecond];
         }
-    } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
+    } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"])
+    {
         // 当缓冲好的时候
         if (self.playerItem.isPlaybackLikelyToKeepUp && self.state == CLPlayerStateBuffering){
             self.state = CLPlayerStatePlaying;

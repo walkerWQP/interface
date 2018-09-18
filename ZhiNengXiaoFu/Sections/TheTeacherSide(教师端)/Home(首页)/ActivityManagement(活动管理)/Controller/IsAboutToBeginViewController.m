@@ -131,7 +131,7 @@
     OngoingModel *model = [self.isAboutToBeginArr objectAtIndex:indexPath.row];
     [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
     cell.titleLabel.text = model.title;
-    cell.timeLabel.text = [NSString stringWithFormat:@"活动日期:%@-%@", model.start, model.end];;
+    cell.timeLabel.text = [NSString stringWithFormat:@"活动日期:%@ 至 %@", model.start, model.end];;
     cell.detailsLabel.text = model.title;
     gridcell = cell;
     return gridcell;

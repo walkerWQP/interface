@@ -41,7 +41,7 @@
 
 //- (UIImageView *)jiantouImg {
 //    if (!_jiantouImg) {
-//        self.jiantouImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 20 - 11.5, 17, 11.5, 16)];
+//        self.jiantouImg = [[UIImageView alloc] initWithFrame:CGRectMake(APP_WIDTH - 20 - 11.5, 17, 11.5, 16)];
 //        self.jiantouImg.image = [UIImage imageNamed:@"more"];
 //    }
 //    return _jiantouImg;

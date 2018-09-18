@@ -143,7 +143,7 @@
             }
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
+        UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
         if (self.bannerArr.count == 0) {
             //            imgs.image = [UIImage imageNamed:@"教师端活动管理banner"];
         } else {
@@ -206,7 +206,7 @@
         return nil;
     }else
     {
-        UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
+        UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 40)];
         headerView.backgroundColor = [UIColor colorWithRed:246 / 255.0 green:246 / 255.0 blue:246 / 255.0 alpha:1];
         
         UIImageView * titleImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 12, 16, 16)];
@@ -241,7 +241,7 @@
 - (UITableView *)HelperCenterTableView
 {
     if (!_HelperCenterTableView) {
-        self.HelperCenterTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH) style:UITableViewStylePlain];
+        self.HelperCenterTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStylePlain];
         self.HelperCenterTableView.dataSource = self;
         self.HelperCenterTableView.delegate = self;
     }
@@ -298,11 +298,11 @@
         case 2:
         {
             NSLog(@"关注我们");
-            self.back = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+            self.back = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT)];
             self.back.backgroundColor = [UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.8];
             [[[UIApplication sharedApplication] keyWindow] addSubview:self.back];
             
-            UIImageView * img = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth / 2 - 100, kScreenHeight / 2 - 100, 200, 200)];
+            UIImageView * img = [[UIImageView alloc] initWithFrame:CGRectMake(APP_WIDTH / 2 - 100, APP_HEIGHT / 2 - 100, 200, 200)];
             [img sd_setImageWithURL:[NSURL URLWithString:self.helperCenterModel.wx] placeholderImage:nil];
             [self.back addSubview:img];
             

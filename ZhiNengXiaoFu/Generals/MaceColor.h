@@ -46,7 +46,18 @@
 #define WeakSelf(type) __weak typeof(type) weak##type = type;
 
 #define COLOR(R, G, B, A) [UIColor colorWithRed:R/255.0 green:G/255.0 blue:B/255.0 alpha:A]
-#define kScreenWidth [UIScreen mainScreen].bounds.size.width
-#define kScreenHeight [UIScreen mainScreen].bounds.size.height
+//#define kScreenWidth [UIScreen mainScreen].bounds.size.width
+//#define kScreenHeight [UIScreen mainScreen].bounds.size.height
+
+#define dividerColor RGB(238, 238, 238)
+
+#define WeakSelf(type) __weak typeof(type) weak##type = type;
+
+#define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+#define ImgHeader @"http://static.soperson.com"
+
+
+
+
 
 #endif /* MaceColor_h */

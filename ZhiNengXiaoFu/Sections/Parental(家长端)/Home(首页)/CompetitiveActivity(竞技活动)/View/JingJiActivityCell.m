@@ -31,7 +31,7 @@
 - (UILabel *)timeLabel
 {
     if (!_timeLabel) {
-        self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 14, kScreenWidth - 30, 15)];
+        self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 14, APP_WIDTH - 30, 15)];
         self.timeLabel.textColor = COLOR(170, 170, 170, 1);
         self.timeLabel.textAlignment = NSTextAlignmentCenter;
     }
@@ -41,7 +41,7 @@
 - (UIView *)backView
 {
     if (!_backView) {
-        self.backView = [[UIView alloc] initWithFrame:CGRectMake(15, self.timeLabel.frame.size.height + self.timeLabel.frame.origin.y + 10, kScreenWidth - 30, 130)];
+        self.backView = [[UIView alloc] initWithFrame:CGRectMake(15, self.timeLabel.frame.size.height + self.timeLabel.frame.origin.y + 10, APP_WIDTH - 30, 130)];
         self.backView.backgroundColor = [UIColor whiteColor];
         self.backView.layer.cornerRadius = 4;
         self.backView.layer.masksToBounds = YES;

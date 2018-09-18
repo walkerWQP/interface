@@ -9,11 +9,11 @@
 #import "PickerView.h"
 
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
-#define KScreenWidth ([UIScreen mainScreen].bounds.size.width)
-#define KScreenHeight ([UIScreen mainScreen].bounds.size.height)
+//#define KScreenWidth ([UIScreen mainScreen].bounds.size.width)
+//#define KScreenHeight ([UIScreen mainScreen].bounds.size.height)
 
 //RGB
-#define RGB(r, g, b, a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
+//#define RGB(r, g, b, a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
 
 #define WScale ([UIScreen mainScreen].bounds.size.width) / 375
 
@@ -90,7 +90,7 @@
     self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
     
     self.frame = [UIScreen mainScreen].bounds;
-    _bgView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height, KScreenWidth, 280*HScale)];
+    _bgView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height, APP_WIDTH, 280*HScale)];
     [self addSubview:_bgView];
     _bgView.tag = 100;
      _bgView.backgroundColor = [UIColor whiteColor];
@@ -111,7 +111,7 @@
     self.cancelBtn.titleLabel.font = KFont;
     [self.cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
     [self.cancelBtn addTarget:self action:@selector(cancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.cancelBtn setTitleColor:RGB(30, 144, 255, 1) forState:UIControlStateNormal];
+    [self.cancelBtn setTitleColor:RGBA(30, 144, 255, 1) forState:UIControlStateNormal];
     //完成
     self.completeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.bgView addSubview:self.completeBtn];
@@ -126,13 +126,13 @@
     self.completeBtn.titleLabel.font = KFont;
     [self.completeBtn setTitle:@"完成" forState:UIControlStateNormal];
     [self.completeBtn addTarget:self action:@selector(completeBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.completeBtn setTitleColor:RGB(30, 144, 255, 1) forState:UIControlStateNormal];
+    [self.completeBtn setTitleColor:RGBA(30, 144, 255, 1) forState:UIControlStateNormal];
     
 
     
     WS(ws);
     self.titleLab = [[UILabel alloc] init];
-    self.titleLab.textColor = RGB(51, 51, 51, 1);
+    self.titleLab.textColor = RGBA(51, 51, 51, 1);
     self.titleLab.font = KFont;
     self.titleLab.textAlignment = NSTextAlignmentCenter;
     [self.bgView addSubview:self.titleLab];
@@ -151,11 +151,11 @@
         
         make.top.mas_equalTo(self.cancelBtn.mas_bottom).offset(0);
         make.left.right.mas_equalTo(0);
-        make.width.mas_equalTo(KScreenWidth);
+        make.width.mas_equalTo(APP_WIDTH);
         make.height.mas_equalTo(0.5);
         
     }];
-    self.line.backgroundColor = RGB(224, 224, 224, 1);
+    self.line.backgroundColor = RGBA(224, 224, 224, 1);
     
    
 

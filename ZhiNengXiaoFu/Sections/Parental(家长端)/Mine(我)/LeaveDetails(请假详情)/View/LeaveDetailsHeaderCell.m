@@ -34,7 +34,7 @@
 - (UIView *)backView
 {
     if (!_backView) {
-        self.backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 155)];
+        self.backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 155)];
         self.backView.backgroundColor = TEACHERTHEMECOLOR;
     }
     return _backView;
@@ -55,7 +55,7 @@
 - (UILabel *)userNameLabel
 {
     if (!_userNameLabel) {
-        self.userNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.userIconImg.frame.size.height + self.userIconImg.frame.origin.y + 12, kScreenWidth, 17)];
+        self.userNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.userIconImg.frame.size.height + self.userIconImg.frame.origin.y + 12, APP_WIDTH, 17)];
         self.userNameLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:15];
         self.userNameLabel.textColor = [UIColor whiteColor];
         self.userNameLabel.textAlignment = NSTextAlignmentCenter;
@@ -67,7 +67,7 @@
 - (UIView *)StartEndView
 {
     if (!_StartEndView) {
-        self.StartEndView = [[UIView alloc] initWithFrame:CGRectMake(32, 155 - 85 / 2, kScreenWidth - 64, 85)];
+        self.StartEndView = [[UIView alloc] initWithFrame:CGRectMake(32, 155 - 85 / 2, APP_WIDTH - 64, 85)];
         self.StartEndView.backgroundColor = [UIColor whiteColor];
         self.StartEndView.layer.cornerRadius = 4;
         self.StartEndView.layer.masksToBounds = YES;

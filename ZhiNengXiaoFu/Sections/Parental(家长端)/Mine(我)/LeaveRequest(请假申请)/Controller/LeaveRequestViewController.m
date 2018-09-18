@@ -29,7 +29,7 @@
    
     
     //请假开始view
-    UIView * leaveStart = [[UIView alloc] initWithFrame:CGRectMake(17, 15, kScreenWidth - 34, 60)];
+    UIView * leaveStart = [[UIView alloc] initWithFrame:CGRectMake(17, 15, APP_WIDTH - 34, 60)];
     leaveStart.layer.cornerRadius = 4;
     leaveStart.layer.masksToBounds = YES;
     leaveStart.backgroundColor = [UIColor whiteColor];
@@ -42,7 +42,7 @@
     [leaveStart addSubview:leaveStartTime];
     
     //选择请假开始时间
-    self.chooseStart = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 16 - 160, 0, 140, 60)];
+    self.chooseStart = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 16 - 160, 0, 140, 60)];
     NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:@"选择请假开始时间"];
     NSRange contentRange = {0, [content length]};
         [content addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:contentRange];
@@ -57,7 +57,7 @@
     
     
     //请假结束view
-    UIView * leaveEnd = [[UIView alloc] initWithFrame:CGRectMake(17, leaveStart.frame.origin.y + leaveStart.frame.size.height + 10, kScreenWidth - 34, 60)];
+    UIView * leaveEnd = [[UIView alloc] initWithFrame:CGRectMake(17, leaveStart.frame.origin.y + leaveStart.frame.size.height + 10, APP_WIDTH - 34, 60)];
     leaveEnd.layer.cornerRadius = 4;
     leaveEnd.layer.masksToBounds = YES;
     leaveEnd.backgroundColor = [UIColor whiteColor];
@@ -70,7 +70,7 @@
     [leaveEnd addSubview:leaveStartEnd];
     
     //选择请假结束时间
-    self.chooseEnd = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 16 - 160, 0, 140, 60)];
+    self.chooseEnd = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 16 - 160, 0, 140, 60)];
     NSMutableAttributedString *content1 = [[NSMutableAttributedString alloc] initWithString:@"选择请假结束时间"];
     NSRange contentRange1 = {0, [content1 length]};
     [content1 addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:contentRange1];
@@ -84,7 +84,7 @@
     [self.chooseEnd addGestureRecognizer:chooseEndTap];
     
     //请假原因view
-    UIView * leaveSeason = [[UIView alloc] initWithFrame:CGRectMake(17, leaveEnd.frame.size.height + leaveEnd.frame.origin.y  + 10, kScreenWidth - 34, 200)];
+    UIView * leaveSeason = [[UIView alloc] initWithFrame:CGRectMake(17, leaveEnd.frame.size.height + leaveEnd.frame.origin.y  + 10, APP_WIDTH - 34, 200)];
     leaveSeason.layer.cornerRadius = 4;
     leaveSeason.layer.masksToBounds = YES;
     leaveSeason.backgroundColor = [UIColor whiteColor];
@@ -111,7 +111,7 @@
     [leaveSeason addSubview:self.leaveSeasonTextView];
     
     
-    UIButton * submit = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth / 2 - 100, leaveSeason.frame.origin.y + leaveSeason.frame.size.height + 30, 200, 40)];
+    UIButton * submit = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH / 2 - 100, leaveSeason.frame.origin.y + leaveSeason.frame.size.height + 30, 200, 40)];
     [submit setTitle:@"提交" forState:UIControlStateNormal];
     [submit setBackgroundColor:COLOR(79,243,164,1)];
     submit.layer.cornerRadius = 4;
@@ -125,6 +125,7 @@
 //选择开始时间
 - (void)chooseStartTap:(UITapGestureRecognizer *)sender
 {
+    [self.view endEditing:YES];
     [self setupDateView:DateTypeOfStart];
 
 }
@@ -132,6 +133,7 @@
 //选择结束时间
 - (void)chooseEndTap:(UITapGestureRecognizer *)sender
 {
+    [self.view endEditing:YES];
     [self setupDateView:DateTypeOfEnd];
 
 }
@@ -152,6 +154,7 @@
 }
 
 - (void)getSelectDate:(NSString *)date type:(DateType)type {
+    
     NSLog(@"%d - %@", type, date);
     switch (type) {
         case DateTypeOfStart:
@@ -193,26 +196,33 @@
         [WProgressHUD showErrorAnimatedText:@"请选择请假结束时间"];
     }else
     {
-        NSDictionary * dic = @{@"key":[UserManager key], @"start":self.chooseStart.text, @"end":self.chooseEnd.text, @"reason":self.leaveSeasonTextView.text};
-        [[HttpRequestManager sharedSingleton] POST:leaveAddLeave parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-            if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-                
-                [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
-                [self.navigationController popViewControllerAnimated:YES];
-            }else
-            {
-                if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
-                    [UserManager logoOut];
+        if (![self.leaveSeasonTextView.text isEqualToString:@"请输入请假原因..."] && ![self.leaveSeasonTextView.text isEqualToString:@""]) {
+            NSDictionary * dic = @{@"key":[UserManager key], @"start":self.chooseStart.text, @"end":self.chooseEnd.text, @"reason":self.leaveSeasonTextView.text};
+            [[HttpRequestManager sharedSingleton] POST:leaveAddLeave parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+                if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+                    
+                    [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                    [self.navigationController popViewControllerAnimated:YES];
                 }else
                 {
+                    if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                        [UserManager logoOut];
+                    }else
+                    {
+                        
+                    }
+                    [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
                     
                 }
-                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+            } failure:^(NSURLSessionDataTask *task, NSError *error) {
+                NSLog(@"%@", error);
+            }];
+        }else
+        {
+            [WProgressHUD showErrorAnimatedText:@"请输入请假原因..."];
 
-            }
-        } failure:^(NSURLSessionDataTask *task, NSError *error) {
-            NSLog(@"%@", error);
-        }];
+        }
+       
     }
     
    

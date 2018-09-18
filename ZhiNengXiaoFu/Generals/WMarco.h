@@ -26,7 +26,7 @@
 #define APP_WIDTH ([[UIScreen mainScreen] bounds].size.width)
 #define APP_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
 
-#define APP_NAVH ([UIScreen mainScreen].bounds.size.height==812 ? 88 : 64)
+#define APP_NAVH ([UIScreen mainScreen].bounds.size.height == 812 ? 88 : 64)
 #define APP_TABH ([UIScreen mainScreen].bounds.size.height==812 ? 83 : 49)
 #define APP_BottomH ([UIScreen mainScreen].bounds.size.height==812 ? 34 : 0)
 

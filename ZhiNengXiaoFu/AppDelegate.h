@@ -10,6 +10,12 @@
 #import <CoreData/CoreData.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
 
+//极光推送的appkey
+static NSString *appKey = @"ee405673ce881f7ab0777fdf";
+static NSString *channel = @"Publish channel";
+//极光推送的环境配置
+static BOOL isProduction = NO;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

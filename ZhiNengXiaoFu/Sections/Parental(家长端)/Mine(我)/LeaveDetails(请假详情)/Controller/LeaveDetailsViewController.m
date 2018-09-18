@@ -15,13 +15,14 @@
 
 @property (nonatomic, strong) UITableView * leaveDetailsTableView;
 @property (nonatomic, strong) LeaveListModel * leaveListModel;
-
 @property (nonatomic, strong) PersonInformationModel * model;
+
 @end
 
 @implementation LeaveDetailsViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"请假详情";
@@ -75,7 +76,8 @@
 - (UITableView *)leaveDetailsTableView
 {
     if (!_leaveDetailsTableView) {
-        self.leaveDetailsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH) style:UITableViewStyleGrouped];
+        self.leaveDetailsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStyleGrouped];
+        self.leaveDetailsTableView.backgroundColor = [UIColor colorWithRed:246/255.0 green:246/255.0 blue:246/255.0 alpha:1];
         self.leaveDetailsTableView.dataSource = self;
         self.leaveDetailsTableView.delegate = self;
     }

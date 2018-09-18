@@ -88,7 +88,7 @@
     self.uploadPicturesLabel.font = titFont;
     [self.view addSubview:self.uploadPicturesLabel];
     
-    self.myPicture = [[UIView alloc] initWithFrame:CGRectMake(10, self.nameLabel.frame.size.height + self.nameBtn.frame.size.height + self.uploadPicturesLabel.frame.size.height + 70, kScreenWidth - 20, 80)];
+    self.myPicture = [[UIView alloc] initWithFrame:CGRectMake(10, self.nameLabel.frame.size.height + self.nameBtn.frame.size.height + self.uploadPicturesLabel.frame.size.height + 70, APP_WIDTH - 20, 80)];
     self.myPicture.backgroundColor = [UIColor redColor];
     [self.view addSubview:self.myPicture];
     

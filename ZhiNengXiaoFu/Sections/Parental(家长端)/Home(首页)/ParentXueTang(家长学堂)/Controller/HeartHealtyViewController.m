@@ -108,7 +108,7 @@
 - (UITableView *)HeartHealtyTableView
 {
     if (!_HeartHealtyTableView) {
-        self.HeartHealtyTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight  - 40 - APP_NAVH) style:UITableViewStylePlain];
+        self.HeartHealtyTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT  - 40 - APP_NAVH) style:UITableViewStylePlain];
         self.HeartHealtyTableView.delegate = self;
         self.HeartHealtyTableView.dataSource = self;
         self.HeartHealtyTableView.backgroundColor = backColor;
@@ -164,7 +164,18 @@
         ParentXueTangModel * model = [self.ChildJiaoYuAry objectAtIndex:indexPath.row];
         cell.titleLabel.text = model.title;
         [cell.ShiPinListImg sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
-        cell.liulanLabel.text = [NSString stringWithFormat:@"%ld人已看", model.view];
+        if (model.view > 9999) {
+            CGFloat num = model.view / 10000;
+            
+            
+            cell.liulanLabel.text = [NSString stringWithFormat:@"%.1f万人已看", num];
+        }else
+        {
+            cell.liulanLabel.text = [NSString stringWithFormat:@"%ld人已看", model.view];
+            
+            
+        }
+//        cell.liulanLabel.text = [NSString stringWithFormat:@"%ld人已看", model.view];
         cell.jiShuLabel.text = [NSString stringWithFormat:@"%ld次", model.view];
         if (model.label.count == 0) {
             cell.biaoQianOneImg.alpha = 0;

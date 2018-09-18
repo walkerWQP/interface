@@ -39,6 +39,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [self setNetWork];
 }
 
@@ -59,7 +60,7 @@
 - (UITableView *)personInfomationTableView
 {
     if (!_personInfomationTableView) {
-        self.personInfomationTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH) style:UITableViewStylePlain];
+        self.personInfomationTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStylePlain];
         self.personInfomationTableView.dataSource = self;
         self.personInfomationTableView.delegate = self;
     }
@@ -68,7 +69,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 7;
+    return self.nameAry.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

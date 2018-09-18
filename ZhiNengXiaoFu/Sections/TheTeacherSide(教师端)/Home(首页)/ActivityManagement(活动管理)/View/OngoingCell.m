@@ -32,20 +32,25 @@
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.imgView addSubview:self.titleLabel];
     
-    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.imgView.frame.size.height - 30, self.imgView.frame.size.width * 0.7, 30)];
-    self.timeLabel.backgroundColor = touMColor;
+    
+    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, self.imgView.frame.size.height - 30, self.imgView.frame.size.width, 30)];
+    self.titleView.backgroundColor = touMColor;
+    [self.imgView addSubview:self.titleView];
+    
+    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.imgView.frame.size.width * 0.7, 30)];
+    self.timeLabel.backgroundColor = [UIColor clearColor];
     self.timeLabel.textColor = [UIColor whiteColor];
     self.timeLabel.font = contentFont;
     self.timeLabel.textAlignment = NSTextAlignmentLeft;
-    [self.imgView addSubview:self.timeLabel];
+    [self.titleView addSubview:self.timeLabel];
     
-    self.detailsLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.imgView.frame.size.width * 0.7, self.imgView.frame.size.height - 30, self.imgView.frame.size.width * 0.3, 30)];
-    self.detailsLabel.backgroundColor = touMColor;
+    self.detailsLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.imgView.frame.size.width * 0.7, 0, self.imgView.frame.size.width * 0.3 - 10, 30)];
+    self.detailsLabel.backgroundColor = [UIColor clearColor];
     self.detailsLabel.textColor = [UIColor whiteColor];
     self.detailsLabel.font = contentFont;
     self.detailsLabel.text = @"查看详情";
-    self.detailsLabel.textAlignment = NSTextAlignmentCenter;
-    [self.imgView addSubview:self.detailsLabel];
+    self.detailsLabel.textAlignment = NSTextAlignmentRight;
+    [self.titleView addSubview:self.detailsLabel];
     
     
 }

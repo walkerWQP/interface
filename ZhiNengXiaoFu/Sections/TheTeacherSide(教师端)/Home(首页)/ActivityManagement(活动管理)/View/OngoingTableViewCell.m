@@ -25,7 +25,7 @@
     
     self.backgroundColor = [UIColor whiteColor];
     
-    self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 10)];
+    self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 10)];
     self.lineView.backgroundColor = backColor;
     [self.contentView addSubview:self.lineView];
     

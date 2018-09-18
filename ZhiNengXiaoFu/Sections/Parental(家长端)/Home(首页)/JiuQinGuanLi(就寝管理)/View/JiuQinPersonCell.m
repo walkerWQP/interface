@@ -26,7 +26,7 @@
 - (UIView *)lineView
 {
     if (!_lineView) {
-        self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 10)];
+        self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 10)];
         self.lineView.backgroundColor = backColor;
     }
     return _lineView;
@@ -46,7 +46,7 @@
 - (UILabel *)typeLabel
 {
     if (!_typeLabel) {
-        self.typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 105,  self.headImg.frame.origin.y + 25, 90, 20)];
+        self.typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 105,  self.headImg.frame.origin.y + 25, 90, 20)];
         self.typeLabel.textColor = qianColor;
         self.typeLabel.font = titFont;
     }
@@ -56,7 +56,7 @@
 - (UILabel *)nameLabel
 {
     if (!_nameLabel) {
-        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.headImg.frame.origin.x + self.headImg.frame.size.width + 32, self.headImg.frame.origin.y + 25, kScreenWidth - (self.headImg.frame.origin.x + self.headImg.frame.size.width + 32 + 105), 20)];
+        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.headImg.frame.origin.x + self.headImg.frame.size.width + 32, self.headImg.frame.origin.y + 25, APP_WIDTH - (self.headImg.frame.origin.x + self.headImg.frame.size.width + 32 + 105), 20)];
         self.nameLabel.textColor = titlColor;
         self.nameLabel.font = [UIFont systemFontOfSize:18];
 

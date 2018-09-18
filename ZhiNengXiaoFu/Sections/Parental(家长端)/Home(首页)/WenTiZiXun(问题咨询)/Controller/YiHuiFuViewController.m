@@ -114,7 +114,7 @@
 - (UITableView *)YiHuiFuTableView
 {
     if (!_YiHuiFuTableView) {
-        self.YiHuiFuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH - 40) style:UITableViewStylePlain];
+        self.YiHuiFuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH - 40) style:UITableViewStylePlain];
         self.YiHuiFuTableView.backgroundColor = backColor;
         self.YiHuiFuTableView.delegate = self;
         self.YiHuiFuTableView.dataSource = self;
@@ -181,7 +181,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSInteger width = kScreenWidth - 30;
+    NSInteger width = APP_WIDTH - 30;
     
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
     

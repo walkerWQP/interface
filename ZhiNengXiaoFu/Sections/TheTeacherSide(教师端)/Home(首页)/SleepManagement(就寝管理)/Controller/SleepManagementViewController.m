@@ -17,14 +17,16 @@
 //
 @property (nonatomic, strong) UIButton   * rightBtn;
 @property (nonatomic, strong) NSMutableArray *publishJobArr;
-@property (nonatomic,strong) JohnTopTitleView *titleView;
+@property (nonatomic, strong) JohnTopTitleView *titleView;
 
 //班级
 @property (nonatomic, strong) UILabel * classNameLabel;
 //下拉箭头
 @property (nonatomic, strong) UIImageView * jiantouImg;
+//
 @property (nonatomic, strong) UILabel * timeLabel;
-@property (nonatomic,strong) CircleView *circleV;
+//圆圈
+@property (nonatomic, strong) CircleView *circleV;
 
 @property (nonatomic, strong) UILabel * zhuxiaoCount;
 @property (nonatomic, strong) UILabel * zhuxiaoCountN;
@@ -36,6 +38,7 @@
 @property (nonatomic, strong) UIView * weidaoView;
 @property (nonatomic, strong) NSMutableArray *timeAry;
 
+//区分班级时间状态
 @property (nonatomic, assign) int qufenClassTime;
 
 @property (nonatomic, copy) NSString * classId;
@@ -66,21 +69,19 @@
 
 - (void)makeConsultingViewControllerUI
 {
-
+    
     self.classNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 110, 20)];
     self.classNameLabel.textColor = titlColor;
     self.classNameLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:17];
-//    self.classNameLabel.text = @"九年级一班";
     [self.view addSubview:self.classNameLabel];
     
-    self.jiantouImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 8 - 15, 26.5, 8, 7)];
+    self.jiantouImg = [[UIImageView alloc] initWithFrame:CGRectMake(APP_WIDTH - 8 - 15, 26.5, 8, 7)];
     self.jiantouImg.image = [UIImage imageNamed:@"下拉"];
     [self.view addSubview:self.jiantouImg];
     
-    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 23 - 10 - 90, 20, 90, 20)];
+    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 23 - 10 - 90, 20, 90, 20)];
     self.timeLabel.textColor = titlColor;
     self.timeLabel.font = [UIFont systemFontOfSize:15];
-//    self.timeLabel.text = @"2018-09-12";
     [self.view addSubview:self.timeLabel];
     
     UITapGestureRecognizer * timeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(timeTap:)];
@@ -97,19 +98,19 @@
     [self.view addSubview:_circleV];
     
     
-    self.zhuxiaoCount = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth / 2 - 25, self.classNameLabel.frame.origin.y + self.classNameLabel.frame.size.height + 20 + 65, 55, 24)];
+    self.zhuxiaoCount = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH / 2 - 25, self.classNameLabel.frame.origin.y + self.classNameLabel.frame.size.height + 20 + 65, 55, 24)];
     self.zhuxiaoCount.textColor = [UIColor colorWithRed:255 / 255.0 green:105 / 255.0 blue:141 / 255.0 alpha:1];
     self.zhuxiaoCount.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:24];
     self.zhuxiaoCount.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.zhuxiaoCount];
     
-    self.zhuxiaoCountN = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth / 2 - 20, self.self.zhuxiaoCount.frame.origin.y + self.self.zhuxiaoCount.frame.size.height + 9, 40, 13)];
+    self.zhuxiaoCountN = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH / 2 - 20, self.self.zhuxiaoCount.frame.origin.y + self.self.zhuxiaoCount.frame.size.height + 9, 40, 13)];
     self.zhuxiaoCountN.text = @"住校生";
     self.zhuxiaoCountN.textColor = titlColor;
     self.zhuxiaoCountN.font = [UIFont systemFontOfSize:13];
     [self.view addSubview:self.zhuxiaoCountN];
     
-    self.weidaoView = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth / 2 + 39,_circleV.frame.origin.y + _circleV.frame.size.height + 15, 12, 12)];
+    self.weidaoView = [[UIView alloc] initWithFrame:CGRectMake(APP_WIDTH / 2 + 39,_circleV.frame.origin.y + _circleV.frame.size.height + 15, 12, 12)];
     self.weidaoView.backgroundColor = [UIColor colorWithRed:149/255.0 green:139/255.0  blue:254/255.0  alpha:1];
     [self.view addSubview:self.weidaoView];
     
@@ -118,7 +119,7 @@
     self.weidaoLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:12];
     [self.view addSubview:self.weidaoLabel];
     
-    self.yidaoLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth / 2 - 35 - 55, self.weidaoView.frame.origin.y, 55, 12)];
+    self.yidaoLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH / 2 - 35 - 55, self.weidaoView.frame.origin.y, 55, 12)];
     self.yidaoLabel.textColor = titlColor;
     self.yidaoLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:12];
     [self.view addSubview:self.yidaoLabel];
@@ -128,15 +129,13 @@
     self.yidaoView.backgroundColor = [UIColor colorWithRed:255 / 255.0 green:105 / 255.0 blue:141 / 255.0 alpha:1];
     [self.view addSubview:self.yidaoView];
     
-    UIView * lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 277, kScreenWidth, 10)];
+    UIView * lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 277, APP_WIDTH, 10)];
     lineView.backgroundColor = [UIColor colorWithRed:238 / 255.0 green:238 / 255.0 blue:238 / 255.0 alpha:1];
     [self.view addSubview:lineView];
     
     [self getClassURLData];
     [self getClassURLTime];
     
-    
-   
 }
 
 - (NSArray <UIViewController *>*)setChildVC{

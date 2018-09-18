@@ -78,7 +78,7 @@
 //    [self.dataHeaderSourceAryImg addObject:[UIImage imageNamed:@"bannerHelper"]];
 
     
-    if (kScreenWidth == 414) {
+    if (APP_WIDTH == 414) {
         self.cycleScrollView2 = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, self.frame.size.width, 200) imageURLStringsGroup:nil]; // 模拟网络延时情景
     }else
     {

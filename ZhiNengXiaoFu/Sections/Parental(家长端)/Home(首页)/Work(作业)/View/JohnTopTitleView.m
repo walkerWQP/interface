@@ -45,7 +45,7 @@
     }else
     {
         NSDictionary* selectedTextAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15.0f],
-                                                 NSForegroundColorAttributeName: contentColor};
+                                                 NSForegroundColorAttributeName: THEMECOLOR};
         [self.titleSegment setTitleTextAttributes:selectedTextAttributes forState:UIControlStateSelected];//设置文字属性
     }
   
@@ -72,7 +72,7 @@
 
     }else
     {
-        self.lineView.backgroundColor = contentColor;
+        self.lineView.backgroundColor = THEMECOLOR;
 
     }
     [self addSubview:self.lineView];

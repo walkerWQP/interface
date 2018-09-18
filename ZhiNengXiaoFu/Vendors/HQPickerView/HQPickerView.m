@@ -10,11 +10,11 @@
 #import "PrefixHeader.pch"
 /** 屏幕宽高 */
 #define kScreenBounds [UIScreen mainScreen].bounds
-#define KScreenWidth [[UIScreen mainScreen]bounds].size.width
-#define KScreenHeight [[UIScreen mainScreen]bounds].size.height
+//#define KScreenWidth [[UIScreen mainScreen]bounds].size.width
+//#define KScreenHeight [[UIScreen mainScreen]bounds].size.height
 
 //RGB
-#define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
+//#define RGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
 
 @interface HQPickerView ()<UIPickerViewDelegate, UIPickerViewDataSource>
 
@@ -32,9 +32,9 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self == [super initWithFrame:frame]) {
-        self.frame = CGRectMake(0, 0, KScreenWidth, KScreenHeight);
+        self.frame = CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT);
         self.backgroundColor = self.backgroundColor = RGBA(51, 51, 51, 0.3);
-        self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, KScreenHeight, KScreenWidth, 300)];
+        self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, APP_HEIGHT, APP_WIDTH, 300)];
         self.bgView.backgroundColor = [UIColor whiteColor];
         [self addSubview:self.bgView];
         
@@ -73,7 +73,7 @@
             
             make.top.mas_equalTo(self.cancelBtn.mas_bottom).offset(0);
             make.left.mas_equalTo(0);
-            make.width.mas_equalTo(KScreenWidth);
+            make.width.mas_equalTo(APP_WIDTH);
             make.height.mas_equalTo(0.5);
             
         }];
@@ -134,7 +134,7 @@
 - (void)hideAnimation{
     [UIView animateWithDuration:0.5 animations:^{
         CGRect frame = self.bgView.frame;
-        frame.origin.y = KScreenHeight;
+        frame.origin.y = APP_HEIGHT;
         self.bgView.frame = frame;
     } completion:^(BOOL finished) {
         
@@ -147,7 +147,7 @@
 - (void)showAnimation{
     [UIView animateWithDuration:0.5 animations:^{
         CGRect frame = self.bgView.frame;
-        frame.origin.y = KScreenHeight-260;
+        frame.origin.y = APP_HEIGHT-260;
         self.bgView.frame = frame;
     }];
 }

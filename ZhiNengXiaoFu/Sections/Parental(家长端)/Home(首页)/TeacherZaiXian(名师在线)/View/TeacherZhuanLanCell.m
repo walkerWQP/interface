@@ -52,7 +52,7 @@
 - (UILabel *)titleLabel
 {
     if (!_titleLabel) {
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.UserIcon.frame.origin.x + self.UserIcon.frame.size.width + 10, self.UserIcon.frame.origin.y, kScreenWidth - (self.UserIcon.frame.origin.x + self.UserIcon.frame.size.width + 10) - 70, 20)];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.UserIcon.frame.origin.x + self.UserIcon.frame.size.width + 10, self.UserIcon.frame.origin.y, APP_WIDTH - (self.UserIcon.frame.origin.x + self.UserIcon.frame.size.width + 10) - 70, 20)];
         self.titleLabel.font = [UIFont systemFontOfSize:15];
         self.titleLabel.textColor = COLOR(147, 147, 147, 1);
     }
@@ -62,7 +62,7 @@
 - (UILabel *)subTitleLabel
 {
     if (!_subTitleLabel) {
-        self.subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.titleLabel.frame.origin.x, self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height + 5, kScreenWidth - self.titleLabel.frame.origin.x - 15, 20)];
+        self.subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.titleLabel.frame.origin.x, self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height + 5, APP_WIDTH - self.titleLabel.frame.origin.x - 15, 20)];
         self.subTitleLabel.font = [UIFont systemFontOfSize:15];
         self.subTitleLabel.textColor = COLOR(147, 147, 147, 1);
     }
@@ -82,7 +82,7 @@
 - (UIImageView *)stateImg
 {
     if (!_stateImg) {
-        self.stateImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 45 - 15, self.titleLabel.frame.origin.y, 45, 19)];
+        self.stateImg = [[UIImageView alloc] initWithFrame:CGRectMake(APP_WIDTH - 45 - 15, self.titleLabel.frame.origin.y, 45, 19)];
         self.stateImg.image = [UIImage imageNamed:@"公开课"];
     }
     return _stateImg;
@@ -91,7 +91,7 @@
 - (UILabel *)stateLabel
 {
     if (!_stateLabel) {
-        self.stateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 45 - 15, self.titleLabel.frame.origin.y, 45, 19)];
+        self.stateLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 45 - 15, self.titleLabel.frame.origin.y, 45, 19)];
         self.stateLabel.font = [UIFont systemFontOfSize:12];
         self.stateLabel.textAlignment = NSTextAlignmentCenter;
         self.stateLabel.textColor = [UIColor whiteColor];

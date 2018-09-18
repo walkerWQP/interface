@@ -31,6 +31,28 @@
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
     [self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:15], NSFontAttributeName, nil] forState:UIControlStateNormal];
     [self createUI];
+    
+    NSUserDefaults*pushJudge = [NSUserDefaults standardUserDefaults];
+
+    if([[pushJudge objectForKey:@"notify"]isEqualToString:@"push"])
+    {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"返回(1)"] style:UIBarButtonItemStylePlain target:self action:@selector(rebackToRootViewAction)];
+        self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+        NSUserDefaults * pushJudge = [NSUserDefaults standardUserDefaults];
+        [pushJudge setObject:@""forKey:@"notify"];
+        [pushJudge synchronize];//记得立即同步
+        
+    }else
+    {
+        
+    }
+}
+
+- (void)rebackToRootViewAction {
+    NSUserDefaults * pushJudge = [NSUserDefaults standardUserDefaults];
+    [pushJudge setObject:@""forKey:@"notify"];
+    [pushJudge synchronize];//记得立即同步
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)createUI{
@@ -48,7 +70,8 @@
 }
 
 #pragma mark - getter
-- (JohnTopTitleView *)titleView{
+- (JohnTopTitleView *)titleView
+{
     if (!_titleView) {
         _titleView = [[JohnTopTitleView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     }

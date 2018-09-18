@@ -9,8 +9,10 @@
 #import "ChengZhangXiangCeViewController.h"
 #import "WebViewJavascriptBridge.h"
 @interface ChengZhangXiangCeViewController ()<UIWebViewDelegate>
+
 @property (nonatomic, strong) WebViewJavascriptBridge *bridge;
 @property (nonatomic, strong) UIWebView   *webView;
+
 @end
 
 @implementation ChengZhangXiangCeViewController
@@ -51,9 +53,6 @@
         
     }];
 }
-
-
-
 
 - (void)prepareViews {
 

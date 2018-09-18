@@ -24,7 +24,8 @@
 
 @implementation WorkDetailsViewController
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     [self setNetWork];
     [self.view addSubview:self.WorkDetailsTableView];
@@ -37,6 +38,20 @@
     // Do any additional setup after loading the view.
     self.title = @"作业详情";
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    NSUserDefaults*pushJudge = [NSUserDefaults standardUserDefaults];
+    if([[pushJudge objectForKey:@"notify"]isEqualToString:@"push"])
+    {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"返回(1)"] style:UIBarButtonItemStylePlain target:self action:@selector(rebackToRootViewAction)];
+        self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+        NSUserDefaults * pushJudge = [NSUserDefaults standardUserDefaults];
+        [pushJudge setObject:@""forKey:@"notify"];
+        [pushJudge synchronize];//记得立即同步
+        
+    }else
+    {
+        
+    }
 
     if ([self.typeID isEqualToString:@"1"]) {
         NSLog(@"1");
@@ -53,6 +68,14 @@
     
 }
 
+- (void)rebackToRootViewAction {
+    NSUserDefaults * pushJudge = [NSUserDefaults standardUserDefaults];
+    [pushJudge setObject:@""forKey:@"notify"];
+    [pushJudge synchronize];//记得立即同步
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 - (NSMutableArray *)imgAry
 {
     if (!_imgAry) {
@@ -64,7 +87,7 @@
 - (UITableView *)WorkDetailsTableView
 {
     if (!_WorkDetailsTableView) {
-        self.WorkDetailsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.WorkDetailsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT) style:UITableViewStyleGrouped];
         self.WorkDetailsTableView.backgroundColor = [UIColor whiteColor];
         self.WorkDetailsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.WorkDetailsTableView.delegate = self;
@@ -204,7 +227,7 @@
             
             
             
-            [self.tongZhiDetailsCell.webView loadHTMLString:[NSString stringWithFormat:@"<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'><meta name='apple-mobile-web-app-capable' content='yes'><meta name='apple-mobile-web-app-status-bar-style' content='black'><meta name='format-detection' content='telephone=no'><style type='text/css'>img{width:%fpx}</style>%@", kScreenWidth - 20, self.workDetailsModel.content] baseURL:nil];
+            [self.tongZhiDetailsCell.webView loadHTMLString:[NSString stringWithFormat:@"<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'><meta name='apple-mobile-web-app-capable' content='yes'><meta name='apple-mobile-web-app-status-bar-style' content='black'><meta name='format-detection' content='telephone=no'><style type='text/css'>img{width:%fpx}</style>%@", APP_WIDTH - 20, self.workDetailsModel.content] baseURL:nil];
             
         }
         
@@ -223,13 +246,13 @@
         
         
         CGFloat currentHeight = [item doubleValue];
-        NSInteger width = kScreenWidth - 30;
+        NSInteger width = APP_WIDTH - 30;
         
         //        self.titleText = self.tongZhiDetailsModel.title;
         NSDictionary *attributes = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:30]};
         CGSize size = [self.workDetailsModel.title boundingRectWithSize:CGSizeMake(width, 10000) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
         
-        self.tongZhiDetailsCell.webView.frame = CGRectMake(10, 30 + size.height , kScreenWidth - 20, currentHeight);
+        self.tongZhiDetailsCell.webView.frame = CGRectMake(10, 30 + size.height , APP_WIDTH - 20, currentHeight);
         //                weak_self.communityDetailsCell.communityDetailsHegiht.constant = currentHeight;
         
         self.Hnew = currentHeight;
@@ -249,7 +272,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger width = kScreenWidth - 30;
+    NSInteger width = APP_WIDTH - 30;
     
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:30]};
     CGSize size = [self.workDetailsModel.title boundingRectWithSize:CGSizeMake(width, 10000) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;

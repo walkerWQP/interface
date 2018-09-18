@@ -197,7 +197,7 @@
     self.uploadLabel.font = contentFont;
     [self.launchEventScrollView addSubview:self.uploadLabel];
     
-    self.myPicture = [[UIView alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + self.timeLabel.frame.size.height + self.timeView.frame.size.height + self.classLabel.frame.size.height + self.classBtn.frame.size.height + self.introductionLabel.frame.size.height + self.introductionTextView.frame.size.height + self.uploadLabel.frame.size.height + 50, kScreenWidth - 20, 80)];
+    self.myPicture = [[UIView alloc] initWithFrame:CGRectMake(10, self.titleLabel.frame.size.height + self.titleTextField.frame.size.height + self.timeLabel.frame.size.height + self.timeView.frame.size.height + self.classLabel.frame.size.height + self.classBtn.frame.size.height + self.introductionLabel.frame.size.height + self.introductionTextView.frame.size.height + self.uploadLabel.frame.size.height + 50, APP_WIDTH - 20, 80)];
     self.myPicture.backgroundColor = [UIColor redColor];
     [self.launchEventScrollView addSubview:self.myPicture];
     
@@ -231,7 +231,7 @@
 
 - (void)releaseBtn : (UIButton *)sender {
     NSLog(@"点击发布");
-    
+    [self.view endEditing:YES];
     if ([self.titleTextField.text isEqualToString:@""]) {
         [WProgressHUD showErrorAnimatedText:@"活动标题不能为空"];
         return;
@@ -410,11 +410,13 @@
 
 - (void)classBtn : (UIButton *)sender {
     NSLog(@"请选择");
+    [self.view endEditing:YES];
     [self getClassData];
 }
 
 - (void)endTimeBtnBtn : (UIButton *)sender {
     NSLog(@"点击结束时间");
+    [self.view endEditing:YES];
     self.timeID = 0;
     [self setupDateView:DateTypeOfEnd];
     
@@ -422,6 +424,7 @@
 
 - (void)beginTimeBtn : (UIButton *)sender {
     NSLog(@"点击开始时间");
+    [self.view endEditing:YES];
     self.timeID = 0;
     [self setupDateView:DateTypeOfStart];
     [self.endTimeBtn setTitle:@"结束时间" forState:UIControlStateNormal];

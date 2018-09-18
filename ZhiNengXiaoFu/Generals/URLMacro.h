@@ -13,9 +13,9 @@
 #endif /* URLMacro_h */
 
 //正式
-#define YUMING  @"http://www.ksznxt.com/"
+//#define YUMING  @"http://www.ksznxt.com/"
 //测试
-//#define YUMING    @"http://school.ksznxt.com/"
+#define YUMING    @"http://school.ksznxt.com/"
 
 
 //登录接口
@@ -249,5 +249,29 @@
 
 //更改绑定手机号码
 #define ChangeMobileURL [NSString stringWithFormat:@"%@index/user/change_mobile",YUMING]
+
+//保存推送id
+#define UserSavePushId [NSString stringWithFormat:@"%@index/user/save_push_id",YUMING]
+
+//获取用户未读消息数
+#define UserGetUnreadNumber [NSString stringWithFormat:@"%@index/user/get_unread_number",YUMING]
+
+//获取成长相册列表
+#define GetAlbumURL [NSString stringWithFormat:@"%@index/album/get_album",YUMING]
+
+//教师删除成长相册
+#define DeleteAlbumURL [NSString stringWithFormat:@"%@index/album/delete_album",YUMING]
+
+//点赞、取消点赞
+#define PraiseURL [NSString stringWithFormat:@"%@index/album/praise",YUMING]
+
+//添加评论
+#define AddDiscussURL [NSString stringWithFormat:@"%@index/album/add_discuss",YUMING]
+
+//删除评论
+#define DeleteDiscussURL [NSString stringWithFormat:@"%@index/album/delete_discuss",YUMING]
+
+//教师发布相册v2
+#define indexAlbumAddAlbum [NSString stringWithFormat:@"%@index/album/add_album",YUMING]
 
 

@@ -15,7 +15,7 @@
     {
         //        _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:self.webConfig];
         _webView = [WKWebView new];
-        _webView.frame = CGRectMake(10, 50, kScreenWidth - 20, 5);
+        _webView.frame = CGRectMake(10, 50, APP_WIDTH - 20, 5);
         _webView.hidden = YES;
         //  添加 WKWebView 的代理，注意：用此方法添加代理
         

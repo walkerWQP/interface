@@ -35,7 +35,7 @@
 //- (UIImageView *)moreImg
 //{
 //    if (!_moreImg) {
-//        self.moreImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 15 - 11.5, 70 / 2 - 8, 11.5, 16)];
+//        self.moreImg = [[UIImageView alloc] initWithFrame:CGRectMake(APP_WIDTH - 15 - 11.5, 70 / 2 - 8, 11.5, 16)];
 //        self.moreImg.image = [UIImage imageNamed:@"more"];
 //    }
 //    return _moreImg;
@@ -44,7 +44,7 @@
 - (UIImageView *)iConImg
 {
     if (!_iConImg) {
-        self.iConImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 15 - 50, 10 , 50, 50)];
+        self.iConImg = [[UIImageView alloc] initWithFrame:CGRectMake(APP_WIDTH - 15 - 50, 10 , 50, 50)];
         self.iConImg.layer.cornerRadius = 25;
         self.iConImg.layer.masksToBounds = YES;
     }
@@ -55,7 +55,7 @@
 {
     if (!_lineView) {
         
-        self.lineView = [[UIView alloc] initWithFrame:CGRectMake(20, 69, kScreenWidth - 20, 1)];
+        self.lineView = [[UIView alloc] initWithFrame:CGRectMake(20, 69, APP_WIDTH - 20, 1)];
         self.lineView.backgroundColor = COLOR(232, 232, 232, 1);
     }
     return _lineView;

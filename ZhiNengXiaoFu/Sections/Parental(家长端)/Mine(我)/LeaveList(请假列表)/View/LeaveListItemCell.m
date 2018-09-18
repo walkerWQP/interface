@@ -50,7 +50,7 @@
 - (UILabel *)LeaveTimeLabel
 {
     if (!_LeaveTimeLabel) {
-        self.LeaveTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.fenQuan.frame.origin.x + self.fenQuan.frame.size.width + 10, self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height + 7, kScreenWidth - (self.fenQuan.frame.origin.x + self.fenQuan.frame.size.width + 10 + 20), 16)];
+        self.LeaveTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.fenQuan.frame.origin.x + self.fenQuan.frame.size.width + 10, self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height + 7, APP_WIDTH - (self.fenQuan.frame.origin.x + self.fenQuan.frame.size.width + 10 + 20), 16)];
         self.LeaveTimeLabel.font = [UIFont systemFontOfSize:13];
         self.LeaveTimeLabel.textColor = COLOR(170, 170, 170, 1);
     }
@@ -71,7 +71,7 @@
 - (UILabel *)LeaveReasonLabel
 {
     if (!_LeaveReasonLabel) {
-        self.LeaveReasonLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.LeaveTimeLabel.frame.origin.x, self.LeaveTimeLabel.frame.origin.y + self.LeaveTimeLabel.frame.size.height + 7, kScreenWidth - (self.fenQuan.frame.origin.x + self.fenQuan.frame.size.width + 10 + 20), 16)];
+        self.LeaveReasonLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.LeaveTimeLabel.frame.origin.x, self.LeaveTimeLabel.frame.origin.y + self.LeaveTimeLabel.frame.size.height + 7, APP_WIDTH - (self.fenQuan.frame.origin.x + self.fenQuan.frame.size.width + 10 + 20), 16)];
         self.LeaveReasonLabel.font = [UIFont systemFontOfSize:13];
         self.LeaveReasonLabel.textColor = COLOR(170, 170, 170, 1);
     }
@@ -81,7 +81,7 @@
 - (UIView *)lineView
 {
     if (!_lineView) {
-        self.lineView = [[UIView alloc] initWithFrame:CGRectMake(20, 99, kScreenWidth - 20, 1)];
+        self.lineView = [[UIView alloc] initWithFrame:CGRectMake(20, 99, APP_WIDTH - 20, 1)];
         self.lineView.backgroundColor = COLOR(231, 231, 231, 1);
     }
     return _lineView;
@@ -90,7 +90,7 @@
 - (UILabel *)stateLabel
 {
     if (!_stateLabel) {
-        self.stateLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 60, 15, 50, 15)];
+        self.stateLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 60, 15, 50, 15)];
         self.stateLabel.font = [UIFont systemFontOfSize:14];
     }
     return _stateLabel;

@@ -130,7 +130,7 @@
     self.uploadPicturesLabel.font = titFont;
     [self.view addSubview:self.uploadPicturesLabel];
     
-    self.myPicture = [[UIView alloc] initWithFrame:CGRectMake(10, self.subjectsLabel.frame.size.height + self.subjectsBtn.frame.size.height + self.jobNameLabel.frame.size.height + self.jobNameTextField.frame.size.height + self.jobContentLabel.frame.size.height + self.jobContentTextView.frame.size.height + self.uploadPicturesLabel.frame.size.height + 40, kScreenWidth - 20, 80)];
+    self.myPicture = [[UIView alloc] initWithFrame:CGRectMake(10, self.subjectsLabel.frame.size.height + self.subjectsBtn.frame.size.height + self.jobNameLabel.frame.size.height + self.jobNameTextField.frame.size.height + self.jobContentLabel.frame.size.height + self.jobContentTextView.frame.size.height + self.uploadPicturesLabel.frame.size.height + 40, APP_WIDTH - 20, 80)];
     self.myPicture.backgroundColor = [UIColor redColor];
     [self.view addSubview:self.myPicture];
     
@@ -150,9 +150,8 @@
 
 - (void)subjectsBtn : (UIButton *)sender {
     NSLog(@"点击科目类型");
+    [self.view endEditing:YES];
     [self getUserGetCourse];
-    
-    
 }
 
 - (void)rightBtn : (UIButton *)sender {
@@ -170,6 +169,11 @@
     if ([self.jobContentTextView.text isEqualToString:@""]) {
         [WProgressHUD showErrorAnimatedText:@"请输入作业内容"];
         return;
+    } else if (self.LQPhotoPicker_smallImageArray.count == 0) {
+        NSDictionary *dataDic = [NSDictionary dictionary];
+        
+        dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.jobNameTextField.text,@"content":self.jobContentTextView.text,@"course_id":self.courseID,@"img":@""};
+        [self PostWorkPusblishData:dataDic];
     } else {
         [self setShangChuanTupian];
     }
@@ -214,13 +218,10 @@
             }
             NSLog(@"%ld",self.imgFiledArr.count);
             NSDictionary *dataDic = [NSDictionary dictionary];
-            if (self.imgFiledArr.count == 0) {
-                dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.jobNameTextField.text,@"content":self.jobContentTextView.text,@"course_id":self.courseID,@"img":@""};
-                [self PostWorkPusblishData:dataDic];
-            } else {
-                dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.jobNameTextField.text,@"content":self.jobContentTextView.text,@"course_id":self.courseID,@"img":self.imgFiledArr};
-                [self PostWorkPusblishData:dataDic];
-            }
+       
+            dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.jobNameTextField.text,@"content":self.jobContentTextView.text,@"course_id":self.courseID,@"img":self.imgFiledArr};
+            [self PostWorkPusblishData:dataDic];
+      
             
             
         } else {

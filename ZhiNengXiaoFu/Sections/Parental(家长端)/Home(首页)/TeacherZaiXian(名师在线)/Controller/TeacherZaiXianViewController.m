@@ -122,7 +122,7 @@
 {
     if (!_TeacherZaiXianTableView) {
           CGFloat H = kIPhoneX ? (self.view.bounds.size.height - 64 - 24 - 34) : self.view.bounds.size.height - 64;
-        self.TeacherZaiXianTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, H) style:UITableViewStylePlain];
+        self.TeacherZaiXianTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, H) style:UITableViewStylePlain];
         self.TeacherZaiXianTableView.delegate = self;
         self.TeacherZaiXianTableView.dataSource = self;
     }

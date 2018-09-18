@@ -142,9 +142,7 @@
         } else {
             [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
         }
-    } else {
-        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.t_headimg] placeholderImage:[UIImage imageNamed:@"user"]];
-    }
+    } 
 
     cell.problemLabel.text = [NSString stringWithFormat:@"%@%@问:", model.class_name ,model.student_name];
     cell.problemContentLabel.text = model.question;

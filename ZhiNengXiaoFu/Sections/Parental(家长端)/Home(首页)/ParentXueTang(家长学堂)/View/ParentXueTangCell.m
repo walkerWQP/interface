@@ -27,9 +27,9 @@
     self.ShiPinListImg.contentMode=UIViewContentModeScaleAspectFill;
     self.ShiPinListImg.clipsToBounds=YES;
     
-    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.ShiPinListImg.frame.origin.x + self.ShiPinListImg.frame.size.width + 10, 20, 200, 20)];
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.ShiPinListImg.frame.origin.x + self.ShiPinListImg.frame.size.width + 10, 10, 200, 20)];
     self.titleLabel.font = [UIFont systemFontOfSize:14];
-    self.titleLabel.textColor = COLOR(147, 147, 147, 1);
+    self.titleLabel.textColor = COLOR(117, 117, 117, 1);
     [self addSubview:self.titleLabel];
     
     self.biaoQianOneImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.titleLabel.frame.origin.x, self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height + 5, 50, 21)];
@@ -61,16 +61,17 @@
     [self addSubview:self.biaoQianThreeLabel];
     
     
-    self.liulanImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.biaoQianOneImg.frame.origin.x , self.biaoQianOneImg.frame.origin.y + self.biaoQianOneImg.frame.size.height + 10, 19, 12)];
+    self.liulanImg = [[UIImageView alloc] initWithFrame:CGRectMake(APP_WIDTH - 70 - 15 - 12 - 19 , 92 + 10- 12, 19, 12)];
     self.liulanImg.image = [UIImage imageNamed:@"眼睛"];
     [self addSubview:self.liulanImg];
 
-    self.liulanLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.liulanImg.frame.origin.x + self.liulanImg.frame.size.width + 5 , self.liulanImg.frame.origin.y, 70, 12)];
+    self.liulanLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 70 - 15, self.liulanImg.frame.origin.y, 70, 12)];
     self.liulanLabel.font = [UIFont systemFontOfSize:12];
     self.liulanLabel.textColor = COLOR(167, 167, 167, 1);
+    self.liulanLabel.textAlignment = NSTextAlignmentLeft;
     [self addSubview:self.liulanLabel];
     
-    self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, self.ShiPinListImg.frame.origin.y + self.ShiPinListImg.frame.size.height + 10, kScreenWidth, 10)];
+    self.lineView = [[UIView alloc] initWithFrame:CGRectMake(0, self.ShiPinListImg.frame.origin.y + self.ShiPinListImg.frame.size.height + 10, APP_WIDTH, 10)];
     self.lineView.backgroundColor = backColor;
     [self addSubview:self.lineView];
 

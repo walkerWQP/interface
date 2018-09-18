@@ -48,7 +48,7 @@
     flowOut.minimumInteritemSpacing = 5;
     flowOut.minimumLineSpacing = 5;
     
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64) collectionViewLayout:flowOut];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT-64) collectionViewLayout:flowOut];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.showsVerticalScrollIndicator = NO;

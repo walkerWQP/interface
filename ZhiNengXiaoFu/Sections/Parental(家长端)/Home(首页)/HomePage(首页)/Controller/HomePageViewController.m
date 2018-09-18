@@ -26,6 +26,10 @@
 #import "TeacherZaiXianTotalViewController.h"
 #import "NewGuidelinesViewController.h"
 #import "JiuQinGuanLiViewController.h"
+#import "HomePageItemNCell.h"
+#import "HomePageNumberModel.h"
+
+#import "NewDynamicsViewController.h"
 
 @interface HomePageViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -33,6 +37,8 @@
 @property (nonatomic, retain) UICollectionViewFlowLayout * layout;
 @property (nonatomic, strong) NSMutableArray * homePageAry;
 @property (nonatomic, assign) NSInteger force;
+@property (nonatomic, strong) NSMutableArray * numberAry;
+
 @end
 
 @implementation HomePageViewController
@@ -42,7 +48,7 @@
     // Do any additional setup after loading the view.
     
     self.layout = [[UICollectionViewFlowLayout alloc] init];
-    self.HomePageCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH) collectionViewLayout:self.layout];
+    self.HomePageCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) collectionViewLayout:self.layout];
 
     self.HomePageCollectionView.backgroundColor = [UIColor whiteColor];
 
@@ -57,11 +63,13 @@
     [self.view addSubview:self.HomePageCollectionView];
     
     [self.HomePageCollectionView registerClass:[HomePageLunBoCell class] forCellWithReuseIdentifier:@"HomePageLunBoCellId"];
-    [self.HomePageCollectionView registerClass:[HomePageItemCell class] forCellWithReuseIdentifier:@"HomePageItemCellId"];
+//    [self.HomePageCollectionView registerClass:[HomePageItemCell class] forCellWithReuseIdentifier:@"HomePageItemCellId"];
+    
+    [self.HomePageCollectionView registerNib:[UINib nibWithNibName:@"HomePageItemNCell" bundle:nil] forCellWithReuseIdentifier:@"HomePageItemNCellId"];
     
     NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"成长手册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态",@"新生指南", nil];
     NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"成长相册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态",@"新生指南",nil];
-
+    
     for (int i = 0; i < imgAry.count; i++)
     {
         NSString * img  = [imgAry objectAtIndex:i];
@@ -70,93 +78,222 @@
         [self.homePageAry addObject:dic];
     }
     
-   
+    
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+    [defaultCenter addObserver:self
+                      selector:@selector(networkDidSetup:)
+                          name:kJPFNetworkDidSetupNotification
+                        object:nil];
+    [defaultCenter addObserver:self
+                      selector:@selector(networkDidClose:)
+                          name:kJPFNetworkDidCloseNotification
+                        object:nil];
+    [defaultCenter addObserver:self
+                      selector:@selector(networkDidRegister:)
+                          name:kJPFNetworkDidRegisterNotification
+                        object:nil];
+    [defaultCenter addObserver:self
+                      selector:@selector(networkDidLogin:)
+                          name:kJPFNetworkDidLoginNotification
+                        object:nil];
+    [defaultCenter addObserver:self
+                      selector:@selector(networkDidReceiveMessage:)
+                          name:kJPFNetworkDidReceiveMessageNotification
+                        object:nil];
+    [defaultCenter addObserver:self
+                      selector:@selector(serviceError:)
+                          name:kJPFServiceErrorNotification
+                        object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(qiangzhiGengXin:) name:@"qiangzhiGengXin" object:nil];
 //    [self setHuoQuShangXianBanBen];
+    
+    [self pushJiGuangId];
+    
 }
-
-//- (void)qiangzhiGengXin:(NSNotification *)nofity
-//{
-//}
-
-//- (void)setHuoQuShangXianBanBen
-//{
-//    NSDictionary * dic = @{@"system":@"2"};
-//    [[HttpRequestManager sharedSingleton] POST:versionGetVersion parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-//        NSLog(@"%@", responseObject);
-//        //一句代码实现检测更新
-//        self.force = [[[responseObject objectForKey:@"data"] objectForKey:@"force"] integerValue];
-//
-//        [self hsUpdateApp:[[responseObject objectForKey:@"data"] objectForKey:@"version"] force:[[[responseObject objectForKey:@"data"] objectForKey:@"force"] integerValue]];
-//        
-//        [SingletonHelper manager].version = [[responseObject objectForKey:@"data"] objectForKey:@"version"];
-//        [SingletonHelper manager].force = [[[responseObject objectForKey:@"data"] objectForKey:@"force"] integerValue];
-//        
-//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-//        NSLog(@"%@", error);
-//    }];
-//}
-//
-///**
-// *  天朝专用检测app更新
-// */
-//-(void)hsUpdateApp:(NSString *)version  force:(NSInteger)force
-//{
-//    //2先获取当前工程项目版本号
-//    NSDictionary *infoDic=[[NSBundle mainBundle] infoDictionary];
-//    NSString *currentVersion=[infoDic[@"CFBundleShortVersionString"] stringByReplacingOccurrencesOfString:@"."withString:@""];
-//    
-//    NSString * versinNew  = [version stringByReplacingOccurrencesOfString:@"."withString:@""];
-//    //3从网络获取appStore版本号
-//    
-//        if([currentVersion integerValue] < [versinNew integerValue])
-//        {
-//            [self setGengXinNeiRon:force];
-//            
-//        }else{
-//            NSLog(@"版本号好像比商店大噢!检测到不需要更新");
-//        }
-//   
-//}
-//
-//- (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-//    if (self.force == 1) {
-//        if(buttonIndex==0)
-//        {
-//            //6此处加入应用在app store的地址，方便用户去更新，一种实现方式如下：
-//            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/id%@?ls=1&mt=8", STOREAPPID]];
-//            [[UIApplication sharedApplication] openURL:url];
-//        }
-//    }else
-//    {
-//        //5实现跳转到应用商店进行更新
-//        if(buttonIndex==1)
-//        {
-//            //6此处加入应用在app store的地址，方便用户去更新，一种实现方式如下：
-//            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/id%@?ls=1&mt=8", STOREAPPID]];
-//            [[UIApplication sharedApplication] openURL:url];
-//        }
-//    
-//    }
-//}
-//
-//- (void)setGengXinNeiRon:(NSInteger)force
-//{
-//    if (force == 1) {
-//        UIAlertView * neironAlertView = [[UIAlertView alloc] initWithTitle:@"版本有更新,请前往appstore下载" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
-//        [neironAlertView show];
-//    }else
-//    {
-//         UIAlertView * neironAlertView = [[UIAlertView alloc] initWithTitle:@"版本有更新,请前往appstore下载" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-//        [neironAlertView show];
-//    }
-//
-//}
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self huoQuNumber];
+
+}
+
+- (NSMutableArray *)numberAry
+{
+    if (!_numberAry) {
+        self.numberAry = [@[]mutableCopy];
+    }
+    return _numberAry;
+}
+
+- (void)huoQuNumber
+{
+    
+    NSDictionary * dic = @{@"key":[UserManager key]};
+    [[HttpRequestManager sharedSingleton] POST:UserGetUnreadNumber parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        HomePageNumberModel * model = [HomePageNumberModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+        NSString * activity = [[NSString alloc] init];
+        if (model.activity > 9) {
+            activity = @"9+";
+        }else
+        {
+            activity = [NSString stringWithFormat:@"%ld", model.activity];
+        }
+        
+        NSString * consult = [[NSString alloc] init];
+        if (model.consult > 9) {
+            consult = @"9+";
+        }else
+        {
+            consult = [NSString stringWithFormat:@"%ld", model.consult];
+        }
+        
+        NSString * dynamic = [[NSString alloc] init];
+        if (model.dynamic > 9) {
+            dynamic = @"9+";
+        }else
+        {
+            dynamic = [NSString stringWithFormat:@"%ld", model.dynamic];
+        }
+        
+        NSString * homework = [[NSString alloc] init];
+        if (model.homework > 9) {
+            homework = @"9+";
+        }else
+        {
+            homework = [NSString stringWithFormat:@"%ld", model.homework];
+        }
+        
+        NSString * notice = [[NSString alloc] init];
+        if (model.notice > 9) {
+            notice = @"9+";
+        }else
+        {
+            notice = [NSString stringWithFormat:@"%ld", model.notice];
+        }
+        
+        
+         self.numberAry = [NSMutableArray arrayWithObjects:notice,homework,@"0",@"0",@"0",consult,@"0",dynamic,@"0" ,nil];
+//        NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"成长手册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态",@"新生指南", nil];
+//        NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"成长相册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态",@"新生指南",nil];
+//
+//        for (int i = 0; i < imgAry.count; i++)
+//        {
+//            NSString * img  = [imgAry objectAtIndex:i];
+//            NSString * title = [TitleAry objectAtIndex:i];
+//            NSString * number = [numberAry objectAtIndex:i];
+//            NSDictionary * dic = @{@"img":img, @"title":title, @"number":number};
+//            [self.homePageAry addObject:dic];
+//        }
+        
+        [self.HomePageCollectionView reloadData];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
+}
+
+
+- (void)pushJiGuangId
+{
     [self.HomePageCollectionView reloadData];
+
+   
+    [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID) {
+        NSDictionary * dic = [NSDictionary dictionary];
+        if (registrationID == nil) {
+            dic = @{@"push_id":@"", @"system":@"ios", @"key":[UserManager key]};
+
+        }else
+        {
+            dic = @{@"push_id":registrationID, @"system":@"ios", @"key":[UserManager key]};
+
+        }
+        
+        [[HttpRequestManager sharedSingleton] POST:UserSavePushId parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+            NSLog(@"jpushid%@", responseObject);
+            
+            if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+                
+            }else
+            {
+                if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402)
+                {
+                    [UserManager logoOut];
+                    [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
+                }else
+                {
+                    
+                }
+                
+            }
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            NSLog(@"%@", error);
+        }];
+    
+    }];
+}
+
+
+
+
+- (void)unObserveAllNotifications
+{
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+    [defaultCenter removeObserver:self
+                             name:kJPFNetworkDidSetupNotification
+                           object:nil];
+    [defaultCenter removeObserver:self
+                             name:kJPFNetworkDidCloseNotification
+                           object:nil];
+    [defaultCenter removeObserver:self
+                             name:kJPFNetworkDidRegisterNotification
+                           object:nil];
+    [defaultCenter removeObserver:self
+                             name:kJPFNetworkDidLoginNotification
+                           object:nil];
+    [defaultCenter removeObserver:self
+                             name:kJPFNetworkDidReceiveMessageNotification
+                           object:nil];
+    [defaultCenter removeObserver:self
+                             name:kJPFServiceErrorNotification
+                           object:nil];
+}
+
+- (void)networkDidSetup:(NSNotification *)notification
+{
+    NSLog(@"已连接");
+}
+
+- (void)networkDidClose:(NSNotification *)notification
+{
+    NSLog(@"未连接");
+}
+
+- (void)networkDidRegister:(NSNotification *)notification
+{
+    NSLog(@"%@", [notification userInfo]);
+    
+    NSLog(@"已注册");
+}
+
+- (void)networkDidLogin:(NSNotification *)notification {
+    
+    NSLog(@"已登录");
+    
+    if ([JPUSHService registrationID]) {
+        
+        NSLog(@"get RegistrationID");
+    }
+}
+
+- (void)networkDidReceiveMessage:(NSNotification *)notification
+{
+    NSDictionary * userInfo = [notification userInfo];
+    NSString *content = [userInfo valueForKey:@"content"];
+    NSString *messageID = [userInfo valueForKey:@"_j_msgid"];
+    NSDictionary *extras = [userInfo valueForKey:@"extras"];
+    NSString *customizeField1 = [extras valueForKey:@"customizeField1"];
 }
 
 - (NSMutableArray *)homePageAry
@@ -193,10 +330,23 @@
         return cell;
     }else
     {
-        HomePageItemCell * cell  = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomePageItemCellId" forIndexPath:indexPath];
+        HomePageItemNCell * cell  = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomePageItemNCellId" forIndexPath:indexPath];
         NSDictionary * dic = [self.homePageAry objectAtIndex:indexPath.row];
+        
         cell.itemImg.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
         cell.titleLabel.text = [dic objectForKey:@"title"];
+        
+        if (self.numberAry.count > indexPath.row) {
+            NSString * str = [self.numberAry objectAtIndex:indexPath.row];
+            
+            if ([str isEqualToString:@"0"]) {
+                cell.NumberLabel.alpha = 0;
+            }else
+            {
+                cell.NumberLabel.alpha = 1;
+                cell.NumberLabel.text = str;
+            }
+        }
         return cell;
     }
     
@@ -206,16 +356,16 @@
 {
     if (indexPath.section == 0)
     {
-        if (kScreenWidth == 414)
+        if (APP_WIDTH == 414)
         {
-            return CGSizeMake(kScreenWidth, 200);
+            return CGSizeMake(APP_WIDTH, 200);
         }else
         {
-            return CGSizeMake(kScreenWidth, 170);
+            return CGSizeMake(APP_WIDTH, 170);
         }
     }else
     {
-        return CGSizeMake((kScreenWidth  - 30 )/ 3, 100);
+        return CGSizeMake((APP_WIDTH  - 30 )/ 3, 100);
     }
 }
 
@@ -225,9 +375,11 @@
         
     }else
     {
-        if (indexPath.row == 0) {
+        if (indexPath.row == 0)
+        {
             TongZhiViewController * teacherTongZhiVC = [[TongZhiViewController alloc] init];
             [self.navigationController pushViewController:teacherTongZhiVC animated:YES];
+            
         }else if (indexPath.row == 1)
         {
             HomeWorkPViewController * homeWorkVC = [[HomeWorkPViewController alloc] init];
@@ -246,8 +398,12 @@
 //        }
         else if (indexPath.row == 2)
         {
-            ChengZhangXiangCeViewController * chengzhang = [[ChengZhangXiangCeViewController alloc] init];
-            [self.navigationController pushViewController:chengzhang animated:YES];
+//            ChengZhangXiangCeViewController * chengzhang = [[ChengZhangXiangCeViewController alloc] init];
+//            [self.navigationController pushViewController:chengzhang animated:YES];
+            NSLog(@"点击成长轨迹");
+            NewDynamicsViewController *newDynamicsVC = [NewDynamicsViewController new];
+            newDynamicsVC.typeStr = @"1";
+            [self.navigationController pushViewController:newDynamicsVC animated:YES];
 
         }else if (indexPath.row == 3)
         {
@@ -275,7 +431,10 @@
         }
 //        else if (indexPath.row == 9)
 //        {
-//           
+//            NSLog(@"点击成长轨迹");
+//            NewDynamicsViewController *newDynamicsVC = [NewDynamicsViewController new];
+//            newDynamicsVC.typeStr = @"1";
+//            [self.navigationController pushViewController:newDynamicsVC animated:YES];
 //        }
         
     }

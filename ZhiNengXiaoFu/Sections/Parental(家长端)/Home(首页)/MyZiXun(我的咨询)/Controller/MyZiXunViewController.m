@@ -31,7 +31,7 @@
     questionLabel.font = [UIFont systemFontOfSize:17];
     [self.view addSubview:questionLabel];
     
-    self.myZiXunTextView = [[UITextView alloc] initWithFrame:CGRectMake(15, questionLabel.frame.origin.y + questionLabel.frame.size.height + 10, kScreenWidth - 30, 50)];
+    self.myZiXunTextView = [[UITextView alloc] initWithFrame:CGRectMake(15, questionLabel.frame.origin.y + questionLabel.frame.size.height + 10, APP_WIDTH - 30, 50)];
     self.myZiXunTextView.text = @" 请输入问题";
     self.myZiXunTextView.font = [UIFont systemFontOfSize:15];
     self.myZiXunTextView.delegate = self;
@@ -48,7 +48,7 @@
     chooseTeacher.font = [UIFont systemFontOfSize:17];
     [self.view addSubview:chooseTeacher];
     
-    self.chooseTeacherLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, chooseTeacher.frame.origin.y + chooseTeacher.frame.size.height + 10, kScreenWidth - 30, 50)];
+    self.chooseTeacherLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, chooseTeacher.frame.origin.y + chooseTeacher.frame.size.height + 10, APP_WIDTH - 30, 50)];
     self.chooseTeacherLabel.text = @"  请输入老师名称";
     self.chooseTeacherLabel.font = [UIFont systemFontOfSize:15];
     self.chooseTeacherLabel.textColor = COLOR(170, 170, 170, 1);
@@ -67,7 +67,7 @@
     self.chooseTeacherLabel.userInteractionEnabled = YES;
     [self.chooseTeacherLabel addGestureRecognizer:chooseTeacherTap];
     
-    UIButton * submit = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth / 2 - 212 / 2, self.chooseTeacherLabel.frame.origin.y + self.chooseTeacherLabel.frame.size.height + 30, 212, 37)];
+    UIButton * submit = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH / 2 - 212 / 2, self.chooseTeacherLabel.frame.origin.y + self.chooseTeacherLabel.frame.size.height + 30, 212, 37)];
     [submit setBackgroundImage:[UIImage imageNamed:@"提交问题"] forState:UIControlStateNormal];
     submit.userInteractionEnabled = YES;
     [submit setTitle:@"提交问题" forState:UIControlStateNormal];
@@ -77,17 +77,32 @@
 
 - (void)submit:(UIButton *)sender
 {
-    NSDictionary * dic = @{@"teacher_id":self.userGetStuTeaModel.teacher_id, @"teacher_name":self.userGetStuTeaModel.teacher_name, @"course_name":self.userGetStuTeaModel.course_name, @"key":[UserManager key], @"question":self.myZiXunTextView.text};
-    [[HttpRequestManager sharedSingleton] POST:ConsultQuestion parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSLog(@"%@", responseObject);
-        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
-            [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
-            
-            [self.navigationController popViewControllerAnimated:YES];
+    if (![self.myZiXunTextView.text isEqualToString:@" 请输入问题"] && ![self.myZiXunTextView.text isEqualToString:@""]) {
+        
+        if (self.userGetStuTeaModel.teacher_id != nil) {
+            NSDictionary * dic = @{@"teacher_id":self.userGetStuTeaModel.teacher_id, @"teacher_name":self.userGetStuTeaModel.teacher_name, @"course_name":self.userGetStuTeaModel.course_name, @"key":[UserManager key], @"question":self.myZiXunTextView.text};
+            [[HttpRequestManager sharedSingleton] POST:ConsultQuestion parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+                NSLog(@"%@", responseObject);
+                if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+                    [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
+                    
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            } failure:^(NSURLSessionDataTask *task, NSError *error) {
+                NSLog(@"%@", error);
+            }];
+        }else
+        {
+            [WProgressHUD showErrorAnimatedText:@"老师名称不能为空"];
+
         }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"%@", error);
-    }];
+       
+    }else
+    {
+        [WProgressHUD showErrorAnimatedText:@"问题不能为空"];
+
+    }
+   
     
 }
 
@@ -101,7 +116,7 @@
 
 - (void)chooseTeacherTap:(UITapGestureRecognizer *)sender
 {
-    
+    [self.view endEditing:YES];
     NSDictionary * dic = @{@"key":[UserManager key]};
     [[HttpRequestManager sharedSingleton] POST:UserGetStudentTeachers parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);

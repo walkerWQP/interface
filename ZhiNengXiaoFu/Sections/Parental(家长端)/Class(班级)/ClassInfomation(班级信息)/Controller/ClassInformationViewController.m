@@ -27,7 +27,7 @@
     self.title = @"班级信息";
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UIImageView * backImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    UIImageView * backImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT)];
     backImg.image = [UIImage imageNamed:@"img_class_info_bg"];
     [self.view addSubview:backImg];
     

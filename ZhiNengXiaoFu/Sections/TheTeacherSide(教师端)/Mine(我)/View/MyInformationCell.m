@@ -50,7 +50,7 @@
 
 //- (UIImageView *)nextImg {
 //    if (!_nextImg) {
-//        self.nextImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 20 - 11.5, 45 - 8, 11.5, 16)];
+//        self.nextImg = [[UIImageView alloc] initWithFrame:CGRectMake(APP_WIDTH - 20 - 11.5, 45 - 8, 11.5, 16)];
 //        self.nextImg.image = [UIImage imageNamed:@"more"];
 //    }
 //    return _nextImg;

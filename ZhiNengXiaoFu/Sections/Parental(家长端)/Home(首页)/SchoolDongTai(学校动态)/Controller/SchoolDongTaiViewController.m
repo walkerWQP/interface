@@ -132,20 +132,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SchoolDongTaiDetailsViewController * schoolDongTaivc = [[SchoolDongTaiDetailsViewController alloc] init];
-    if (self.schoolDynamicArr.count != 0) {
-
-    SchoolDongTaiModel * model = [self.schoolDynamicArr objectAtIndex:indexPath.row];
-    schoolDongTaivc.schoolDongTaiId = model.ID;
+    if (indexPath.section == 1) {
+        SchoolDongTaiDetailsViewController * schoolDongTaivc = [[SchoolDongTaiDetailsViewController alloc] init];
+        if (self.schoolDynamicArr.count != 0) {
+            
+            SchoolDongTaiModel * model = [self.schoolDynamicArr objectAtIndex:indexPath.row];
+            schoolDongTaivc.schoolDongTaiId = model.ID;
+        }
+        [self.navigationController pushViewController:schoolDongTaivc animated:YES];
     }
-    [self.navigationController pushViewController:schoolDongTaivc animated:YES];
+   
     
 }
 
 
 - (UITableView *)schoolDynamicTableView {
     if (!_schoolDynamicTableView) {
-        self.schoolDynamicTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - APP_NAVH) style:UITableViewStylePlain];
+        self.schoolDynamicTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStylePlain];
         self.schoolDynamicTableView.backgroundColor = backColor;
         self.schoolDynamicTableView.delegate = self;
         self.schoolDynamicTableView.dataSource = self;
@@ -202,7 +205,7 @@
             }
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
+        UIImageView * imgs = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, 170)];
         if (self.bannerArr.count == 0) {
             //            imgs.image = [UIImage imageNamed:@"教师端活动管理banner"];
         } else {

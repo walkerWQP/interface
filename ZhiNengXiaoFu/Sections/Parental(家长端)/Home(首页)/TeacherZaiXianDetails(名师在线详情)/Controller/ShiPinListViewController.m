@@ -109,7 +109,7 @@
 - (UITableView *)shiPinListTableView
 {
     if (!_shiPinListTableView) {
-        self.shiPinListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 200 - APP_NAVH - 40) style:UITableViewStylePlain];
+        self.shiPinListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - 200 - APP_NAVH - 40) style:UITableViewStylePlain];
         self.shiPinListTableView.delegate = self;
         self.shiPinListTableView.dataSource = self;
     }

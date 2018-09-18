@@ -233,6 +233,7 @@
 
 - (void)endTimeBtnBtn : (UIButton *)sender {
     NSLog(@"点击结束时间");
+    [self.view endEditing:YES];
     self.timeID = 0;
     [self setupDateView:DateTypeOfEnd];
     
@@ -240,6 +241,7 @@
 
 - (void)beginTimeBtn : (UIButton *)sender {
     NSLog(@"点击开始时间");
+    [self.view endEditing:YES];
     self.timeID = 0;
     [self setupDateView:DateTypeOfStart];
     [self.endTimeBtn setTitle:@"结束时间" forState:UIControlStateNormal];

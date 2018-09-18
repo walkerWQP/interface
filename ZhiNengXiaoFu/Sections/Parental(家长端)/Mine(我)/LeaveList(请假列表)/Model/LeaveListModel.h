@@ -20,4 +20,8 @@
 @property (nonatomic, copy) NSString  *name;
 @property (nonatomic, copy) NSString  *head_img;
 
+@property (nonatomic, copy) NSString  * student_name;
+@property (nonatomic, copy) NSString  * student_head_img;
+
+
 @end

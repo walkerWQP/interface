@@ -33,7 +33,7 @@
 - (UITableView *)KeChengJieShaoTableView
 {
     if (!_KeChengJieShaoTableView) {
-        self.KeChengJieShaoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 200 - APP_NAVH - 40) style:UITableViewStyleGrouped];
+        self.KeChengJieShaoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - 200 - APP_NAVH - 40) style:UITableViewStyleGrouped];
         self.KeChengJieShaoTableView.backgroundColor = [UIColor whiteColor];
         self.KeChengJieShaoTableView.delegate = self;
         self.KeChengJieShaoTableView.dataSource = self;
@@ -89,7 +89,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger width = kScreenWidth - 30;
+    NSInteger width = APP_WIDTH - 30;
     
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
     CGSize size = [self.teacherZaiXianDetailsModel.content boundingRectWithSize:CGSizeMake(width, 1000000) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;

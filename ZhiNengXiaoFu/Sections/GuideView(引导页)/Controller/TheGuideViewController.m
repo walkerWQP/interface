@@ -82,13 +82,13 @@
         imageView.left = i * imageW;
         
         // 给最后一个imageView添加按钮
-        if (i == HMNewfeatureImageCount - 1) {
-            
+//        if (i == HMNewfeatureImageCount - 1) {
+        
             if ([UIScreen mainScreen].bounds.size.height == 812) {
-                self.tiaoguo = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 70, 60, 50, 20)];
+                self.tiaoguo = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 70, 60, 50, 20)];
             }else
             {
-                self.tiaoguo = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 70, 30, 50, 20)];
+                self.tiaoguo = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH - 70, 30, 50, 20)];
             }
             
             self.tiaoguo.text = @"跳过";
@@ -97,7 +97,7 @@
             [imageView addSubview: self.tiaoguo];
             
             [self setupLastImageView:imageView];
-        }
+//        }
     }
     
     // 3.设置其他属性
