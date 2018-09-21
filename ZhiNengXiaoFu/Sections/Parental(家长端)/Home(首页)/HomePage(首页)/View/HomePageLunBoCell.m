@@ -16,7 +16,7 @@
     if (self) {
         [self addSubview:self.cycleScrollView2];
         
-//        [self getClassData];
+       [self getClassData];
 //        [self loadTicketTop];
 
     }

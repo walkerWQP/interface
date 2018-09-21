@@ -45,6 +45,12 @@
     [self getClassConditionURLData:@"3"];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    //结束头部刷新
+    [self.notToCollectionView.mj_header endRefreshing];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // 未到
@@ -84,7 +90,6 @@
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
@@ -114,21 +119,24 @@
     
     UICollectionViewCell *gridcell = nil;
     TotalNumberCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TotalNumberCell_CollectionView forIndexPath:indexPath];
-    TotalNumberModel *model = [self.notToArr objectAtIndex:indexPath.row];
-    if (model.head_img == nil || [model.head_img isEqualToString:@""]) {
-        cell.headImgView.image = [UIImage imageNamed:@"user"];
-    } else {
-        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
+    if (self.notToArr.count != 0) {
+        TotalNumberModel *model = [self.notToArr objectAtIndex:indexPath.row];
+        if (model.head_img == nil || [model.head_img isEqualToString:@""]) {
+            cell.headImgView.image = [UIImage imageNamed:@"user"];
+        } else {
+            [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
+        }
+        cell.nameLabel.text = model.name;
+        if (model.is_leave == 1) { //1请假
+            cell.nameLabel.textColor = THEMECOLOR;
+        } else if (model.is_leave == 2) { //2未到
+            cell.nameLabel.textColor = [UIColor redColor];
+        } else if (model.is_leave == 3) { //3已到
+            cell.nameLabel.textColor = titlColor;
+        }
+        gridcell = cell;
     }
-    cell.nameLabel.text = model.name;
-    if (model.is_leave == 1) { //1请假
-        cell.nameLabel.textColor = THEMECOLOR;
-    } else if (model.is_leave == 2) { //2未到
-        cell.nameLabel.textColor = [UIColor redColor];
-    } else if (model.is_leave == 3) { //3已到
-        cell.nameLabel.textColor = titlColor;
-    }
-    gridcell = cell;
+    
     return gridcell;
     
 }

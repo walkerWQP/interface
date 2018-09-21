@@ -146,7 +146,6 @@
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
@@ -155,8 +154,12 @@
     if (!_managerView) {
         CGFloat Y = 0;
         CGFloat H = kIPhoneX ? (self.view.bounds.size.height - Y - 34) : self.view.bounds.size.height - Y;
-        _managerView = [[LTAdvancedManager alloc] initWithFrame:CGRectMake(0, Y, self.view.bounds.size.width, H) viewControllers:self.viewControllers titles:self.titles currentViewController:self layout:self.layout headerViewHandle:^UIView * _Nonnull{
-            return [self setupHeaderView];
+//        _managerView = [[LTAdvancedManager alloc] initWithFrame:CGRectMake(0, Y, self.view.bounds.size.width, H) viewControllers:self.viewControllers titles:self.titles currentViewController:self layout:self.layout headerViewHandle:^UIView * _Nonnull{
+//            return [self setupHeaderView];
+//        }];
+        
+        _managerView = [[LTAdvancedManager alloc] initWithFrame:CGRectMake(0, Y, self.view.bounds.size.width, H) viewControllers:self.viewControllers titles:self.titles currentViewController:self layout:self.layout titleView:nil headerViewHandle:^UIView * _Nonnull{
+             return [self setupHeaderView];
         }];
         
         /* 设置代理 监听滚动 */

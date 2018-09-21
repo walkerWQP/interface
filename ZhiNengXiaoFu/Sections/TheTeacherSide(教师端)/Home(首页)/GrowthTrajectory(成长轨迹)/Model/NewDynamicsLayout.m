@@ -11,8 +11,7 @@
 
 @implementation NewDynamicsLayout
 
-- (instancetype)initWithModel:(DynamicsModel *)model
-{
+- (instancetype)initWithModel:(DynamicsModel *)model {
     self = [super init];
     if (self) {
         [self setUser];
@@ -22,8 +21,7 @@
     return self;
 }
 
-- (void)resetLayout
-{
+- (void)resetLayout {
     _height = 0;
     _thumbCommentHeight = 0;
     
@@ -50,10 +48,6 @@
         _height += kDynamicsNameDetailPadding;
         _height += kDynamicsGrayBgHeight;
     }
-//    if (_model.spreadparams.count != 0 || _model.companyparams != 0) {//显示推广
-//        _height += kDynamicsNameDetailPadding;
-//        _height += kDynamicsSpreadButtonHeight;
-//    }
     
     _height += kDynamicsPortraitNamePadding;
     _height += kDynamicsNameHeight;//时间
@@ -72,8 +66,7 @@
     }
 }
 
-- (void)layoutDetail
-{
+- (void)layoutDetail {
     _detailLayout = nil;
     
     NSMutableAttributedString * text = [[NSMutableAttributedString alloc] initWithString:_model.content];
@@ -118,13 +111,13 @@
     _detailLayout = [YYTextLayout layoutWithContainer:container text:text];
     
 }
-- (void)layoutPicture
-{
+
+- (void)layoutPicture {
     self.photoContainerSize = CGSizeZero;
     self.photoContainerSize = [SDWeiXinPhotoContainerView getContainerSizeWithPicPathStringsArray:_model.img];
 }
-- (void)layoutGrayDetailView
-{
+
+- (void)layoutGrayDetailView {
     NSMutableAttributedString * text = [[NSMutableAttributedString alloc] initWithString:_model.content];
     text.font = [UIFont systemFontOfSize:14];
     text.lineSpacing = 3;
@@ -161,8 +154,7 @@
 }
 
 
-- (void)layoutThumb
-{
+- (void)layoutThumb {
     _thumbCommentHeight = 0;
     _thumbHeight = 0;
     
@@ -295,8 +287,7 @@
     _thumbCommentHeight += _commentHeight;
 }
 
--(NSMutableArray *)commentLayoutArr
-{
+- (NSMutableArray *)commentLayoutArr {
     if (!_commentLayoutArr) {
         _commentLayoutArr = [NSMutableArray array];
     }

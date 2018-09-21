@@ -35,12 +35,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    //下拉刷新
-    self.jobManagementCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
-    //自动更改透明度
-    self.jobManagementCollectionView.mj_header.automaticallyChangeAlpha = YES;
-    //进入刷新状态
-    [self.jobManagementCollectionView.mj_header beginRefreshing];
+    
    
 }
 
@@ -62,6 +57,13 @@
     [self.view addSubview:self.zanwushuju];
     
     [self makeJobManagementViewControllerUI];
+    
+    //下拉刷新
+    self.jobManagementCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.jobManagementCollectionView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.jobManagementCollectionView.mj_header beginRefreshing];
     
 }
 
@@ -93,7 +95,6 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
@@ -162,11 +163,15 @@
     
     UICollectionViewCell *gridcell = nil;
     TeacherNotifiedCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TeacherNotifiedCell_CollectionView forIndexPath:indexPath];
-    TeacherNotifiedModel *model = [self.jobManagementArr objectAtIndex:indexPath.row];
-    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];
-    cell.classLabel.text = model.name;
     
-    gridcell = cell;
+    if (self.jobManagementArr.count != 0) {
+        TeacherNotifiedModel *model = [self.jobManagementArr objectAtIndex:indexPath.row];
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];
+        cell.classLabel.text = model.name;
+        
+        gridcell = cell;
+    }
+    
     return gridcell;
     
 }
@@ -177,9 +182,9 @@
     
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
     CGSize itemSize = CGSizeZero;
-    
     itemSize = CGSizeMake(APP_WIDTH, 70);
     
     return itemSize;

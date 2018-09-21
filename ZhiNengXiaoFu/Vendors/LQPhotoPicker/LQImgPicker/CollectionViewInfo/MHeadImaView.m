@@ -72,23 +72,27 @@
 
     MHeaderImaCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:MHeaderImaCellClassName forIndexPath:indexPath];
     cell.backgroundColor = [UIColor grayColor];
-    ALAsset *set = self.arrData[indexPath.row];
-    ALAssetRepresentation *sentation = [set defaultRepresentation];
-    cell.imavHead.image = [UIImage imageWithCGImage:[sentation fullScreenImage]];
-    cell.btnCheckMark.selected = [[MImaLibTool shareMImaLibTool] imaInArrImasWithArr:self.arrSelected set:set];
-    __weak typeof(self) weakSelf = self;
-    [cell setBtnSelectedActionBlock:^(BOOL state) {
-        
-        if (state) {
-            [weakSelf.arrSelected addObject:set];
-        } else {
-            [weakSelf.arrSelected removeObject:set];
-        }
-        if ([weakSelf.delegate respondsToSelector:@selector(selectIndex:headImaSelectType:)]) {
-            [weakSelf.delegate selectIndex:indexPath.row headImaSelectType:(state)?headImaCheckMark:headImaCheckCancel];
-        }
-        
-    }];
+    if (self.arrData.count != 0) {
+        ALAsset *set = self.arrData[indexPath.row];
+        ALAssetRepresentation *sentation = [set defaultRepresentation];
+        cell.imavHead.image = [UIImage imageWithCGImage:[sentation fullScreenImage]];
+        cell.btnCheckMark.selected = [[MImaLibTool shareMImaLibTool] imaInArrImasWithArr:self.arrSelected set:set];
+        __weak typeof(self) weakSelf = self;
+        [cell setBtnSelectedActionBlock:^(BOOL state) {
+            
+            if (state) {
+                [weakSelf.arrSelected addObject:set];
+            } else {
+                [weakSelf.arrSelected removeObject:set];
+            }
+            if ([weakSelf.delegate respondsToSelector:@selector(selectIndex:headImaSelectType:)]) {
+                [weakSelf.delegate selectIndex:indexPath.row headImaSelectType:(state)?headImaCheckMark:headImaCheckCancel];
+            }
+            
+        }];
+    }
+    
+    
     return cell;
 }
 

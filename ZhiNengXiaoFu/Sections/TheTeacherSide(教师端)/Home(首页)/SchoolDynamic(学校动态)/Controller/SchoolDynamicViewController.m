@@ -86,7 +86,6 @@
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
@@ -170,16 +169,16 @@
     
     UICollectionViewCell *gridcell = nil;
     SchoolDynamicCellCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:SchoolDynamicCellCell_CollectionView forIndexPath:indexPath];
-    SchoolDynamicModel *model = [self.schoolDynamicArr objectAtIndex:indexPath.row];
-    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"通知图标"]];
-    
-    cell.titleLabel.text = model.title;
-//    cell.subjectsLabel.text = [dic objectForKey:@"content"];
-    cell.timeLabel.text = model.create_time;
-    
-    gridcell = cell;
-    
-    
+    if (self.schoolDynamicArr.count != 0) {
+        SchoolDynamicModel *model = [self.schoolDynamicArr objectAtIndex:indexPath.row];
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"通知图标"]];
+        
+        cell.titleLabel.text = model.title;
+        //    cell.subjectsLabel.text = [dic objectForKey:@"content"];
+        cell.timeLabel.text = model.create_time;
+        
+        gridcell = cell;
+    }
     
     return gridcell;
 }

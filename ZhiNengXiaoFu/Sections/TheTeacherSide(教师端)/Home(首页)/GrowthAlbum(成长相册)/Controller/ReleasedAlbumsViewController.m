@@ -264,7 +264,6 @@
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 -(void)pickerView:(UIView *)pickerView result:(NSString *)string index:(NSInteger)index{

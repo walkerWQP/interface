@@ -16,12 +16,12 @@ extern CGFloat maxContentLabelHeight;
 
 
 
--(void)setValue:(id)value forUndefinedKey:(NSString *)key {
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key {
     NSLog(@"DynamicsModel找不到Key----------------------------%@",key);
 }
 
 
--(void)setOptthumb:(NSMutableArray *)optthumb {
+- (void)setOptthumb:(NSMutableArray *)optthumb {
     _optthumb = optthumb;
     self.likeArr = optthumb;
     
@@ -45,14 +45,6 @@ extern CGFloat maxContentLabelHeight;
 
 
 - (void)setLikeArr:(NSMutableArray<DynamicsLikeItemModel *> *)likeArr {
-//    NSMutableArray *tempLikes = [NSMutableArray new];
-//    for (id thumbDic in likeArr) {
-//        DynamicsLikeItemModel * likeModel = [DynamicsLikeItemModel new];
-//        [likeModel setValuesForKeysWithDictionary:thumbDic];
-//        [tempLikes addObject:likeModel];
-//    }
-//    likeArr = [tempLikes copy];
-    
     _likeArr = likeArr;
 }
 
@@ -67,33 +59,13 @@ extern CGFloat maxContentLabelHeight;
 
 
 -(void)setCommentArr:(NSMutableArray<DynamicsCommentItemModel *> *)commentArr {
-//    NSMutableArray *tempComments = [NSMutableArray new];
-//    
-//    DynamicsCommentItemModel *model = [commentArr lastObject];
-//    
-//    NSLog(@"%@",model.discuss_name);
-//   
-//    NSString *str = [NSString stringWithFormat:@"%@",model.discuss_name];
-//    NSLog(@"aaaaaaaaaaaaaaaaaaaaaaaa %@",str);
-//    if ([str isEqualToString:@"admin"]) {
-//        for (NSDictionary *commentDic in commentArr) {
-//            
-//            DynamicsCommentItemModel * commentModel = [DynamicsCommentItemModel new];
-//            [commentModel setValuesForKeysWithDictionary:commentDic];
-//            [tempComments addObject:commentModel];
-//        }
-//        commentArr = [tempComments copy];
-//    } else {
-//        
-//    }
-    
     _commentArr = commentArr;
 }
 
 
 
 
--(NSString *)content {
+- (NSString *)content {
     if (_content == nil) {
         _content = @"";
     }

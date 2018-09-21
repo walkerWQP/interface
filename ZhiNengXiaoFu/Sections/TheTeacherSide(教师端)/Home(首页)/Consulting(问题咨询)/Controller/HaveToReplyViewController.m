@@ -131,31 +131,34 @@
     
     UICollectionViewCell *gridcell = nil;
     HaveToReplyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:HaveToReplyCell_CollectionView forIndexPath:indexPath];
-    ConsultListModel *model = [self.haveToReplyArr objectAtIndex:indexPath.row];
-    if ([model.s_headimg isEqualToString:@""]) {
-        
-        cell.headImgView.image = [UIImage imageNamed:@"user"];
-       
-    } else {
-        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:[UIImage imageNamed:@"user"]];
-    }
-    
-    
-    cell.problemLabel.text = [NSString stringWithFormat:@"%@%@问:", model.class_name ,model.student_name];
-    cell.problemContentLabel.text = model.question;
-    if (model.t_headimg == nil) {
-        if ([self.personInfo.head_img isEqualToString:@""]) {
-            cell.headImageView.image = [UIImage imageNamed:@"user"];
+    if (self.haveToReplyArr.count != 0) {
+        ConsultListModel *model = [self.haveToReplyArr objectAtIndex:indexPath.row];
+        if ([model.s_headimg isEqualToString:@""]) {
+            
+            cell.headImgView.image = [UIImage imageNamed:@"user"];
+            
         } else {
-            [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
+            [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:[UIImage imageNamed:@"user"]];
         }
-    } else {
-        [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:model.t_headimg] placeholderImage:[UIImage imageNamed:@"user"]];
+        
+        
+        cell.problemLabel.text = [NSString stringWithFormat:@"%@%@问:", model.class_name ,model.student_name];
+        cell.problemContentLabel.text = model.question;
+        if (model.t_headimg == nil) {
+            if ([self.personInfo.head_img isEqualToString:@""]) {
+                cell.headImageView.image = [UIImage imageNamed:@"user"];
+            } else {
+                [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
+            }
+        } else {
+            [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:model.t_headimg] placeholderImage:[UIImage imageNamed:@"user"]];
+        }
+        
+        cell.replyLabel.text = [NSString stringWithFormat:@"%@%@老师%@回复:", model.class_name, model.course_name, model.teacher_name];
+        cell.replyContentLabel.text = model.answer;
+        gridcell = cell;
     }
-    
-    cell.replyLabel.text = [NSString stringWithFormat:@"%@%@老师%@回复:", model.class_name, model.course_name, model.teacher_name];
-    cell.replyContentLabel.text = model.answer;
-    gridcell = cell;
+
     return gridcell;
     
 }

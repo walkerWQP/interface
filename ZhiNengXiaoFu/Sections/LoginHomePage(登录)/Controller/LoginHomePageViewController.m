@@ -150,6 +150,8 @@
     [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
     [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     loginBtn.titleLabel.font = [UIFont systemFontOfSize:17];
+    loginBtn.layer.masksToBounds = YES;
+    loginBtn.layer.cornerRadius  = 5;
     [loginBtn addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchDown];
     loginBtn.userInteractionEnabled = YES;
     [self.view addSubview:loginBtn];
@@ -183,7 +185,8 @@
     [self.teacherChooseBtn setBackgroundImage:[UIImage imageNamed:@"圆角矩形"] forState:UIControlStateNormal];
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"ParentUserName"] == nil) {
-        
+        self.zhangHaoTextField.text = @"";
+        self.miMaTextfield.text = @"";
     }else
     {
          self.zhangHaoTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"ParentUserName"];
@@ -201,7 +204,8 @@
     [self.parentChooseBtn setBackgroundImage:[UIImage imageNamed:@"圆角矩形"] forState:UIControlStateNormal];
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"TeacherUserName"] == nil) {
-        
+        self.zhangHaoTextField.text = @"";
+        self.miMaTextfield.text = @"";
     }else
     {
         self.zhangHaoTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"TeacherUserName"];
@@ -217,7 +221,6 @@
         [self.chooseBtn setBackgroundImage:[UIImage imageNamed:@"对勾"] forState:UIControlStateNormal];
         self.jizhuLoginChooseState = 1;
       
-
     }else
     {
         [self.chooseBtn setBackgroundImage:[UIImage imageNamed:@"圆角矩形"] forState:UIControlStateNormal];
@@ -338,7 +341,6 @@
             } failure:^(NSURLSessionDataTask *task, NSError *error) {
                 NSLog(@"%@", error);
                 [WProgressHUD hideAllHUDAnimated:YES];
-
             }];
      }
         

@@ -127,57 +127,60 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     MImaCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:MImaCellClassName forIndexPath:indexPath];
-    ALAsset *set = self.arrData[indexPath.row];
-    
-    cell.imavHead.image = [UIImage imageWithCGImage:set.thumbnail];
-    
-    if (([[MImaLibTool shareMImaLibTool] imaInArrImasWithArr:self.arrSelected set:set]||[[MImaLibTool shareMImaLibTool] imaInArrImasWithArr:newSelected set:set])&&![[MImaLibTool shareMImaLibTool] imaInArrImasWithArr:deleteImgs set:set]) {
-        cell.btnCheckMark.selected = YES;
-    }
-    else{
-        cell.btnCheckMark.selected = NO;
-    }
-
-    [cell setBtnSelectedHandle:^(BOOL state) {
+    if (self.arrData.count != 0) {
+        ALAsset *set = self.arrData[indexPath.row];
         
-        if (state) {
-            
-            if (deleteImgs.count>0) {
-                NSArray *arr = [[MImaLibTool shareMImaLibTool] checkMarkSameSetWithArr:deleteImgs set:set];
-                if (arr.count > 0) {
-                    [deleteImgs removeObject:set];
-                }
-            }
-            
-            NSArray *arr1 = [[MImaLibTool shareMImaLibTool] checkMarkSameSetWithArr:self.arrSelected set:set];
-            NSArray *arr2 = [[MImaLibTool shareMImaLibTool] checkMarkSameSetWithArr:newSelected set:set];
-            if (arr1.count <= 0 && arr2.count <= 0) {
-                [newSelected addObject:set];
-            }
-            
-            
-        } else {
-           
-            NSArray *arr = [[MImaLibTool shareMImaLibTool] checkMarkSameSetWithArr:self.arrSelected set:set];
-            NSArray *arr1 = [[MImaLibTool shareMImaLibTool] checkMarkSameSetWithArr:deleteImgs set:set];
-            if (arr.count > 0 && arr1.count <= 0) {
-                [deleteImgs addObject:set];
-            }
-            
-            if (newSelected.count>0) {
-                NSArray *arr2 = [[MImaLibTool shareMImaLibTool] checkMarkSameSetWithArr:newSelected set:set];
-                if (arr2.count>0) {
-                    [newSelected removeObject:set];
-                }
-            }
-            
+        cell.imavHead.image = [UIImage imageWithCGImage:set.thumbnail];
+        
+        if (([[MImaLibTool shareMImaLibTool] imaInArrImasWithArr:self.arrSelected set:set]||[[MImaLibTool shareMImaLibTool] imaInArrImasWithArr:newSelected set:set])&&![[MImaLibTool shareMImaLibTool] imaInArrImasWithArr:deleteImgs set:set]) {
+            cell.btnCheckMark.selected = YES;
+        }
+        else{
+            cell.btnCheckMark.selected = NO;
         }
         
-        [self changeTitle];
+        [cell setBtnSelectedHandle:^(BOOL state) {
+            
+            if (state) {
+                
+                if (deleteImgs.count>0) {
+                    NSArray *arr = [[MImaLibTool shareMImaLibTool] checkMarkSameSetWithArr:deleteImgs set:set];
+                    if (arr.count > 0) {
+                        [deleteImgs removeObject:set];
+                    }
+                }
+                
+                NSArray *arr1 = [[MImaLibTool shareMImaLibTool] checkMarkSameSetWithArr:self.arrSelected set:set];
+                NSArray *arr2 = [[MImaLibTool shareMImaLibTool] checkMarkSameSetWithArr:newSelected set:set];
+                if (arr1.count <= 0 && arr2.count <= 0) {
+                    [newSelected addObject:set];
+                }
+                
+                
+            } else {
+                
+                NSArray *arr = [[MImaLibTool shareMImaLibTool] checkMarkSameSetWithArr:self.arrSelected set:set];
+                NSArray *arr1 = [[MImaLibTool shareMImaLibTool] checkMarkSameSetWithArr:deleteImgs set:set];
+                if (arr.count > 0 && arr1.count <= 0) {
+                    [deleteImgs addObject:set];
+                }
+                
+                if (newSelected.count>0) {
+                    NSArray *arr2 = [[MImaLibTool shareMImaLibTool] checkMarkSameSetWithArr:newSelected set:set];
+                    if (arr2.count>0) {
+                        [newSelected removeObject:set];
+                    }
+                }
+                
+            }
+            
+            [self changeTitle];
+            
+        }];
         
-    }];
+        cell.delegate = self;
+    }
     
-    cell.delegate = self;
     return cell;
     
 }

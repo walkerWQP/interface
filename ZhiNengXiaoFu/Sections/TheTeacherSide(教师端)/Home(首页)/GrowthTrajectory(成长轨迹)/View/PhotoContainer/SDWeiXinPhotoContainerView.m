@@ -19,16 +19,14 @@
 
 @implementation SDWeiXinPhotoContainerView
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self setup];
     }
     return self;
 }
 
-- (void)setup
-{
+- (void)setup {
     NSMutableArray *temp = [NSMutableArray new];
     
     for (int i = 0; i < 9; i++) {
@@ -48,8 +46,7 @@
 }
 
 
-- (void)setPicPathStringsArray:(NSArray *)picPathStringsArray
-{
+- (void)setPicPathStringsArray:(NSArray *)picPathStringsArray {
     _picPathStringsArray = picPathStringsArray;
     
     for (long i = _picPathStringsArray.count; i < self.imageViewsArray.count; i++) {
@@ -92,8 +89,7 @@
 
 #pragma mark - private actions
 
-- (void)tapImageView:(UITapGestureRecognizer *)tap
-{
+- (void)tapImageView:(UITapGestureRecognizer *)tap {
     UIView *fromView = nil;
     NSMutableArray * items = [NSMutableArray array];
     for (int i = 0; i < _picPathStringsArray.count; i++) {
@@ -112,8 +108,7 @@
     [v presentFromImageView:fromView toContainer:self.window animated:YES completion:nil];
 }
 
-- (CGFloat)itemWidthForPicPathArray:(NSArray *)array
-{
+- (CGFloat)itemWidthForPicPathArray:(NSArray *)array {
     if (array.count == 1) {
         return 120;
     } else {
@@ -126,8 +121,7 @@
     }
 }
 
-- (NSInteger)perRowItemCountForPicPathArray:(NSArray *)array
-{
+- (NSInteger)perRowItemCountForPicPathArray:(NSArray *)array {
     if (array.count < 4) {
         return array.count;
     } else if (array.count <= 4) {
@@ -137,8 +131,7 @@
     }
 }
 
-+ (CGSize)getContainerSizeWithPicPathStringsArray:(NSArray *)picPathStringsArray
-{
++ (CGSize)getContainerSizeWithPicPathStringsArray:(NSArray *)picPathStringsArray {
     CGFloat itemW = picPathStringsArray.count == 1 ? 120 : 80;
     CGFloat itemH = 0;
     if (picPathStringsArray.count == 1) {

@@ -36,12 +36,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    //下拉刷新
-    self.teacherNotifiedCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
-    //自动更改透明度
-    self.teacherNotifiedCollectionView.mj_header.automaticallyChangeAlpha = YES;
-    //进入刷新状态
-    [self.teacherNotifiedCollectionView.mj_header beginRefreshing];
+    
     
     
 }
@@ -58,8 +53,6 @@
     [super viewDidLoad];
     self.title = @"班级列表";
     
-    
-    
     self.zanwushuju = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 105 / 2, 200, 105, 111)];
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
@@ -67,7 +60,12 @@
     
     [self makeTeacherNotifiedViewControllerUI];
     
-
+    //下拉刷新
+    self.teacherNotifiedCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.teacherNotifiedCollectionView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.teacherNotifiedCollectionView.mj_header beginRefreshing];
     
 }
 
@@ -148,7 +146,6 @@
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
@@ -165,10 +162,13 @@
     
     UICollectionViewCell *gridcell = nil;
     TeacherNotifiedCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TeacherNotifiedCell_CollectionView forIndexPath:indexPath];
-    TeacherNotifiedModel *model = [self.teacherNotifiedArr objectAtIndex:indexPath.row];
-    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
-    cell.classLabel.text = model.name;
-    gridcell = cell;
+    if (self.teacherNotifiedArr.count != 0) {
+        TeacherNotifiedModel *model = [self.teacherNotifiedArr objectAtIndex:indexPath.row];
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
+        cell.classLabel.text = model.name;
+        gridcell = cell;
+    }
+    
     return gridcell;
     
 }

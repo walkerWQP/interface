@@ -133,22 +133,25 @@
    
     UICollectionViewCell *gridcell = nil;
     DidNotReturnCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DidNotReturnCell_CollectionView forIndexPath:indexPath];
-    ConsultListModel *model = [self.didNotReturnArr objectAtIndex:indexPath.row];
-
-    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:[UIImage imageNamed:@"user"]];
-    if (model.s_headimg == nil) {
-        if (self.personInfo.head_img == nil) {
-            cell.headImgView.image = [UIImage imageNamed:@"user"];
-        } else {
-            [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
+    if (self.didNotReturnArr.count != 0) {
+        ConsultListModel *model = [self.didNotReturnArr objectAtIndex:indexPath.row];
+        
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.s_headimg] placeholderImage:[UIImage imageNamed:@"user"]];
+        if (model.s_headimg == nil) {
+            if (self.personInfo.head_img == nil) {
+                cell.headImgView.image = [UIImage imageNamed:@"user"];
+            } else {
+                [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:self.personInfo.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
+            }
         }
-    } 
-
-    cell.problemLabel.text = [NSString stringWithFormat:@"%@%@问:", model.class_name ,model.student_name];
-    cell.problemContentLabel.text = model.question;
-    self.typeID = indexPath.row;
-    [cell.answerBtn addTarget:self action:@selector(answerBtn:) forControlEvents:UIControlEventTouchUpInside];
-    gridcell = cell;
+        
+        cell.problemLabel.text = [NSString stringWithFormat:@"%@%@问:", model.class_name ,model.student_name];
+        cell.problemContentLabel.text = model.question;
+        self.typeID = indexPath.row;
+        [cell.answerBtn addTarget:self action:@selector(answerBtn:) forControlEvents:UIControlEventTouchUpInside];
+        gridcell = cell;
+    }
+    
     return gridcell;
     
 }

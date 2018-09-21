@@ -35,8 +35,32 @@
     [self.view addSubview:self.leaveDetailsTableView];
     [self.leaveDetailsTableView registerClass:[LeaveDetailsHeaderCell class] forCellReuseIdentifier:@"LeaveDetailsHeaderCellId"];
     [self.leaveDetailsTableView registerNib:[UINib nibWithNibName:@"LeaveDetailsDownCell" bundle:nil] forCellReuseIdentifier:@"LeaveDetailsDownCellId"];
+    
+    NSUserDefaults*pushJudge = [NSUserDefaults standardUserDefaults];
+    if([[pushJudge objectForKey:@"notify"]isEqualToString:@"push"])
+    {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"返回(1)"] style:UIBarButtonItemStylePlain target:self action:@selector(rebackToRootViewAction)];
+        self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+        NSUserDefaults * pushJudge = [NSUserDefaults standardUserDefaults];
+        [pushJudge setObject: @"" forKey:@"notify"];
+        [pushJudge synchronize];//记得立即同步
+        
+    }else
+    {
+        
+    }
+    
+    
     [self setNetWork];
     [self setUser];
+}
+
+- (void)rebackToRootViewAction
+{
+    NSUserDefaults * pushJudge = [NSUserDefaults standardUserDefaults];
+    [pushJudge setObject:@""forKey:@"notify"];
+    [pushJudge synchronize];//记得立即同步
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)setUser {

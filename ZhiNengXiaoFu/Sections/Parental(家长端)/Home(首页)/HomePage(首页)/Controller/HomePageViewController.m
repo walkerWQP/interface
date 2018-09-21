@@ -38,6 +38,7 @@
 @property (nonatomic, strong) NSMutableArray * homePageAry;
 @property (nonatomic, assign) NSInteger force;
 @property (nonatomic, strong) NSMutableArray * numberAry;
+@property (nonatomic, strong) NSString       *schoolName;
 
 @end
 
@@ -46,14 +47,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    [self setUser];
     self.layout = [[UICollectionViewFlowLayout alloc] init];
     self.HomePageCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) collectionViewLayout:self.layout];
 
     self.HomePageCollectionView.backgroundColor = [UIColor whiteColor];
 
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"首页";
+    
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:18],NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:173/ 255.0 green:228 / 255.0 blue: 211 / 255.0 alpha:1];
@@ -68,7 +69,7 @@
     [self.HomePageCollectionView registerNib:[UINib nibWithNibName:@"HomePageItemNCell" bundle:nil] forCellWithReuseIdentifier:@"HomePageItemNCellId"];
     
     NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"成长手册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态",@"新生指南", nil];
-    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"成长相册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态",@"新生指南",nil];
+    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"班级圈",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态",@"新生指南",nil];
     
     for (int i = 0; i < imgAry.count; i++)
     {
@@ -173,7 +174,7 @@
         }
         
         
-         self.numberAry = [NSMutableArray arrayWithObjects:notice,homework,@"0",@"0",@"0",consult,@"0",dynamic,@"0" ,nil];
+         self.numberAry = [NSMutableArray arrayWithObjects:notice,homework,@"0",@"0",@"0",consult,activity,dynamic,@"0" ,nil];
 //        NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"成长手册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态",@"新生指南", nil];
 //        NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"成长相册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态",@"新生指南",nil];
 //
@@ -189,6 +190,7 @@
         [self.HomePageCollectionView reloadData];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
+        
     }];
 }
 
@@ -326,27 +328,30 @@
     if (indexPath.section == 0)
     {
         HomePageLunBoCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomePageLunBoCellId" forIndexPath:indexPath];
-        [cell getClassData];
+//        [cell getClassData];
         return cell;
     }else
     {
         HomePageItemNCell * cell  = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomePageItemNCellId" forIndexPath:indexPath];
-        NSDictionary * dic = [self.homePageAry objectAtIndex:indexPath.row];
-        
-        cell.itemImg.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
-        cell.titleLabel.text = [dic objectForKey:@"title"];
-        
-        if (self.numberAry.count > indexPath.row) {
-            NSString * str = [self.numberAry objectAtIndex:indexPath.row];
+        if (self.homePageAry.count != 0) {
+            NSDictionary * dic = [self.homePageAry objectAtIndex:indexPath.row];
             
-            if ([str isEqualToString:@"0"]) {
-                cell.NumberLabel.alpha = 0;
-            }else
-            {
-                cell.NumberLabel.alpha = 1;
-                cell.NumberLabel.text = str;
+            cell.itemImg.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
+            cell.titleLabel.text = [dic objectForKey:@"title"];
+            
+            if (self.numberAry.count > indexPath.row) {
+                NSString * str = [self.numberAry objectAtIndex:indexPath.row];
+                
+                if ([str isEqualToString:@"0"]) {
+                    cell.NumberLabel.alpha = 0;
+                }else
+                {
+                    cell.NumberLabel.alpha = 1;
+                    cell.NumberLabel.text = str;
+                }
             }
         }
+        
         return cell;
     }
     
@@ -440,6 +445,40 @@
     }
     
 }
+
+
+#pragma mark ======= 获取个人信息数据 =======
+- (void)setUser {
+    NSDictionary * dic = @{@"key":[UserManager key]};
+    [[HttpRequestManager sharedSingleton] POST:getUserInfoURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.schoolName = [[responseObject objectForKey:@"data"] objectForKey:@"school_name"];
+            UILabel  *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0, 200, 44)];
+            titleLabel.backgroundColor = [UIColor clearColor];
+            titleLabel.font = [UIFont boldSystemFontOfSize:18];
+            titleLabel.textColor = [UIColor whiteColor];
+            titleLabel.textAlignment = NSTextAlignmentCenter;
+            titleLabel.text = self.schoolName; self.navigationItem.titleView = titleLabel;
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                
+            }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
+}
+
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

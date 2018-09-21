@@ -90,7 +90,6 @@
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
@@ -171,17 +170,18 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    SchoolDynamicModel *model = [self.schoolNoticeArr objectAtIndex:indexPath.row];
-    
     UICollectionViewCell *gridcell = nil;
-    ClassDetailsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ClassDetailsCell_CollectionView forIndexPath:indexPath];
-    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"通知图标"]];
-    //[UIImage imageNamed:@"通知图标"];
-    cell.titleLabel.text = model.title;
-    //    cell.subjectsLabel.text = model.abstract;
-    cell.timeLabel.text = model.create_time;
-    gridcell = cell;
+    if (self.schoolNoticeArr.count != 0) {
+        SchoolDynamicModel *model = [self.schoolNoticeArr objectAtIndex:indexPath.row];
+        ClassDetailsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ClassDetailsCell_CollectionView forIndexPath:indexPath];
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"通知图标"]];
+        //[UIImage imageNamed:@"通知图标"];
+        cell.titleLabel.text = model.title;
+        //    cell.subjectsLabel.text = model.abstract;
+        cell.timeLabel.text = model.create_time;
+        gridcell = cell;
+    }
+    
     return gridcell;
     
 }

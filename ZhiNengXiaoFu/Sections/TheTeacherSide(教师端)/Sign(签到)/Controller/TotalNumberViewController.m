@@ -59,14 +59,19 @@
     [self makeTotalNumberViewControllerUI];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    //结束头部刷新
+    [self.totalNumberCollectionView.mj_header endRefreshing];
+}
+
 
 
 - (void)getClassConditionURLData:(NSString *)type {
     
     NSDictionary *dic = @{@"key":[UserManager key],@"class_id":self.ID,@"type":type};
     [[HttpRequestManager sharedSingleton] POST:classConditionURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        //结束头部刷新
-        [self.totalNumberCollectionView.mj_header endRefreshing];
+      
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
            self.totalNumberArr = [TotalNumberModel mj_objectArrayWithKeyValuesArray:[[responseObject objectForKey:@"data"] objectForKey:@"students"]];
@@ -87,7 +92,11 @@
             [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
 
         }
+        
+        //结束头部刷新
+        [self.totalNumberCollectionView.mj_header endRefreshing];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
         
     }];
 }
@@ -118,21 +127,24 @@
     
     UICollectionViewCell *gridcell = nil;
     TotalNumberCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TotalNumberCell_CollectionView forIndexPath:indexPath];
-    TotalNumberModel *model = [self.totalNumberArr objectAtIndex:indexPath.row];
-    if (model.head_img == nil || [model.head_img isEqualToString:@""]) {
-        cell.headImgView.image = [UIImage imageNamed:@"user"];
-    } else {
-        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
+    if (self.totalNumberArr.count != 0) {
+        TotalNumberModel *model = [self.totalNumberArr objectAtIndex:indexPath.row];
+        if (model.head_img == nil || [model.head_img isEqualToString:@""]) {
+            cell.headImgView.image = [UIImage imageNamed:@"user"];
+        } else {
+            [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
+        }
+        cell.nameLabel.text = model.name;
+        if (model.is_leave == 1) { //1请假
+            cell.nameLabel.textColor = THEMECOLOR;
+        } else if (model.is_leave == 2) { //2逃学
+            cell.nameLabel.textColor = [UIColor redColor];
+        } else if (model.is_leave == 3) { //3签到
+            cell.nameLabel.textColor = titlColor;
+        }
+        gridcell = cell;
     }
-    cell.nameLabel.text = model.name;
-    if (model.is_leave == 1) { //1请假
-        cell.nameLabel.textColor = THEMECOLOR;
-    } else if (model.is_leave == 2) { //2逃学
-        cell.nameLabel.textColor = [UIColor redColor];
-    } else if (model.is_leave == 3) { //3签到
-        cell.nameLabel.textColor = titlColor;
-    }
-    gridcell = cell;
+    
     return gridcell;
     
 }

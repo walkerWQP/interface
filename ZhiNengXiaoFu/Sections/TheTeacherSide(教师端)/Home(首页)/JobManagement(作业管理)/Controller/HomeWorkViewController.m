@@ -42,19 +42,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.page = 1;
     [self getBannersURLData];
-    
-    //下拉刷新
-    self.homeWorkTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
-    //自动更改透明度
-    self.homeWorkTableView.mj_header.automaticallyChangeAlpha = YES;
-    //进入刷新状态
-    [self.homeWorkTableView.mj_header beginRefreshing];
-    //上拉刷新
-    self.homeWorkTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
-    
-    
 }
 
 - (void)viewDidLoad {
@@ -73,8 +61,16 @@
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
     [self.self.homeWorkTableView addSubview:self.zanwushuju];
-  
-    [self getBannersURLData];
+    self.page = 1;
+    //下拉刷新
+    self.homeWorkTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.homeWorkTableView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.homeWorkTableView.mj_header beginRefreshing];
+    //上拉刷新
+    self.homeWorkTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    
 }
 
 - (void)loadNewTopic {
@@ -115,7 +111,6 @@
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
@@ -141,7 +136,6 @@
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
     
 }
@@ -308,14 +302,17 @@
         return cell;
     } else {
         TongZhiCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TongZhiCellId" forIndexPath:indexPath];
-        HomeWorkModel * model = [self.homeWorkArr objectAtIndex:indexPath.row];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (self.homeWorkArr.count != 0) {
+            HomeWorkModel * model = [self.homeWorkArr objectAtIndex:indexPath.row];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.headImgView.image = [UIImage imageNamed:@"通知图标"] ;
+            cell.titleLabel.text = model.title;
+            cell.subjectsLabel.text = model.course_name;
+            cell.timeLabel.text = model.create_time;
+        }
         
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.headImgView.image = [UIImage imageNamed:@"通知图标"] ;
-        cell.titleLabel.text = model.title;
-        cell.subjectsLabel.text = model.course_name;
-        cell.timeLabel.text = model.create_time;
         return cell;
     }
     

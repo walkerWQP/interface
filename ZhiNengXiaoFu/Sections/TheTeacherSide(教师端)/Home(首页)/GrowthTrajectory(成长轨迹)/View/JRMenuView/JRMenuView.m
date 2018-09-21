@@ -23,24 +23,23 @@
     UIView * superView;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         hasShow = NO;
     }
     return self;
 }
-- (void)setTargetView:(UIView *)target InView:(UIView *)superview
-{
+
+- (void)setTargetView:(UIView *)target InView:(UIView *)superview {
     self.layer.cornerRadius = 5;
     self.layer.masksToBounds = YES;
     targetView = target;
     superView = superview;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissOtherJRMenu) name:JRMenuDismissNotification object:nil];
 }
-- (void)setTitleArray:(NSArray *)array
-{
+
+- (void)setTitleArray:(NSArray *)array {
     nameArray = [NSArray arrayWithArray:array];
     jrMenuWidth = 0;
     if (self.subviews != nil && self.subviews.count != 0) {//移除所有子视图
@@ -76,15 +75,15 @@
     backGroundView.backgroundColor = [UIColor blackColor];
     [self insertSubview:backGroundView atIndex:0];
 }
-- (void)click:(UIButton *)sender
-{
+
+- (void)click:(UIButton *)sender {
     if(self.delegate&&[self.delegate respondsToSelector:@selector(hasSelectedJRMenuIndex:)]) {
         [_delegate hasSelectedJRMenuIndex:sender.tag - 80000];
     }
     [self dismiss];
 }
-- (void)show
-{
+
+- (void)show {
     if (!hasShow) {
         [JRMenuView dismissAllJRMenu];
         [superView bringSubviewToFront:self];
@@ -98,8 +97,8 @@
     }
     
 }
-- (void)dismiss
-{
+
+- (void)dismiss {
     if (hasShow) {
         hasShow = NO;
         [UIView animateWithDuration:.1 animations:^{
@@ -108,14 +107,14 @@
     }
     
 }
-- (void)dismissOtherJRMenu
-{
+
+- (void)dismissOtherJRMenu {
     if (hasShow) {
         [self dismiss];
     }
 }
-+ (void)dismissAllJRMenu
-{
+
++ (void)dismissAllJRMenu {
     [[NSNotificationCenter defaultCenter] postNotificationName:JRMenuDismissNotification object:nil];
 }
 @end

@@ -76,7 +76,6 @@
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
@@ -106,7 +105,6 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
@@ -141,10 +139,13 @@
     
     UICollectionViewCell *gridcell = nil;
     TeacherNotifiedCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TeacherNotifiedCell_CollectionView forIndexPath:indexPath];
-    TeacherNotifiedModel *model = [self.classArr objectAtIndex:indexPath.row];
-    [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];
-    cell.classLabel.text = model.name;
-    gridcell = cell;
+    if (self.classArr.count != 0) {
+        TeacherNotifiedModel *model = [self.classArr objectAtIndex:indexPath.row];
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:nil];
+        cell.classLabel.text = model.name;
+        gridcell = cell;
+    }
+    
     return gridcell;
     
 }

@@ -12,34 +12,25 @@
 
 @interface UploadPhotosViewController ()<PickerViewResultDelegate,LQPhotoPickerViewDelegate, UIScrollViewDelegate>
 
-@property (nonatomic, strong) UILabel   *nameLabel;
-@property (nonatomic, strong) UIButton  *nameBtn;
-
+@property (nonatomic, strong) UILabel         *nameLabel;
+@property (nonatomic, strong) UIButton        *nameBtn;
 //上传图片内容
-@property (nonatomic, strong) UILabel      *uploadPicturesLabel;
-@property (nonatomic, strong) UIView       *myPicture;
-
-@property (nonatomic, strong) UIButton     *releasedBtn;
-
+@property (nonatomic, strong) UILabel         *uploadPicturesLabel;
+@property (nonatomic, strong) UIView          *myPicture;
+@property (nonatomic, strong) UIButton        *releasedBtn;
 @property (nonatomic, strong) NSMutableArray  *publishJobArr;
-
 @property (nonatomic, strong) NSMutableArray  *imgFiledArr;
-
-@property (nonatomic, strong) NSString    *courseID;
-
-@property (nonatomic, strong) UIScrollView   * ReleasedAlbumsScrollView;
-
+@property (nonatomic, strong) NSString        *courseID;
+@property (nonatomic, strong) UIScrollView    *ReleasedAlbumsScrollView;
 //输入内容
-@property (nonatomic, strong) UILabel      * shuRuNeiRonLabel;
-
-@property (nonatomic, strong) WTextView * shuRuNeiRonTextView;
+@property (nonatomic, strong) UILabel         *shuRuNeiRonLabel;
+@property (nonatomic, strong) WTextView       *shuRuNeiRonTextView;
 
 @end
 
 @implementation UploadPhotosViewController
 
-- (NSMutableArray *)imgFiledArr
-{
+- (NSMutableArray *)imgFiledArr {
     if (!_imgFiledArr) {
         _imgFiledArr = [NSMutableArray array];
     }
@@ -54,6 +45,7 @@
 }
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     self.title = @"发布相册";
     self.view.backgroundColor = backColor;
@@ -61,6 +53,7 @@
         
     }];
     [self makeReleasedAlbumsViewControllerUI];
+    
 }
 
 - (void)makeReleasedAlbumsViewControllerUI {
@@ -127,12 +120,11 @@
     self.uploadPicturesLabel.font = titFont;
     [self.ReleasedAlbumsScrollView addSubview:self.uploadPicturesLabel];
     
-    self.myPicture = [[UIView alloc] initWithFrame:CGRectMake(10, self.uploadPicturesLabel.frame.size.height + self.uploadPicturesLabel.frame.origin.y + 15, APP_WIDTH - 20, 80)];
+    self.myPicture = [[UIView alloc] initWithFrame:CGRectMake(0, self.uploadPicturesLabel.frame.size.height + self.uploadPicturesLabel.frame.origin.y + 15, APP_WIDTH - 20, 80)];
     self.myPicture.backgroundColor = [UIColor redColor];
     [self.ReleasedAlbumsScrollView addSubview:self.myPicture];
     
-    if (!self.LQPhotoPicker_superView)
-    {
+    if (!self.LQPhotoPicker_superView) {
         self.LQPhotoPicker_superView = self.myPicture;
         
         self.LQPhotoPicker_imgMaxCount = 9;
@@ -145,10 +137,6 @@
     self.releasedBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     self.releasedBtn.backgroundColor = THEMECOLOR;
     [self.releasedBtn setTitle:@"发布" forState:UIControlStateNormal];
-//    self.releasedBtn.layer.masksToBounds = YES;
-//    self.releasedBtn.layer.cornerRadius = 5;
-//    self.releasedBtn.layer.borderColor = fengeLineColor.CGColor;
-//    self.releasedBtn.layer.borderWidth = 1.0f;
     self.releasedBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     [self.releasedBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.releasedBtn.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -162,8 +150,8 @@
     if (self.courseID == nil) {
         [WProgressHUD showErrorAnimatedText:@"请选择班级"];
         return;
-    } if ([self.shuRuNeiRonTextView.text isEqualToString:@""]) {
-        [WProgressHUD showErrorAnimatedText:@"请输入内容"];
+    } if ([self.shuRuNeiRonTextView.text isEqualToString:@""] && self.LQPhotoPicker_smallImageArray.count == 0) {
+        [WProgressHUD showErrorAnimatedText:@"请输入内容或添加图片"];
         return;
     } else if (self.LQPhotoPicker_smallImageArray.count == 0) {
         NSDictionary *dataDic = [NSDictionary dictionary];
@@ -171,9 +159,12 @@
         dataDic = @{@"key":[UserManager key],@"class_id":self.courseID,@"img":self.imgFiledArr, @"content":self.shuRuNeiRonTextView.text};
         [self postDataForUploadURL:dataDic];
         
+    } else if ([self.shuRuNeiRonTextView.text isEqualToString:@""]) {
+        [self setShangChuanTupian];
     } else {
         [self setShangChuanTupian];
     }
+
 }
 
 - (void)nameBtn:(UIButton *)sender {
@@ -188,8 +179,7 @@
     NSDictionary * params = @{@"key":[UserManager key],@"upload_type":@"img", @"upload_img_type":@"album"};
     [WProgressHUD showHUDShowText:@"加载中..."];
     [[HttpRequestManager sharedSingleton].sessionManger POST:WENJIANSHANGCHUANJIEKOU parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        for (int i = 0; i < self.LQPhotoPicker_bigImageArray.count; i++)
-        {
+        for (int i = 0; i < self.LQPhotoPicker_bigImageArray.count; i++) {
             UIImage * image = self.LQPhotoPicker_bigImageArray[i];
             NSData *imageData = UIImageJPEGRepresentation(image,1);
             float length=[imageData length]/1000;
@@ -202,7 +192,6 @@
             if (length>1280) {
                 NSData *fData = UIImageJPEGRepresentation(image, 0.5);
                 [formData appendPartWithFileData:fData name:[NSString stringWithFormat:@"file[%d]",i] fileName:imageFileName mimeType:@"image/jpeg"];
-                
             }else{
                 [formData appendPartWithFileData:imageData name:[NSString stringWithFormat:@"file[%d]",i] fileName:imageFileName mimeType:@"image/jpeg"];
             }
@@ -239,7 +228,6 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@", error);
         [WProgressHUD hideAllHUDAnimated:YES];
-        
     }];
     
 }
@@ -247,19 +235,14 @@
 - (void)postDataForUploadURL:(NSDictionary *)dic {
     [WProgressHUD showHUDShowText:@"加载中..."];
     [[HttpRequestManager sharedSingleton] POST:indexAlbumAddAlbum parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        if ([[responseObject objectForKey:@"status"] integerValue] == 200)
-        {
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
             [WProgressHUD showSuccessfulAnimatedText:[responseObject objectForKey:@"msg"]];
             [self.navigationController popViewControllerAnimated:YES];
             
-        } else
-        {
+        } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
-            } else
-            {
-                
             }
             [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             
@@ -293,12 +276,6 @@
                 [[[UIApplication sharedApplication] keyWindow] addSubview:vi];
             }
             
-            
-            //            HQPickerView *picker = [[HQPickerView alloc]initWithFrame:self.view.bounds];
-            //            picker.delegate = self ;
-            //            picker.customArr = ary;
-            //            [self.view addSubview:picker];
-            
             if (self.publishJobArr.count == 0) {
                 [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             } else {
@@ -317,10 +294,10 @@
             
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
--(void)pickerView:(UIView *)pickerView result:(NSString *)string index:(NSInteger)index{
+
+-(void)pickerView:(UIView *)pickerView result:(NSString *)string index:(NSInteger)index {
     
     [self.nameBtn setTitle:string forState:UIControlStateNormal];
     PublishJobModel *model = [self.publishJobArr objectAtIndex:index];

@@ -71,6 +71,7 @@
     
 }
 
+
 - (void)rightBtn:(UIButton *)sender {
     NSLog(@"点击选择班级");
     [self getClassURLDataForClassID];
@@ -106,7 +107,6 @@
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
@@ -188,6 +188,7 @@
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
+        
     }];
 }
 
@@ -226,6 +227,7 @@
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
         
     }];
 }

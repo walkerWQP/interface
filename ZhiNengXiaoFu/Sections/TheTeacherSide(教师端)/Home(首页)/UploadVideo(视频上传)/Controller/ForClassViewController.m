@@ -97,7 +97,6 @@
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
@@ -127,13 +126,16 @@
     
     UICollectionViewCell *gridcell = nil;
     PublicClassCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:PublicClassCell_CollectionView forIndexPath:indexPath];
-    PublicClassModel *model = [self.forClassArr objectAtIndex:indexPath.row];
-    [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
-    cell.contentLabel.text = model.title;
-    self.urlStr = model.url;
-    [cell.playBtn addTarget:self action:@selector(playBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.setUpBtn addTarget:self action:@selector(setUpBtn:) forControlEvents:UIControlEventTouchUpInside];
-    gridcell = cell;
+    if (self.forClassArr.count != 0) {
+        PublicClassModel *model = [self.forClassArr objectAtIndex:indexPath.row];
+        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+        cell.contentLabel.text = model.title;
+        self.urlStr = model.url;
+        [cell.playBtn addTarget:self action:@selector(playBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.setUpBtn addTarget:self action:@selector(setUpBtn:) forControlEvents:UIControlEventTouchUpInside];
+        gridcell = cell;
+    }
+    
     return gridcell;
     
 }

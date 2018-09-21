@@ -13,6 +13,7 @@
 -(void)hasSelectedJRMenuIndex:(NSInteger)jrMenuIndex;
 
 @end
+
 @interface JRMenuView : UIView
 
 @property(assign,nonatomic)id<JRMenuDelegate>delegate;

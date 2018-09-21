@@ -87,7 +87,10 @@
         return cell;
     } else {
         PersonInfomationCell * cell = [tableView dequeueReusableCellWithIdentifier:@"PersonInfomationCellId" forIndexPath:indexPath];
-        cell.nameLabel.text = [self.nameArr objectAtIndex:indexPath.row];
+        if (self.nameArr.count != 0) {
+            cell.nameLabel.text = [self.nameArr objectAtIndex:indexPath.row];
+        }
+       
         cell.selectionStyle =  UITableViewCellSelectionStyleNone;
         if (indexPath.row == 2) {
             cell.moreImg.alpha = 1;

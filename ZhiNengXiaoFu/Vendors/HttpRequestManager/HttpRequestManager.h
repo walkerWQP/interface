@@ -17,6 +17,8 @@ typedef void (^HYBUploadProgress)(int64_t bytesWritten,
 typedef void(^HYBResponseSuccess)(id response);
 typedef void(^HYBResponseFail)(NSError *error);
 
+
+
 #import <Foundation/Foundation.h>
 
 typedef void (^DowloadBlackSuccess)(AFHTTPSessionManager *sessionManger,id responseObject);

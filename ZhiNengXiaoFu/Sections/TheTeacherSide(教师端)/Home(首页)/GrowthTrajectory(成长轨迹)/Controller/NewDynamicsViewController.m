@@ -16,28 +16,32 @@
 
 @interface NewDynamicsViewController ()<WPopupMenuDelegate>
 
-@property(nonatomic,strong)SDTimeLineRefreshHeader * refreshHeader;
-@property(nonatomic,strong)UISegmentedControl * segment;
 
-@property (nonatomic, strong) UIButton       *rightBtn;
-@property (nonatomic, strong) NSMutableArray *classNameArr;
-@property (nonatomic, strong) NSMutableArray *publishJobArr;
-@property (nonatomic, assign) NSInteger   pageID;
+@property (nonatomic, strong) SDTimeLineRefreshHeader *refreshHeader;
+@property (nonatomic, strong) UISegmentedControl      *segment;
 
-@property (nonatomic, strong) UIButton    *classBtn;
-@property (nonatomic, strong) NSMutableArray *praiseArr;
-@property (nonatomic, strong) NSString    *userNameStr;
-@property (nonatomic, strong) NSMutableArray *fakeDatasource;
-@property (nonatomic, strong) UIImageView  *headImgView;
-@property (nonatomic, strong) NSMutableArray *bannerArr;
-@property (nonatomic, strong) UIImageView * zanwushuju;
+
+@property (nonatomic, strong) UIButton             *rightBtn;
+@property (nonatomic, strong) NSMutableArray       *classNameArr;
+@property (nonatomic, strong) NSMutableArray       *publishJobArr;
+@property (nonatomic, assign) NSInteger            pageID;
+
+@property (nonatomic, strong) UIButton             *classBtn;
+@property (nonatomic, strong) NSMutableArray       *praiseArr;
+@property (nonatomic, strong) NSString             *userNameStr;
+@property (nonatomic, strong) NSMutableArray       *fakeDatasource;
+@property (nonatomic, strong) UIImageView          *headImgView;
+@property (nonatomic, strong) NSMutableArray       *bannerArr;
+@property (nonatomic, strong) UIImageView          *zanwushuju;
 
 @end
 
 @implementation NewDynamicsViewController
 
-- (NSMutableArray *)bannerArr {
-    if (!_bannerArr) {
+- (NSMutableArray *)bannerArr
+{
+    if (!_bannerArr)
+    {
         _bannerArr = [NSMutableArray array];
     }
     return _bannerArr;
@@ -82,7 +86,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-     [self setUser];
+    [self setUser];
     self.pageID = 1;
     //下拉刷新
     self.dynamicsTable.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
@@ -94,7 +98,8 @@
     self.dynamicsTable.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
 }
 
-- (void)loadNewTopic {
+- (void)loadNewTopic
+{
     self.pageID = 1;
     [self.fakeDatasource removeAllObjects];
     [self.layoutsArr removeAllObjects];
@@ -110,6 +115,9 @@
 
 - (void)loadMoreTopic {
     self.pageID += 1;
+    
+    NSLog(@"aaaaaaaaaaaaaaaaaaaaaaaaaaaaa%ld",self.pageID);
+    
     if ([self.typeStr isEqualToString:@"1"]) {
         NSDictionary  *dic = @{@"key":[UserManager key], @"class_id":@"", @"page":[NSString stringWithFormat:@"%ld",self.pageID]};
         [self getDataFromGetAlbumURL1:dic];
@@ -117,13 +125,15 @@
         NSDictionary  *dic = @{@"key":[UserManager key], @"class_id":self.classID, @"page":[NSString stringWithFormat:@"%ld",self.pageID]};
         [self getDataFromGetAlbumURL1:dic];
     }
+
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    // 取消IQKeyboardManager Toolbar
+    [[IQKeyboardManager sharedManager] disableToolbarInViewControllerClass:[NewDynamicsViewController class]];
     if ([self.typeStr isEqualToString:@"1"]) {
-        self.title = @"成长相册";
+        self.title = @"班级圈";
     } else {
         self.classBtn =[UIButton buttonWithType:UIButtonTypeCustom];
         self.classBtn.frame=CGRectMake(20, 20, 130, 30);
@@ -135,13 +145,13 @@
         UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(105, 2, 30, 30)];
         img.image = [UIImage imageNamed:@"向下"];
         [self.classBtn addSubview:img];
+        
+        self.rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        [self.rightBtn setImage:[UIImage imageNamed:@"相机"] forState:UIControlStateNormal];
+        self.rightBtn.titleLabel.font = titFont;
+        [self.rightBtn addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];
     }
-    
-    self.rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    [self.rightBtn setImage:[UIImage imageNamed:@"相机"] forState:UIControlStateNormal];
-    self.rightBtn.titleLabel.font = titFont;
-    [self.rightBtn addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];
     
     [self setup];
     [self.view addSubview:self.commentInputTF];
@@ -163,18 +173,18 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardFrameWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
     
-    //判断是否具有相册权限
-    if ([JurisdictionMethod libraryJurisdiction]) {
-        
-    }else{
-        [[JurisdictionMethod shareJurisdictionMethod] libraryJurisdictionAlert];
-    }
+//    //判断是否具有相册权限
+//    if ([JurisdictionMethod libraryJurisdiction]) {
+//
+//    }else{
+//        [[JurisdictionMethod shareJurisdictionMethod] libraryJurisdictionAlert];
+//    }
 }
 
 
-- (void)getBannersURLData {
+- (void)getBannersURLData
+{
     NSDictionary *dic = @{@"key":[UserManager key],@"t_id":@"3"};
-    NSLog(@"%@",[UserManager key]);
     [[HttpRequestManager sharedSingleton] POST:bannersURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
@@ -197,18 +207,18 @@
             
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
 
 #pragma mark ======= 获取列表数据 =======
-- (void)getDataFromGetAlbumURL:(NSDictionary *)dic {
+- (void)getDataFromGetAlbumURL:(NSDictionary *)dic
+{
     [WProgressHUD showHUDShowText:@"正在加载中..."];
     [[HttpRequestManager sharedSingleton] POST:GetAlbumURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         [WProgressHUD hideAllHUDAnimated:YES];
         NSLog(@"%@",responseObject);
-        [self.layoutsArr removeAllObjects];
+        
         //结束头部刷新
         [self.dynamicsTable.mj_header endRefreshing];
         //结束尾部刷新
@@ -216,10 +226,14 @@
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
             NSMutableArray *arr = [responseObject objectForKey:@"data"];
-            NSLog(@"%ld",arr.count);
             if (arr.count == 0) {
                 NSLog(@"刷新无数据");
-                self.zanwushuju.alpha = 1;
+                if (self.fakeDatasource.count == 0) {
+                    self.zanwushuju.alpha = 1;
+                } else {
+                    return;
+                }
+                
             } else {
                 
                 NSMutableArray *dataArr = [NSMutableArray array];
@@ -247,10 +261,6 @@
                     }
                     
                     model.likeArr = [likeArr copy];
-//                    NewDynamicsLayout * layout1 = [[NewDynamicsLayout alloc] initWithModel:model];
-//                    [self.layoutsArr addObject:layout1];
-                    
-                    
                     NSMutableArray *tempComments = [NSMutableArray new];
                     for (NSDictionary *dic in model.discuss) {
                             DynamicsCommentItemModel * commentModel = [DynamicsCommentItemModel new];
@@ -272,8 +282,6 @@
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
-            } else {
-                
             }
             [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
         }
@@ -283,11 +291,14 @@
     }];
 }
 
-- (void)getDataFromGetAlbumURL1:(NSDictionary *)dic {
+
+- (void)getDataFromGetAlbumURL1:(NSDictionary *)dic
+{
     [WProgressHUD showHUDShowText:@"正在加载中..."];
     [[HttpRequestManager sharedSingleton] POST:GetAlbumURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSLog(@"%@",responseObject);
         [WProgressHUD hideAllHUDAnimated:YES];
+        NSLog(@"%@",responseObject);
+        
         //结束头部刷新
         [self.dynamicsTable.mj_header endRefreshing];
         //结束尾部刷新
@@ -295,13 +306,18 @@
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             
             NSMutableArray *arr = [responseObject objectForKey:@"data"];
-            NSLog(@"%ld",arr.count);
             if (arr.count == 0) {
                 NSLog(@"刷新无数据");
+                if (self.fakeDatasource.count == 0) {
+                    self.zanwushuju.alpha = 1;
+                } else {
+                    return;
+                }
                 
             } else {
-                [self.layoutsArr removeAllObjects];
+                
                 NSMutableArray *dataArr = [NSMutableArray array];
+                
                 for (NSDictionary *dic in [responseObject objectForKey:@"data"]) {
                     [dataArr addObject:dic];
                 }
@@ -310,14 +326,40 @@
                     [self.fakeDatasource addObject:dict];
                 }
                 
-                if (self.fakeDatasource.count == 0) {
-                    self.zanwushuju.alpha = 1;
+                NSMutableArray *array = [NSMutableArray array];
+                
+                for (NSDictionary *dict in dataArr) {
+                    [array addObject:dict];
                 }
                 
-                for (NSDictionary  *dict in self.fakeDatasource) {
+                for (NSDictionary  *dict in array) {
                     DynamicsModel * model = [DynamicsModel modelWithDictionary:dict];
+                    if (model.is_praise == 0){ //不是自己点赞
+                        model.isThumb = NO;
+                    } else if (model.is_praise == 1) { //是自己点赞
+                        model.isThumb = YES;
+                    }
+                    NSMutableArray *likeArr = [NSMutableArray array];
+                    for (NSDictionary *likeDic in model.praise) {
+                        DynamicsLikeItemModel *likeModel = [DynamicsLikeItemModel new];
+                        [likeModel setValuesForKeysWithDictionary:likeDic];
+                        [likeArr addObject:likeModel];
+                    }
+                    
+                    model.likeArr = [likeArr copy];
+                    NSMutableArray *tempComments = [NSMutableArray new];
+                    for (NSDictionary *dic in model.discuss) {
+                        DynamicsCommentItemModel * commentModel = [DynamicsCommentItemModel new];
+                        [commentModel setValuesForKeysWithDictionary:dic];
+                        [tempComments addObject:commentModel];
+                        
+                    }
+                    
+                    model.commentArr = [tempComments copy];
+                    
                     NewDynamicsLayout * layout = [[NewDynamicsLayout alloc] initWithModel:model];
                     [self.layoutsArr addObject:layout];
+                    
                 }
                 self.zanwushuju.alpha = 0;
                 [self.dynamicsTable reloadData];
@@ -326,11 +368,8 @@
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
-            } else {
-                
             }
             [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
-            
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -421,13 +460,13 @@
         [WProgressHUD showSuccessfulAnimatedText:@"数据不正确,请重试"];
     } else {
         self.classID = model.ID;
+        self.pageID = 1;
         [self.classBtn setTitle:model.name forState:UIControlStateNormal];
         
         [self.fakeDatasource removeAllObjects];
         [self.layoutsArr removeAllObjects];
-
         
-        NSDictionary  *dic = @{@"key":[UserManager key], @"class_id":self.classID, @"page":@"1"};
+        NSDictionary  *dic = @{@"key":[UserManager key], @"class_id":self.classID, @"page":[NSString stringWithFormat:@"%ld",self.pageID]};
         [self getDataFromGetAlbumURL:dic];
         [self.dynamicsTable reloadData];
         
@@ -449,7 +488,7 @@
 }
 
 
--(void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [JRMenuView dismissAllJRMenu];
 }
@@ -463,12 +502,13 @@
 
 
 #pragma mark - getter
--(UITableView *)dynamicsTable {
+- (UITableView *)dynamicsTable {
     if (!_dynamicsTable) {
         _dynamicsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) style:UITableViewStylePlain];
         _dynamicsTable.dataSource = self;
         _dynamicsTable.delegate = self;
         _dynamicsTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _dynamicsTable.backgroundColor = backColor;
         [_dynamicsTable registerClass:[NewDynamicsTableViewCell class] forCellReuseIdentifier:@"NewDynamicsTableViewCell"];
        
         if ([[[UIDevice currentDevice] systemVersion] compare:@"11.0" options:NSNumericSearch] != NSOrderedAscending) {
@@ -495,20 +535,23 @@
 //    return _headImgView;
 //}
 
--(NSMutableArray *)layoutsArr {
+
+- (NSMutableArray *)layoutsArr {
     if (!_layoutsArr) {
         _layoutsArr = [NSMutableArray array];
     }
     return _layoutsArr;
 }
 
--(UITextField *)commentInputTF {
+- (UITextField *)commentInputTF {
     if (!_commentInputTF) {
         _commentInputTF = [[UITextField alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 45)];
         _commentInputTF.backgroundColor = [UIColor lightGrayColor];
         _commentInputTF.delegate = self;
         _commentInputTF.textColor = [UIColor whiteColor];
-        _commentInputTF.returnKeyType = UIReturnKeySend;//变为搜索按钮
+
+        _commentInputTF.returnKeyType = UIReturnKeySend;
+
     }
     return _commentInputTF;
 }

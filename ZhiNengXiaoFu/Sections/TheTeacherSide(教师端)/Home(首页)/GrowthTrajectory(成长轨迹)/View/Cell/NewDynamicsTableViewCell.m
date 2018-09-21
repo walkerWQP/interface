@@ -10,7 +10,7 @@
 
 @implementation NewDynamicsGrayView
 
--(instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     if (frame.size.width == 0 && frame.size.height == 0) {
         frame.size.width = APP_WIDTH - kDynamicsNormalPadding * 2 - kDynamicsPortraitNamePadding - kDynamicsPortraitWidthAndHeight;;
         frame.size.height = kDynamicsGrayBgHeight;
@@ -44,7 +44,7 @@
     _dspLabel.width = self.right - kDynamicsNameDetailPadding - _dspLabel.left;
 }
 
--(UIButton *)grayBtn {
+- (UIButton *)grayBtn {
     if (!_grayBtn) {
         _grayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _grayBtn.backgroundColor = RGBA(240, 240, 242, 1);
@@ -59,7 +59,7 @@
 }
 
 
--(UIImageView *)thumbImg {
+- (UIImageView *)thumbImg {
     if (!_thumbImg) {
         _thumbImg = [UIImageView new];
         _thumbImg.userInteractionEnabled = NO;
@@ -69,7 +69,7 @@
 }
 
 
--(YYLabel *)dspLabel {
+- (YYLabel *)dspLabel {
     if (!_dspLabel) {
         _dspLabel = [YYLabel new];
         _dspLabel.userInteractionEnabled = NO;
@@ -81,7 +81,7 @@
 
 @implementation NewDynamicsThumbCommentView
 
--(instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     if (frame.size.width == 0 && frame.size.height == 0) {
         frame.size.width = APP_WIDTH - kDynamicsNormalPadding * 2 - kDynamicsPortraitNamePadding - kDynamicsPortraitWidthAndHeight;;
         frame.size.height = 0;
@@ -99,7 +99,6 @@
     [self addSubview:self.thumbLabel];
     [self addSubview:self.dividingLine];
     [self addSubview:self.commentTable];
-    
 }
 
 
@@ -164,13 +163,13 @@
 }
 
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     YYTextLayout * layout = self.commentArray[indexPath.row];
     return layout.textBoundingSize.height + kDynamicsGrayPicPadding*2;
 }
 
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell * cell;//这里不使用重用机制(会出现评论窜位bug)
     
     YYTextLayout * layout = self.commentArray[indexPath.row];
@@ -193,7 +192,7 @@
 }
 
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     if (_cell.delegate != nil && [_cell.delegate respondsToSelector:@selector(DynamicsCell:didClickComment:)]) {
         [_cell.delegate DynamicsCell:_cell didClickComment:(DynamicsCommentItemModel *)_cell.layout.model.commentArr[indexPath.row]];
@@ -202,7 +201,7 @@
 
 
 
--(UIImageView *)bgImgView {
+- (UIImageView *)bgImgView {
     if (!_bgImgView) {
         _bgImgView = [UIImageView new];
         UIImage *bgImage = [[[UIImage imageNamed:@"LikeCmtBg"] stretchableImageWithLeftCapWidth:40 topCapHeight:30] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -213,7 +212,7 @@
 }
 
 
--(YYLabel *)thumbLabel {
+- (YYLabel *)thumbLabel {
     if (!_thumbLabel) {
         _thumbLabel = [YYLabel new];
     }
@@ -221,7 +220,7 @@
 }
 
 
--(UIView *)dividingLine {
+- (UIView *)dividingLine {
     if (!_dividingLine) {
         _dividingLine = [UIView new];
         _dividingLine.backgroundColor = RGBA(210, 210, 210, 1);
@@ -230,7 +229,7 @@
 }
 
 
--(UITableView *)commentTable {
+- (UITableView *)commentTable {
     if (!_commentTable) {
         _commentTable = [UITableView new];
         _commentTable.dataSource = self;
@@ -249,7 +248,7 @@
 
 @implementation NewDynamicsTableViewCell
 
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self setup];
@@ -274,7 +273,7 @@
     [self.contentView addSubview:self.dividingLine];
 }
 
--(void)setLayout:(NewDynamicsLayout *)layout {
+- (void)setLayout:(NewDynamicsLayout *)layout {
     UIView * lastView;
     _layout = layout;
     DynamicsModel * model = layout.model;
@@ -318,7 +317,7 @@
         }
         
         lastView = _moreLessDetailBtn;
-    }else{
+    } else {
         _moreLessDetailBtn.hidden = YES;
     }
     //图片集
@@ -332,7 +331,7 @@
         _picContainerView.picPathStringsArray = model.img;
         
         lastView = _picContainerView;
-    }else{
+    } else {
         _picContainerView.hidden = YES;
     }
     //头条
@@ -354,13 +353,11 @@
         _grayView.hidden = YES;
     }
     
-
-    
     //时间
     _dateLabel.left = _detailLabel.left;
     _dateLabel.top = lastView.bottom + kDynamicsPortraitNamePadding;
     _dateLabel.text = model.create_time;
-    CGSize dateSize = [_dateLabel sizeThatFits:CGSizeMake(100, kDynamicsNameHeight)];
+    CGSize dateSize = [_dateLabel sizeThatFits:CGSizeMake(200, kDynamicsNameHeight)];
     _dateLabel.width = dateSize.width;
     _dateLabel.height = kDynamicsNameHeight;
     
@@ -419,9 +416,8 @@
 
 #pragma mark - 弹出JRMenu
 - (void)presentMenuController {
-    DynamicsModel * model = _layout.model;
-
     
+    DynamicsModel * model = _layout.model;
     if (!model.isThumb) {//点赞
         if (!_jrMenuView) {
             _jrMenuView = [[JRMenuView alloc] init];
@@ -431,7 +427,7 @@
         [_jrMenuView setTitleArray:@[@"点赞",@"评论"]];
         [self.contentView addSubview:_jrMenuView];
         [_jrMenuView show];
-    }else{//取消点赞
+    } else {//取消点赞
         if (!_jrMenuView) {
             _jrMenuView = [[JRMenuView alloc] init];
         }
@@ -446,7 +442,7 @@
 
 
 #pragma mark - 点击JRMenu上的Btn
--(void)hasSelectedJRMenuIndex:(NSInteger)jrMenuIndex {
+- (void)hasSelectedJRMenuIndex:(NSInteger)jrMenuIndex {
     DynamicsModel * model = _layout.model;
     if (jrMenuIndex == 0) {
         if (!model.isThumb) {
@@ -467,11 +463,13 @@
 
 
 #pragma mark - getter
--(UIImageView *)portrait {
+- (UIImageView *)portrait {
     if(!_portrait){
         _portrait = [UIImageView new];
         _portrait.userInteractionEnabled = YES;
-        _portrait.backgroundColor = [UIColor grayColor];
+//        _portrait.layer.masksToBounds = YES;
+//        _portrait.layer.cornerRadius  = 20;
+        _portrait.backgroundColor = RGB(67, 74, 94);
         WS(weakSelf);
         UITapGestureRecognizer * tapGR = [[UITapGestureRecognizer alloc] bk_initWithHandler:^(UIGestureRecognizer *sender, UIGestureRecognizerState state, CGPoint location) {
             if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(DynamicsCell:didClickUser:)]) {
@@ -485,7 +483,7 @@
 }
 
 
--(YYLabel *)nameLabel {
+- (YYLabel *)nameLabel {
     if (!_nameLabel) {
         _nameLabel = [YYLabel new];
         _nameLabel.font = [UIFont systemFontOfSize:15];
@@ -503,24 +501,20 @@
 }
 
 
--(YYLabel *)detailLabel {
+- (YYLabel *)detailLabel {
     if (!_detailLabel) {
         _detailLabel = [YYLabel new];
         _detailLabel.textLongPressAction = ^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
-            //            containerView.backgroundColor = RGBA_COLOR(1, 1, 1, .2);
             [WProgressHUD showSuccessfulAnimatedText:@"文字复制成功!"];
             UIPasteboard * board = [UIPasteboard generalPasteboard];
             board.string = text.string;
-            //            [Utils delayTime:.5 TimeOverBlock:^{
-            //                containerView.backgroundColor = [UIColor clearColor];
-            //            }];
         };
     }
     return _detailLabel;
 }
 
 
--(UIButton *)moreLessDetailBtn {
+- (UIButton *)moreLessDetailBtn {
     if (!_moreLessDetailBtn) {
         _moreLessDetailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _moreLessDetailBtn.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -537,7 +531,7 @@
 }
 
 
--(SDWeiXinPhotoContainerView *)picContainerView {
+- (SDWeiXinPhotoContainerView *)picContainerView {
     if (!_picContainerView) {
         _picContainerView = [SDWeiXinPhotoContainerView new];
         _picContainerView.hidden = YES;
@@ -546,7 +540,7 @@
 }
 
 
--(UIButton *)spreadBtn {
+- (UIButton *)spreadBtn {
     if (!_spreadBtn) {
         _spreadBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _spreadBtn.titleLabel.font = [UIFont systemFontOfSize:12];
@@ -564,7 +558,7 @@
 
 
 
--(NewDynamicsGrayView *)grayView {
+- (NewDynamicsGrayView *)grayView {
     if (!_grayView) {
         _grayView = [NewDynamicsGrayView new];
         _grayView.cell = self;
@@ -573,7 +567,7 @@
 }
 
 
--(YYLabel *)dateLabel {
+- (YYLabel *)dateLabel {
     if (!_dateLabel) {
         _dateLabel = [YYLabel new];
         _dateLabel.textColor = [UIColor lightGrayColor];
@@ -602,7 +596,7 @@
 }
 
 
--(UIButton *)menuBtn {
+- (UIButton *)menuBtn {
     if (!_menuBtn) {
         _menuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _menuBtn.contentMode = UIViewContentModeScaleAspectFit;
@@ -616,7 +610,7 @@
 }
 
 
--(NewDynamicsThumbCommentView *)thumbCommentView {
+- (NewDynamicsThumbCommentView *)thumbCommentView {
     if (!_thumbCommentView) {
         _thumbCommentView = [NewDynamicsThumbCommentView new];
         _thumbCommentView.cell = self;
@@ -625,7 +619,7 @@
 }
 
 
--(UIView *)dividingLine {
+- (UIView *)dividingLine {
     if (!_dividingLine) {
         _dividingLine = [UIView new];
         _dividingLine.backgroundColor = [UIColor lightGrayColor];
@@ -649,17 +643,16 @@
     NSTimeInterval time = [nowDate timeIntervalSinceDate:needFormatDate];
     
     //// 再然后，把间隔的秒数折算成天数和小时数：
-    
     NSString *dateStr = @"";
     
     if (time<=60) {  //// 1分钟以内的
         dateStr = @"刚刚";
-    }else if(time<=60*60){  ////  一个小时以内的
+    } else if(time<=60*60){  ////  一个小时以内的
         
         int mins = time/60;
         dateStr = [NSString stringWithFormat:@"%d分钟前",mins];
         
-    }else if(time<=60*60*24){   //// 在两天内的
+    } else if(time<=60*60*24){   //// 在两天内的
         
         [dateFormatter setDateFormat:@"YYYY/MM/dd"];
         NSString * need_yMd = [dateFormatter stringFromDate:needFormatDate];
@@ -673,7 +666,7 @@
             ////  昨天
             dateStr = [NSString stringWithFormat:@"昨天 %@",[dateFormatter stringFromDate:needFormatDate]];
         }
-    }else {
+    } else {
         
         [dateFormatter setDateFormat:@"yyyy"];
         NSString * yearStr = [dateFormatter stringFromDate:needFormatDate];

@@ -99,7 +99,6 @@
         }
         [self.ongoingCollectionView reloadData];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
@@ -131,12 +130,15 @@
     
     UICollectionViewCell *gridcell = nil;
     OngoingCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:OngoingCell_CollectionView forIndexPath:indexPath];
-    OngoingModel *model = [self.ongoingArr objectAtIndex:indexPath.row];
-    [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
-    cell.titleLabel.text = model.title;
-    cell.timeLabel.text = [NSString stringWithFormat:@"活动日期:%@ 至 %@", model.start, model.end];;
-    cell.detailsLabel.text = model.title;
-    gridcell = cell;
+    if (self.ongoingArr.count != 0) {
+        OngoingModel *model = [self.ongoingArr objectAtIndex:indexPath.row];
+        [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:nil];
+        cell.titleLabel.text = model.title;
+        cell.timeLabel.text = [NSString stringWithFormat:@"活动日期:%@ 至 %@", model.start, model.end];;
+        cell.detailsLabel.text = model.title;
+        gridcell = cell;
+    }
+    
     return gridcell;
     
 }

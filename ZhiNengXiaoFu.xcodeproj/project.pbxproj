@@ -53,7 +53,6 @@
 		0413D6C4210F198E00CB34A6 /* WenTiZiXunViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0413D6C3210F198E00CB34A6 /* WenTiZiXunViewController.m */; };
 		041482DE2117D8F300C2AED2 /* LeaveListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 041482DD2117D8F300C2AED2 /* LeaveListModel.m */; };
 		0415B339212D11EC00A17D1D /* BaiduPanoSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0415B338212D11EC00A17D1D /* BaiduPanoSDK.framework */; };
-		0415B33B212D121500A17D1D /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0415B33A212D121500A17D1D /* libstdc++.6.0.9.tbd */; };
 		0415B33E212D134C00A17D1D /* BaiDuQuanJingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415B33D212D134C00A17D1D /* BaiDuQuanJingViewController.m */; };
 		0415B341212D39BC00A17D1D /* WeiLanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415B340212D39BC00A17D1D /* WeiLanViewController.m */; };
 		04251B9421153EE50090CD3C /* YiHuiFuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04251B9321153EE50090CD3C /* YiHuiFuViewController.m */; };
@@ -220,6 +219,7 @@
 		98A1DB39213E6ECC0016230A /* BindMobilePhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A1DB38213E6ECC0016230A /* BindMobilePhoneViewController.m */; };
 		98A26352212BA57E0080EFA4 /* NewGuidelinesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A26351212BA57E0080EFA4 /* NewGuidelinesViewController.m */; };
 		98A49434211578B8002A4C97 /* SchoolDynamicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A49433211578B8002A4C97 /* SchoolDynamicModel.m */; };
+		98A612BE21522244009F92A5 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0415B33A212D121500A17D1D /* libstdc++.6.0.9.tbd */; };
 		98AD7EA5210F11BD00641231 /* HaveToReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AD7E3A210F11BC00641231 /* HaveToReplyViewController.m */; };
 		98AD7EA6210F11BD00641231 /* DidNotReturnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AD7E3B210F11BC00641231 /* DidNotReturnViewController.m */; };
 		98AD7EA7210F11BD00641231 /* ReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AD7E40210F11BC00641231 /* ReplyViewController.m */; };
@@ -666,6 +666,7 @@
 		04F69571211C410C00F9D2E2 /* UIView+CLSetRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CLSetRect.h"; sourceTree = "<group>"; };
 		04F69572211C410D00F9D2E2 /* UIView+CLSetRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CLSetRect.m"; sourceTree = "<group>"; };
 		97E480AB68F52C70A0E84853 /* Pods-ZhiNengXiaoFu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZhiNengXiaoFu.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZhiNengXiaoFu/Pods-ZhiNengXiaoFu.release.xcconfig"; sourceTree = "<group>"; };
+		9812106E2151D99E00106D06 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		9813955E2105E41B00CDE2BA /* MaceColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaceColor.h; sourceTree = "<group>"; };
 		9813958A2105E61E00CDE2BA /* MyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyViewController.h; sourceTree = "<group>"; };
 		9813958B2105E61E00CDE2BA /* MyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyViewController.m; sourceTree = "<group>"; };
@@ -740,6 +741,8 @@
 		98A26351212BA57E0080EFA4 /* NewGuidelinesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewGuidelinesViewController.m; sourceTree = "<group>"; };
 		98A49432211578B8002A4C97 /* SchoolDynamicModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SchoolDynamicModel.h; sourceTree = "<group>"; };
 		98A49433211578B8002A4C97 /* SchoolDynamicModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SchoolDynamicModel.m; sourceTree = "<group>"; };
+		98A612BA215220B5009F92A5 /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "usr/lib/libc++.1.tbd"; sourceTree = SDKROOT; };
+		98A612BC215220C9009F92A5 /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "usr/lib/libc++abi.tbd"; sourceTree = SDKROOT; };
 		98AD7E3A210F11BC00641231 /* HaveToReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HaveToReplyViewController.m; sourceTree = "<group>"; };
 		98AD7E3B210F11BC00641231 /* DidNotReturnViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DidNotReturnViewController.m; sourceTree = "<group>"; };
 		98AD7E3C210F11BC00641231 /* ConsultingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsultingViewController.h; sourceTree = "<group>"; };
@@ -933,7 +936,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0415B33B212D121500A17D1D /* libstdc++.6.0.9.tbd in Frameworks */,
+				98A612BE21522244009F92A5 /* libstdc++.6.0.9.tbd in Frameworks */,
 				498C64A662A4583AE32A8276 /* Pods_ZhiNengXiaoFu.framework in Frameworks */,
 				0415B339212D11EC00A17D1D /* BaiduPanoSDK.framework in Frameworks */,
 			);
@@ -3326,6 +3329,9 @@
 		F1498AB69964EAF91B5B6160 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				98A612BC215220C9009F92A5 /* libc++abi.tbd */,
+				98A612BA215220B5009F92A5 /* libc++.1.tbd */,
+				9812106E2151D99E00106D06 /* libc++.tbd */,
 				0415B33A212D121500A17D1D /* libstdc++.6.0.9.tbd */,
 				F26DFE770CB62B912B7D395A /* Pods_ZhiNengXiaoFu.framework */,
 			);

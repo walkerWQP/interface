@@ -20,11 +20,15 @@
 #import "ChangePasswordViewController.h"
 #import "JiuQinGuanLiViewController.h"
 #import "ExitCell.h"
-@interface MineViewController ()<UITableViewDelegate, UITableViewDataSource>
+#import "BindMobilePhoneViewController.h"
+
+@interface MineViewController ()<UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
 @property (nonatomic, strong) UITableView * mineTabelView;
 @property (nonatomic, strong) NSMutableArray * mineAry;
 @property (nonatomic, strong) PersonInformationModel * personInfo;
+
+@property (nonatomic, assign) NSInteger bangdingState;
 
 @end
 
@@ -48,11 +52,20 @@
     [self.mineTabelView registerClass:[ClassHomePageItemCell class] forCellReuseIdentifier:@"ClassHomePageItemCellId"];
     [self.mineTabelView registerClass:[MinePersonXiXinCell class] forCellReuseIdentifier:@"MinePersonXiXinCellId"];
     [self.mineTabelView registerClass:[ExitCell class] forCellReuseIdentifier:@"ExitCellId"];
-    
-//    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"personInfo"];
-//    self.personInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
    
     self.mineTabelView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (buttonIndex == 1) {
+        NSLog(@"点击l");
+        BindMobilePhoneViewController *bindMobilePhoneVC = [[BindMobilePhoneViewController alloc] init];
+        bindMobilePhoneVC.typeStr = @"1";
+        [self.navigationController pushViewController:bindMobilePhoneVC animated:YES];
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -66,10 +79,35 @@
 - (void)setNetWork
 {
     NSDictionary * dic = @{@"key":[UserManager key]};
+     if (self.bangdingState == 0) {
+         
+         [WProgressHUD showHUDShowText:@"加载中..."];
+
+     }
     
     [[HttpRequestManager sharedSingleton] POST:getUserInfoURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
         self.personInfo = [PersonInformationModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+        
+        if (self.bangdingState == 0) {
+            [WProgressHUD hideAllHUDAnimated:YES];
+
+            if (self.personInfo.mobile == nil || [self.personInfo.mobile isEqualToString:@""]) {
+                NSLog(@"手机号为空");
+                
+                UIAlertView *locationAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请绑定手机号码, 便于登录使用" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                [locationAlert show];
+                
+                self.bangdingState = 1;
+            } else {
+                NSLog(@"手机号不为空");
+            }
+            
+            
+        }
+        
+        
+        
         if (self.personInfo.dorm_open == 1 && self.personInfo.nature == 2) {
             NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码",@"就寝管理", nil];
             NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"帮助",@"请假列表",@"修改密码",@"就寝管理", nil];

@@ -39,7 +39,7 @@ PODS:
   - JCore (1.2.2)
   - JPush (3.1.0):
     - JCore (~> 1.2.0)
-  - LTScrollView (0.1.9)
+  - LTScrollView (0.2.0)
   - Masonry (1.1.0)
   - MJExtension (3.0.15.1)
   - MJRefresh (3.1.15.7)
@@ -97,7 +97,7 @@ SPEC CHECKSUMS:
   BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
   JCore: f14c0549968a63c22e246a4875aa9d428446f373
   JPush: 5921e25ad13e0386351079217b009f2039084eac
-  LTScrollView: f2e17b5bc4b89f3aa59562a81fa10add77a8b8bf
+  LTScrollView: 1a18ae14884eb99c27f0222203aedaccd21b72fc
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 19bc33ce2eee2d319760f5622562cf581a6ff756
   MJRefresh: 697f8ec75ebdbe9207767bb682cf0f51b0d8a41f
@@ -106,6 +106,6 @@ SPEC CHECKSUMS:
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: d3bda15c9f5942e0271b61c69781bed297d8d714
+PODFILE CHECKSUM: 2a401fafa0db24e0ef10b15a1abcba6922651960
 
 COCOAPODS: 1.5.3

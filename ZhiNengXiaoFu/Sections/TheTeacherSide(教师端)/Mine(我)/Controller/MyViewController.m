@@ -18,7 +18,9 @@
 #import "OngoingTableViewController.h"
 #import "PersonInformationModel.h"
 #import "SleepManagementViewController.h"
-@interface MyViewController ()<UITableViewDelegate, UITableViewDataSource>
+#import "BindMobilePhoneViewController.h"
+
+@interface MyViewController ()<UITableViewDelegate, UITableViewDataSource,UIAlertViewDelegate>
 
 @property (nonatomic, strong) UITableView    *myTabelView;
 @property (nonatomic, strong) NSMutableArray *myArr;
@@ -51,12 +53,32 @@
     [self.myTabelView registerClass:[MyInformationCell class] forCellReuseIdentifier:@"MyInformationCellId"];
     [self.myTabelView registerClass:[ExitCell class] forCellReuseIdentifier:@"ExitCellId"];
     self.myTabelView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+    
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (buttonIndex == 1) {
+        NSLog(@"点击l");
+        BindMobilePhoneViewController *bindMobilePhoneVC = [[BindMobilePhoneViewController alloc] init];
+        bindMobilePhoneVC.typeStr = @"1";
+        [self.navigationController pushViewController:bindMobilePhoneVC animated:YES];
+    }
+    
+}
+
+
 
 - (void)setUser {
     NSDictionary * dic = @{@"key":[UserManager key]};
+    [WProgressHUD showHUDShowText:@"加载中..."];
+
     [[HttpRequestManager sharedSingleton] POST:getUserInfoURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
+        
+        [WProgressHUD hideAllHUDAnimated:YES];
+
         self.model = [PersonInformationModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
         if (self.model.is_adviser == 1 && self.model.dorm_open == 1) {
             NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"帮助1",@"请假列表",@"修改密码",@"已发布", @"就寝管理",nil];
@@ -82,7 +104,20 @@
             }
         }
         
+        NSLog(@"%@",self.model.mobile);
+        if (self.model.mobile == nil || [self.model.mobile isEqualToString:@""]) {
+            NSLog(@"手机号为空");
+            
+            UIAlertView *locationAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请绑定手机号码, 便于登录使用" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            [locationAlert show];
+            
+            
+        } else {
+            NSLog(@"手机号不为空");
+        }
+
         [self.myTabelView reloadData];
+        
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
     }];
@@ -161,10 +196,12 @@
     } else if (indexPath.section == 1) {
         HomeworkCell * cell = [tableView dequeueReusableCellWithIdentifier:@"HomeworkCellId" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (self.myArr.count != 0) {
+            NSDictionary * dic = [self.myArr objectAtIndex:indexPath.row];
+            cell.itemImg.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
+            cell.itemLabel.text = [dic objectForKey:@"title"];
+        }
         
-        NSDictionary * dic = [self.myArr objectAtIndex:indexPath.row];
-        cell.itemImg.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
-        cell.itemLabel.text = [dic objectForKey:@"title"];
         return cell;
     } else
     {

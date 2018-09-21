@@ -72,6 +72,11 @@
     [self.QianDaoTableView.mj_header beginRefreshing];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.QianDaoTableView.mj_header endRefreshing];
+}
+
 - (void)setNetWork
 {
     [self.QianDaoAry removeAllObjects];
@@ -85,11 +90,10 @@
     }else
     {
         dic = @{@"key":[UserManager key]};
-
     }
+    
     [[HttpRequestManager sharedSingleton] POST:recordURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
-         [self.QianDaoTableView.mj_header endRefreshing];
         self.qianDaoModel = [QianDaoModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
         
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
@@ -114,9 +118,15 @@
             [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
 
         }
-        
+        [self.QianDaoTableView.mj_header endRefreshing];
+
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
+
+        [self.QianDaoTableView.mj_header endRefreshing];
+
+
+
     }];
 }
 
@@ -135,6 +145,11 @@
         self.QianDaoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH - APP_TABH) style:UITableViewStylePlain];
         self.QianDaoTableView.delegate = self;
         self.QianDaoTableView.dataSource = self;
+        
+        self.QianDaoTableView.estimatedRowHeight = 0;
+        self.QianDaoTableView.estimatedSectionFooterHeight = 0;
+        self.QianDaoTableView.estimatedSectionHeaderHeight = 0;
+        self.QianDaoTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         self.QianDaoTableView.backgroundColor = backColor;
     }
     return _QianDaoTableView;

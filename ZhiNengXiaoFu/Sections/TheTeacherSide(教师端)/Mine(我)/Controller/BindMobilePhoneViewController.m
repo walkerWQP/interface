@@ -268,7 +268,6 @@
             
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
@@ -310,9 +309,6 @@
 }
 
     
-    
-
-
 #pragma mark - UIScrollViewDelegate
 //返回缩放时所使用的UIView对象
 - (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView{

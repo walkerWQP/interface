@@ -373,7 +373,6 @@
      {
          NSLog(@"%@", error);
          [WProgressHUD hideAllHUDAnimated:YES];
-         
      }];
     
 }
@@ -500,7 +499,6 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 

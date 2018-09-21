@@ -12,28 +12,24 @@ static const CGFloat criticalY = -140.f;
 
 #define kSDTimeLineRefreshHeaderRotateAnimationKey @"RotateAnimationKey"
 
-@implementation SDTimeLineRefreshHeader
-{
+@implementation SDTimeLineRefreshHeader {
     CABasicAnimation *_rotateAnimation;
 }
 
-+ (instancetype)refreshHeaderWithCenter:(CGPoint)center
-{
++ (instancetype)refreshHeaderWithCenter:(CGPoint)center {
     SDTimeLineRefreshHeader *header = [SDTimeLineRefreshHeader new];
     header.center = center;
     return header;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self setupView];
     }
     return self;
 }
 
-- (void)setupView
-{
+- (void)setupView {
     self.backgroundColor = [UIColor clearColor];
     
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"AlbumReflashIcon"]];
@@ -48,8 +44,7 @@ static const CGFloat criticalY = -140.f;
     _rotateAnimation.repeatCount = MAXFLOAT;
 }
 
-- (void)setRefreshState:(SDWXRefreshViewState)refreshState
-{
+- (void)setRefreshState:(SDWXRefreshViewState)refreshState {
     [super setRefreshState:refreshState];
     
     if (refreshState == SDWXRefreshViewStateRefreshing) {
@@ -67,8 +62,7 @@ static const CGFloat criticalY = -140.f;
 }
 
 
-- (void)updateRefreshHeaderWithOffsetY:(CGFloat)y
-{
+- (void)updateRefreshHeaderWithOffsetY:(CGFloat)y {
     
     CGFloat rotateValue = y / 50.0 * M_PI;
     
@@ -92,8 +86,7 @@ static const CGFloat criticalY = -140.f;
     
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
-{
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     if (keyPath != kSDBaseRefreshViewObserveKeyPath) return;
     
     [self updateRefreshHeaderWithOffsetY:self.scrollView.contentOffset.y];

@@ -26,7 +26,7 @@
 #import "WenTiZiXunViewController.h"
 #import "WorkDetailsViewController.h"
 #import "LeaveTheDetailsViewController.h"
-
+#import "LeaveDetailsViewController.h"
 #import "LeaveDetailsViewController.h"
 #import "ConsultingViewController.h"
 #endif
@@ -231,12 +231,9 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 }
 
 //添加处理 APNs 通知回调方法
-
 // iOS 10 Support
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler
 {
-    
-    
     completionHandler(UNNotificationPresentationOptionAlert|UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionSound); // 需要执行这个方法，选择是否提醒用户，有 Badge、Sound、Alert 三种类型可以选择设置
     
     
@@ -260,7 +257,8 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 }
 
 // iOS 10 Support
-- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler
+{
     // Required
     NSDictionary * userInfo = response.notification.request.content.userInfo;
     UNNotificationRequest *request = response.notification.request; // 收到推送的请求
@@ -349,17 +347,34 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
                 }
             }else if ([[userInfo objectForKey:@"type"] isEqualToString:@"leave"])
             {
-                LeaveTheDetailsViewController *leaveTheDetailsVC = [LeaveTheDetailsViewController new];
-              
-                leaveTheDetailsVC.ID = [userInfo objectForKey:@"id"];
-                
-                MainNavigationController *pushNav = [[MainNavigationController alloc] initWithRootViewController:leaveTheDetailsVC];
-                UIViewController *rootViewController = [[UIApplication  sharedApplication] keyWindow].rootViewController;
-                while (rootViewController.presentedViewController)
+                if ([[userInfo objectForKey:@"identity"] isEqualToString:@"2"])
                 {
-                    rootViewController = rootViewController.presentedViewController;
+                    LeaveTheDetailsViewController *leaveTheDetailsVC = [LeaveTheDetailsViewController new];
+                    
+                    leaveTheDetailsVC.ID = [userInfo objectForKey:@"id"];
+                    
+                    MainNavigationController *pushNav = [[MainNavigationController alloc] initWithRootViewController:leaveTheDetailsVC];
+                    UIViewController *rootViewController = [[UIApplication  sharedApplication] keyWindow].rootViewController;
+                    while (rootViewController.presentedViewController)
+                    {
+                        rootViewController = rootViewController.presentedViewController;
+                    }
+                    [rootViewController presentViewController:pushNav animated:YES completion:nil];
+                
+                }else
+                {
+                    LeaveDetailsViewController *leaveTheDetailsVC = [LeaveDetailsViewController new];
+                    
+                    leaveTheDetailsVC.leaveDetailsId = [userInfo objectForKey:@"id"];
+                    
+                    MainNavigationController *pushNav = [[MainNavigationController alloc] initWithRootViewController:leaveTheDetailsVC];
+                    UIViewController *rootViewController = [[UIApplication  sharedApplication] keyWindow].rootViewController;
+                    while (rootViewController.presentedViewController)
+                    {
+                        rootViewController = rootViewController.presentedViewController;
+                    }
+                    [rootViewController presentViewController:pushNav animated:YES completion:nil];
                 }
-                [rootViewController presentViewController:pushNav animated:YES completion:nil];
              
             }
             
@@ -427,6 +442,18 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     if ([SingletonHelper manager].force == 1) {
 
         [self hsUpdateApp:[SingletonHelper manager].version force:[SingletonHelper manager].force];
+    }
+    
+    if (@available(iOS 11.0, *))
+    {
+        [UIApplication sharedApplication].applicationIconBadgeNumber = -1;
+        [JPUSHService setBadge:0];
+    } else {
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.fireDate = [NSDate date];
+        localNotification.applicationIconBadgeNumber = -1;
+        [JPUSHService setBadge:0];
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
     }
 //
 }

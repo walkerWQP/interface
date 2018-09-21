@@ -37,6 +37,7 @@
 @property (nonatomic, strong) NSMutableArray * numberAry;
 @property (nonatomic, strong) NSString  *classID;
 @property (nonatomic, strong) NSString  *className;
+@property (nonatomic, strong) NSString  *schoolName;
 
 @end
 
@@ -66,9 +67,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"首页";
+    [self setUser];
     self.view.backgroundColor = backColor;
-    
     self.layout = [[UICollectionViewFlowLayout alloc] init];
     self.HomeCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_NAVH) collectionViewLayout:self.layout];
     self.HomeCollectionView.backgroundColor = backColor;
@@ -80,7 +80,7 @@
 //    [self.HomeCollectionView registerClass:[HomeItemCell class] forCellWithReuseIdentifier:@"HomePageItemCellId"];
     
     NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"成长相册",@"活动管理",@"问题咨询",@"学校通知",@"学校动态1",@"请假列表1",@"新生指南", nil];
-    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"成长相册",@"活动管理",@"问题咨询",@"学校通知",@"学校动态",@"请假列表",@"新生指南", nil];
+    NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"老师通知",@"作业管理",@"班级圈",@"活动管理",@"问题咨询",@"学校通知",@"学校动态",@"请假列表",@"新生指南", nil];
     
     
     for (int i = 0; i < imgAry.count; i++)
@@ -169,6 +169,7 @@
         [self.HomeCollectionView reloadData];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
+        
     }];
 }
 
@@ -232,9 +233,11 @@
         return cell;
     } else {
         HomePageItemNCell * cell  = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomePageItemNCellId" forIndexPath:indexPath];
-        NSDictionary * dic = [self.homePageAry objectAtIndex:indexPath.row];
-        cell.itemImg.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
-        cell.titleLabel.text = [dic objectForKey:@"title"];
+        if (self.homePageAry.count != 0) {
+            NSDictionary * dic = [self.homePageAry objectAtIndex:indexPath.row];
+            cell.itemImg.image = [UIImage imageNamed:[dic objectForKey:@"img"]];
+            cell.titleLabel.text = [dic objectForKey:@"title"];
+        }
         
         if (self.numberAry.count > indexPath.row) {
             NSString* str  = [self.numberAry objectAtIndex:indexPath.row];
@@ -379,9 +382,7 @@
             default:
                 break;
         }
-        
     }
-    
 }
 
 - (void)postDataForGetURL:(NSString *)classID {
@@ -397,8 +398,7 @@
                 growthAlbumVC.webTitle = @"成长相册";
                 [self.navigationController pushViewController:growthAlbumVC animated:YES];
             }
-           
-            
+        
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
@@ -406,7 +406,6 @@
                 
             }
             [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
-
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
@@ -414,9 +413,10 @@
 }
 
 - (void)getClassURLData {
-    
+    [WProgressHUD showHUDShowText:@"正在加载中..."];
     NSDictionary *dic = @{@"key":[UserManager key]};
     [[HttpRequestManager sharedSingleton] POST:getClassURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        [WProgressHUD hideAllHUDAnimated:YES];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             self.publishJobArr = [PublishJobModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
             NSMutableArray * ary = [@[]mutableCopy];
@@ -441,14 +441,15 @@
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
+        [WProgressHUD hideAllHUDAnimated:YES];
     }];
 }
 
 - (void)getClassURLData2 {
-    
+    [WProgressHUD showHUDShowText:@"正在加载中..."];
     NSDictionary *dic = @{@"key":[UserManager key]};
     [[HttpRequestManager sharedSingleton] POST:getClassURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        [WProgressHUD hideAllHUDAnimated:YES];
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             self.publishJobArr = [PublishJobModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
             NSMutableArray *ary = [@[]mutableCopy];
@@ -481,12 +482,39 @@
             
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
 
-
+#pragma mark ======= 获取个人信息数据 =======
+- (void)setUser {
+    NSDictionary * dic = @{@"key":[UserManager key]};
+    [[HttpRequestManager sharedSingleton] POST:getUserInfoURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+            
+            self.schoolName = [[responseObject objectForKey:@"data"] objectForKey:@"school_name"];
+            UILabel  *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0, 200, 44)];
+            titleLabel.backgroundColor = [UIColor clearColor];
+            titleLabel.font = [UIFont boldSystemFontOfSize:18];
+            titleLabel.textColor = [UIColor whiteColor];
+            titleLabel.textAlignment = NSTextAlignmentCenter;
+            titleLabel.text = self.schoolName; self.navigationItem.titleView = titleLabel;
+            
+        } else {
+            if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
+                [UserManager logoOut];
+            } else {
+                
+            }
+            [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+    }];
+}
 
 
 @end

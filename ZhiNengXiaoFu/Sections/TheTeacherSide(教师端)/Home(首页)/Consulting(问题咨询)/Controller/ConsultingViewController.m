@@ -1,7 +1,7 @@
 //
 //  ConsultingViewController.m
 //  ZhiNengXiaoFu
-//
+//  
 //  Created by duxiu on 2018/7/26.
 //  Copyright © 2018年 henanduxiu. All rights reserved.
 //
@@ -22,7 +22,31 @@
     [super viewDidLoad];
     self.title = @"问题咨询";
     [self makeConsultingViewControllerUI];
+    
+    NSUserDefaults*pushJudge = [NSUserDefaults standardUserDefaults];
+    
+    if([[pushJudge objectForKey:@"notify"]isEqualToString:@"push"])
+    {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"返回(1)"] style:UIBarButtonItemStylePlain target:self action:@selector(rebackToRootViewAction)];
+        self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+        NSUserDefaults * pushJudge = [NSUserDefaults standardUserDefaults];
+        [pushJudge setObject:@""forKey:@"notify"];
+        [pushJudge synchronize];//记得立即同步
+        
+    }else
+    {
+        
+    }
+    
 }
+
+- (void)rebackToRootViewAction {
+    NSUserDefaults * pushJudge = [NSUserDefaults standardUserDefaults];
+    [pushJudge setObject:@""forKey:@"notify"];
+    [pushJudge synchronize];//记得立即同步
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 - (void)makeConsultingViewControllerUI {
     NSArray *titleArray = [NSArray arrayWithObjects:@"已回复",@"未回复",nil];

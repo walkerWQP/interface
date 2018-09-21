@@ -63,12 +63,11 @@
 @property (nonatomic, strong) NSString   *discuss_create_time; //评论时间
 @property (nonatomic, assign) NSInteger  discuss_is_self; //是否是自己的评论0否1是
 @property(nonatomic,copy)NSString * message;
-//@property(nonatomic,copy)NSString * touser;
-//@property(nonatomic,copy)NSString * tonick;
+
 
 @property(nonatomic,assign)float commentCellHeight;
 
-//@property (nonatomic, copy) NSAttributedString *attributedContent;
+
 
 
 @end

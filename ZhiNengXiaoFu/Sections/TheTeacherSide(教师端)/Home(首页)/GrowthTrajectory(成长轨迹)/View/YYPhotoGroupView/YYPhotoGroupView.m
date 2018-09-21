@@ -47,6 +47,7 @@
     YYPhotoGroupItem *item = [self.class new];
     return item;
 }
+
 @end
 
 
@@ -63,6 +64,7 @@
 @property (nonatomic, strong) YYPhotoGroupItem *item;
 @property (nonatomic, readonly) BOOL itemDidLoad;
 - (void)resizeSubviewSize;
+
 @end
 
 @implementation YYPhotoGroupCell
@@ -224,6 +226,7 @@
 
 
 @interface YYPhotoGroupView() <UIScrollViewDelegate, UIGestureRecognizerDelegate>
+
 @property (nonatomic, weak) UIView *fromView;
 @property (nonatomic, weak) UIView *toContainerView;
 
@@ -758,27 +761,7 @@
 - (void)longPress:(UILongPressGestureRecognizer *)pressSender {
     if (!_isPresented) return;
     
-    //    YYPhotoGroupCell *tile = [self cellForPage:self.currentPage];
-    //    if (!tile.imageView.image) return;
-    //
-    //    // try to save original image data if the image contains multi-frame (such as GIF/APNG)
-    //    id imageItem = [tile.imageView.image imageDataRepresentation];
-    //    YYImageType type = YYImageDetectType((__bridge CFDataRef)(imageItem));
-    //    if (type != YYImageTypePNG &&
-    //        type != YYImageTypeJPEG &&
-    //        type != YYImageTypeGIF) {
-    //        imageItem = tile.imageView.image;
-    //    }
     
-    //    UIActivityViewController *activityViewController =
-    //    [[UIActivityViewController alloc] initWithActivityItems:@[imageItem] applicationActivities:nil];
-    //    if ([activityViewController respondsToSelector:@selector(popoverPresentationController)]) {
-    //        activityViewController.popoverPresentationController.sourceView = self;
-    //    }
-    //
-    //    UIViewController *toVC = self.toContainerView.viewController;
-    //    if (!toVC) toVC = self.viewController;
-    //    [toVC presentViewController:activityViewController animated:YES completion:nil];
     if (pressSender.state == UIGestureRecognizerStateBegan) {
         
         UIActionSheet * photoSheet = [[UIActionSheet alloc] init];

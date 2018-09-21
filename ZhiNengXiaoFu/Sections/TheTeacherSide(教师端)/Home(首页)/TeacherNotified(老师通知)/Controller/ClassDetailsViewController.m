@@ -45,16 +45,7 @@
     
     [self getBannersURLData];
     
-    self.page  = 1;
     
-    //下拉刷新
-    self.classDetailsTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
-    //自动更改透明度
-    self.classDetailsTableView.mj_header.automaticallyChangeAlpha = YES;
-    //进入刷新状态
-    [self.classDetailsTableView.mj_header beginRefreshing];
-    //上拉刷新
-    self.classDetailsTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
 }
 
 - (void)viewDidLoad {
@@ -74,6 +65,17 @@
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
     [self.classDetailsTableView addSubview:self.zanwushuju];
+    
+    self.page  = 1;
+    
+    //下拉刷新
+    self.classDetailsTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.classDetailsTableView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.classDetailsTableView.mj_header beginRefreshing];
+    //上拉刷新
+    self.classDetailsTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     
 }
 
@@ -113,7 +115,6 @@
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
@@ -150,7 +151,6 @@
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
     
 }

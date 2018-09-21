@@ -13,16 +13,16 @@
 @implementation NewDynamicsViewController (Delegate)
 
 #pragma mark - TableViewDelegate
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NewDynamicsLayout * layout = self.layoutsArr[indexPath.row];
     return layout.height;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.layoutsArr.count;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NewDynamicsTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"NewDynamicsTableViewCell"];
     NewDynamicsLayout * layout = [self.layoutsArr objectAtIndex:indexPath.row];
     DynamicsModel * model = layout.model;
@@ -61,7 +61,7 @@
     NSLog(@"点击了用户");
 }
 
--(void)DidClickMoreLessInDynamicsCell:(NewDynamicsTableViewCell *)cell {
+- (void)DidClickMoreLessInDynamicsCell:(NewDynamicsTableViewCell *)cell {
     NSIndexPath * indexPath = [self.dynamicsTable indexPathForCell:cell];
     NewDynamicsLayout * layout = self.layoutsArr[indexPath.row];
     layout.model.isOpening = !layout.model.isOpening;
@@ -104,11 +104,8 @@
             NSDictionary *dic = [responseObject objectForKey:@"data"];
              NSMutableArray *arr = [DynamicsLikeItemModel mj_objectArrayWithKeyValuesArray:[dic objectForKey:@"praise"]];
             
-//            NSMutableArray *arr = [DynamicsLikeItemModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
-            
             model.likeArr = [arr copy];
             [layout resetLayout];
-            NSIndexPath * indexPath = [self.dynamicsTable indexPathForCell:cell];
             [self.dynamicsTable reloadRowsAtIndexPaths:@[self.commentIndexPath] withRowAnimation:UITableViewRowAnimationNone];
             
         } else {
@@ -120,15 +117,16 @@
             [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             
         }
+        
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [WProgressHUD hideAllHUDAnimated:YES];
+        
     }];
     
     
 }
 
 
--(void)DidClickCancelThunmbInDynamicsCell:(NewDynamicsTableViewCell *)cell {
+- (void)DidClickCancelThunmbInDynamicsCell:(NewDynamicsTableViewCell *)cell {
     NSLog(@"取消点赞");
     
     NSIndexPath * indexPath = [self.dynamicsTable indexPathForCell:cell];
@@ -150,12 +148,8 @@
             model.isThumb = NO;
             NSDictionary *dic = [responseObject objectForKey:@"data"];
             NSMutableArray *arr = [DynamicsLikeItemModel mj_objectArrayWithKeyValuesArray:[dic objectForKey:@"praise"]];
-            
-            //            NSMutableArray *arr = [DynamicsLikeItemModel mj_objectArrayWithKeyValuesArray:[responseObject objectForKey:@"data"]];
-            
             model.likeArr = [arr copy];
             [layout resetLayout];
-            NSIndexPath * indexPath = [self.dynamicsTable indexPathForCell:cell];
             [self.dynamicsTable reloadRowsAtIndexPaths:@[self.commentIndexPath] withRowAnimation:UITableViewRowAnimationNone];
             
         } else {
@@ -226,7 +220,7 @@
 
 
 
--(void)DynamicsCell:(NewDynamicsTableViewCell *)cell didClickUrl:(NSString *)url PhoneNum:(NSString *)phoneNum {
+- (void)DynamicsCell:(NewDynamicsTableViewCell *)cell didClickUrl:(NSString *)url PhoneNum:(NSString *)phoneNum {
     if (url) {
         if ([url rangeOfString:@"wemall"].length != 0 || [url rangeOfString:@"t.cn"].length != 0) {
             if (![url hasPrefix:@"http://"]) {
@@ -257,19 +251,13 @@
     NSInteger commentRow = self.commentIndexPath.row;
     NewDynamicsLayout * layout = [self.layoutsArr objectAtIndex:commentRow];
     DynamicsModel * model = layout.model;
-    NSLog(@"相册id%ld",model.album_id);
-    NSLog(@"%@",[NSString stringWithFormat:@"%ld",commentModel.discuss_is_self]);
-    NSLog(@"%@",commentModel.discuss_content);
-    NSLog(@"%@",commentModel.discuss_id);
     
     if ([[NSString stringWithFormat:@"%ld",commentModel.discuss_is_self] isEqualToString:@"1"]) {
         
         UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:@"确定要删除该条评论吗?" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction *alertT = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            NSLog(@"点击确定");
             
-            //
             [WProgressHUD showHUDShowText:@"正在删除中..."];
             NSDictionary *dic = @{@"key":[UserManager key],@"album_id":[NSString stringWithFormat:@"%ld",model.album_id],@"discuss_id":commentModel.discuss_id};
             [[HttpRequestManager sharedSingleton] POST:DeleteDiscussURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -313,12 +301,10 @@
         [self presentViewController:actionSheet animated:YES completion:nil];
         
     }
-    
-    
 }
 
 #pragma mark - UITextfield Delegate
--(BOOL)textFieldShouldReturn:(UITextField *)textField {
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
     NSInteger commentRow = self.commentIndexPath.row;
     NewDynamicsLayout * layout = [self.layoutsArr objectAtIndex:commentRow];
@@ -358,8 +344,6 @@
     [self.commentInputTF resignFirstResponder];
     
     return YES;
-    
-   
     
 }
 

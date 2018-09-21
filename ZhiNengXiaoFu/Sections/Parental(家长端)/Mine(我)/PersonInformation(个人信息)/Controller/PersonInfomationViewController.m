@@ -90,7 +90,10 @@
     }else
     {
         PersonInfomationCell * cell = [tableView dequeueReusableCellWithIdentifier:@"PersonInfomationCellId" forIndexPath:indexPath];
-        cell.nameLabel.text = [self.nameAry objectAtIndex:indexPath.row];
+        if (self.nameAry.count != 0) {
+            cell.nameLabel.text = [self.nameAry objectAtIndex:indexPath.row];
+        }
+        
         cell.selectionStyle =  UITableViewCellSelectionStyleNone;
         
         if (indexPath.row == 2) {

@@ -34,15 +34,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self getBannersURLData];
-    self.page = 1;
-    //下拉刷新
-    self.offTheListCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
-    //自动更改透明度
-    self.offTheListCollectionView.mj_header.automaticallyChangeAlpha = YES;
-    //进入刷新状态
-    [self.offTheListCollectionView.mj_header beginRefreshing];
-    //上拉刷新
-    self.offTheListCollectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    
 }
 
 - (void)viewDidLoad {
@@ -57,6 +49,15 @@
     self.zanwushuju.alpha = 0;
     [self.view addSubview:self.zanwushuju];
     
+    self.page = 1;
+    //下拉刷新
+    self.offTheListCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.offTheListCollectionView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.offTheListCollectionView.mj_header beginRefreshing];
+    //上拉刷新
+    self.offTheListCollectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     
 }
 
@@ -158,7 +159,6 @@
 
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
     }];
 }
 
@@ -175,24 +175,27 @@
     
     UICollectionViewCell *gridcell = nil;
     OffTheListCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:OffTheListCell_CollectionView forIndexPath:indexPath];
-    OffTheListModel *model = [self.offTheListArr objectAtIndex:indexPath.row];
-    if (model.head_img == nil || [model.head_img isEqualToString:@""]) {
-        cell.headImgView.image = [UIImage imageNamed:@"user"];
-    } else {
-        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
-    }
-    cell.nameLabel.text = model.name;
-    cell.timeLabel.text = [NSString stringWithFormat:@"%@:  %@%@%@",@"请假时间",model.start,@"至",model.end];
-    cell.contentLabel.text = [NSString stringWithFormat:@"%@:  %@",@"请假事由",model.reason];
-    if (model.status == 0) {
-        cell.typeLabel.text = @"审核中";
-        cell.typeLabel.textColor = [UIColor redColor];
-    } else if (model.status == 1) {
-        cell.typeLabel.text = @"已批准";
-        cell.typeLabel.textColor = contentColor;
+    if (self.offTheListArr.count != 0) {
+        OffTheListModel *model = [self.offTheListArr objectAtIndex:indexPath.row];
+        if (model.head_img == nil || [model.head_img isEqualToString:@""]) {
+            cell.headImgView.image = [UIImage imageNamed:@"user"];
+        } else {
+            [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:model.head_img] placeholderImage:[UIImage imageNamed:@"user"]];
+        }
+        cell.nameLabel.text = model.name;
+        cell.timeLabel.text = [NSString stringWithFormat:@"%@:  %@%@%@",@"请假时间",model.start,@"至",model.end];
+        cell.contentLabel.text = [NSString stringWithFormat:@"%@:  %@",@"请假事由",model.reason];
+        if (model.status == 0) {
+            cell.typeLabel.text = @"审核中";
+            cell.typeLabel.textColor = [UIColor redColor];
+        } else if (model.status == 1) {
+            cell.typeLabel.text = @"已批准";
+            cell.typeLabel.textColor = contentColor;
+        }
+        
+        gridcell = cell;
     }
     
-    gridcell = cell;
     return gridcell;
     
 }
