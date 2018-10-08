@@ -314,8 +314,12 @@
         case 3:
         {
             NSLog(@"建议与反馈");
+            
+           
+            
             AdviceFeedbackViewController *adviceFeedbackVC = [[AdviceFeedbackViewController alloc] init];
             [self.navigationController pushViewController:adviceFeedbackVC animated:YES];
+                
         }
             break;
             

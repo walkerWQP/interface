@@ -28,7 +28,7 @@
 #import "JiuQinGuanLiViewController.h"
 #import "HomePageItemNCell.h"
 #import "HomePageNumberModel.h"
-
+#import <JPUSHService.h>
 #import "NewDynamicsViewController.h"
 
 @interface HomePageViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
@@ -38,7 +38,7 @@
 @property (nonatomic, strong) NSMutableArray * homePageAry;
 @property (nonatomic, assign) NSInteger force;
 @property (nonatomic, strong) NSMutableArray * numberAry;
-@property (nonatomic, strong) NSString       *schoolName;
+@property (nonatomic, strong) NSString       * schoolName;
 
 @end
 
@@ -128,7 +128,6 @@
 
 - (void)huoQuNumber
 {
-    
     NSDictionary * dic = @{@"key":[UserManager key]};
     [[HttpRequestManager sharedSingleton] POST:UserGetUnreadNumber parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
@@ -174,7 +173,9 @@
         }
         
         
-         self.numberAry = [NSMutableArray arrayWithObjects:notice,homework,@"0",@"0",@"0",consult,activity,dynamic,@"0" ,nil];
+        self.numberAry = [NSMutableArray arrayWithObjects:notice,homework,@"0",@"0",@"0",consult,activity,dynamic,@"0" ,nil];
+        
+        
 //        NSMutableArray * imgAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"成长手册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态",@"新生指南", nil];
 //        NSMutableArray * TitleAry = [NSMutableArray arrayWithObjects:@"通知",@"作业",@"成长相册",@"名师在线",@"家长学堂",@"问题咨询",@"竞技活动",@"学校动态",@"新生指南",nil];
 //
@@ -202,13 +203,13 @@
    
     [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID) {
         NSDictionary * dic = [NSDictionary dictionary];
-        if (registrationID == nil) {
+        if (registrationID == nil)
+        {
             dic = @{@"push_id":@"", @"system":@"ios", @"key":[UserManager key]};
 
         }else
         {
             dic = @{@"push_id":registrationID, @"system":@"ios", @"key":[UserManager key]};
-
         }
         
         [[HttpRequestManager sharedSingleton] POST:UserSavePushId parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -291,11 +292,6 @@
 
 - (void)networkDidReceiveMessage:(NSNotification *)notification
 {
-    NSDictionary * userInfo = [notification userInfo];
-    NSString *content = [userInfo valueForKey:@"content"];
-    NSString *messageID = [userInfo valueForKey:@"_j_msgid"];
-    NSDictionary *extras = [userInfo valueForKey:@"extras"];
-    NSString *customizeField1 = [extras valueForKey:@"customizeField1"];
 }
 
 - (NSMutableArray *)homePageAry

@@ -28,7 +28,7 @@
     DynamicsModel * model = layout.model;
     if (self.layoutsArr.count == 0) {
         return cell;
-    } else {
+    } else { //隐藏删除按钮
         if ([self.typeStr isEqualToString:@"1"] || model.is_myself == 0) {
             cell.layout = self.layoutsArr[indexPath.row];
             cell.deleteBtn.hidden = YES;
@@ -81,8 +81,15 @@
 }
 
 
+#pragma mark - 点击点赞
 -(void)DidClickThunmbInDynamicsCell:(NewDynamicsTableViewCell *)cell {
+   
     NSLog(@"点击点赞");
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+        return;
+    }
+    
     
     NSIndexPath * indexPath = [self.dynamicsTable indexPathForCell:cell];
     self.commentIndexPath = indexPath;
@@ -126,8 +133,14 @@
 }
 
 
+#pragma mark - 取消点赞
 - (void)DidClickCancelThunmbInDynamicsCell:(NewDynamicsTableViewCell *)cell {
     NSLog(@"取消点赞");
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+        return;
+    }
     
     NSIndexPath * indexPath = [self.dynamicsTable indexPathForCell:cell];
     
@@ -183,7 +196,14 @@
 }
 
 
+#pragma mark - 删除
 - (void)DidClickDeleteInDynamicsCell:(NewDynamicsTableViewCell *)cell {
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+        return;
+    }
+    
     WS(weakSelf);
     [UIAlertView bk_showAlertViewWithTitle:nil message:@"确定删除该条成长相册吗?" cancelButtonTitle:@"取消" otherButtonTitles:@[@"确定"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
         if (buttonIndex == 1) {
@@ -306,6 +326,13 @@
 #pragma mark - UITextfield Delegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+        
+    }else
+    {
+    
     NSInteger commentRow = self.commentIndexPath.row;
     NewDynamicsLayout * layout = [self.layoutsArr objectAtIndex:commentRow];
     DynamicsModel * model = layout.model;
@@ -337,6 +364,8 @@
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
             [WProgressHUD hideAllHUDAnimated:YES];
         }];
+        
+    }
         
     }
     

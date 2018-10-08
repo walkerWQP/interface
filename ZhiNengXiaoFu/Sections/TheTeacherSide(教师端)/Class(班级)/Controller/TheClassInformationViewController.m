@@ -93,15 +93,10 @@
     self.rightBtn.titleLabel.font = titFont;
     [self.rightBtn addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];
-    }else{
+    } else {
         
     }
-    
 }
-
-
-
-
 
 
 
@@ -152,13 +147,15 @@
 #pragma mark - YBPopupMenuDelegate
 - (void)WPopupMenuDidSelectedAtIndex:(NSInteger)index WPopupMenu:(WPopupMenu *)WPopupMenu {
     
-    PublishJobModel *model = [self.classNameArr objectAtIndex:index];
-    NSLog(@"%@",model.ID);
-    if (model.ID == nil) {
-        [WProgressHUD showSuccessfulAnimatedText:@"数据不正确,请重试"];
-    } else {
-        self.ID = model.ID;
-        [self setNetWork:self.ID];
+    if (self.classNameArr.count != 0) {
+        PublishJobModel *model = [self.classNameArr objectAtIndex:index];
+        NSLog(@"%@",model.ID);
+        if (model.ID == nil) {
+            [WProgressHUD showSuccessfulAnimatedText:@"数据不正确,请重试"];
+        } else {
+            self.ID = model.ID;
+            [self setNetWork:self.ID];
+        }
     }
 }
 
@@ -167,10 +164,8 @@
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"chooseLoginState"] isEqualToString:@"2"]) {
         dic = @{@"key":[UserManager key], @"class_id":classID};
         
-    }else
-    {
+    }else {
         dic = @{@"key":[UserManager key]};
-
     }
     
     [[HttpRequestManager sharedSingleton] POST:userClassInfo parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -188,7 +183,6 @@
             [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
 
         }
-        
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
@@ -354,8 +348,7 @@
 - (void)teachersBtn:(UIButton *)sender {
     
     NSArray *array = [sender.titleLabel.text componentsSeparatedByString:@"-"];//从字符-中分隔成2个元素的数组
-    if([sender.titleLabel.text rangeOfString:@"-"].location !=NSNotFound)
-    {
+    if([sender.titleLabel.text rangeOfString:@"-"].location !=NSNotFound) {
         NSLog(@"yes");
         NSString *nameStr = array[0];
         NSString *phoneStr = array[1];
@@ -395,57 +388,57 @@
 
 #pragma mark - UIScrollViewDelegate
 //返回缩放时所使用的UIView对象
-- (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView{
+- (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView {
     return scrollView;
 }
 
 //开始缩放时调用
-- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view{
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
     
 }
 
 //结束缩放时调用，告知缩放比例
-- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale{
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale {
     
 }
 
 //已经缩放时调用
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView{
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
     
 }
 
 //确定是否可以滚动到顶部
-- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView{
+- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {
     return YES;
 }
 
 //滚动到顶部时调用
-- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView{
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView {
     
 }
 
 //已经滚动时调用
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
 }
 
 //开始进行拖动时调用
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     
 }
 
 //抬起手指停止拖动时调用，布尔值确定滚动到最后位置时是否需要减速
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     
 }
 
 //如果上面的方法决定需要减速继续滚动，则调用该方法，可以读取contentOffset属性，判断用户抬手位置（不是最终停止位置）
-- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
     
 }
 
 //减速完毕停止滚动时调用，这里的读取contentOffset属性就是最终停止位置
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     
 }
 

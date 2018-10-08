@@ -156,6 +156,12 @@
 
 - (void)rightBtn : (UIButton *)sender {
     NSLog(@"点击发布");
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+        return;
+    }
+    
     if ([self.subjectsBtn.titleLabel.text isEqualToString:@"请选择科目类型"]) {
         [WProgressHUD showErrorAnimatedText:@"请选择科目类型"];
         return;
@@ -209,6 +215,9 @@
     } progress:^(NSProgress * _Nonnull uploadProgress) {
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         [WProgressHUD hideAllHUDAnimated:YES];
+        
+        
+        
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
             NSLog(@"%@", responseObject);
             NSDictionary *dic = [responseObject objectForKey:@"data"];
@@ -230,8 +239,11 @@
                 [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
 
             } else {
-               NSDictionary *dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.jobNameTextField.text,@"content":self.jobContentTextView.text,@"course_id":self.courseID,@"img":@""};
-                [self PostWorkPusblishData:dataDic];
+                
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+
+//               NSDictionary *dataDic = @{@"key":[UserManager key],@"class_id":self.classID,@"title":self.jobNameTextField.text,@"content":self.jobContentTextView.text,@"course_id":self.courseID,@"img":@""};
+//                [self PostWorkPusblishData:dataDic];
             }
             
             

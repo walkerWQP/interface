@@ -44,7 +44,16 @@
     [super viewWillAppear:animated];
     
     [self getBannersURLData];
+    self.page  = 1;
     
+    //下拉刷新
+    self.classDetailsTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.classDetailsTableView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.classDetailsTableView.mj_header beginRefreshing];
+    //上拉刷新
+    self.classDetailsTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     
 }
 
@@ -66,16 +75,7 @@
     self.zanwushuju.alpha = 0;
     [self.classDetailsTableView addSubview:self.zanwushuju];
     
-    self.page  = 1;
     
-    //下拉刷新
-    self.classDetailsTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
-    //自动更改透明度
-    self.classDetailsTableView.mj_header.automaticallyChangeAlpha = YES;
-    //进入刷新状态
-    [self.classDetailsTableView.mj_header beginRefreshing];
-    //上拉刷新
-    self.classDetailsTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     
 }
 
@@ -184,10 +184,17 @@
         UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
             NSLog(@"点击删除");
             //先删数据 再删UI
-            ClassDetailsModel * model = [self.classDetailsArr objectAtIndex:indexPath.row];
-            [self.classDetailsArr removeObjectAtIndex:indexPath.row];
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [self deleteNoticeURLForData:model.ID];
+            if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+                [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+                
+            }else
+            {
+                ClassDetailsModel * model = [self.classDetailsArr objectAtIndex:indexPath.row];
+                [self.classDetailsArr removeObjectAtIndex:indexPath.row];
+                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                [self deleteNoticeURLForData:model.ID];
+           
+            }
             
         }];
         return @[deleteAction];

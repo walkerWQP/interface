@@ -105,16 +105,27 @@
         }
         
         NSLog(@"%@",self.model.mobile);
-        if (self.model.mobile == nil || [self.model.mobile isEqualToString:@""]) {
-            NSLog(@"手机号为空");
+        
+        
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"])
+        {
+//            [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
             
-            UIAlertView *locationAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请绑定手机号码, 便于登录使用" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            [locationAlert show];
-            
-            
-        } else {
-            NSLog(@"手机号不为空");
+        }else
+        {
+            if (self.model.mobile == nil || [self.model.mobile isEqualToString:@""]) {
+                NSLog(@"手机号为空");
+                
+                UIAlertView *locationAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请绑定手机号码, 便于登录使用" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                [locationAlert show];
+                
+                
+            } else {
+                NSLog(@"手机号不为空");
+            }
         }
+        
+       
 
         [self.myTabelView reloadData];
         
@@ -246,9 +257,14 @@
                 break;
             case 2:
             {
-                NSLog(@"修改密码");
-                ChangePasswordViewController *changePasswordVC = [[ChangePasswordViewController alloc] init];
-                [self.navigationController pushViewController:changePasswordVC animated:YES];
+                if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+                    [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+                }else
+                {
+                    NSLog(@"修改密码");
+                    ChangePasswordViewController *changePasswordVC = [[ChangePasswordViewController alloc] init];
+                    [self.navigationController pushViewController:changePasswordVC animated:YES];
+                }
             }
                 break;
             case 3:

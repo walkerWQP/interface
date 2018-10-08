@@ -64,7 +64,8 @@
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"chooseLoginState"];
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"personInfo"];
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"key"];
-            
+            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"youkeState"];
+
             
             LoginHomePageViewController * loginHomepage = [[LoginHomePageViewController alloc] init];
             // 定义一个变量存放当前屏幕显示的viewcontroller

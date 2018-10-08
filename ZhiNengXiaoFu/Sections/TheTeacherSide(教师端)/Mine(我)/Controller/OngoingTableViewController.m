@@ -129,10 +129,17 @@
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         NSLog(@"点击删除");
         //先删数据 再删UI
-        OngoingModel * model = [self.ongoingArr objectAtIndex:indexPath.row];
-        [self.ongoingArr removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [self DeleteActivityURL:model.ID];
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+            [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+            
+        }else
+        {
+            OngoingModel * model = [self.ongoingArr objectAtIndex:indexPath.row];
+            [self.ongoingArr removeObjectAtIndex:indexPath.row];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self DeleteActivityURL:model.ID];
+        }
+       
         
     }];
     

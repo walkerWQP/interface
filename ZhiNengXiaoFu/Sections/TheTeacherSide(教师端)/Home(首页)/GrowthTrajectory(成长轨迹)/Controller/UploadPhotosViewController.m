@@ -126,11 +126,8 @@
     
     if (!self.LQPhotoPicker_superView) {
         self.LQPhotoPicker_superView = self.myPicture;
-        
         self.LQPhotoPicker_imgMaxCount = 9;
-        
         [self LQPhotoPicker_initPickerView];
-        
         self.LQPhotoPicker_delegate = self;
     }
     
@@ -147,6 +144,13 @@
 }
 
 - (void)releasedBtn:(UIButton *)sender {
+    
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+        return;
+    }
+    
     if (self.courseID == nil) {
         [WProgressHUD showErrorAnimatedText:@"请选择班级"];
         return;
@@ -304,5 +308,6 @@
     self.courseID = model.ID;
     NSLog(@"%@",model.ID);
 }
+
 
 @end

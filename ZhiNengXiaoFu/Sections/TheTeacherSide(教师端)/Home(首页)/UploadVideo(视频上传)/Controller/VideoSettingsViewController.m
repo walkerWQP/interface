@@ -192,7 +192,10 @@
 
 - (void)saveBtn : (UIButton *)sender {
     NSLog(@"点击发布");
-    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+        return;
+    }
     NSLog(@"%@",self.ID);
     NSLog(@"%@",self.titleField.text);
     NSLog(@"%@",self.describeTextView.text);
@@ -245,6 +248,12 @@
 }
 
 - (void)rightBtn : (UIButton *)sender {
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+        return;
+    }
+    
     NSLog(@"点击删除");
     NSDictionary *dic = @{@"key":[UserManager key],@"id":self.ID};
     [[HttpRequestManager sharedSingleton] POST:toDeleteURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {

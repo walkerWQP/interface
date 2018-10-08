@@ -110,6 +110,12 @@
 - (void)changeBtn:(UIButton *)sender {
     NSLog(@"点击发布修改");
     
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+        return;
+    }
+    
+    
     if ([self.typeID isEqualToString:@"1"]) {
         if ([self.titleField.text isEqualToString:@""]) {
             [WProgressHUD showErrorAnimatedText:@"请输入通知标题"];

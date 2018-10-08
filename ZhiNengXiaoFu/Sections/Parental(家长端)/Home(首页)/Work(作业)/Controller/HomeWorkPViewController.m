@@ -145,7 +145,7 @@
 {
     if (!_HomeWorkPTableView) {
         self.HomeWorkPTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT - APP_TABH - 18) style:UITableViewStylePlain];
-        self.HomeWorkPTableView.backgroundColor =backColor;
+        self.HomeWorkPTableView.backgroundColor = backColor;
 
         self.HomeWorkPTableView.delegate = self;
         self.HomeWorkPTableView.dataSource = self;

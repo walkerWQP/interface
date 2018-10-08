@@ -111,31 +111,49 @@
         theImage = [info objectForKey:UIImagePickerControllerOriginalImage];
         
     }
-    if (theImage) {
+//    NSData * imageData = UIImageJPEGRepresentation(theImage,1);
+//
+//    NSInteger length = [imageData length]/1024;
+    
+    
+    
+    NSData * dataN = [LQImgPickerActionSheet imageCompressToData:theImage];
+    UIImage *imageN = [UIImage imageWithData: dataN];
+    
+    
+    
+    if (imageN) {
         // 保存图片到相册中
         MImaLibTool *imgLibTool = [MImaLibTool shareMImaLibTool];
         
             
             
-        [imgLibTool.lib writeImageToSavedPhotosAlbum:[theImage CGImage] orientation:(ALAssetOrientation)[theImage imageOrientation] completionBlock:^(NSURL *assetURL, NSError *error){
+        [imgLibTool.lib writeImageToSavedPhotosAlbum:[imageN CGImage] orientation:(ALAssetOrientation)[imageN imageOrientation] completionBlock:^(NSURL *assetURL, NSError *error){
             if (error) {
 
              [picker dismissViewControllerAnimated:NO completion:nil];
 
             } else {
                 
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+
                 //获取图片路径
                 [imgLibTool.lib assetForURL:assetURL resultBlock:^(ALAsset *asset) {
                     if (asset) {
+                    
                         [_arrSelected addObject:asset];
                         [self finishSelectImg];
-                        [picker dismissViewControllerAnimated:NO completion:nil];
+                        [picker dismissViewControllerAnimated:YES completion:nil];
 
-                    }
+                   }
+                    
                 } failureBlock:^(NSError *error) {
-                    [picker dismissViewControllerAnimated:NO completion:nil];
+
+                      [picker dismissViewControllerAnimated:NO completion:nil];
 
                 }];
+                });
             }
         }];
         
@@ -143,6 +161,21 @@
     }
 }
 
+
+///压缩图片
++ (NSData *)imageCompressToData:(UIImage *)image{
+    NSData *data=UIImageJPEGRepresentation(image, 1.0);
+    if (data.length>300*1024) {
+        if (data.length>1024*1024) {//1M以及以上
+            data=UIImageJPEGRepresentation(image, 0.1);
+        }else if (data.length>512*1024) {//0.5M-1M
+            data=UIImageJPEGRepresentation(image, 0.5);
+        }else if (data.length>300*1024) {//0.25M-0.5M
+            data=UIImageJPEGRepresentation(image, 0.9);
+        }
+    }
+    return data;
+}
 
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {

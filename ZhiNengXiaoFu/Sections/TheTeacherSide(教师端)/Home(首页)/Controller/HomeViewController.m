@@ -94,7 +94,6 @@
     [self.HomeCollectionView registerNib:[UINib nibWithNibName:@"HomePageItemNCell" bundle:nil] forCellWithReuseIdentifier:@"HomePageItemNCellId"];
 
     
-   
     [self pushJiGuangId];
 }
 

@@ -128,6 +128,13 @@
 
 - (void)baoCunBtn:(UIButton *)sender
 {
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+        return;
+    }
+    
+    
     if ([self.shuruText.text isEqualToString:@""]) {
         
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:nil message:@"请输入描述" delegate:nil cancelButtonTitle:nil otherButtonTitles:nil, nil];

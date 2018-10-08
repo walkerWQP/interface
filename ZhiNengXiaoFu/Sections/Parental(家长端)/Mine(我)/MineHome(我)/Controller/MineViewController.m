@@ -92,6 +92,12 @@
         if (self.bangdingState == 0) {
             [WProgressHUD hideAllHUDAnimated:YES];
 
+            if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"])
+            {
+                //            [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+                
+            }else
+            {
             if (self.personInfo.mobile == nil || [self.personInfo.mobile isEqualToString:@""]) {
                 NSLog(@"手机号为空");
                 
@@ -102,7 +108,7 @@
             } else {
                 NSLog(@"手机号不为空");
             }
-            
+            }
             
         }
         
@@ -270,8 +276,15 @@
             [self.navigationController pushViewController:leaveListVC animated:YES];
         }else if (indexPath.row == 2)
         {
+            if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"])
+            {
+                [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+                
+            }else
+            {
             ChangePasswordViewController *changePasswordVC = [[ChangePasswordViewController alloc] init];
             [self.navigationController pushViewController:changePasswordVC animated:YES];
+            }
         }else
         {
             JiuQinGuanLiViewController * jiuQin = [[JiuQinGuanLiViewController alloc] init];

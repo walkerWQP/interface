@@ -274,4 +274,6 @@
 //教师发布相册v2
 #define indexAlbumAddAlbum [NSString stringWithFormat:@"%@index/album/add_album",YUMING]
 
+//游客登录
+#define indexVisitorLogin [NSString stringWithFormat:@"%@index/visitor/login",YUMING]
 

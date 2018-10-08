@@ -189,7 +189,12 @@
 
 - (void)submitBtn:(UIButton *)sender
 {
-    if ([self.chooseStart.text isEqualToString:@"选择请假开始时间"]) {
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"])
+    {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+       
+    }else if ([self.chooseStart.text isEqualToString:@"选择请假开始时间"])
+    {
         [WProgressHUD showErrorAnimatedText:@"请选择请假开始时间"];
     }else if ([self.chooseEnd.text isEqualToString:@"选择请假结束时间"])
     {

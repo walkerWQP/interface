@@ -230,7 +230,8 @@ static NSString * const reuseIdentifier = @"LQPhotoViewCell";
 }
 
 #pragma mark - LQImgPickerActionSheetDelegate (返回选择的图片：缩略图，压缩原长宽比例大图)
-- (void)getSelectImgWithALAssetArray:(NSArray*)ALAssetArray thumbnailImgImageArray:(NSArray*)thumbnailImgArray{
+- (void)getSelectImgWithALAssetArray:(NSArray*)ALAssetArray thumbnailImgImageArray:(NSArray*)thumbnailImgArray
+{
     
     //（ALAsset）类型 Array
     _LQPhotoPicker_selectedAssetArray = [NSMutableArray arrayWithArray:ALAssetArray];
@@ -273,6 +274,8 @@ static NSString * const reuseIdentifier = @"LQPhotoViewCell";
     
     return UIImageJPEGRepresentation(img, 0.5);
 }
+
+
 - (UIImage*)getBigIamgeWithALAsset:(ALAsset*)set{
     //压缩
     // 需传入方向和缩放比例，否则方向和尺寸都不对

@@ -75,8 +75,7 @@
     return _publishJobArr;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.hidesBottomBarWhenPushed  = YES;
@@ -98,8 +97,7 @@
     self.dynamicsTable.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
 }
 
-- (void)loadNewTopic
-{
+- (void)loadNewTopic {
     self.pageID = 1;
     [self.fakeDatasource removeAllObjects];
     [self.layoutsArr removeAllObjects];
@@ -182,8 +180,7 @@
 }
 
 
-- (void)getBannersURLData
-{
+- (void)getBannersURLData {
     NSDictionary *dic = @{@"key":[UserManager key],@"t_id":@"3"};
     [[HttpRequestManager sharedSingleton] POST:bannersURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
@@ -212,8 +209,7 @@
 
 
 #pragma mark ======= 获取列表数据 =======
-- (void)getDataFromGetAlbumURL:(NSDictionary *)dic
-{
+- (void)getDataFromGetAlbumURL:(NSDictionary *)dic {
     [WProgressHUD showHUDShowText:@"正在加载中..."];
     [[HttpRequestManager sharedSingleton] POST:GetAlbumURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         [WProgressHUD hideAllHUDAnimated:YES];
@@ -292,8 +288,7 @@
 }
 
 
-- (void)getDataFromGetAlbumURL1:(NSDictionary *)dic
-{
+- (void)getDataFromGetAlbumURL1:(NSDictionary *)dic {
     [WProgressHUD showHUDShowText:@"正在加载中..."];
     [[HttpRequestManager sharedSingleton] POST:GetAlbumURL parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
         [WProgressHUD hideAllHUDAnimated:YES];
@@ -334,7 +329,7 @@
                 
                 for (NSDictionary  *dict in array) {
                     DynamicsModel * model = [DynamicsModel modelWithDictionary:dict];
-                    if (model.is_praise == 0){ //不是自己点赞
+                    if (model.is_praise == 0) { //不是自己点赞
                         model.isThumb = NO;
                     } else if (model.is_praise == 1) { //是自己点赞
                         model.isThumb = YES;

@@ -77,6 +77,12 @@
 
 - (void)submit:(UIButton *)sender
 {
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+        return;
+    }
+    
     if (![self.myZiXunTextView.text isEqualToString:@" 请输入问题"] && ![self.myZiXunTextView.text isEqualToString:@""]) {
         
         if (self.userGetStuTeaModel.teacher_id != nil) {

@@ -161,6 +161,13 @@
 
 - (void)releaseBtn:(UIButton *)sender {
     NSLog(@"发布修改");
+    
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+        return;
+    }
+    
     if ([self.titleTextField.text isEqualToString:@""]) {
         [WProgressHUD showErrorAnimatedText:@"活动标题不能为空"];
         return;

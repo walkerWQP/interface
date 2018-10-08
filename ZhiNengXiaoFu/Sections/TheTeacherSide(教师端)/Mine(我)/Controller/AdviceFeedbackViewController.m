@@ -49,14 +49,21 @@
     
 }
 
-- (void)submitBtn : (UIButton *)sender {
+- (void)submitBtn : (UIButton *)sender
+{
     NSLog(@"点击提交");
-    if ([self.contentTextView.text isEqualToString:@""]) {
-        [WProgressHUD showErrorAnimatedText:@"反馈内容不能为空"];
-        return;
-    } else {
-        NSDictionary *dic = @{@"key":[UserManager key],@"content":self.contentTextView.text};
-        [self postDataForSuggestURL:dic];
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+    }else
+    {
+        if ([self.contentTextView.text isEqualToString:@""]) {
+            [WProgressHUD showErrorAnimatedText:@"反馈内容不能为空"];
+            return;
+        } else {
+            NSDictionary *dic = @{@"key":[UserManager key],@"content":self.contentTextView.text};
+            [self postDataForSuggestURL:dic];
+        }
+    
     }
     
 }

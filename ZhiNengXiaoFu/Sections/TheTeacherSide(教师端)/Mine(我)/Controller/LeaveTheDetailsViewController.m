@@ -366,7 +366,13 @@
 
 - (void)submitBtn : (UIButton *)sender {
     
-    if ([self.noteTextView.text isEqualToString:@""]) {
+    
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"])
+    {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+        return;
+    }else if ([self.noteTextView.text isEqualToString:@""]) {
         [WProgressHUD showErrorAnimatedText:@"审核内容不能为空"];
         return;
     } else {

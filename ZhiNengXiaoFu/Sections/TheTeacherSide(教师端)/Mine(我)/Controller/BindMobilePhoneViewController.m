@@ -154,6 +154,8 @@
 
 //提交
 - (void)submitBtn:(UIButton *)sender {
+    
+    
     NSLog(@"点击提交");
     
     if ([self.typeStr isEqualToString:@"1"]) { //绑定手机号码

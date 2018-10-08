@@ -128,6 +128,12 @@
 
 - (void)rightBtn : (UIButton *)sender {
     NSLog(@"发送通知");
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+        return;
+    }
+    
     if ([self.noticeNameTextField.text isEqualToString:@""]) {
         NSLog(@"请输入通知标题");
         [WProgressHUD showErrorAnimatedText:@"通知标题不能为空"];

@@ -11,6 +11,7 @@
 #import "LeaveDetailsDownCell.h"
 #import "LeaveListModel.h"
 #import "PersonInformationModel.h"
+
 @interface LeaveDetailsViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * leaveDetailsTableView;

@@ -159,14 +159,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 2) {
-        BindMobilePhoneViewController * bingMoblie = [[BindMobilePhoneViewController alloc] init];
-        if (self.personInfo.mobile == nil || [self.personInfo.mobile isEqualToString:@""]) {
-            bingMoblie.typeStr = @"1";
-        } else {
-            bingMoblie.typeStr = @"2";
+        
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+            [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+            
+        }else
+        {
+            BindMobilePhoneViewController * bingMoblie = [[BindMobilePhoneViewController alloc] init];
+            if (self.personInfo.mobile == nil || [self.personInfo.mobile isEqualToString:@""]) {
+                bingMoblie.typeStr = @"1";
+            } else {
+                bingMoblie.typeStr = @"2";
+            }
+            [self.navigationController pushViewController:bingMoblie animated:YES];
         }
-        [self.navigationController pushViewController:bingMoblie animated:YES];
-
     }
 }
 

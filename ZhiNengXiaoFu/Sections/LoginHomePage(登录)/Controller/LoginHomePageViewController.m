@@ -31,6 +31,9 @@
 @property (nonatomic, strong) UITextField * miMaTextfield;
 
 @property (nonatomic, strong) PersonInformationModel * personInfoModel;
+//游客登录
+@property (nonatomic, strong) UIButton * youkeLogin;
+
 @end
 
 @implementation LoginHomePageViewController
@@ -45,7 +48,7 @@
     backImg.image = [UIImage imageNamed:@"背景"];
     [self.view addSubview:backImg];
     
-    UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(20, 40, APP_WIDTH - 40, 400)];
+    UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(20, 40, APP_WIDTH - 40, 420)];
     backView.backgroundColor = [UIColor colorWithRed:255 / 255.0 green:255 / 255.0 blue:255 / 255.0 alpha:0.8];
     backView.layer.cornerRadius = 8;
     backView.layer.masksToBounds = YES;
@@ -156,6 +159,15 @@
     loginBtn.userInteractionEnabled = YES;
     [self.view addSubview:loginBtn];
     
+    self.youkeLogin = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH  - 60 - 40, loginBtn.frame.origin.y + loginBtn.frame.size.height + 15, 60, 20)];
+    [self.youkeLogin setTitle:@"游客登录" forState:UIControlStateNormal];
+    self.youkeLogin.titleLabel.textAlignment = NSTextAlignmentRight;
+    [self.youkeLogin addTarget:self action:@selector(youkeLogin:) forControlEvents:UIControlEventTouchDown];
+    
+    [self.youkeLogin setTitleColor:COLOR(51, 51, 51, 0.6) forState:UIControlStateNormal];
+    self.youkeLogin.titleLabel.font = [UIFont systemFontOfSize:13];
+    [self.view addSubview:self.youkeLogin];
+    
     
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"shifouJizhuLogin"] isEqualToString:@"1"]) {
@@ -172,7 +184,108 @@
     
     
     NSLog(@"JPUSHServiceIsRegistrationID%@", [JPUSHService registrationID]);
-    
+}
+
+//游客登录
+- (void)youkeLogin:(UIButton *)sender
+{
+    if (self.teacherChooseState == 1 || self.parentChooseState == 1) {
+        
+        NSString * chooseLoginState = [[NSString alloc] init];
+        
+        if (self.teacherChooseState == 1) {
+            chooseLoginState = @"2";
+        }else if (self.parentChooseState == 1)
+        {
+            chooseLoginState = @"1";
+        }
+        
+        
+        NSDictionary * dic = @{@"identity":chooseLoginState};
+        [WProgressHUD showHUDShowText:@"加载中..."];
+        
+        [[HttpRequestManager sharedSingleton] POST:indexVisitorLogin parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
+            NSLog(@"%@",responseObject);
+            [WProgressHUD hideAllHUDAnimated:YES];
+            
+            if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
+                
+                 [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"youkeState"];
+//                if (self.jizhuLoginChooseState == 1) {
+                
+//                    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"shifouJizhuLogin"];
+//                    if (self.teacherChooseState == 1) {
+//                        [[NSUserDefaults standardUserDefaults] setObject:self.zhangHaoTextField.text forKey:@"TeacherUserName"];
+//                        [[NSUserDefaults standardUserDefaults] setObject:self.miMaTextfield.text forKey:@"TeacherUserMiMa"];
+//                    }else if (self.parentChooseState == 1)
+//                    {
+//                        [[NSUserDefaults standardUserDefaults] setObject:self.zhangHaoTextField.text forKey:@"ParentUserName"];
+//                        [[NSUserDefaults standardUserDefaults] setObject:self.miMaTextfield.text forKey:@"ParentUserMiMa"];
+//                    }
+                    
+                    
+                    
+                    
+//                }else
+//                {
+//
+//                    [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"shifouJizhuLogin"];
+//                    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"TeacherUserName"];
+//                    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"TeacherUserMiMa"];
+//                    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"ParentUserName"];
+//                    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"ParentUserMiMa"];
+//                }
+                
+                
+                if (self.teacherChooseState == 1) {
+                    [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:@"chooseLoginState"];
+                }else if (self.parentChooseState == 1)
+                {
+                    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"chooseLoginState"];
+                }
+                
+                self.personInfoModel = [PersonInformationModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+                
+                //存储学生和家长信息
+                NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.personInfoModel];
+                NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+                [user setObject:data forKey:@"personInfo"];
+                //同步到本地
+                [user synchronize];
+                
+              
+                [[NSUserDefaults standardUserDefaults] setObject:self.personInfoModel.key forKey:@"key"];
+                
+                
+                [SingletonHelper manager].personInfoModel = self.personInfoModel;
+                TotalTabBarController * totalTabBarVC = [[TotalTabBarController alloc] init];
+                UIWindow *window = [UIApplication sharedApplication].keyWindow;
+                //把自定义标签视图控制器totalTabBarVC 作为window的rootViewController(根视图控制器)
+                
+                [window.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+                
+                
+                window.rootViewController = totalTabBarVC;
+                
+                [self.zhangHaoTextField resignFirstResponder];
+                [self.miMaTextfield resignFirstResponder];
+                
+                
+                //                    [self pushJiGuangId];
+                
+                
+            }else
+            {
+                [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
+                
+            }
+            
+            
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            NSLog(@"%@", error);
+            [WProgressHUD hideAllHUDAnimated:YES];
+        }];
+    }
     
 }
 
@@ -231,7 +344,8 @@
 
 //登录
 - (void)login:(UIButton *)sender
-{    
+{
+    [self.view endEditing:YES];
     if (self.teacherChooseState == 1 || self.parentChooseState == 1) {
         
         NSString * chooseLoginState = [[NSString alloc] init];
@@ -266,7 +380,7 @@
 
                 if ([[responseObject objectForKey:@"status"] integerValue] == 200) {
                     
-
+                    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"youkeState"];
                     if (self.jizhuLoginChooseState == 1) {
                      
                         [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"shifouJizhuLogin"];

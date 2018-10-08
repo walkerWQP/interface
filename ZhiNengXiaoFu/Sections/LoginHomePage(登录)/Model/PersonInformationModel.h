@@ -45,6 +45,8 @@
 //学校是否开启宿舍管理0否1是
 @property (nonatomic, assign) NSInteger dorm_open;
 
+//key
+@property (nonatomic, copy) NSString * key;
 
 
 @end

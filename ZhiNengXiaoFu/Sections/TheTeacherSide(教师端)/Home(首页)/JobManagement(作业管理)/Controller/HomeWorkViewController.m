@@ -43,6 +43,15 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self getBannersURLData];
+    self.page = 1;
+    //下拉刷新
+    self.homeWorkTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
+    //自动更改透明度
+    self.homeWorkTableView.mj_header.automaticallyChangeAlpha = YES;
+    //进入刷新状态
+    [self.homeWorkTableView.mj_header beginRefreshing];
+    //上拉刷新
+    self.homeWorkTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
 }
 
 - (void)viewDidLoad {
@@ -61,15 +70,7 @@
     self.zanwushuju.image = [UIImage imageNamed:@"暂无数据家长端"];
     self.zanwushuju.alpha = 0;
     [self.self.homeWorkTableView addSubview:self.zanwushuju];
-    self.page = 1;
-    //下拉刷新
-    self.homeWorkTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
-    //自动更改透明度
-    self.homeWorkTableView.mj_header.automaticallyChangeAlpha = YES;
-    //进入刷新状态
-    [self.homeWorkTableView.mj_header beginRefreshing];
-    //上拉刷新
-    self.homeWorkTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    
     
 }
 
@@ -208,11 +209,21 @@
     //添加一个删除按钮
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         NSLog(@"点击删除");
-        //先删数据 再删UI
-        HomeWorkModel * model = [self.homeWorkArr objectAtIndex:indexPath.row];
-        [self.homeWorkArr removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [self WorkDeleteHomeWorkData:model.ID];
+        
+        
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"]) {
+            [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+
+        }else
+        {
+            //先删数据 再删UI
+            HomeWorkModel * model = [self.homeWorkArr objectAtIndex:indexPath.row];
+            [self WorkDeleteHomeWorkData:model.ID];
+            
+            [self.homeWorkArr removeObjectAtIndex:indexPath.row];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }
+       
     }];
 
 //    //添加一个编辑按钮
@@ -332,10 +343,13 @@
         NSLog(@"点击banner");
     } else {
         WorkDetailsViewController * workDetailsVC = [[WorkDetailsViewController alloc] init];
-        HomeWorkModel *model = [self.homeWorkArr objectAtIndex:indexPath.row];
-        workDetailsVC.workId = model.ID;
-        workDetailsVC.typeID = @"1";
-        [self.navigationController pushViewController:workDetailsVC animated:YES];
+        if (self.homeWorkArr.count != 0) {
+            HomeWorkModel *model = [self.homeWorkArr objectAtIndex:indexPath.row];
+            workDetailsVC.workId = model.ID;
+            workDetailsVC.typeID = @"1";
+            [self.navigationController pushViewController:workDetailsVC animated:YES];
+        }
+        
     }
     
 }

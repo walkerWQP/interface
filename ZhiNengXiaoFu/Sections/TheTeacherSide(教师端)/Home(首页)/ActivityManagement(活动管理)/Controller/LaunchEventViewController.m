@@ -224,7 +224,6 @@
     self.releaseBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [self.releaseBtn addTarget:self action:@selector(releaseBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.launchEventScrollView addSubview:self.releaseBtn];
-    
     self.launchEventScrollView.backgroundColor = backColor;
     
 }
@@ -232,6 +231,14 @@
 - (void)releaseBtn : (UIButton *)sender {
     NSLog(@"点击发布");
     [self.view endEditing:YES];
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"youkeState"] isEqualToString:@"1"])
+    {
+        [WProgressHUD showErrorAnimatedText:@"游客不能进行此操作"];
+        return;
+    }
+    
+    
     if ([self.titleTextField.text isEqualToString:@""]) {
         [WProgressHUD showErrorAnimatedText:@"活动标题不能为空"];
         return;
@@ -287,6 +294,8 @@
 }
 
 - (void)postDataForActivityPublish:(NSDictionary *)dic {
+    
+    
         [WProgressHUD showHUDShowText:@"加载中..."];
         [[HttpRequestManager sharedSingleton] POST:activityPublish parameters:dic success:^(NSURLSessionDataTask *task, id responseObject) {
             [WProgressHUD hideAllHUDAnimated:YES];
