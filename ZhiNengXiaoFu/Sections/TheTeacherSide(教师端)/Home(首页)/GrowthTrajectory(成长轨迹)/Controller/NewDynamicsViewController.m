@@ -132,6 +132,7 @@
     [[IQKeyboardManager sharedManager] disableToolbarInViewControllerClass:[NewDynamicsViewController class]];
     if ([self.typeStr isEqualToString:@"1"]) {
         self.title = @"班级圈";
+        
     } else {
         self.classBtn =[UIButton buttonWithType:UIButtonTypeCustom];
         self.classBtn.frame=CGRectMake(20, 20, 130, 30);
@@ -144,12 +145,14 @@
         img.image = [UIImage imageNamed:@"向下"];
         [self.classBtn addSubview:img];
         
-        self.rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-        [self.rightBtn setImage:[UIImage imageNamed:@"相机"] forState:UIControlStateNormal];
-        self.rightBtn.titleLabel.font = titFont;
-        [self.rightBtn addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];
+        
     }
+    
+    self.rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    [self.rightBtn setImage:[UIImage imageNamed:@"相机"] forState:UIControlStateNormal];
+    self.rightBtn.titleLabel.font = titFont;
+    [self.rightBtn addTarget:self action:@selector(rightBtn:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];
     
     [self setup];
     [self.view addSubview:self.commentInputTF];
@@ -400,8 +403,12 @@
 
 - (void)rightBtn:(UIButton *)sender {
     NSLog(@"点击上传");
+    NSLog(@"%@",self.typeStr);
     [JRMenuView dismissAllJRMenu];
     UploadPhotosViewController *uploadPhotosVC = [UploadPhotosViewController new];
+    if ([self.typeStr isEqualToString:@"1"]) {
+        uploadPhotosVC.typeStr = @"1";
+    }
     [self.navigationController pushViewController:uploadPhotosVC animated:YES];
 }
 

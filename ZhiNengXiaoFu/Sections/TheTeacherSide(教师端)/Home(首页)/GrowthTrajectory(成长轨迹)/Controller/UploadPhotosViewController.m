@@ -45,7 +45,7 @@
 }
 
 - (void)viewDidLoad {
-    
+    NSLog(@"%@",self.typeStr);
     [super viewDidLoad];
     self.title = @"发布相册";
     self.view.backgroundColor = backColor;
@@ -74,62 +74,100 @@
     
     [self.view addSubview:self.ReleasedAlbumsScrollView];
     
-    
-    self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, APP_WIDTH - 40, 30)];
-    self.nameLabel.text = @"请选择班级";
-    self.nameLabel.textColor = titlColor;
-    self.nameLabel.font = titFont;
-    [self.ReleasedAlbumsScrollView addSubview:self.nameLabel];
-    
-    self.nameBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.nameLabel.frame.size.height + self.nameLabel.frame.origin.y + 15, APP_WIDTH - 20, 40)];
-    self.nameBtn.backgroundColor = [UIColor whiteColor];
-    [self.nameBtn setTitle:@"请选择班级" forState:UIControlStateNormal];
-    self.nameBtn.layer.masksToBounds = YES;
-    self.nameBtn.layer.cornerRadius = 5;
-    self.nameBtn.layer.borderColor = fengeLineColor.CGColor;
-    self.nameBtn.layer.borderWidth = 1.0f;
-    self.nameBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [self.nameBtn setTitleColor:backTitleColor forState:UIControlStateNormal];
-    self.nameBtn.titleLabel.font = contentFont;
-    [self.nameBtn addTarget:self action:@selector(nameBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.ReleasedAlbumsScrollView addSubview:self.nameBtn];
-    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(self.nameBtn.frame.size.width - 30, 15, 10, 10)];
-    imgView.image = [UIImage imageNamed:@"下拉"];
-    [self.nameBtn addSubview:imgView];
-    
-    
-    self.shuRuNeiRonLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.nameBtn.frame.origin.y + self.nameBtn.frame.size.height + 15, APP_WIDTH - 20, 20)];
-    self.shuRuNeiRonLabel.text = @"请输入内容";
-    self.shuRuNeiRonLabel.textColor = titlColor;
-    self.shuRuNeiRonLabel.font = titFont;
-    [self.ReleasedAlbumsScrollView addSubview:self.shuRuNeiRonLabel];
-    
-    self.shuRuNeiRonTextView = [[WTextView alloc] initWithFrame:CGRectMake(10, self.shuRuNeiRonLabel.frame.origin.y + self.shuRuNeiRonLabel.frame.size.height + 15, APP_WIDTH - 20, 100)];
-    self.shuRuNeiRonTextView.placeholder = @"请输入内容...";
-    self.shuRuNeiRonTextView.textColor = titlColor;
-    self.shuRuNeiRonTextView.layer.masksToBounds = YES;
-    self.shuRuNeiRonTextView.layer.cornerRadius = 5;
-    self.shuRuNeiRonTextView.layer.borderColor = fengeLineColor.CGColor;
-    self.shuRuNeiRonTextView.layer.borderWidth = 1.0f;
-    [self.ReleasedAlbumsScrollView addSubview:self.shuRuNeiRonTextView];
-    
-    
-    self.uploadPicturesLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.shuRuNeiRonTextView.frame.size.height + self.shuRuNeiRonTextView.frame.origin.y + 15, APP_WIDTH - 20, 30)];
-    self.uploadPicturesLabel.text = @"上传图片内容(最多只能上传九张)";
-    self.uploadPicturesLabel.textColor = titlColor;
-    self.uploadPicturesLabel.font = titFont;
-    [self.ReleasedAlbumsScrollView addSubview:self.uploadPicturesLabel];
-    
-    self.myPicture = [[UIView alloc] initWithFrame:CGRectMake(0, self.uploadPicturesLabel.frame.size.height + self.uploadPicturesLabel.frame.origin.y + 15, APP_WIDTH - 20, 80)];
-    self.myPicture.backgroundColor = [UIColor redColor];
-    [self.ReleasedAlbumsScrollView addSubview:self.myPicture];
-    
-    if (!self.LQPhotoPicker_superView) {
-        self.LQPhotoPicker_superView = self.myPicture;
-        self.LQPhotoPicker_imgMaxCount = 9;
-        [self LQPhotoPicker_initPickerView];
-        self.LQPhotoPicker_delegate = self;
+    if ([self.typeStr isEqualToString:@"1"]) {
+
+        
+        self.shuRuNeiRonLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, APP_WIDTH - 20, 20)];
+        self.shuRuNeiRonLabel.text = @"请输入内容";
+        self.shuRuNeiRonLabel.textColor = titlColor;
+        self.shuRuNeiRonLabel.font = titFont;
+        [self.ReleasedAlbumsScrollView addSubview:self.shuRuNeiRonLabel];
+        
+        self.shuRuNeiRonTextView = [[WTextView alloc] initWithFrame:CGRectMake(10, self.shuRuNeiRonLabel.frame.origin.y + self.shuRuNeiRonLabel.frame.size.height + 15, APP_WIDTH - 20, 100)];
+        self.shuRuNeiRonTextView.placeholder = @"请输入内容...";
+        self.shuRuNeiRonTextView.textColor = titlColor;
+        self.shuRuNeiRonTextView.layer.masksToBounds = YES;
+        self.shuRuNeiRonTextView.layer.cornerRadius = 5;
+        self.shuRuNeiRonTextView.layer.borderColor = fengeLineColor.CGColor;
+        self.shuRuNeiRonTextView.layer.borderWidth = 1.0f;
+        [self.ReleasedAlbumsScrollView addSubview:self.shuRuNeiRonTextView];
+        
+        
+        self.uploadPicturesLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.shuRuNeiRonTextView.frame.size.height + self.shuRuNeiRonTextView.frame.origin.y + 15, APP_WIDTH - 20, 30)];
+        self.uploadPicturesLabel.text = @"上传图片内容(最多只能上传九张)";
+        self.uploadPicturesLabel.textColor = titlColor;
+        self.uploadPicturesLabel.font = titFont;
+        [self.ReleasedAlbumsScrollView addSubview:self.uploadPicturesLabel];
+        
+        self.myPicture = [[UIView alloc] initWithFrame:CGRectMake(0, self.uploadPicturesLabel.frame.size.height + self.uploadPicturesLabel.frame.origin.y + 15, APP_WIDTH - 20, 80)];
+        self.myPicture.backgroundColor = [UIColor redColor];
+        [self.ReleasedAlbumsScrollView addSubview:self.myPicture];
+        
+        if (!self.LQPhotoPicker_superView) {
+            self.LQPhotoPicker_superView = self.myPicture;
+            self.LQPhotoPicker_imgMaxCount = 9;
+            [self LQPhotoPicker_initPickerView];
+            self.LQPhotoPicker_delegate = self;
+        }
+    } else {
+        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, APP_WIDTH - 40, 30)];
+        self.nameLabel.text = @"请选择班级";
+        self.nameLabel.textColor = titlColor;
+        self.nameLabel.font = titFont;
+        [self.ReleasedAlbumsScrollView addSubview:self.nameLabel];
+        
+        self.nameBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.nameLabel.frame.size.height + self.nameLabel.frame.origin.y + 15, APP_WIDTH - 20, 40)];
+        self.nameBtn.backgroundColor = [UIColor whiteColor];
+        [self.nameBtn setTitle:@"请选择班级" forState:UIControlStateNormal];
+        self.nameBtn.layer.masksToBounds = YES;
+        self.nameBtn.layer.cornerRadius = 5;
+        self.nameBtn.layer.borderColor = fengeLineColor.CGColor;
+        self.nameBtn.layer.borderWidth = 1.0f;
+        self.nameBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [self.nameBtn setTitleColor:backTitleColor forState:UIControlStateNormal];
+        self.nameBtn.titleLabel.font = contentFont;
+        [self.nameBtn addTarget:self action:@selector(nameBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [self.ReleasedAlbumsScrollView addSubview:self.nameBtn];
+        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(self.nameBtn.frame.size.width - 30, 15, 10, 10)];
+        imgView.image = [UIImage imageNamed:@"下拉"];
+        [self.nameBtn addSubview:imgView];
+        
+        
+        self.shuRuNeiRonLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.nameBtn.frame.origin.y + self.nameBtn.frame.size.height + 15, APP_WIDTH - 20, 20)];
+        self.shuRuNeiRonLabel.text = @"请输入内容";
+        self.shuRuNeiRonLabel.textColor = titlColor;
+        self.shuRuNeiRonLabel.font = titFont;
+        [self.ReleasedAlbumsScrollView addSubview:self.shuRuNeiRonLabel];
+        
+        self.shuRuNeiRonTextView = [[WTextView alloc] initWithFrame:CGRectMake(10, self.shuRuNeiRonLabel.frame.origin.y + self.shuRuNeiRonLabel.frame.size.height + 15, APP_WIDTH - 20, 100)];
+        self.shuRuNeiRonTextView.placeholder = @"请输入内容...";
+        self.shuRuNeiRonTextView.textColor = titlColor;
+        self.shuRuNeiRonTextView.layer.masksToBounds = YES;
+        self.shuRuNeiRonTextView.layer.cornerRadius = 5;
+        self.shuRuNeiRonTextView.layer.borderColor = fengeLineColor.CGColor;
+        self.shuRuNeiRonTextView.layer.borderWidth = 1.0f;
+        [self.ReleasedAlbumsScrollView addSubview:self.shuRuNeiRonTextView];
+        
+        
+        self.uploadPicturesLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, self.shuRuNeiRonTextView.frame.size.height + self.shuRuNeiRonTextView.frame.origin.y + 15, APP_WIDTH - 20, 30)];
+        self.uploadPicturesLabel.text = @"上传图片内容(最多只能上传九张)";
+        self.uploadPicturesLabel.textColor = titlColor;
+        self.uploadPicturesLabel.font = titFont;
+        [self.ReleasedAlbumsScrollView addSubview:self.uploadPicturesLabel];
+        
+        self.myPicture = [[UIView alloc] initWithFrame:CGRectMake(0, self.uploadPicturesLabel.frame.size.height + self.uploadPicturesLabel.frame.origin.y + 15, APP_WIDTH - 20, 80)];
+        self.myPicture.backgroundColor = [UIColor redColor];
+        [self.ReleasedAlbumsScrollView addSubview:self.myPicture];
+        
+        if (!self.LQPhotoPicker_superView) {
+            self.LQPhotoPicker_superView = self.myPicture;
+            self.LQPhotoPicker_imgMaxCount = 9;
+            [self LQPhotoPicker_initPickerView];
+            self.LQPhotoPicker_delegate = self;
+        }
     }
+    
+    
     
     self.releasedBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     self.releasedBtn.backgroundColor = THEMECOLOR;
@@ -139,7 +177,6 @@
     self.releasedBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [self.releasedBtn addTarget:self action:@selector(releasedBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.releasedBtn];
-    
     
 }
 
@@ -151,22 +188,40 @@
         return;
     }
     
-    if (self.courseID == nil) {
-        [WProgressHUD showErrorAnimatedText:@"请选择班级"];
-        return;
-    } if ([self.shuRuNeiRonTextView.text isEqualToString:@""] && self.LQPhotoPicker_smallImageArray.count == 0) {
-        [WProgressHUD showErrorAnimatedText:@"请输入内容或添加图片"];
-        return;
-    } else if (self.LQPhotoPicker_smallImageArray.count == 0) {
-        NSDictionary *dataDic = [NSDictionary dictionary];
+    if ([self.typeStr isEqualToString:@"1"]) {
+         if ([self.shuRuNeiRonTextView.text isEqualToString:@""] && self.LQPhotoPicker_smallImageArray.count == 0) {
+            [WProgressHUD showErrorAnimatedText:@"请输入内容或添加图片"];
+            return;
+        } else if (self.LQPhotoPicker_smallImageArray.count == 0) {
+            NSDictionary *dataDic = [NSDictionary dictionary];
+            
+            dataDic = @{@"key":[UserManager key],@"img":self.imgFiledArr, @"content":self.shuRuNeiRonTextView.text};
+            [self postDataForUploadURL:dataDic];
+            
+        } else if ([self.shuRuNeiRonTextView.text isEqualToString:@""]) {
+            [self setShangChuanTupian];
+        } else {
+            [self setShangChuanTupian];
+        }
         
-        dataDic = @{@"key":[UserManager key],@"class_id":self.courseID,@"img":self.imgFiledArr, @"content":self.shuRuNeiRonTextView.text};
-        [self postDataForUploadURL:dataDic];
-        
-    } else if ([self.shuRuNeiRonTextView.text isEqualToString:@""]) {
-        [self setShangChuanTupian];
     } else {
-        [self setShangChuanTupian];
+        if (self.courseID == nil) {
+            [WProgressHUD showErrorAnimatedText:@"请选择班级"];
+            return;
+        } if ([self.shuRuNeiRonTextView.text isEqualToString:@""] && self.LQPhotoPicker_smallImageArray.count == 0) {
+            [WProgressHUD showErrorAnimatedText:@"请输入内容或添加图片"];
+            return;
+        } else if (self.LQPhotoPicker_smallImageArray.count == 0) {
+            NSDictionary *dataDic = [NSDictionary dictionary];
+            
+            dataDic = @{@"key":[UserManager key],@"class_id":self.courseID,@"img":self.imgFiledArr, @"content":self.shuRuNeiRonTextView.text};
+            [self postDataForUploadURL:dataDic];
+            
+        } else if ([self.shuRuNeiRonTextView.text isEqualToString:@""]) {
+            [self setShangChuanTupian];
+        } else {
+            [self setShangChuanTupian];
+        }
     }
 
 }
@@ -214,7 +269,12 @@
             NSLog(@"%ld",self.imgFiledArr.count);
             NSDictionary *dataDic = [NSDictionary dictionary];
         
-            dataDic = @{@"key":[UserManager key],@"class_id":self.courseID,@"img":self.imgFiledArr, @"content":self.shuRuNeiRonTextView.text};
+            if ([self.typeStr isEqualToString:@"1"]) {
+                dataDic = @{@"key":[UserManager key],@"img":self.imgFiledArr, @"content":self.shuRuNeiRonTextView.text};
+            } else {
+                dataDic = @{@"key":[UserManager key],@"class_id":self.courseID,@"img":self.imgFiledArr, @"content":self.shuRuNeiRonTextView.text};
+            }
+            
             [self postDataForUploadURL:dataDic];
             
             
@@ -284,10 +344,8 @@
                 [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
             } else {
                 
-                
             }
-            
-            
+        
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];

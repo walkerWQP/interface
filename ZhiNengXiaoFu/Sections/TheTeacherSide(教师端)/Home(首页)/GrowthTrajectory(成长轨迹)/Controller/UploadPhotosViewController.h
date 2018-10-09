@@ -10,4 +10,6 @@
 
 @interface UploadPhotosViewController : LQPhotoPickerViewController
 
+@property (nonatomic, strong) NSString   *typeStr;
+
 @end

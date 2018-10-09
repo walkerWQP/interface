@@ -83,7 +83,6 @@
                 [self.jobManagementCollectionView reloadData];
             }
             
-            
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];
@@ -91,7 +90,6 @@
                 
             }
             [WProgressHUD showErrorAnimatedText:[responseObject objectForKey:@"msg"]];
-
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -114,8 +112,7 @@
                 [self.headImgView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"教师端活动管理banner"]];
                 [self.jobManagementCollectionView reloadData];
             }
-            
-            
+        
         } else {
             if ([[responseObject objectForKey:@"status"] integerValue] == 401 || [[responseObject objectForKey:@"status"] integerValue] == 402) {
                 [UserManager logoOut];

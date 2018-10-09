@@ -29,7 +29,7 @@
     if (self.layoutsArr.count == 0) {
         return cell;
     } else { //隐藏删除按钮
-        if ([self.typeStr isEqualToString:@"1"] || model.is_myself == 0) {
+        if (model.is_myself == 0) {
             cell.layout = self.layoutsArr[indexPath.row];
             cell.deleteBtn.hidden = YES;
             cell.delegate = self;
